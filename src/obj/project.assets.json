@@ -1,0 +1,1985 @@
+{
+  "version": 3,
+  "targets": {
+    "net10.0": {
+      "Argu/6.2.5": {
+        "type": "package",
+        "dependencies": {
+          "FSharp.Core": "6.0.0",
+          "System.Configuration.ConfigurationManager": "4.4.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Argu.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Argu.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.BinIR/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "B2R2.Core": "0.9.1",
+          "FParsec": "1.1.1",
+          "FSharp.Core": "9.0.303"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.BinIR.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.BinIR.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.Core/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "FSharp.Core": "9.0.303"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.FrontEnd.API/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "B2R2.BinIR": "0.9.1",
+          "B2R2.Core": "0.9.1",
+          "B2R2.FrontEnd.ARM32": "0.9.1",
+          "B2R2.FrontEnd.ARM64": "0.9.1",
+          "B2R2.FrontEnd.AVR": "0.9.1",
+          "B2R2.FrontEnd.BinFile": "0.9.1",
+          "B2R2.FrontEnd.CIL": "0.9.1",
+          "B2R2.FrontEnd.EVM": "0.9.1",
+          "B2R2.FrontEnd.Intel": "0.9.1",
+          "B2R2.FrontEnd.MIPS": "0.9.1",
+          "B2R2.FrontEnd.PARISC": "0.9.1",
+          "B2R2.FrontEnd.PPC32": "0.9.1",
+          "B2R2.FrontEnd.Python": "0.9.1",
+          "B2R2.FrontEnd.RISCV64": "0.9.1",
+          "B2R2.FrontEnd.S390": "0.9.1",
+          "B2R2.FrontEnd.SH4": "0.9.1",
+          "B2R2.FrontEnd.SPARC": "0.9.1",
+          "B2R2.FrontEnd.TMS320C6000": "0.9.1",
+          "B2R2.FrontEnd.WASM": "0.9.1",
+          "FSharp.Core": "9.0.303"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.FrontEnd.API.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.FrontEnd.API.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.FrontEnd.ARM32/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "B2R2.BinIR": "0.9.1",
+          "B2R2.Core": "0.9.1",
+          "B2R2.FrontEnd.BinFile": "0.9.1",
+          "B2R2.FrontEnd.BinLifter": "0.9.1",
+          "B2R2.FrontEnd.Registers": "0.9.1",
+          "FSharp.Core": "9.0.303"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.FrontEnd.ARM32.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.FrontEnd.ARM32.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.FrontEnd.ARM64/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "B2R2.BinIR": "0.9.1",
+          "B2R2.Core": "0.9.1",
+          "B2R2.FrontEnd.BinLifter": "0.9.1",
+          "B2R2.FrontEnd.Registers": "0.9.1",
+          "FSharp.Core": "9.0.303"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.FrontEnd.ARM64.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.FrontEnd.ARM64.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.FrontEnd.AVR/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "B2R2.BinIR": "0.9.1",
+          "B2R2.Core": "0.9.1",
+          "B2R2.FrontEnd.BinLifter": "0.9.1",
+          "B2R2.FrontEnd.Registers": "0.9.1",
+          "FSharp.Core": "9.0.303"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.FrontEnd.AVR.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.FrontEnd.AVR.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.FrontEnd.BinFile/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "B2R2.BinIR": "0.9.1",
+          "B2R2.Core": "0.9.1",
+          "B2R2.FrontEnd.BinLifter": "0.9.1",
+          "B2R2.FrontEnd.Registers": "0.9.1",
+          "FSharp.Core": "9.0.303"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.FrontEnd.BinFile.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.FrontEnd.BinFile.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.FrontEnd.BinLifter/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "B2R2.BinIR": "0.9.1",
+          "B2R2.Core": "0.9.1",
+          "FSharp.Core": "9.0.303"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.FrontEnd.BinLifter.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.FrontEnd.BinLifter.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.FrontEnd.CIL/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "B2R2.BinIR": "0.9.1",
+          "B2R2.Core": "0.9.1",
+          "B2R2.FrontEnd.BinLifter": "0.9.1",
+          "FSharp.Core": "9.0.303"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.FrontEnd.CIL.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.FrontEnd.CIL.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.FrontEnd.EVM/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "B2R2.BinIR": "0.9.1",
+          "B2R2.Core": "0.9.1",
+          "B2R2.FrontEnd.BinLifter": "0.9.1",
+          "FSharp.Core": "9.0.303"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.FrontEnd.EVM.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.FrontEnd.EVM.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.FrontEnd.Intel/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "B2R2.BinIR": "0.9.1",
+          "B2R2.Core": "0.9.1",
+          "B2R2.FrontEnd.BinLifter": "0.9.1",
+          "B2R2.FrontEnd.Registers": "0.9.1",
+          "FSharp.Core": "9.0.303"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.FrontEnd.Intel.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.FrontEnd.Intel.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.FrontEnd.MIPS/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "B2R2.BinIR": "0.9.1",
+          "B2R2.Core": "0.9.1",
+          "B2R2.FrontEnd.BinLifter": "0.9.1",
+          "B2R2.FrontEnd.Registers": "0.9.1",
+          "FSharp.Core": "9.0.303"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.FrontEnd.MIPS.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.FrontEnd.MIPS.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.FrontEnd.PARISC/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "B2R2.BinIR": "0.9.1",
+          "B2R2.Core": "0.9.1",
+          "B2R2.FrontEnd.BinLifter": "0.9.1",
+          "B2R2.FrontEnd.Registers": "0.9.1",
+          "FSharp.Core": "9.0.303"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.FrontEnd.PARISC.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.FrontEnd.PARISC.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.FrontEnd.PPC32/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "B2R2.BinIR": "0.9.1",
+          "B2R2.Core": "0.9.1",
+          "B2R2.FrontEnd.BinLifter": "0.9.1",
+          "B2R2.FrontEnd.Registers": "0.9.1",
+          "FSharp.Core": "9.0.303"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.FrontEnd.PPC32.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.FrontEnd.PPC32.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.FrontEnd.Python/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "B2R2.BinIR": "0.9.1",
+          "B2R2.Core": "0.9.1",
+          "B2R2.FrontEnd.BinFile": "0.9.1",
+          "B2R2.FrontEnd.BinLifter": "0.9.1",
+          "FSharp.Core": "9.0.303"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.FrontEnd.Python.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.FrontEnd.Python.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.FrontEnd.Registers/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "B2R2.Core": "0.9.1",
+          "FSharp.Core": "9.0.303"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.FrontEnd.Registers.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.FrontEnd.Registers.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.FrontEnd.RISCV64/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "B2R2.BinIR": "0.9.1",
+          "B2R2.Core": "0.9.1",
+          "B2R2.FrontEnd.BinLifter": "0.9.1",
+          "B2R2.FrontEnd.Registers": "0.9.1",
+          "FSharp.Core": "9.0.303"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.FrontEnd.RISCV64.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.FrontEnd.RISCV64.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.FrontEnd.S390/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "B2R2.BinIR": "0.9.1",
+          "B2R2.Core": "0.9.1",
+          "B2R2.FrontEnd.BinLifter": "0.9.1",
+          "B2R2.FrontEnd.Registers": "0.9.1",
+          "FSharp.Core": "9.0.303"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.FrontEnd.S390.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.FrontEnd.S390.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.FrontEnd.SH4/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "B2R2.BinIR": "0.9.1",
+          "B2R2.Core": "0.9.1",
+          "B2R2.FrontEnd.BinLifter": "0.9.1",
+          "B2R2.FrontEnd.Registers": "0.9.1",
+          "FSharp.Core": "9.0.303"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.FrontEnd.SH4.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.FrontEnd.SH4.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.FrontEnd.SPARC/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "B2R2.BinIR": "0.9.1",
+          "B2R2.Core": "0.9.1",
+          "B2R2.FrontEnd.BinLifter": "0.9.1",
+          "B2R2.FrontEnd.Registers": "0.9.1",
+          "FSharp.Core": "9.0.303"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.FrontEnd.SPARC.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.FrontEnd.SPARC.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.FrontEnd.TMS320C6000/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "B2R2.BinIR": "0.9.1",
+          "B2R2.Core": "0.9.1",
+          "B2R2.FrontEnd.BinLifter": "0.9.1",
+          "B2R2.FrontEnd.Registers": "0.9.1",
+          "FSharp.Core": "9.0.303"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.FrontEnd.TMS320C6000.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.FrontEnd.TMS320C6000.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.FrontEnd.WASM/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "B2R2.BinIR": "0.9.1",
+          "B2R2.Core": "0.9.1",
+          "B2R2.FrontEnd.BinLifter": "0.9.1",
+          "FSharp.Core": "9.0.303"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.FrontEnd.WASM.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.FrontEnd.WASM.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.MiddleEnd.API/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "B2R2.FrontEnd.API": "0.9.1",
+          "B2R2.MiddleEnd.BinGraph": "0.9.1",
+          "B2R2.MiddleEnd.ConcEval": "0.9.1",
+          "B2R2.MiddleEnd.ControlFlowAnalysis": "0.9.1",
+          "B2R2.MiddleEnd.ControlFlowGraph": "0.9.1",
+          "B2R2.MiddleEnd.DataFlow": "0.9.1",
+          "FSharp.Core": "9.0.303"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.MiddleEnd.API.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.MiddleEnd.API.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.MiddleEnd.BinGraph/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "B2R2.FrontEnd.API": "0.9.1",
+          "FSharp.Core": "9.0.303"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.MiddleEnd.BinGraph.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.MiddleEnd.BinGraph.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.MiddleEnd.ConcEval/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "B2R2.BinIR": "0.9.1",
+          "FSharp.Core": "9.0.303"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.MiddleEnd.ConcEval.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.MiddleEnd.ConcEval.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.MiddleEnd.ControlFlowAnalysis/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "B2R2.FrontEnd.API": "0.9.1",
+          "B2R2.MiddleEnd.BinGraph": "0.9.1",
+          "B2R2.MiddleEnd.ConcEval": "0.9.1",
+          "B2R2.MiddleEnd.ControlFlowGraph": "0.9.1",
+          "B2R2.MiddleEnd.DataFlow": "0.9.1",
+          "B2R2.MiddleEnd.SSA": "0.9.1",
+          "FSharp.Core": "9.0.303",
+          "FSharp.Data": "6.6.0",
+          "SHA3Core": "1.0.1"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.MiddleEnd.ControlFlowAnalysis.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.MiddleEnd.ControlFlowAnalysis.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.MiddleEnd.ControlFlowGraph/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "B2R2.FrontEnd.API": "0.9.1",
+          "B2R2.MiddleEnd.BinGraph": "0.9.1",
+          "FSharp.Core": "9.0.303"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.MiddleEnd.ControlFlowGraph.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.MiddleEnd.ControlFlowGraph.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.MiddleEnd.DataFlow/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "B2R2.MiddleEnd.BinGraph": "0.9.1",
+          "B2R2.MiddleEnd.ControlFlowGraph": "0.9.1",
+          "FSharp.Core": "9.0.303"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.MiddleEnd.DataFlow.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.MiddleEnd.DataFlow.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2R2.MiddleEnd.SSA/0.9.1": {
+        "type": "package",
+        "dependencies": {
+          "B2R2.FrontEnd.API": "0.9.1",
+          "B2R2.MiddleEnd.BinGraph": "0.9.1",
+          "B2R2.MiddleEnd.ControlFlowGraph": "0.9.1",
+          "B2R2.MiddleEnd.DataFlow": "0.9.1",
+          "FSharp.Core": "9.0.303"
+        },
+        "compile": {
+          "lib/net9.0/B2R2.MiddleEnd.SSA.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/B2R2.MiddleEnd.SSA.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "FParsec/1.1.1": {
+        "type": "package",
+        "dependencies": {
+          "FSharp.Core": "4.3.4"
+        },
+        "compile": {
+          "lib/netstandard2.0/FParsec.dll": {
+            "related": ".pdb;.xml"
+          },
+          "lib/netstandard2.0/FParsecCS.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/FParsec.dll": {
+            "related": ".pdb;.xml"
+          },
+          "lib/netstandard2.0/FParsecCS.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "FSharp.Core/10.0.108": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/FSharp.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/FSharp.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "resource": {
+          "lib/netstandard2.1/cs/FSharp.Core.resources.dll": {
+            "locale": "cs"
+          },
+          "lib/netstandard2.1/de/FSharp.Core.resources.dll": {
+            "locale": "de"
+          },
+          "lib/netstandard2.1/es/FSharp.Core.resources.dll": {
+            "locale": "es"
+          },
+          "lib/netstandard2.1/fr/FSharp.Core.resources.dll": {
+            "locale": "fr"
+          },
+          "lib/netstandard2.1/it/FSharp.Core.resources.dll": {
+            "locale": "it"
+          },
+          "lib/netstandard2.1/ja/FSharp.Core.resources.dll": {
+            "locale": "ja"
+          },
+          "lib/netstandard2.1/ko/FSharp.Core.resources.dll": {
+            "locale": "ko"
+          },
+          "lib/netstandard2.1/pl/FSharp.Core.resources.dll": {
+            "locale": "pl"
+          },
+          "lib/netstandard2.1/pt-BR/FSharp.Core.resources.dll": {
+            "locale": "pt-BR"
+          },
+          "lib/netstandard2.1/ru/FSharp.Core.resources.dll": {
+            "locale": "ru"
+          },
+          "lib/netstandard2.1/tr/FSharp.Core.resources.dll": {
+            "locale": "tr"
+          },
+          "lib/netstandard2.1/zh-Hans/FSharp.Core.resources.dll": {
+            "locale": "zh-Hans"
+          },
+          "lib/netstandard2.1/zh-Hant/FSharp.Core.resources.dll": {
+            "locale": "zh-Hant"
+          }
+        }
+      },
+      "FSharp.Data/6.6.0": {
+        "type": "package",
+        "dependencies": {
+          "FSharp.Core": "6.0.1",
+          "FSharp.Data.Csv.Core": "6.6.0",
+          "FSharp.Data.Html.Core": "6.6.0",
+          "FSharp.Data.Http": "6.6.0",
+          "FSharp.Data.Json.Core": "6.6.0",
+          "FSharp.Data.Runtime.Utilities": "6.6.0",
+          "FSharp.Data.WorldBank.Core": "6.6.0",
+          "FSharp.Data.Xml.Core": "6.6.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/FSharp.Data.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/FSharp.Data.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "FSharp.Data.Csv.Core/6.6.0": {
+        "type": "package",
+        "dependencies": {
+          "FSharp.Core": "6.0.1",
+          "FSharp.Data.Runtime.Utilities": "6.6.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/FSharp.Data.Csv.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/FSharp.Data.Csv.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "FSharp.Data.Html.Core/6.6.0": {
+        "type": "package",
+        "dependencies": {
+          "FSharp.Core": "6.0.1",
+          "FSharp.Data.Csv.Core": "6.6.0",
+          "FSharp.Data.Runtime.Utilities": "6.6.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/FSharp.Data.Html.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/FSharp.Data.Html.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "FSharp.Data.Http/6.6.0": {
+        "type": "package",
+        "dependencies": {
+          "FSharp.Core": "6.0.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/FSharp.Data.Http.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/FSharp.Data.Http.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "FSharp.Data.Json.Core/6.6.0": {
+        "type": "package",
+        "dependencies": {
+          "FSharp.Core": "6.0.1",
+          "FSharp.Data.Http": "6.6.0",
+          "FSharp.Data.Runtime.Utilities": "6.6.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/FSharp.Data.Json.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/FSharp.Data.Json.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "FSharp.Data.Runtime.Utilities/6.6.0": {
+        "type": "package",
+        "dependencies": {
+          "FSharp.Core": "6.0.1",
+          "FSharp.Data.Http": "6.6.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/FSharp.Data.Runtime.Utilities.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/FSharp.Data.Runtime.Utilities.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "FSharp.Data.WorldBank.Core/6.6.0": {
+        "type": "package",
+        "dependencies": {
+          "FSharp.Core": "6.0.1",
+          "FSharp.Data.Http": "6.6.0",
+          "FSharp.Data.Json.Core": "6.6.0",
+          "FSharp.Data.Runtime.Utilities": "6.6.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/FSharp.Data.WorldBank.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/FSharp.Data.WorldBank.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "FSharp.Data.Xml.Core/6.6.0": {
+        "type": "package",
+        "dependencies": {
+          "FSharp.Core": "6.0.1",
+          "FSharp.Data.Http": "6.6.0",
+          "FSharp.Data.Json.Core": "6.6.0",
+          "FSharp.Data.Runtime.Utilities": "6.6.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/FSharp.Data.Xml.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/FSharp.Data.Xml.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "SHA3Core/1.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/SHA3Core.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/SHA3Core.dll": {}
+        }
+      },
+      "System.Configuration.ConfigurationManager/4.4.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Security.Cryptography.ProtectedData": "4.4.0"
+        },
+        "compile": {
+          "ref/netstandard2.0/System.Configuration.ConfigurationManager.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Configuration.ConfigurationManager.dll": {}
+        }
+      },
+      "System.Security.Cryptography.ProtectedData/4.4.0": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard2.0/_._": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Security.Cryptography.ProtectedData.dll": {}
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/netstandard2.0/System.Security.Cryptography.ProtectedData.dll": {
+            "assetType": "runtime",
+            "rid": "win"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Argu/6.2.5": {
+      "sha512": "68vfXYZCcyTFtC11Z26+S4cSyEPiUJ8PL+iGuYpIbCsH+TN27bIxV/QczHXus/+iSCOfjMJsBffBC90mlzKXrw==",
+      "type": "package",
+      "path": "argu/6.2.5",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "argu.6.2.5.nupkg.sha512",
+        "argu.nuspec",
+        "lib/netstandard2.0/Argu.dll",
+        "lib/netstandard2.0/Argu.xml",
+        "logo.png"
+      ]
+    },
+    "B2R2.BinIR/0.9.1": {
+      "sha512": "E2uMMIxOMooVITZwEOZs0vGIEyw9lIwZiMyC1JNoTrFZRNJCJ+fNz5YdsMTowL1bEgArGtT3Rhotu97sWzrJbA==",
+      "type": "package",
+      "path": "b2r2.binir/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.binir.0.9.1.nupkg.sha512",
+        "b2r2.binir.nuspec",
+        "lib/net9.0/B2R2.BinIR.dll",
+        "lib/net9.0/B2R2.BinIR.xml"
+      ]
+    },
+    "B2R2.Core/0.9.1": {
+      "sha512": "SkfzeT1xDdfB93AkuBNECiLp/SZQFVPuZ8TYJLbalpsCLUBQTnD9TPxaq56Vsz3q/fPJ/JyjGSunafetEeaH9g==",
+      "type": "package",
+      "path": "b2r2.core/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.core.0.9.1.nupkg.sha512",
+        "b2r2.core.nuspec",
+        "lib/net9.0/B2R2.Core.dll",
+        "lib/net9.0/B2R2.Core.xml"
+      ]
+    },
+    "B2R2.FrontEnd.API/0.9.1": {
+      "sha512": "SZAeJwJQtsTO6tniDokauaiZcDcyGbDXZ4nRRmcGlxZq6Q1WYwDl4vNVneoEyQCH1n6539H/5XxQPKAhTyh6wg==",
+      "type": "package",
+      "path": "b2r2.frontend.api/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.frontend.api.0.9.1.nupkg.sha512",
+        "b2r2.frontend.api.nuspec",
+        "lib/net9.0/B2R2.FrontEnd.API.dll",
+        "lib/net9.0/B2R2.FrontEnd.API.xml"
+      ]
+    },
+    "B2R2.FrontEnd.ARM32/0.9.1": {
+      "sha512": "22FDo3UHLDGl1fqlMjybe9xRdSvwurZqyUd1WHuju1lOcpICguLcfXQuKW7HiIPjrkUajHt5BdZSE2rpuK0qoQ==",
+      "type": "package",
+      "path": "b2r2.frontend.arm32/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.frontend.arm32.0.9.1.nupkg.sha512",
+        "b2r2.frontend.arm32.nuspec",
+        "lib/net9.0/B2R2.FrontEnd.ARM32.dll",
+        "lib/net9.0/B2R2.FrontEnd.ARM32.xml"
+      ]
+    },
+    "B2R2.FrontEnd.ARM64/0.9.1": {
+      "sha512": "lbQFn2Dl6QXGAnrG7Pv3EQ3/QgwbMAyZOlsAo0pRyZESEF3M3hGjjlW4Jcg8gY4FWzCrNrXXFXIANqbdpTg2pA==",
+      "type": "package",
+      "path": "b2r2.frontend.arm64/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.frontend.arm64.0.9.1.nupkg.sha512",
+        "b2r2.frontend.arm64.nuspec",
+        "lib/net9.0/B2R2.FrontEnd.ARM64.dll",
+        "lib/net9.0/B2R2.FrontEnd.ARM64.xml"
+      ]
+    },
+    "B2R2.FrontEnd.AVR/0.9.1": {
+      "sha512": "QukFsW2aUuW+sdIpuxIfP8PpJ1D6QeXuL2JDD/16I0gmmb0ztlp52vx5mOeuG1ndNS5/KpcjcjtLaNR821ah6w==",
+      "type": "package",
+      "path": "b2r2.frontend.avr/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.frontend.avr.0.9.1.nupkg.sha512",
+        "b2r2.frontend.avr.nuspec",
+        "lib/net9.0/B2R2.FrontEnd.AVR.dll",
+        "lib/net9.0/B2R2.FrontEnd.AVR.xml"
+      ]
+    },
+    "B2R2.FrontEnd.BinFile/0.9.1": {
+      "sha512": "fy7epbE1zW19+xk2IZKO/4n735NPhXYfrB+6acYYhiqVCI4iAroIoUfi2Ld2zkOwPQDybZhsyPSFA9Ro2cYKSA==",
+      "type": "package",
+      "path": "b2r2.frontend.binfile/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.frontend.binfile.0.9.1.nupkg.sha512",
+        "b2r2.frontend.binfile.nuspec",
+        "lib/net9.0/B2R2.FrontEnd.BinFile.dll",
+        "lib/net9.0/B2R2.FrontEnd.BinFile.xml"
+      ]
+    },
+    "B2R2.FrontEnd.BinLifter/0.9.1": {
+      "sha512": "DV5PlkfpHIdJaJCTTf5oF97CrbW7VTY1klDBJE9e1f1jztUti4YfbIQp0LhQV4XhLFGyVRDYRCI69W8MNyezCQ==",
+      "type": "package",
+      "path": "b2r2.frontend.binlifter/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.frontend.binlifter.0.9.1.nupkg.sha512",
+        "b2r2.frontend.binlifter.nuspec",
+        "lib/net9.0/B2R2.FrontEnd.BinLifter.dll",
+        "lib/net9.0/B2R2.FrontEnd.BinLifter.xml"
+      ]
+    },
+    "B2R2.FrontEnd.CIL/0.9.1": {
+      "sha512": "Xqt3uPmRdaAbXQZ4q/AhNQ2RpnvjDYj3BTl0e3DVjQk5bdwQiHD+lMaUpzoQnKy8KFaK2zDG0bikSfiVZedUqA==",
+      "type": "package",
+      "path": "b2r2.frontend.cil/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.frontend.cil.0.9.1.nupkg.sha512",
+        "b2r2.frontend.cil.nuspec",
+        "lib/net9.0/B2R2.FrontEnd.CIL.dll",
+        "lib/net9.0/B2R2.FrontEnd.CIL.xml"
+      ]
+    },
+    "B2R2.FrontEnd.EVM/0.9.1": {
+      "sha512": "bsliZR58Yh4zHKoJ2j6AszzzJSzHUL4H7DFVXJ7fsuXKTfFFU5NcfRvaWL96dGySK53yh70cX5guLXpk2LgX9g==",
+      "type": "package",
+      "path": "b2r2.frontend.evm/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.frontend.evm.0.9.1.nupkg.sha512",
+        "b2r2.frontend.evm.nuspec",
+        "lib/net9.0/B2R2.FrontEnd.EVM.dll",
+        "lib/net9.0/B2R2.FrontEnd.EVM.xml"
+      ]
+    },
+    "B2R2.FrontEnd.Intel/0.9.1": {
+      "sha512": "sbef9gz6L7E+ygkaTQmXdxFwkyAsqUA0ILGblOTpA/3NKGqxZbx2wrI/RHpLr0+QjOAQpMfzOHA5oq+9OeYkjQ==",
+      "type": "package",
+      "path": "b2r2.frontend.intel/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.frontend.intel.0.9.1.nupkg.sha512",
+        "b2r2.frontend.intel.nuspec",
+        "lib/net9.0/B2R2.FrontEnd.Intel.dll",
+        "lib/net9.0/B2R2.FrontEnd.Intel.xml"
+      ]
+    },
+    "B2R2.FrontEnd.MIPS/0.9.1": {
+      "sha512": "ZZSXL9Ok6OfevtrDiruCJ84yhCbljo48As+96GGKgfW6UWE4F9sCAxuS9toNa0tUGW9nWokzDYN3J+bK9MrLpA==",
+      "type": "package",
+      "path": "b2r2.frontend.mips/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.frontend.mips.0.9.1.nupkg.sha512",
+        "b2r2.frontend.mips.nuspec",
+        "lib/net9.0/B2R2.FrontEnd.MIPS.dll",
+        "lib/net9.0/B2R2.FrontEnd.MIPS.xml"
+      ]
+    },
+    "B2R2.FrontEnd.PARISC/0.9.1": {
+      "sha512": "VIvtTotT73Li4tcT1tfUnxktS9YXwHZpnQwc4VHhQJC9LbX24KVdWuccOl/6rj+g3TUEngO+NGUNP7mUIFjMRg==",
+      "type": "package",
+      "path": "b2r2.frontend.parisc/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.frontend.parisc.0.9.1.nupkg.sha512",
+        "b2r2.frontend.parisc.nuspec",
+        "lib/net9.0/B2R2.FrontEnd.PARISC.dll",
+        "lib/net9.0/B2R2.FrontEnd.PARISC.xml"
+      ]
+    },
+    "B2R2.FrontEnd.PPC32/0.9.1": {
+      "sha512": "Opt7WdH0l/74JtBAT4PW7IYcPj4f4mTfoQIFX5qIY/uI7cMAARu7WM2UZyxiVkQdcE96Kfe4whs7Z9lp1tPGmQ==",
+      "type": "package",
+      "path": "b2r2.frontend.ppc32/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.frontend.ppc32.0.9.1.nupkg.sha512",
+        "b2r2.frontend.ppc32.nuspec",
+        "lib/net9.0/B2R2.FrontEnd.PPC32.dll",
+        "lib/net9.0/B2R2.FrontEnd.PPC32.xml"
+      ]
+    },
+    "B2R2.FrontEnd.Python/0.9.1": {
+      "sha512": "GLY1ZPL1MiLlOe6KeUAUWEvRN2nrlhnNc53Minob9oAo2h4xYNW9BdzdkDG4AiYVTtqhuajEhe8rCGYOIy9A9A==",
+      "type": "package",
+      "path": "b2r2.frontend.python/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.frontend.python.0.9.1.nupkg.sha512",
+        "b2r2.frontend.python.nuspec",
+        "lib/net9.0/B2R2.FrontEnd.Python.dll",
+        "lib/net9.0/B2R2.FrontEnd.Python.xml"
+      ]
+    },
+    "B2R2.FrontEnd.Registers/0.9.1": {
+      "sha512": "xZVLPQLpV336j5/dfvSotwC3u/ME1kHw887/m5bSTXyIE/HxnD8pT0mqqnjGT6Yb8BZzovF/WUNPsStOjAzMug==",
+      "type": "package",
+      "path": "b2r2.frontend.registers/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.frontend.registers.0.9.1.nupkg.sha512",
+        "b2r2.frontend.registers.nuspec",
+        "lib/net9.0/B2R2.FrontEnd.Registers.dll",
+        "lib/net9.0/B2R2.FrontEnd.Registers.xml"
+      ]
+    },
+    "B2R2.FrontEnd.RISCV64/0.9.1": {
+      "sha512": "auvpBN3jPuYfb/vNUzQbSlTf6zToZ51LFFOiKowo8CoAhAQ9qKz3HEMlIpQRgP38DpsBblAEGOFOos3KuIcI9A==",
+      "type": "package",
+      "path": "b2r2.frontend.riscv64/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.frontend.riscv64.0.9.1.nupkg.sha512",
+        "b2r2.frontend.riscv64.nuspec",
+        "lib/net9.0/B2R2.FrontEnd.RISCV64.dll",
+        "lib/net9.0/B2R2.FrontEnd.RISCV64.xml"
+      ]
+    },
+    "B2R2.FrontEnd.S390/0.9.1": {
+      "sha512": "WseAJ4Ia0C38yY9L+qBBRb7OdvKm3g+SJ8blnCdRo8NypFc5k7ms7QsTzcGC7g3PZRDrdPW+EihrI7iVdF9nxA==",
+      "type": "package",
+      "path": "b2r2.frontend.s390/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.frontend.s390.0.9.1.nupkg.sha512",
+        "b2r2.frontend.s390.nuspec",
+        "lib/net9.0/B2R2.FrontEnd.S390.dll",
+        "lib/net9.0/B2R2.FrontEnd.S390.xml"
+      ]
+    },
+    "B2R2.FrontEnd.SH4/0.9.1": {
+      "sha512": "gljHCwaHFiIQ5hpwkAu0bMVgtZb0M4lqFkdAlNNj3yCLGHpSgzXxxHDxY9Jug+F0zZ8j0XYmeCRPLx26tGZHUA==",
+      "type": "package",
+      "path": "b2r2.frontend.sh4/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.frontend.sh4.0.9.1.nupkg.sha512",
+        "b2r2.frontend.sh4.nuspec",
+        "lib/net9.0/B2R2.FrontEnd.SH4.dll",
+        "lib/net9.0/B2R2.FrontEnd.SH4.xml"
+      ]
+    },
+    "B2R2.FrontEnd.SPARC/0.9.1": {
+      "sha512": "+8z0nb7SC21jh2OMfiFASAnfCv0RcmBTRFCOGV7QEmHQ27VFnu9+TS+HPN29HPsayye000msRM1wTlLhcfbIqw==",
+      "type": "package",
+      "path": "b2r2.frontend.sparc/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.frontend.sparc.0.9.1.nupkg.sha512",
+        "b2r2.frontend.sparc.nuspec",
+        "lib/net9.0/B2R2.FrontEnd.SPARC.dll",
+        "lib/net9.0/B2R2.FrontEnd.SPARC.xml"
+      ]
+    },
+    "B2R2.FrontEnd.TMS320C6000/0.9.1": {
+      "sha512": "d1qKZ4ohvHRY2EMy/WdzxsAPc9at4jHb4NpeAkUQOiBfgE28z6X5VJoGvdWtcNgMyIvp1l5ceJApAeiXsGEjxQ==",
+      "type": "package",
+      "path": "b2r2.frontend.tms320c6000/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.frontend.tms320c6000.0.9.1.nupkg.sha512",
+        "b2r2.frontend.tms320c6000.nuspec",
+        "lib/net9.0/B2R2.FrontEnd.TMS320C6000.dll",
+        "lib/net9.0/B2R2.FrontEnd.TMS320C6000.xml"
+      ]
+    },
+    "B2R2.FrontEnd.WASM/0.9.1": {
+      "sha512": "8tIvnFgt2nXLn/KVfixOi2fJiM1Mu4DTUhUhmArQ7i0bpbCxBFSDZSpNUty55i69r3zzhqqkbicDjxukmbOl7g==",
+      "type": "package",
+      "path": "b2r2.frontend.wasm/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.frontend.wasm.0.9.1.nupkg.sha512",
+        "b2r2.frontend.wasm.nuspec",
+        "lib/net9.0/B2R2.FrontEnd.WASM.dll",
+        "lib/net9.0/B2R2.FrontEnd.WASM.xml"
+      ]
+    },
+    "B2R2.MiddleEnd.API/0.9.1": {
+      "sha512": "rRB0mTjJkXd/0mcPk4+4GajG1IaKkOvU7ZJcjYqJ1GSHJpdPnSz9H8/i9trTPBiYFzanPcR9ATIb4+HQE3H5tQ==",
+      "type": "package",
+      "path": "b2r2.middleend.api/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.middleend.api.0.9.1.nupkg.sha512",
+        "b2r2.middleend.api.nuspec",
+        "lib/net9.0/B2R2.MiddleEnd.API.dll",
+        "lib/net9.0/B2R2.MiddleEnd.API.xml"
+      ]
+    },
+    "B2R2.MiddleEnd.BinGraph/0.9.1": {
+      "sha512": "+Blm4hUdu489vnkz1F3EtazzwWrBLKeyXJASZ8a5DjtgRoB1nNhdi6km68V4sUqs4OvRC0wUKbPnejUrnxSakg==",
+      "type": "package",
+      "path": "b2r2.middleend.bingraph/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.middleend.bingraph.0.9.1.nupkg.sha512",
+        "b2r2.middleend.bingraph.nuspec",
+        "lib/net9.0/B2R2.MiddleEnd.BinGraph.dll",
+        "lib/net9.0/B2R2.MiddleEnd.BinGraph.xml"
+      ]
+    },
+    "B2R2.MiddleEnd.ConcEval/0.9.1": {
+      "sha512": "KPq/Mk2nr/iZ3/E+G065zlhnDw4qPmAE0O7rwTXlOwI0ShZrbMn4AyPKHJiBJePEZnXZyZxACnbluvTs7TuPrg==",
+      "type": "package",
+      "path": "b2r2.middleend.conceval/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.middleend.conceval.0.9.1.nupkg.sha512",
+        "b2r2.middleend.conceval.nuspec",
+        "lib/net9.0/B2R2.MiddleEnd.ConcEval.dll",
+        "lib/net9.0/B2R2.MiddleEnd.ConcEval.xml"
+      ]
+    },
+    "B2R2.MiddleEnd.ControlFlowAnalysis/0.9.1": {
+      "sha512": "jjar7xlIiyokQ8RVem/x6rF4ltGnZ5HTKoSnxAqPPd1jggkB1FrcVOxyVIXvCeqRqPRa3GOvPVpRg/hCwwflTA==",
+      "type": "package",
+      "path": "b2r2.middleend.controlflowanalysis/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.middleend.controlflowanalysis.0.9.1.nupkg.sha512",
+        "b2r2.middleend.controlflowanalysis.nuspec",
+        "lib/net9.0/B2R2.MiddleEnd.ControlFlowAnalysis.dll",
+        "lib/net9.0/B2R2.MiddleEnd.ControlFlowAnalysis.xml"
+      ]
+    },
+    "B2R2.MiddleEnd.ControlFlowGraph/0.9.1": {
+      "sha512": "43DxMwpyIPXtXCHrYFjHrH1R4eKSMIVpQOjKDq7NmBkiwUnM7Pgqzr+bM7FS6+t8CrkXJGFyayLH486WiZFjUQ==",
+      "type": "package",
+      "path": "b2r2.middleend.controlflowgraph/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.middleend.controlflowgraph.0.9.1.nupkg.sha512",
+        "b2r2.middleend.controlflowgraph.nuspec",
+        "lib/net9.0/B2R2.MiddleEnd.ControlFlowGraph.dll",
+        "lib/net9.0/B2R2.MiddleEnd.ControlFlowGraph.xml"
+      ]
+    },
+    "B2R2.MiddleEnd.DataFlow/0.9.1": {
+      "sha512": "A0OW5PRulaX/VHxamxBw0CdT36fo3iI9DThh/N1SVuzXpZuOdJbTJbdT0vHW11jsCDhoywXzUWa4M3uBWgCaqQ==",
+      "type": "package",
+      "path": "b2r2.middleend.dataflow/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.middleend.dataflow.0.9.1.nupkg.sha512",
+        "b2r2.middleend.dataflow.nuspec",
+        "lib/net9.0/B2R2.MiddleEnd.DataFlow.dll",
+        "lib/net9.0/B2R2.MiddleEnd.DataFlow.xml"
+      ]
+    },
+    "B2R2.MiddleEnd.SSA/0.9.1": {
+      "sha512": "RSoXnPqTHIgmWaYFfSnxdhQtPljL2HEwwO9z0nZUrep7ltc7r9A5VHjr2Luw7Hh1m6Z0n0p15N8uZXXbgzkm0A==",
+      "type": "package",
+      "path": "b2r2.middleend.ssa/0.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "b2r2-240x240.png",
+        "b2r2.middleend.ssa.0.9.1.nupkg.sha512",
+        "b2r2.middleend.ssa.nuspec",
+        "lib/net9.0/B2R2.MiddleEnd.SSA.dll",
+        "lib/net9.0/B2R2.MiddleEnd.SSA.xml"
+      ]
+    },
+    "FParsec/1.1.1": {
+      "sha512": "Wdjf/gCNLEwd+0nUCDh9jAIIcKGwfhRramySTnTcVVgNC6i4Vp5aJklUJJfvFkEZMYNZEDGcI8pCa36/TmwmSg==",
+      "type": "package",
+      "path": "fparsec/1.1.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "fparsec.1.1.1.nupkg.sha512",
+        "fparsec.nuspec",
+        "lib/net45/FParsec.dll",
+        "lib/net45/FParsec.pdb",
+        "lib/net45/FParsec.xml",
+        "lib/net45/FParsecCS.dll",
+        "lib/net45/FParsecCS.pdb",
+        "lib/net45/FParsecCS.xml",
+        "lib/netstandard2.0/FParsec.dll",
+        "lib/netstandard2.0/FParsec.pdb",
+        "lib/netstandard2.0/FParsec.xml",
+        "lib/netstandard2.0/FParsecCS.dll",
+        "lib/netstandard2.0/FParsecCS.pdb",
+        "lib/netstandard2.0/FParsecCS.xml"
+      ]
+    },
+    "FSharp.Core/10.0.108": {
+      "sha512": "kD6E9tjZ5MYtpM92PJND3Tw4GnEpViHEakTkhVwRoJ/Eo4WvH9ncQnrlyIPH2kJrtcnn241Bq1F3pBC7BmwV6A==",
+      "type": "package",
+      "path": "fsharp.core/10.0.108",
+      "files": [
+        ".nupkg.metadata",
+        "Icon.png",
+        "fsharp.core.10.0.108.nupkg.sha512",
+        "fsharp.core.nuspec",
+        "lib/netstandard2.0/FSharp.Core.dll",
+        "lib/netstandard2.0/FSharp.Core.xml",
+        "lib/netstandard2.0/cs/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/de/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/es/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/fr/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/it/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/ja/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/ko/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/pl/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/pt-BR/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/ru/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/tr/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/zh-Hans/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/zh-Hant/FSharp.Core.resources.dll",
+        "lib/netstandard2.1/FSharp.Core.dll",
+        "lib/netstandard2.1/FSharp.Core.xml",
+        "lib/netstandard2.1/cs/FSharp.Core.resources.dll",
+        "lib/netstandard2.1/de/FSharp.Core.resources.dll",
+        "lib/netstandard2.1/es/FSharp.Core.resources.dll",
+        "lib/netstandard2.1/fr/FSharp.Core.resources.dll",
+        "lib/netstandard2.1/it/FSharp.Core.resources.dll",
+        "lib/netstandard2.1/ja/FSharp.Core.resources.dll",
+        "lib/netstandard2.1/ko/FSharp.Core.resources.dll",
+        "lib/netstandard2.1/pl/FSharp.Core.resources.dll",
+        "lib/netstandard2.1/pt-BR/FSharp.Core.resources.dll",
+        "lib/netstandard2.1/ru/FSharp.Core.resources.dll",
+        "lib/netstandard2.1/tr/FSharp.Core.resources.dll",
+        "lib/netstandard2.1/zh-Hans/FSharp.Core.resources.dll",
+        "lib/netstandard2.1/zh-Hant/FSharp.Core.resources.dll"
+      ]
+    },
+    "FSharp.Data/6.6.0": {
+      "sha512": "AC87/VZV1iGrnK1uG6QhX22HZARlFiCqdlckzPDgdE3+fzc0ZNRR3Y4ny5vbLvfDj2rjFoJdmRZy6kzI1C/sQQ==",
+      "type": "package",
+      "path": "fsharp.data/6.6.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "fsharp.data.6.6.0.nupkg.sha512",
+        "fsharp.data.nuspec",
+        "lib/netstandard2.0/FSharp.Data.dll",
+        "lib/netstandard2.0/FSharp.Data.xml",
+        "logo.png",
+        "typeproviders/fsharp41/netstandard2.0/FSharp.Core.xml",
+        "typeproviders/fsharp41/netstandard2.0/FSharp.Data.Csv.Core.dll",
+        "typeproviders/fsharp41/netstandard2.0/FSharp.Data.Csv.Core.xml",
+        "typeproviders/fsharp41/netstandard2.0/FSharp.Data.DesignTime.deps.json",
+        "typeproviders/fsharp41/netstandard2.0/FSharp.Data.DesignTime.dll",
+        "typeproviders/fsharp41/netstandard2.0/FSharp.Data.Html.Core.dll",
+        "typeproviders/fsharp41/netstandard2.0/FSharp.Data.Html.Core.xml",
+        "typeproviders/fsharp41/netstandard2.0/FSharp.Data.Http.dll",
+        "typeproviders/fsharp41/netstandard2.0/FSharp.Data.Http.xml",
+        "typeproviders/fsharp41/netstandard2.0/FSharp.Data.Json.Core.dll",
+        "typeproviders/fsharp41/netstandard2.0/FSharp.Data.Json.Core.xml",
+        "typeproviders/fsharp41/netstandard2.0/FSharp.Data.Runtime.Utilities.dll",
+        "typeproviders/fsharp41/netstandard2.0/FSharp.Data.Runtime.Utilities.xml",
+        "typeproviders/fsharp41/netstandard2.0/FSharp.Data.WorldBank.Core.dll",
+        "typeproviders/fsharp41/netstandard2.0/FSharp.Data.WorldBank.Core.xml",
+        "typeproviders/fsharp41/netstandard2.0/FSharp.Data.Xml.Core.dll",
+        "typeproviders/fsharp41/netstandard2.0/FSharp.Data.Xml.Core.xml"
+      ]
+    },
+    "FSharp.Data.Csv.Core/6.6.0": {
+      "sha512": "gbmHT+XraE1OjUyf/+bmIaluoMMj/34MC5IX0QNWr+K8fu+UjKg854p+fkG5JkzWej0+46CTV7hW/CWP425naA==",
+      "type": "package",
+      "path": "fsharp.data.csv.core/6.6.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "fsharp.data.csv.core.6.6.0.nupkg.sha512",
+        "fsharp.data.csv.core.nuspec",
+        "lib/netstandard2.0/FSharp.Data.Csv.Core.dll",
+        "lib/netstandard2.0/FSharp.Data.Csv.Core.xml",
+        "logo.png"
+      ]
+    },
+    "FSharp.Data.Html.Core/6.6.0": {
+      "sha512": "YxImykk5fUxw+rwvD26JfZYn/OAUataebsUobXu8KzkLtl/5fOhiPqpI54jAT4ysv2wHD5coCp30+5UsQXqxBQ==",
+      "type": "package",
+      "path": "fsharp.data.html.core/6.6.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "fsharp.data.html.core.6.6.0.nupkg.sha512",
+        "fsharp.data.html.core.nuspec",
+        "lib/netstandard2.0/FSharp.Data.Html.Core.dll",
+        "lib/netstandard2.0/FSharp.Data.Html.Core.xml",
+        "logo.png"
+      ]
+    },
+    "FSharp.Data.Http/6.6.0": {
+      "sha512": "7nFDLYPqEps/F3Ay65Xm3YvS3OmARYB24xYv1CszOqurTZ76wM9vnsvyeFOMcCKXA+QgwK+eCa8cgyavmR1YxA==",
+      "type": "package",
+      "path": "fsharp.data.http/6.6.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "fsharp.data.http.6.6.0.nupkg.sha512",
+        "fsharp.data.http.nuspec",
+        "lib/netstandard2.0/FSharp.Data.Http.dll",
+        "lib/netstandard2.0/FSharp.Data.Http.xml",
+        "logo.png"
+      ]
+    },
+    "FSharp.Data.Json.Core/6.6.0": {
+      "sha512": "VhLkZwyzeMWsJHivY4GjLqIWh+gIm0rWW0BBlAh1M7XzmmumbPLDehUqOh6Nkm1R+N8iBhFgj7HBq6bmQzGnZA==",
+      "type": "package",
+      "path": "fsharp.data.json.core/6.6.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "fsharp.data.json.core.6.6.0.nupkg.sha512",
+        "fsharp.data.json.core.nuspec",
+        "lib/netstandard2.0/FSharp.Data.Json.Core.dll",
+        "lib/netstandard2.0/FSharp.Data.Json.Core.xml",
+        "logo.png"
+      ]
+    },
+    "FSharp.Data.Runtime.Utilities/6.6.0": {
+      "sha512": "iLkCY0mQGxuIE2sEIFFOov9ZmWPwlQ0Jq51Xgqv+e0hbAPf2p4OaGp/DR4ye6VQCyVzHVCp9XyJQeHOhoWCQvA==",
+      "type": "package",
+      "path": "fsharp.data.runtime.utilities/6.6.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "fsharp.data.runtime.utilities.6.6.0.nupkg.sha512",
+        "fsharp.data.runtime.utilities.nuspec",
+        "lib/netstandard2.0/FSharp.Data.Runtime.Utilities.dll",
+        "lib/netstandard2.0/FSharp.Data.Runtime.Utilities.xml",
+        "logo.png"
+      ]
+    },
+    "FSharp.Data.WorldBank.Core/6.6.0": {
+      "sha512": "Tg6Hk0+61McNviq+zATBhIDoyslV07hZjYsrzz6IHagbze+1JNiz8FCpwsHh0uAzkdNUZK2/qsrHtMQvM0lpdg==",
+      "type": "package",
+      "path": "fsharp.data.worldbank.core/6.6.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "fsharp.data.worldbank.core.6.6.0.nupkg.sha512",
+        "fsharp.data.worldbank.core.nuspec",
+        "lib/netstandard2.0/FSharp.Data.WorldBank.Core.dll",
+        "lib/netstandard2.0/FSharp.Data.WorldBank.Core.xml",
+        "logo.png"
+      ]
+    },
+    "FSharp.Data.Xml.Core/6.6.0": {
+      "sha512": "Z7U4mO0FHT5uHOYRLSK67izqJrCSvWpjcDPRQkJmYB5ge0sRfHWoKV8b4ttHLmpEg/eAdu64u00nITxpbZm+CA==",
+      "type": "package",
+      "path": "fsharp.data.xml.core/6.6.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "fsharp.data.xml.core.6.6.0.nupkg.sha512",
+        "fsharp.data.xml.core.nuspec",
+        "lib/netstandard2.0/FSharp.Data.Xml.Core.dll",
+        "lib/netstandard2.0/FSharp.Data.Xml.Core.xml",
+        "logo.png"
+      ]
+    },
+    "SHA3Core/1.0.1": {
+      "sha512": "2VloAHBW102AaywIsL7LSWTRTAhEILnUDLl6lDTlMlrFCu2Plg33XbAG6EBwzUh5CsFpXYaveUM2AFuvs27Jpg==",
+      "type": "package",
+      "path": "sha3core/1.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "android-chrome-512x512.png",
+        "lib/netstandard2.0/SHA3Core.dll",
+        "sha3core.1.0.1.nupkg.sha512",
+        "sha3core.nuspec"
+      ]
+    },
+    "System.Configuration.ConfigurationManager/4.4.0": {
+      "sha512": "gWwQv/Ug1qWJmHCmN17nAbxJYmQBM/E94QxKLksvUiiKB1Ld3Sc/eK1lgmbSjDFxkQhVuayI/cGFZhpBSodLrg==",
+      "type": "package",
+      "path": "system.configuration.configurationmanager/4.4.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/System.Configuration.ConfigurationManager.dll",
+        "lib/netstandard2.0/System.Configuration.ConfigurationManager.dll",
+        "ref/net461/System.Configuration.ConfigurationManager.dll",
+        "ref/net461/System.Configuration.ConfigurationManager.xml",
+        "ref/netstandard2.0/System.Configuration.ConfigurationManager.dll",
+        "ref/netstandard2.0/System.Configuration.ConfigurationManager.xml",
+        "system.configuration.configurationmanager.4.4.0.nupkg.sha512",
+        "system.configuration.configurationmanager.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
+    "System.Security.Cryptography.ProtectedData/4.4.0": {
+      "sha512": "cJV7ScGW7EhatRsjehfvvYVBvtiSMKgN8bOVI0bQhnF5bU7vnHVIsH49Kva7i7GWaWYvmEzkYVk1TC+gZYBEog==",
+      "type": "package",
+      "path": "system.security.cryptography.protecteddata/4.4.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net46/System.Security.Cryptography.ProtectedData.dll",
+        "lib/net461/System.Security.Cryptography.ProtectedData.dll",
+        "lib/netstandard1.3/System.Security.Cryptography.ProtectedData.dll",
+        "lib/netstandard2.0/System.Security.Cryptography.ProtectedData.dll",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net46/System.Security.Cryptography.ProtectedData.dll",
+        "ref/net461/System.Security.Cryptography.ProtectedData.dll",
+        "ref/net461/System.Security.Cryptography.ProtectedData.xml",
+        "ref/netstandard1.3/System.Security.Cryptography.ProtectedData.dll",
+        "ref/netstandard2.0/System.Security.Cryptography.ProtectedData.dll",
+        "ref/netstandard2.0/System.Security.Cryptography.ProtectedData.xml",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "runtimes/win/lib/net46/System.Security.Cryptography.ProtectedData.dll",
+        "runtimes/win/lib/net461/System.Security.Cryptography.ProtectedData.dll",
+        "runtimes/win/lib/netstandard1.3/System.Security.Cryptography.ProtectedData.dll",
+        "runtimes/win/lib/netstandard2.0/System.Security.Cryptography.ProtectedData.dll",
+        "system.security.cryptography.protecteddata.4.4.0.nupkg.sha512",
+        "system.security.cryptography.protecteddata.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net10.0": [
+      "Argu >= 6.2.5",
+      "B2R2.FrontEnd.API >= 0.9.1",
+      "B2R2.MiddleEnd.API >= 0.9.1",
+      "FSharp.Core >= 10.0.108"
+    ]
+  },
+  "packageFolders": {
+    "/home/mntly/.nuget/packages/": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "/mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/src/PointerAnalyzer.fsproj",
+      "projectName": "PointerAnalyzer",
+      "projectPath": "/mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/src/PointerAnalyzer.fsproj",
+      "packagesPath": "/home/mntly/.nuget/packages/",
+      "outputPath": "/mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/src/obj/",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "/home/mntly/.nuget/NuGet/NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net10.0"
+      ],
+      "sources": {
+        "/usr/lib/dotnet/library-packs": {},
+        "/usr/lib/dotnet/sdk/10.0.108/FSharp/library-packs": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net10.0": {
+          "targetAlias": "net10.0",
+          "projectReferences": {}
+        }
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "all"
+      },
+      "SdkAnalysisLevel": "10.0.100"
+    },
+    "frameworks": {
+      "net10.0": {
+        "targetAlias": "net10.0",
+        "dependencies": {
+          "Argu": {
+            "target": "Package",
+            "version": "[6.2.5, )",
+            "generatePathProperty": true
+          },
+          "B2R2.FrontEnd.API": {
+            "target": "Package",
+            "version": "[0.9.1, )",
+            "generatePathProperty": true
+          },
+          "B2R2.MiddleEnd.API": {
+            "target": "Package",
+            "version": "[0.9.1, )",
+            "generatePathProperty": true
+          },
+          "FSharp.Core": {
+            "include": "Runtime, Compile, Build, Native, Analyzers, BuildTransitive",
+            "target": "Package",
+            "version": "[10.0.108, )",
+            "generatePathProperty": true
+          }
+        },
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/10.0.108/PortableRuntimeIdentifierGraph.json",
+        "packagesToPrune": {
+          "Microsoft.CSharp": "(,4.7.32767]",
+          "Microsoft.VisualBasic": "(,10.4.32767]",
+          "Microsoft.Win32.Primitives": "(,4.3.32767]",
+          "Microsoft.Win32.Registry": "(,5.0.32767]",
+          "runtime.any.System.Collections": "(,4.3.32767]",
+          "runtime.any.System.Diagnostics.Tools": "(,4.3.32767]",
+          "runtime.any.System.Diagnostics.Tracing": "(,4.3.32767]",
+          "runtime.any.System.Globalization": "(,4.3.32767]",
+          "runtime.any.System.Globalization.Calendars": "(,4.3.32767]",
+          "runtime.any.System.IO": "(,4.3.32767]",
+          "runtime.any.System.Reflection": "(,4.3.32767]",
+          "runtime.any.System.Reflection.Extensions": "(,4.3.32767]",
+          "runtime.any.System.Reflection.Primitives": "(,4.3.32767]",
+          "runtime.any.System.Resources.ResourceManager": "(,4.3.32767]",
+          "runtime.any.System.Runtime": "(,4.3.32767]",
+          "runtime.any.System.Runtime.Handles": "(,4.3.32767]",
+          "runtime.any.System.Runtime.InteropServices": "(,4.3.32767]",
+          "runtime.any.System.Text.Encoding": "(,4.3.32767]",
+          "runtime.any.System.Text.Encoding.Extensions": "(,4.3.32767]",
+          "runtime.any.System.Threading.Tasks": "(,4.3.32767]",
+          "runtime.any.System.Threading.Timer": "(,4.3.32767]",
+          "runtime.aot.System.Collections": "(,4.3.32767]",
+          "runtime.aot.System.Diagnostics.Tools": "(,4.3.32767]",
+          "runtime.aot.System.Diagnostics.Tracing": "(,4.3.32767]",
+          "runtime.aot.System.Globalization": "(,4.3.32767]",
+          "runtime.aot.System.Globalization.Calendars": "(,4.3.32767]",
+          "runtime.aot.System.IO": "(,4.3.32767]",
+          "runtime.aot.System.Reflection": "(,4.3.32767]",
+          "runtime.aot.System.Reflection.Extensions": "(,4.3.32767]",
+          "runtime.aot.System.Reflection.Primitives": "(,4.3.32767]",
+          "runtime.aot.System.Resources.ResourceManager": "(,4.3.32767]",
+          "runtime.aot.System.Runtime": "(,4.3.32767]",
+          "runtime.aot.System.Runtime.Handles": "(,4.3.32767]",
+          "runtime.aot.System.Runtime.InteropServices": "(,4.3.32767]",
+          "runtime.aot.System.Text.Encoding": "(,4.3.32767]",
+          "runtime.aot.System.Text.Encoding.Extensions": "(,4.3.32767]",
+          "runtime.aot.System.Threading.Tasks": "(,4.3.32767]",
+          "runtime.aot.System.Threading.Timer": "(,4.3.32767]",
+          "runtime.debian.8-x64.runtime.native.System": "(,4.3.32767]",
+          "runtime.debian.8-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
+          "runtime.debian.8-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
+          "runtime.debian.8-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
+          "runtime.debian.8-x64.runtime.native.System.Security.Cryptography": "(,4.3.32767]",
+          "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl": "(,4.3.32767]",
+          "runtime.debian.9-x64.runtime.native.System": "(,4.3.32767]",
+          "runtime.debian.9-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
+          "runtime.debian.9-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
+          "runtime.debian.9-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
+          "runtime.fedora.23-x64.runtime.native.System": "(,4.3.32767]",
+          "runtime.fedora.23-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
+          "runtime.fedora.23-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
+          "runtime.fedora.23-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
+          "runtime.fedora.23-x64.runtime.native.System.Security.Cryptography": "(,4.3.32767]",
+          "runtime.fedora.23-x64.runtime.native.System.Security.Cryptography.OpenSsl": "(,4.3.32767]",
+          "runtime.fedora.24-x64.runtime.native.System": "(,4.3.32767]",
+          "runtime.fedora.24-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
+          "runtime.fedora.24-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
+          "runtime.fedora.24-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
+          "runtime.fedora.24-x64.runtime.native.System.Security.Cryptography": "(,4.3.32767]",
+          "runtime.fedora.24-x64.runtime.native.System.Security.Cryptography.OpenSsl": "(,4.3.32767]",
+          "runtime.fedora.27-x64.runtime.native.System": "(,4.3.32767]",
+          "runtime.fedora.27-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
+          "runtime.fedora.27-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
+          "runtime.fedora.27-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
+          "runtime.fedora.28-x64.runtime.native.System": "(,4.3.32767]",
+          "runtime.fedora.28-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
+          "runtime.fedora.28-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
+          "runtime.fedora.28-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
+          "runtime.opensuse.13.2-x64.runtime.native.System": "(,4.3.32767]",
+          "runtime.opensuse.13.2-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
+          "runtime.opensuse.13.2-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
+          "runtime.opensuse.13.2-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
+          "runtime.opensuse.13.2-x64.runtime.native.System.Security.Cryptography": "(,4.3.32767]",
+          "runtime.opensuse.13.2-x64.runtime.native.System.Security.Cryptography.OpenSsl": "(,4.3.32767]",
+          "runtime.opensuse.42.1-x64.runtime.native.System": "(,4.3.32767]",
+          "runtime.opensuse.42.1-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
+          "runtime.opensuse.42.1-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
+          "runtime.opensuse.42.1-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
+          "runtime.opensuse.42.1-x64.runtime.native.System.Security.Cryptography": "(,4.3.32767]",
+          "runtime.opensuse.42.1-x64.runtime.native.System.Security.Cryptography.OpenSsl": "(,4.3.32767]",
+          "runtime.opensuse.42.3-x64.runtime.native.System": "(,4.3.32767]",
+          "runtime.opensuse.42.3-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
+          "runtime.opensuse.42.3-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
+          "runtime.opensuse.42.3-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
+          "runtime.osx.10.10-x64.runtime.native.System": "(,4.3.32767]",
+          "runtime.osx.10.10-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
+          "runtime.osx.10.10-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
+          "runtime.osx.10.10-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
+          "runtime.osx.10.10-x64.runtime.native.System.Security.Cryptography": "(,4.3.32767]",
+          "runtime.osx.10.10-x64.runtime.native.System.Security.Cryptography.Apple": "(,4.3.32767]",
+          "runtime.osx.10.10-x64.runtime.native.System.Security.Cryptography.OpenSsl": "(,4.3.32767]",
+          "runtime.rhel.7-x64.runtime.native.System": "(,4.3.32767]",
+          "runtime.rhel.7-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
+          "runtime.rhel.7-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
+          "runtime.rhel.7-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
+          "runtime.rhel.7-x64.runtime.native.System.Security.Cryptography": "(,4.3.32767]",
+          "runtime.rhel.7-x64.runtime.native.System.Security.Cryptography.OpenSsl": "(,4.3.32767]",
+          "runtime.ubuntu.14.04-x64.runtime.native.System": "(,4.3.32767]",
+          "runtime.ubuntu.14.04-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
+          "runtime.ubuntu.14.04-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
+          "runtime.ubuntu.14.04-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
+          "runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography": "(,4.3.32767]",
+          "runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography.OpenSsl": "(,4.3.32767]",
+          "runtime.ubuntu.16.04-x64.runtime.native.System": "(,4.3.32767]",
+          "runtime.ubuntu.16.04-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
+          "runtime.ubuntu.16.04-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
+          "runtime.ubuntu.16.04-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
+          "runtime.ubuntu.16.04-x64.runtime.native.System.Security.Cryptography": "(,4.3.32767]",
+          "runtime.ubuntu.16.04-x64.runtime.native.System.Security.Cryptography.OpenSsl": "(,4.3.32767]",
+          "runtime.ubuntu.16.10-x64.runtime.native.System": "(,4.3.32767]",
+          "runtime.ubuntu.16.10-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
+          "runtime.ubuntu.16.10-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
+          "runtime.ubuntu.16.10-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
+          "runtime.ubuntu.16.10-x64.runtime.native.System.Security.Cryptography": "(,4.3.32767]",
+          "runtime.ubuntu.16.10-x64.runtime.native.System.Security.Cryptography.OpenSsl": "(,4.3.32767]",
+          "runtime.ubuntu.18.04-x64.runtime.native.System": "(,4.3.32767]",
+          "runtime.ubuntu.18.04-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
+          "runtime.ubuntu.18.04-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
+          "runtime.ubuntu.18.04-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
+          "runtime.unix.Microsoft.Win32.Primitives": "(,4.3.32767]",
+          "runtime.unix.System.Console": "(,4.3.32767]",
+          "runtime.unix.System.Diagnostics.Debug": "(,4.3.32767]",
+          "runtime.unix.System.IO.FileSystem": "(,4.3.32767]",
+          "runtime.unix.System.Net.Primitives": "(,4.3.32767]",
+          "runtime.unix.System.Net.Sockets": "(,4.3.32767]",
+          "runtime.unix.System.Private.Uri": "(,4.3.32767]",
+          "runtime.unix.System.Runtime.Extensions": "(,4.3.32767]",
+          "runtime.win.Microsoft.Win32.Primitives": "(,4.3.32767]",
+          "runtime.win.System.Console": "(,4.3.32767]",
+          "runtime.win.System.Diagnostics.Debug": "(,4.3.32767]",
+          "runtime.win.System.IO.FileSystem": "(,4.3.32767]",
+          "runtime.win.System.Net.Primitives": "(,4.3.32767]",
+          "runtime.win.System.Net.Sockets": "(,4.3.32767]",
+          "runtime.win.System.Runtime.Extensions": "(,4.3.32767]",
+          "runtime.win10-arm-aot.runtime.native.System.IO.Compression": "(,4.0.32767]",
+          "runtime.win10-arm64.runtime.native.System.IO.Compression": "(,4.3.32767]",
+          "runtime.win10-x64-aot.runtime.native.System.IO.Compression": "(,4.0.32767]",
+          "runtime.win10-x86-aot.runtime.native.System.IO.Compression": "(,4.0.32767]",
+          "runtime.win7-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
+          "runtime.win7-x86.runtime.native.System.IO.Compression": "(,4.3.32767]",
+          "runtime.win7.System.Private.Uri": "(,4.3.32767]",
+          "runtime.win8-arm.runtime.native.System.IO.Compression": "(,4.3.32767]",
+          "System.AppContext": "(,4.3.32767]",
+          "System.Buffers": "(,5.0.32767]",
+          "System.Collections": "(,4.3.32767]",
+          "System.Collections.Concurrent": "(,4.3.32767]",
+          "System.Collections.Immutable": "(,10.0.32767]",
+          "System.Collections.NonGeneric": "(,4.3.32767]",
+          "System.Collections.Specialized": "(,4.3.32767]",
+          "System.ComponentModel": "(,4.3.32767]",
+          "System.ComponentModel.Annotations": "(,4.3.32767]",
+          "System.ComponentModel.EventBasedAsync": "(,4.3.32767]",
+          "System.ComponentModel.Primitives": "(,4.3.32767]",
+          "System.ComponentModel.TypeConverter": "(,4.3.32767]",
+          "System.Console": "(,4.3.32767]",
+          "System.Data.Common": "(,4.3.32767]",
+          "System.Data.DataSetExtensions": "(,4.4.32767]",
+          "System.Diagnostics.Contracts": "(,4.3.32767]",
+          "System.Diagnostics.Debug": "(,4.3.32767]",
+          "System.Diagnostics.DiagnosticSource": "(,10.0.32767]",
+          "System.Diagnostics.FileVersionInfo": "(,4.3.32767]",
+          "System.Diagnostics.Process": "(,4.3.32767]",
+          "System.Diagnostics.StackTrace": "(,4.3.32767]",
+          "System.Diagnostics.TextWriterTraceListener": "(,4.3.32767]",
+          "System.Diagnostics.Tools": "(,4.3.32767]",
+          "System.Diagnostics.TraceSource": "(,4.3.32767]",
+          "System.Diagnostics.Tracing": "(,4.3.32767]",
+          "System.Drawing.Primitives": "(,4.3.32767]",
+          "System.Dynamic.Runtime": "(,4.3.32767]",
+          "System.Formats.Asn1": "(,10.0.32767]",
+          "System.Formats.Tar": "(,10.0.32767]",
+          "System.Globalization": "(,4.3.32767]",
+          "System.Globalization.Calendars": "(,4.3.32767]",
+          "System.Globalization.Extensions": "(,4.3.32767]",
+          "System.IO": "(,4.3.32767]",
+          "System.IO.Compression": "(,4.3.32767]",
+          "System.IO.Compression.ZipFile": "(,4.3.32767]",
+          "System.IO.FileSystem": "(,4.3.32767]",
+          "System.IO.FileSystem.AccessControl": "(,4.4.32767]",
+          "System.IO.FileSystem.DriveInfo": "(,4.3.32767]",
+          "System.IO.FileSystem.Primitives": "(,4.3.32767]",
+          "System.IO.FileSystem.Watcher": "(,4.3.32767]",
+          "System.IO.IsolatedStorage": "(,4.3.32767]",
+          "System.IO.MemoryMappedFiles": "(,4.3.32767]",
+          "System.IO.Pipelines": "(,10.0.32767]",
+          "System.IO.Pipes": "(,4.3.32767]",
+          "System.IO.Pipes.AccessControl": "(,5.0.32767]",
+          "System.IO.UnmanagedMemoryStream": "(,4.3.32767]",
+          "System.Linq": "(,4.3.32767]",
+          "System.Linq.AsyncEnumerable": "(,10.0.32767]",
+          "System.Linq.Expressions": "(,4.3.32767]",
+          "System.Linq.Parallel": "(,4.3.32767]",
+          "System.Linq.Queryable": "(,4.3.32767]",
+          "System.Memory": "(,5.0.32767]",
+          "System.Net.Http": "(,4.3.32767]",
+          "System.Net.Http.Json": "(,10.0.32767]",
+          "System.Net.NameResolution": "(,4.3.32767]",
+          "System.Net.NetworkInformation": "(,4.3.32767]",
+          "System.Net.Ping": "(,4.3.32767]",
+          "System.Net.Primitives": "(,4.3.32767]",
+          "System.Net.Requests": "(,4.3.32767]",
+          "System.Net.Security": "(,4.3.32767]",
+          "System.Net.ServerSentEvents": "(,10.0.32767]",
+          "System.Net.Sockets": "(,4.3.32767]",
+          "System.Net.WebHeaderCollection": "(,4.3.32767]",
+          "System.Net.WebSockets": "(,4.3.32767]",
+          "System.Net.WebSockets.Client": "(,4.3.32767]",
+          "System.Numerics.Vectors": "(,5.0.32767]",
+          "System.ObjectModel": "(,4.3.32767]",
+          "System.Private.DataContractSerialization": "(,4.3.32767]",
+          "System.Private.Uri": "(,4.3.32767]",
+          "System.Reflection": "(,4.3.32767]",
+          "System.Reflection.DispatchProxy": "(,6.0.32767]",
+          "System.Reflection.Emit": "(,4.7.32767]",
+          "System.Reflection.Emit.ILGeneration": "(,4.7.32767]",
+          "System.Reflection.Emit.Lightweight": "(,4.7.32767]",
+          "System.Reflection.Extensions": "(,4.3.32767]",
+          "System.Reflection.Metadata": "(,10.0.32767]",
+          "System.Reflection.Primitives": "(,4.3.32767]",
+          "System.Reflection.TypeExtensions": "(,4.3.32767]",
+          "System.Resources.Reader": "(,4.3.32767]",
+          "System.Resources.ResourceManager": "(,4.3.32767]",
+          "System.Resources.Writer": "(,4.3.32767]",
+          "System.Runtime": "(,4.3.32767]",
+          "System.Runtime.CompilerServices.Unsafe": "(,7.0.32767]",
+          "System.Runtime.CompilerServices.VisualC": "(,4.3.32767]",
+          "System.Runtime.Extensions": "(,4.3.32767]",
+          "System.Runtime.Handles": "(,4.3.32767]",
+          "System.Runtime.InteropServices": "(,4.3.32767]",
+          "System.Runtime.InteropServices.RuntimeInformation": "(,4.3.32767]",
+          "System.Runtime.Loader": "(,4.3.32767]",
+          "System.Runtime.Numerics": "(,4.3.32767]",
+          "System.Runtime.Serialization.Formatters": "(,4.3.32767]",
+          "System.Runtime.Serialization.Json": "(,4.3.32767]",
+          "System.Runtime.Serialization.Primitives": "(,4.3.32767]",
+          "System.Runtime.Serialization.Xml": "(,4.3.32767]",
+          "System.Security.AccessControl": "(,6.0.32767]",
+          "System.Security.Claims": "(,4.3.32767]",
+          "System.Security.Cryptography.Algorithms": "(,4.3.32767]",
+          "System.Security.Cryptography.Cng": "(,5.0.32767]",
+          "System.Security.Cryptography.Csp": "(,4.3.32767]",
+          "System.Security.Cryptography.Encoding": "(,4.3.32767]",
+          "System.Security.Cryptography.OpenSsl": "(,5.0.32767]",
+          "System.Security.Cryptography.Primitives": "(,4.3.32767]",
+          "System.Security.Cryptography.X509Certificates": "(,4.3.32767]",
+          "System.Security.Principal": "(,4.3.32767]",
+          "System.Security.Principal.Windows": "(,5.0.32767]",
+          "System.Security.SecureString": "(,4.3.32767]",
+          "System.Text.Encoding": "(,4.3.32767]",
+          "System.Text.Encoding.CodePages": "(,10.0.32767]",
+          "System.Text.Encoding.Extensions": "(,4.3.32767]",
+          "System.Text.Encodings.Web": "(,10.0.32767]",
+          "System.Text.Json": "(,10.0.32767]",
+          "System.Text.RegularExpressions": "(,4.3.32767]",
+          "System.Threading": "(,4.3.32767]",
+          "System.Threading.AccessControl": "(,10.0.32767]",
+          "System.Threading.Channels": "(,10.0.32767]",
+          "System.Threading.Overlapped": "(,4.3.32767]",
+          "System.Threading.Tasks": "(,4.3.32767]",
+          "System.Threading.Tasks.Dataflow": "(,10.0.32767]",
+          "System.Threading.Tasks.Extensions": "(,5.0.32767]",
+          "System.Threading.Tasks.Parallel": "(,4.3.32767]",
+          "System.Threading.Thread": "(,4.3.32767]",
+          "System.Threading.ThreadPool": "(,4.3.32767]",
+          "System.Threading.Timer": "(,4.3.32767]",
+          "System.ValueTuple": "(,4.5.32767]",
+          "System.Xml.ReaderWriter": "(,4.3.32767]",
+          "System.Xml.XDocument": "(,4.3.32767]",
+          "System.Xml.XmlDocument": "(,4.3.32767]",
+          "System.Xml.XmlSerializer": "(,4.3.32767]",
+          "System.Xml.XPath": "(,4.3.32767]",
+          "System.Xml.XPath.XDocument": "(,5.0.32767]"
+        }
+      }
+    }
+  },
+  "logs": [
+    {
+      "code": "NU1900",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Error occurred while getting package vulnerability data: Unable to load the service index for source https://api.nuget.org/v3/index.json."
+    }
+  ]
+}

@@ -1,0 +1,1500 @@
+<?xml version="1.0" encoding="utf-8"?>
+<coverage line-rate="0.35100000000000003" branch-rate="0.1206" version="1.9" timestamp="1780077582" lines-covered="99" lines-valid="282" branches-covered="24" branches-valid="199">
+  <sources>
+    <source>/mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/src/</source>
+  </sources>
+  <packages>
+    <package name="PointerAnalyzer" line-rate="0.35100000000000003" branch-rate="0.1206" complexity="273">
+      <classes>
+        <class name="PointerAnalyzer.Main" filename="Main/Main.fs" line-rate="0" branch-rate="0" complexity="4">
+          <methods>
+            <method name="printResult" signature="(System.String,System.String)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="7" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="runAbsIntSmokeTest" signature="(PointerAnalyzer.Architecture)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="10" hits="0" branch="False" />
+                <line number="11" hits="0" branch="False" />
+                <line number="13" hits="0" branch="False" />
+                <line number="14" hits="0" branch="False" />
+                <line number="15" hits="0" branch="False" />
+                <line number="16" hits="0" branch="False" />
+                <line number="17" hits="0" branch="False" />
+                <line number="19" hits="0" branch="False" />
+                <line number="20" hits="0" branch="False" />
+                <line number="21" hits="0" branch="False" />
+                <line number="22" hits="0" branch="False" />
+                <line number="23" hits="0" branch="False" />
+                <line number="24" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="main" signature="(System.String[])" line-rate="0" branch-rate="0" complexity="2">
+              <lines>
+                <line number="29" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="7" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="30" hits="0" branch="False" />
+                <line number="32" hits="0" branch="False" />
+                <line number="34" hits="0" branch="False" />
+                <line number="35" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="7" hits="0" branch="False" />
+            <line number="10" hits="0" branch="False" />
+            <line number="11" hits="0" branch="False" />
+            <line number="13" hits="0" branch="False" />
+            <line number="14" hits="0" branch="False" />
+            <line number="15" hits="0" branch="False" />
+            <line number="16" hits="0" branch="False" />
+            <line number="17" hits="0" branch="False" />
+            <line number="19" hits="0" branch="False" />
+            <line number="20" hits="0" branch="False" />
+            <line number="21" hits="0" branch="False" />
+            <line number="22" hits="0" branch="False" />
+            <line number="23" hits="0" branch="False" />
+            <line number="24" hits="0" branch="False" />
+            <line number="29" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="7" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="30" hits="0" branch="False" />
+            <line number="32" hits="0" branch="False" />
+            <line number="34" hits="0" branch="False" />
+            <line number="35" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="PointerAnalyzer.AbsDom.AbsInt/AbsIntModule" filename="Domain/AbsInt.fs" line-rate="0.4102" branch-rate="0" complexity="32">
+          <methods>
+            <method name="get_bot" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="194" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="leq" signature="(PointerAnalyzer.AbsDom.AbsInt/AbsInt,PointerAnalyzer.AbsDom.AbsInt/AbsInt)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="196" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="join" signature="(PointerAnalyzer.AbsDom.AbsInt/AbsInt,PointerAnalyzer.AbsDom.AbsInt/AbsInt)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="198" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="toString" signature="(PointerAnalyzer.AbsDom.AbsInt/AbsInt)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="200" hits="5" branch="False" />
+              </lines>
+            </method>
+            <method name="isBot" signature="(PointerAnalyzer.AbsDom.AbsInt/AbsInt)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="202" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="get_top" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="204" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="get_zero" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="206" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="isZero" signature="(PointerAnalyzer.AbsDom.AbsInt/AbsInt)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="208" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="isConst" signature="(PointerAnalyzer.AbsDom.AbsInt/AbsInt)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="210" hits="1" branch="False" />
+              </lines>
+            </method>
+            <method name="isSymbolic" signature="(PointerAnalyzer.AbsDom.AbsInt/AbsInt)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="212" hits="1" branch="False" />
+              </lines>
+            </method>
+            <method name="isSingularSymbolic" signature="(PointerAnalyzer.AbsDom.AbsInt/AbsInt)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="215" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="isAndMask" signature="(PointerAnalyzer.AbsDom.AbsInt/AbsInt)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="217" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="getConst" signature="(PointerAnalyzer.AbsDom.AbsInt/AbsInt)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="219" hits="4" branch="False" />
+              </lines>
+            </method>
+            <method name="getSymbol" signature="(PointerAnalyzer.AbsDom.AbsInt/AbsInt)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="221" hits="1" branch="False" />
+              </lines>
+            </method>
+            <method name="getSingularSymbol" signature="(PointerAnalyzer.AbsDom.AbsInt/AbsInt)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="224" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="getConstPart" signature="(PointerAnalyzer.AbsDom.AbsInt/AbsInt)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="226" hits="1" branch="False" />
+              </lines>
+            </method>
+            <method name="add" signature="(PointerAnalyzer.AbsDom.AbsInt/AbsInt,PointerAnalyzer.AbsDom.AbsInt/AbsInt)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="228" hits="2" branch="False" />
+              </lines>
+            </method>
+            <method name="sub" signature="(PointerAnalyzer.AbsDom.AbsInt/AbsInt,PointerAnalyzer.AbsDom.AbsInt/AbsInt)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="230" hits="1" branch="False" />
+              </lines>
+            </method>
+            <method name="mul" signature="(PointerAnalyzer.AbsDom.AbsInt/AbsInt,PointerAnalyzer.AbsDom.AbsInt/AbsInt)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="232" hits="1" branch="False" />
+              </lines>
+            </method>
+            <method name="shl" signature="(PointerAnalyzer.AbsDom.AbsInt/AbsInt,PointerAnalyzer.AbsDom.AbsInt/AbsInt)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="234" hits="1" branch="False" />
+              </lines>
+            </method>
+            <method name="shr" signature="(PointerAnalyzer.AbsDom.AbsInt/AbsInt,PointerAnalyzer.AbsDom.AbsInt/AbsInt)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="236" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="sar" signature="(PointerAnalyzer.AbsDom.AbsInt/AbsInt,PointerAnalyzer.AbsDom.AbsInt/AbsInt)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="238" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="ofNUInt" signature="(System.UInt64)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="240" hits="9" branch="False" />
+              </lines>
+            </method>
+            <method name="ofSymbol" signature="(PointerAnalyzer.AbsDom.AbsInt/Symbol)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="242" hits="1" branch="False" />
+              </lines>
+            </method>
+            <method name="substitute" signature="(PointerAnalyzer.AbsDom.AbsInt/AbsInt,Microsoft.FSharp.Collections.FSharpMap`2&lt;PointerAnalyzer.AbsDom.AbsInt/Symbol,PointerAnalyzer.AbsDom.AbsInt/AbsInt&gt;)" line-rate="0" branch-rate="0" complexity="4">
+              <lines>
+                <line number="246" hits="0" branch="False" />
+                <line number="248" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="24" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="249" hits="0" branch="False" />
+                <line number="251" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="48" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="252" hits="0" branch="False" />
+                <line number="254" hits="0" branch="False" />
+                <line number="255" hits="0" branch="False" />
+                <line number="257" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="collectSymbols" signature="(PointerAnalyzer.AbsDom.AbsInt/AbsInt)" line-rate="0" branch-rate="0" complexity="2">
+              <lines>
+                <line number="261" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="18" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="262" hits="0" branch="False" />
+                <line number="264" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="mk" signature="(PointerAnalyzer.AbsDom.AbsInt/LinearInt)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="192" hits="15" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(PointerAnalyzer.Architecture)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="187" hits="1" branch="False" />
+                <line number="189" hits="1" branch="False" />
+                <line number="190" hits="1" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="194" hits="0" branch="False" />
+            <line number="196" hits="0" branch="False" />
+            <line number="198" hits="0" branch="False" />
+            <line number="200" hits="5" branch="False" />
+            <line number="202" hits="0" branch="False" />
+            <line number="204" hits="0" branch="False" />
+            <line number="206" hits="0" branch="False" />
+            <line number="208" hits="0" branch="False" />
+            <line number="210" hits="1" branch="False" />
+            <line number="212" hits="1" branch="False" />
+            <line number="215" hits="0" branch="False" />
+            <line number="217" hits="0" branch="False" />
+            <line number="219" hits="4" branch="False" />
+            <line number="221" hits="1" branch="False" />
+            <line number="224" hits="0" branch="False" />
+            <line number="226" hits="1" branch="False" />
+            <line number="228" hits="2" branch="False" />
+            <line number="230" hits="1" branch="False" />
+            <line number="232" hits="1" branch="False" />
+            <line number="234" hits="1" branch="False" />
+            <line number="236" hits="0" branch="False" />
+            <line number="238" hits="0" branch="False" />
+            <line number="240" hits="9" branch="False" />
+            <line number="242" hits="1" branch="False" />
+            <line number="246" hits="0" branch="False" />
+            <line number="248" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="24" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="249" hits="0" branch="False" />
+            <line number="251" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="48" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="252" hits="0" branch="False" />
+            <line number="254" hits="0" branch="False" />
+            <line number="255" hits="0" branch="False" />
+            <line number="257" hits="0" branch="False" />
+            <line number="261" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="18" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="262" hits="0" branch="False" />
+            <line number="264" hits="0" branch="False" />
+            <line number="192" hits="15" branch="False" />
+            <line number="187" hits="1" branch="False" />
+            <line number="189" hits="1" branch="False" />
+            <line number="190" hits="1" branch="False" />
+          </lines>
+        </class>
+        <class name="PointerAnalyzer.AbsDom.AbsInt/AbsIntDomain" filename="Domain/AbsInt.fs" line-rate="0.5" branch-rate="1" complexity="2">
+          <methods>
+            <method name="create" signature="(PointerAnalyzer.Architecture)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="267" hits="1" branch="False" />
+              </lines>
+            </method>
+            <method name="createFromString" signature="(System.String)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="270" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="267" hits="1" branch="False" />
+            <line number="270" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="PointerAnalyzer.AbsDom.AbsInt/LinearIntModule" filename="Domain/AbsInt.fs" line-rate="0.3146" branch-rate="0.1333" complexity="167">
+          <methods>
+            <method name="normalize" signature="(PointerAnalyzer.NativeNUInt,PointerAnalyzer.AbsDom.AbsInt/LinearInt)" line-rate="1" branch-rate="0.75" complexity="4">
+              <lines>
+                <line number="22" hits="26" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="9" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="23" hits="5" branch="True" condition-coverage="50% (1/2)">
+                  <conditions>
+                    <condition number="41" type="jump" coverage="50%" />
+                  </conditions>
+                </line>
+                <line number="24" hits="26" branch="False" />
+              </lines>
+            </method>
+            <method name="mkSym" signature="(PointerAnalyzer.NativeNUInt,System.UInt64,PointerAnalyzer.AbsDom.AbsInt/Symbol,System.UInt64)" line-rate="0" branch-rate="0" complexity="2">
+              <lines>
+                <line number="27" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="8" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="28" hits="0" branch="False" />
+                <line number="30" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="mkSymWIdx" signature="(PointerAnalyzer.NativeNUInt,System.UInt64,System.Int32,System.UInt64)" line-rate="0" branch-rate="0" complexity="2">
+              <lines>
+                <line number="33" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="8" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="34" hits="0" branch="False" />
+                <line number="36" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="leq" signature="(PointerAnalyzer.NativeNUInt,PointerAnalyzer.AbsDom.AbsInt/LinearInt,PointerAnalyzer.AbsDom.AbsInt/LinearInt)" line-rate="0" branch-rate="0" complexity="21">
+              <lines>
+                <line number="39" hits="0" branch="True" condition-coverage="0% (0/17)">
+                  <conditions>
+                    <condition number="31" type="switch" coverage="0%" />
+                    <condition number="97" type="switch" coverage="0%" />
+                    <condition number="161" type="switch" coverage="0%" />
+                    <condition number="64" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="41" hits="0" branch="False" />
+                <line number="42" hits="0" branch="False" />
+                <line number="44" hits="0" branch="True" condition-coverage="0% (0/4)">
+                  <conditions>
+                    <condition number="283" type="jump" coverage="0%" />
+                    <condition number="312" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="45" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="join" signature="(PointerAnalyzer.NativeNUInt,PointerAnalyzer.AbsDom.AbsInt/LinearInt,PointerAnalyzer.AbsDom.AbsInt/LinearInt)" line-rate="0" branch-rate="0" complexity="28">
+              <lines>
+                <line number="48" hits="0" branch="True" condition-coverage="0% (0/20)">
+                  <conditions>
+                    <condition number="31" type="switch" coverage="0%" />
+                    <condition number="117" type="switch" coverage="0%" />
+                    <condition number="196" type="switch" coverage="0%" />
+                    <condition number="68" type="switch" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="50" hits="0" branch="False" />
+                <line number="52" hits="0" branch="False" />
+                <line number="53" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="275" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="55" hits="0" branch="True" condition-coverage="0% (0/6)">
+                  <conditions>
+                    <condition number="344" type="jump" coverage="0%" />
+                    <condition number="373" type="jump" coverage="0%" />
+                    <condition number="386" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="57" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="toString" signature="(PointerAnalyzer.NativeNUInt,PointerAnalyzer.AbsDom.AbsInt/LinearInt)" line-rate="0.46149999999999997" branch-rate="0.4" complexity="15">
+              <lines>
+                <line number="60" hits="5" branch="True" condition-coverage="40% (2/5)">
+                  <conditions>
+                    <condition number="14" type="switch" coverage="40%" />
+                  </conditions>
+                </line>
+                <line number="61" hits="0" branch="False" />
+                <line number="62" hits="0" branch="False" />
+                <line number="63" hits="4" branch="False" />
+                <line number="65" hits="1" branch="True" condition-coverage="50% (1/2)">
+                  <conditions>
+                    <condition number="128" type="jump" coverage="50%" />
+                  </conditions>
+                </line>
+                <line number="66" hits="0" branch="False" />
+                <line number="67" hits="3" branch="True" condition-coverage="50% (2/4)">
+                  <conditions>
+                    <condition number="162" type="jump" coverage="50%" />
+                    <condition number="179" type="jump" coverage="50%" />
+                  </conditions>
+                </line>
+                <line number="68" hits="0" branch="False" />
+                <line number="69" hits="1" branch="True" condition-coverage="50% (1/2)">
+                  <conditions>
+                    <condition number="213" type="jump" coverage="50%" />
+                  </conditions>
+                </line>
+                <line number="70" hits="1" branch="False" />
+                <line number="71" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="258" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="72" hits="0" branch="False" />
+                <line number="74" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="isBot" signature="(PointerAnalyzer.AbsDom.AbsInt/LinearInt)" line-rate="0" branch-rate="0" complexity="2">
+              <lines>
+                <line number="78" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="7" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="79" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="isZero" signature="(PointerAnalyzer.NativeNUInt,PointerAnalyzer.AbsDom.AbsInt/LinearInt)" line-rate="0" branch-rate="0" complexity="4">
+              <lines>
+                <line number="82" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="15" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="83" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="40" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="84" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="isAndMask" signature="(PointerAnalyzer.NativeNUInt,PointerAnalyzer.AbsDom.AbsInt/LinearInt)" line-rate="0" branch-rate="0" complexity="7">
+              <lines>
+                <line number="87" hits="0" branch="True" condition-coverage="0% (0/5)">
+                  <conditions>
+                    <condition number="14" type="switch" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="89" hits="0" branch="False" />
+                <line number="90" hits="0" branch="False" />
+                <line number="91" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="95" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+              </lines>
+            </method>
+            <method name="isConst" signature="(PointerAnalyzer.NativeNUInt,PointerAnalyzer.AbsDom.AbsInt/LinearInt)" line-rate="0.6666" branch-rate="0.5" complexity="2">
+              <lines>
+                <line number="94" hits="2" branch="True" condition-coverage="50% (1/2)">
+                  <conditions>
+                    <condition number="15" type="jump" coverage="50%" />
+                  </conditions>
+                </line>
+                <line number="95" hits="2" branch="False" />
+                <line number="96" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="isSymbolic" signature="(PointerAnalyzer.NativeNUInt,PointerAnalyzer.AbsDom.AbsInt/LinearInt)" line-rate="0.6666" branch-rate="0.5" complexity="2">
+              <lines>
+                <line number="99" hits="1" branch="True" condition-coverage="50% (1/2)">
+                  <conditions>
+                    <condition number="15" type="jump" coverage="50%" />
+                  </conditions>
+                </line>
+                <line number="100" hits="1" branch="False" />
+                <line number="101" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="isSingularSymbolic" signature="(PointerAnalyzer.NativeNUInt,PointerAnalyzer.AbsDom.AbsInt/LinearInt)" line-rate="0" branch-rate="0" complexity="5">
+              <lines>
+                <line number="104" hits="0" branch="True" condition-coverage="0% (0/5)">
+                  <conditions>
+                    <condition number="14" type="switch" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="107" hits="0" branch="False" />
+                <line number="108" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="getConst" signature="(PointerAnalyzer.NativeNUInt,PointerAnalyzer.AbsDom.AbsInt/LinearInt)" line-rate="0.6666" branch-rate="0.5" complexity="2">
+              <lines>
+                <line number="111" hits="6" branch="True" condition-coverage="50% (1/2)">
+                  <conditions>
+                    <condition number="15" type="jump" coverage="50%" />
+                  </conditions>
+                </line>
+                <line number="112" hits="6" branch="False" />
+                <line number="113" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="getSymbol" signature="(PointerAnalyzer.NativeNUInt,PointerAnalyzer.AbsDom.AbsInt/LinearInt)" line-rate="0.6666" branch-rate="0.5" complexity="2">
+              <lines>
+                <line number="116" hits="1" branch="True" condition-coverage="50% (1/2)">
+                  <conditions>
+                    <condition number="15" type="jump" coverage="50%" />
+                  </conditions>
+                </line>
+                <line number="117" hits="1" branch="False" />
+                <line number="118" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="getConstPart" signature="(PointerAnalyzer.NativeNUInt,PointerAnalyzer.AbsDom.AbsInt/LinearInt)" line-rate="0.6666" branch-rate="0.2" complexity="5">
+              <lines>
+                <line number="121" hits="1" branch="True" condition-coverage="20% (1/5)">
+                  <conditions>
+                    <condition number="14" type="switch" coverage="20%" />
+                  </conditions>
+                </line>
+                <line number="123" hits="1" branch="False" />
+                <line number="124" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="getSingularSymbol" signature="(PointerAnalyzer.NativeNUInt,PointerAnalyzer.AbsDom.AbsInt/LinearInt)" line-rate="0" branch-rate="0" complexity="7">
+              <lines>
+                <line number="127" hits="0" branch="True" condition-coverage="0% (0/5)">
+                  <conditions>
+                    <condition number="14" type="switch" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="130" hits="0" branch="False" />
+                <line number="132" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="81" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+              </lines>
+            </method>
+            <method name="simpleBinOp" signature="(PointerAnalyzer.NativeNUInt,Microsoft.FSharp.Core.FSharpFunc`2&lt;System.UInt64,Microsoft.FSharp.Core.FSharpFunc`2&lt;System.UInt64,System.UInt64&gt;&gt;,PointerAnalyzer.AbsDom.AbsInt/LinearInt,PointerAnalyzer.AbsDom.AbsInt/LinearInt)" line-rate="0.3333" branch-rate="0.1818" complexity="22">
+              <lines>
+                <line number="135" hits="3" branch="True" condition-coverage="20% (4/20)">
+                  <conditions>
+                    <condition number="31" type="switch" coverage="40%" />
+                    <condition number="117" type="switch" coverage="20%" />
+                    <condition number="202" type="switch" coverage="20%" />
+                    <condition number="68" type="switch" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="137" hits="0" branch="False" />
+                <line number="139" hits="0" branch="False" />
+                <line number="140" hits="2" branch="False" />
+                <line number="141" hits="1" branch="False" />
+                <line number="142" hits="0" branch="False" />
+                <line number="143" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="332" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="144" hits="0" branch="False" />
+                <line number="145" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="add" signature="(PointerAnalyzer.NativeNUInt)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="147" hits="2" branch="False" />
+              </lines>
+            </method>
+            <method name="sub" signature="(PointerAnalyzer.NativeNUInt)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="148" hits="1" branch="False" />
+              </lines>
+            </method>
+            <method name="mul" signature="(PointerAnalyzer.NativeNUInt,PointerAnalyzer.AbsDom.AbsInt/LinearInt,PointerAnalyzer.AbsDom.AbsInt/LinearInt)" line-rate="0.3333" branch-rate="0.1" complexity="20">
+              <lines>
+                <line number="151" hits="2" branch="True" condition-coverage="10% (2/20)">
+                  <conditions>
+                    <condition number="31" type="switch" coverage="20%" />
+                    <condition number="117" type="switch" coverage="20%" />
+                    <condition number="202" type="switch" coverage="0%" />
+                    <condition number="68" type="switch" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="153" hits="0" branch="False" />
+                <line number="155" hits="0" branch="False" />
+                <line number="156" hits="2" branch="False" />
+                <line number="158" hits="0" branch="False" />
+                <line number="159" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="shl" signature="(PointerAnalyzer.NativeNUInt,PointerAnalyzer.AbsDom.AbsInt/LinearInt,PointerAnalyzer.AbsDom.AbsInt/LinearInt)" line-rate="0.6666" branch-rate="0.5" complexity="4">
+              <lines>
+                <line number="163" hits="3" branch="True" condition-coverage="50% (2/4)">
+                  <conditions>
+                    <condition number="8" type="jump" coverage="50%" />
+                    <condition number="30" type="jump" coverage="50%" />
+                  </conditions>
+                </line>
+                <line number="164" hits="1" branch="False" />
+                <line number="166" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="shr" signature="(PointerAnalyzer.NativeNUInt,PointerAnalyzer.AbsDom.AbsInt/LinearInt,PointerAnalyzer.AbsDom.AbsInt/LinearInt)" line-rate="0" branch-rate="0" complexity="4">
+              <lines>
+                <line number="170" hits="0" branch="True" condition-coverage="0% (0/4)">
+                  <conditions>
+                    <condition number="8" type="jump" coverage="0%" />
+                    <condition number="22" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="171" hits="0" branch="False" />
+                <line number="173" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="substSymbol" signature="(PointerAnalyzer.NativeNUInt,PointerAnalyzer.AbsDom.AbsInt/LinearInt,PointerAnalyzer.AbsDom.AbsInt/LinearInt)" line-rate="0" branch-rate="0" complexity="5">
+              <lines>
+                <line number="177" hits="0" branch="True" condition-coverage="0% (0/5)">
+                  <conditions>
+                    <condition number="8" type="switch" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="180" hits="0" branch="False" />
+                <line number="182" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="22" hits="26" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="9" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="23" hits="5" branch="True" condition-coverage="50% (1/2)">
+              <conditions>
+                <condition number="41" type="jump" coverage="50%" />
+              </conditions>
+            </line>
+            <line number="24" hits="26" branch="False" />
+            <line number="27" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="8" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="28" hits="0" branch="False" />
+            <line number="30" hits="0" branch="False" />
+            <line number="33" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="8" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="34" hits="0" branch="False" />
+            <line number="36" hits="0" branch="False" />
+            <line number="39" hits="0" branch="True" condition-coverage="0% (0/17)">
+              <conditions>
+                <condition number="31" type="switch" coverage="0%" />
+                <condition number="97" type="switch" coverage="0%" />
+                <condition number="161" type="switch" coverage="0%" />
+                <condition number="64" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="41" hits="0" branch="False" />
+            <line number="42" hits="0" branch="False" />
+            <line number="44" hits="0" branch="True" condition-coverage="0% (0/4)">
+              <conditions>
+                <condition number="283" type="jump" coverage="0%" />
+                <condition number="312" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="45" hits="0" branch="False" />
+            <line number="48" hits="0" branch="True" condition-coverage="0% (0/20)">
+              <conditions>
+                <condition number="31" type="switch" coverage="0%" />
+                <condition number="117" type="switch" coverage="0%" />
+                <condition number="196" type="switch" coverage="0%" />
+                <condition number="68" type="switch" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="50" hits="0" branch="False" />
+            <line number="52" hits="0" branch="False" />
+            <line number="53" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="275" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="55" hits="0" branch="True" condition-coverage="0% (0/6)">
+              <conditions>
+                <condition number="344" type="jump" coverage="0%" />
+                <condition number="373" type="jump" coverage="0%" />
+                <condition number="386" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="57" hits="0" branch="False" />
+            <line number="60" hits="5" branch="True" condition-coverage="40% (2/5)">
+              <conditions>
+                <condition number="14" type="switch" coverage="40%" />
+              </conditions>
+            </line>
+            <line number="61" hits="0" branch="False" />
+            <line number="62" hits="0" branch="False" />
+            <line number="63" hits="4" branch="False" />
+            <line number="65" hits="1" branch="True" condition-coverage="50% (1/2)">
+              <conditions>
+                <condition number="128" type="jump" coverage="50%" />
+              </conditions>
+            </line>
+            <line number="66" hits="0" branch="False" />
+            <line number="67" hits="3" branch="True" condition-coverage="50% (2/4)">
+              <conditions>
+                <condition number="162" type="jump" coverage="50%" />
+                <condition number="179" type="jump" coverage="50%" />
+              </conditions>
+            </line>
+            <line number="68" hits="0" branch="False" />
+            <line number="69" hits="1" branch="True" condition-coverage="50% (1/2)">
+              <conditions>
+                <condition number="213" type="jump" coverage="50%" />
+              </conditions>
+            </line>
+            <line number="70" hits="1" branch="False" />
+            <line number="71" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="258" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="72" hits="0" branch="False" />
+            <line number="74" hits="0" branch="False" />
+            <line number="78" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="7" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="79" hits="0" branch="False" />
+            <line number="82" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="15" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="83" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="40" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="84" hits="0" branch="False" />
+            <line number="87" hits="0" branch="True" condition-coverage="0% (0/5)">
+              <conditions>
+                <condition number="14" type="switch" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="89" hits="0" branch="False" />
+            <line number="90" hits="0" branch="False" />
+            <line number="91" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="95" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="94" hits="2" branch="True" condition-coverage="50% (1/2)">
+              <conditions>
+                <condition number="15" type="jump" coverage="50%" />
+              </conditions>
+            </line>
+            <line number="95" hits="2" branch="False" />
+            <line number="96" hits="0" branch="False" />
+            <line number="99" hits="1" branch="True" condition-coverage="50% (1/2)">
+              <conditions>
+                <condition number="15" type="jump" coverage="50%" />
+              </conditions>
+            </line>
+            <line number="100" hits="1" branch="False" />
+            <line number="101" hits="0" branch="False" />
+            <line number="104" hits="0" branch="True" condition-coverage="0% (0/5)">
+              <conditions>
+                <condition number="14" type="switch" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="107" hits="0" branch="False" />
+            <line number="108" hits="0" branch="False" />
+            <line number="111" hits="6" branch="True" condition-coverage="50% (1/2)">
+              <conditions>
+                <condition number="15" type="jump" coverage="50%" />
+              </conditions>
+            </line>
+            <line number="112" hits="6" branch="False" />
+            <line number="113" hits="0" branch="False" />
+            <line number="116" hits="1" branch="True" condition-coverage="50% (1/2)">
+              <conditions>
+                <condition number="15" type="jump" coverage="50%" />
+              </conditions>
+            </line>
+            <line number="117" hits="1" branch="False" />
+            <line number="118" hits="0" branch="False" />
+            <line number="121" hits="1" branch="True" condition-coverage="20% (1/5)">
+              <conditions>
+                <condition number="14" type="switch" coverage="20%" />
+              </conditions>
+            </line>
+            <line number="123" hits="1" branch="False" />
+            <line number="124" hits="0" branch="False" />
+            <line number="127" hits="0" branch="True" condition-coverage="0% (0/5)">
+              <conditions>
+                <condition number="14" type="switch" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="130" hits="0" branch="False" />
+            <line number="132" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="81" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="135" hits="3" branch="True" condition-coverage="20% (4/20)">
+              <conditions>
+                <condition number="31" type="switch" coverage="40%" />
+                <condition number="117" type="switch" coverage="20%" />
+                <condition number="202" type="switch" coverage="20%" />
+                <condition number="68" type="switch" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="137" hits="0" branch="False" />
+            <line number="139" hits="0" branch="False" />
+            <line number="140" hits="2" branch="False" />
+            <line number="141" hits="1" branch="False" />
+            <line number="142" hits="0" branch="False" />
+            <line number="143" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="332" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="144" hits="0" branch="False" />
+            <line number="145" hits="0" branch="False" />
+            <line number="147" hits="2" branch="False" />
+            <line number="148" hits="1" branch="False" />
+            <line number="151" hits="2" branch="True" condition-coverage="10% (2/20)">
+              <conditions>
+                <condition number="31" type="switch" coverage="20%" />
+                <condition number="117" type="switch" coverage="20%" />
+                <condition number="202" type="switch" coverage="0%" />
+                <condition number="68" type="switch" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="153" hits="0" branch="False" />
+            <line number="155" hits="0" branch="False" />
+            <line number="156" hits="2" branch="False" />
+            <line number="158" hits="0" branch="False" />
+            <line number="159" hits="0" branch="False" />
+            <line number="163" hits="3" branch="True" condition-coverage="50% (2/4)">
+              <conditions>
+                <condition number="8" type="jump" coverage="50%" />
+                <condition number="30" type="jump" coverage="50%" />
+              </conditions>
+            </line>
+            <line number="164" hits="1" branch="False" />
+            <line number="166" hits="0" branch="False" />
+            <line number="170" hits="0" branch="True" condition-coverage="0% (0/4)">
+              <conditions>
+                <condition number="8" type="jump" coverage="0%" />
+                <condition number="22" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="171" hits="0" branch="False" />
+            <line number="173" hits="0" branch="False" />
+            <line number="177" hits="0" branch="True" condition-coverage="0% (0/5)">
+              <conditions>
+                <condition number="8" type="switch" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="180" hits="0" branch="False" />
+            <line number="182" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="PointerAnalyzer.AbsDom.Functor/SetDomain`1" filename="Domain/Functor.fs" line-rate="0" branch-rate="0" complexity="14">
+          <methods>
+            <method name="get_bot" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="11" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="leq" signature="(Microsoft.FSharp.Collections.FSharpSet`1&lt;a&gt;,Microsoft.FSharp.Collections.FSharpSet`1&lt;a&gt;)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="13" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="join" signature="(Microsoft.FSharp.Collections.FSharpSet`1&lt;a&gt;,Microsoft.FSharp.Collections.FSharpSet`1&lt;a&gt;)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="15" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="toString" signature="(Microsoft.FSharp.Collections.FSharpSet`1&lt;a&gt;)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="18" hits="0" branch="False" />
+                <line number="19" hits="0" branch="False" />
+                <line number="20" hits="0" branch="False" />
+                <line number="21" hits="0" branch="False" />
+                <line number="22" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="isBot" signature="(Microsoft.FSharp.Collections.FSharpSet`1&lt;a&gt;)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="24" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="make" signature="(Microsoft.FSharp.Collections.FSharpList`1&lt;a&gt;)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="26" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="add" signature="(a,Microsoft.FSharp.Collections.FSharpSet`1&lt;a&gt;)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="28" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="filter" signature="(Microsoft.FSharp.Core.FSharpFunc`2&lt;a,System.Boolean&gt;,Microsoft.FSharp.Collections.FSharpSet`1&lt;a&gt;)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="30" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="map" signature="(Microsoft.FSharp.Core.FSharpFunc`2&lt;a,b&gt;,Microsoft.FSharp.Collections.FSharpSet`1&lt;a&gt;)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="32" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="choose" signature="(Microsoft.FSharp.Core.FSharpFunc`2&lt;a,Microsoft.FSharp.Core.FSharpOption`1&lt;b&gt;&gt;,Microsoft.FSharp.Collections.FSharpSet`1&lt;a&gt;)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="35" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="count" signature="(Microsoft.FSharp.Collections.FSharpSet`1&lt;a&gt;)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="37" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="getSingleton" signature="(Microsoft.FSharp.Collections.FSharpSet`1&lt;a&gt;)" line-rate="0" branch-rate="0" complexity="2">
+              <lines>
+                <line number="40" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="8" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="41" hits="0" branch="False" />
+                <line number="43" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(PointerAnalyzer.AbsDom.Signature/Elem`1&lt;a&gt;)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="9" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="11" hits="0" branch="False" />
+            <line number="13" hits="0" branch="False" />
+            <line number="15" hits="0" branch="False" />
+            <line number="18" hits="0" branch="False" />
+            <line number="19" hits="0" branch="False" />
+            <line number="20" hits="0" branch="False" />
+            <line number="21" hits="0" branch="False" />
+            <line number="22" hits="0" branch="False" />
+            <line number="24" hits="0" branch="False" />
+            <line number="26" hits="0" branch="False" />
+            <line number="28" hits="0" branch="False" />
+            <line number="30" hits="0" branch="False" />
+            <line number="32" hits="0" branch="False" />
+            <line number="35" hits="0" branch="False" />
+            <line number="37" hits="0" branch="False" />
+            <line number="40" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="8" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="41" hits="0" branch="False" />
+            <line number="43" hits="0" branch="False" />
+            <line number="9" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="PointerAnalyzer.AbsDom.Functor/Prod2Domain`2" filename="Domain/Functor.fs" line-rate="0" branch-rate="0" complexity="8">
+          <methods>
+            <method name="get_bot" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="48" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="leq" signature="(System.Tuple`2&lt;a,b&gt;,System.Tuple`2&lt;a,b&gt;)" line-rate="0" branch-rate="0" complexity="2">
+              <lines>
+                <line number="51" hits="0" branch="False" />
+                <line number="52" hits="0" branch="False" />
+                <line number="53" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="48" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+              </lines>
+            </method>
+            <method name="join" signature="(System.Tuple`2&lt;a,b&gt;,System.Tuple`2&lt;a,b&gt;)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="56" hits="0" branch="False" />
+                <line number="57" hits="0" branch="False" />
+                <line number="58" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="toString" signature="(System.Tuple`2&lt;a,b&gt;)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="61" hits="0" branch="False" />
+                <line number="62" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="isBot" signature="(System.Tuple`2&lt;a,b&gt;)" line-rate="0" branch-rate="0" complexity="2">
+              <lines>
+                <line number="65" hits="0" branch="False" />
+                <line number="66" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="28" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+              </lines>
+            </method>
+            <method name=".ctor" signature="(PointerAnalyzer.AbsDom.Signature/AbstractDomain`1&lt;a&gt;,PointerAnalyzer.AbsDom.Signature/AbstractDomain`1&lt;b&gt;)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="46" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="48" hits="0" branch="False" />
+            <line number="51" hits="0" branch="False" />
+            <line number="52" hits="0" branch="False" />
+            <line number="53" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="48" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="56" hits="0" branch="False" />
+            <line number="57" hits="0" branch="False" />
+            <line number="58" hits="0" branch="False" />
+            <line number="61" hits="0" branch="False" />
+            <line number="62" hits="0" branch="False" />
+            <line number="65" hits="0" branch="False" />
+            <line number="66" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="28" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="46" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="PointerAnalyzer.AbsDom.Functor/MapDomain`2" filename="Domain/Functor.fs" line-rate="0" branch-rate="0" complexity="10">
+          <methods>
+            <method name="get_bot" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="72" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="leq" signature="(Microsoft.FSharp.Collections.FSharpMap`2&lt;k,v&gt;,Microsoft.FSharp.Collections.FSharpMap`2&lt;k,v&gt;)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="75" hits="0" branch="False" />
+                <line number="76" hits="0" branch="False" />
+                <line number="77" hits="0" branch="False" />
+                <line number="78" hits="0" branch="False" />
+                <line number="79" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="join" signature="(Microsoft.FSharp.Collections.FSharpMap`2&lt;k,v&gt;,Microsoft.FSharp.Collections.FSharpMap`2&lt;k,v&gt;)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="82" hits="0" branch="False" />
+                <line number="83" hits="0" branch="False" />
+                <line number="84" hits="0" branch="False" />
+                <line number="85" hits="0" branch="False" />
+                <line number="86" hits="0" branch="False" />
+                <line number="87" hits="0" branch="False" />
+                <line number="88" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="toString" signature="(Microsoft.FSharp.Collections.FSharpMap`2&lt;k,v&gt;)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="91" hits="0" branch="False" />
+                <line number="92" hits="0" branch="False" />
+                <line number="93" hits="0" branch="False" />
+                <line number="94" hits="0" branch="False" />
+                <line number="95" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="isBot" signature="(Microsoft.FSharp.Collections.FSharpMap`2&lt;k,v&gt;)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="97" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="find" signature="(a,Microsoft.FSharp.Collections.FSharpMap`2&lt;a,v&gt;)" line-rate="0" branch-rate="0" complexity="2">
+              <lines>
+                <line number="100" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="9" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="101" hits="0" branch="False" />
+                <line number="102" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="add" signature="(a,b,Microsoft.FSharp.Collections.FSharpMap`2&lt;a,b&gt;)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="104" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="contains" signature="(a,Microsoft.FSharp.Collections.FSharpMap`2&lt;a,b&gt;)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="106" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(PointerAnalyzer.AbsDom.Signature/Elem`1&lt;k&gt;,PointerAnalyzer.AbsDom.Signature/AbstractDomain`1&lt;v&gt;)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="70" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="72" hits="0" branch="False" />
+            <line number="75" hits="0" branch="False" />
+            <line number="76" hits="0" branch="False" />
+            <line number="77" hits="0" branch="False" />
+            <line number="78" hits="0" branch="False" />
+            <line number="79" hits="0" branch="False" />
+            <line number="82" hits="0" branch="False" />
+            <line number="83" hits="0" branch="False" />
+            <line number="84" hits="0" branch="False" />
+            <line number="85" hits="0" branch="False" />
+            <line number="86" hits="0" branch="False" />
+            <line number="87" hits="0" branch="False" />
+            <line number="88" hits="0" branch="False" />
+            <line number="91" hits="0" branch="False" />
+            <line number="92" hits="0" branch="False" />
+            <line number="93" hits="0" branch="False" />
+            <line number="94" hits="0" branch="False" />
+            <line number="95" hits="0" branch="False" />
+            <line number="97" hits="0" branch="False" />
+            <line number="100" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="9" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="101" hits="0" branch="False" />
+            <line number="102" hits="0" branch="False" />
+            <line number="104" hits="0" branch="False" />
+            <line number="106" hits="0" branch="False" />
+            <line number="70" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="PointerAnalyzer.AbsDom.Functor/leq@76" filename="Domain/Functor.fs" line-rate="1" branch-rate="0" complexity="2">
+          <methods />
+          <lines />
+        </class>
+        <class name="PointerAnalyzer.AbsDom.Functor/join@84" filename="Domain/Functor.fs" line-rate="1" branch-rate="0" complexity="2">
+          <methods />
+          <lines />
+        </class>
+        <class name="PointerAnalyzer.AbsDom.Signature/AbstractDomain`1" filename="Domain/Signature.fs" line-rate="1" branch-rate="1" complexity="1">
+          <methods>
+            <method name=".ctor" signature="()" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="4" hits="1" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="4" hits="1" branch="False" />
+          </lines>
+        </class>
+        <class name="PointerAnalyzer.AbsDom.Signature/Elem`1" filename="Domain/Signature.fs" line-rate="0" branch-rate="1" complexity="1">
+          <methods>
+            <method name=".ctor" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="12" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="12" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="PointerAnalyzer.IntTypes" filename="Core/IntTypesLoader.fs" line-rate="1" branch-rate="1" complexity="1">
+          <methods>
+            <method name="load" signature="(PointerAnalyzer.Architecture)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="5" hits="2" branch="False" />
+                <line number="6" hits="2" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="5" hits="2" branch="False" />
+            <line number="6" hits="2" branch="False" />
+          </lines>
+        </class>
+        <class name="PointerAnalyzer.Convention.X86_32.IntTypes/NUInt" filename="Convention/x86_32/IntTypes.fs" line-rate="0.23070000000000002" branch-rate="0.5" complexity="13">
+          <methods>
+            <method name="ofInt" signature="(System.Int32)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="27" hits="13" branch="False" />
+              </lines>
+            </method>
+            <method name="toInt" signature="(System.UInt64)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="29" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="ofNInt" signature="(System.Int64)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="31" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="toNInt" signature="(System.UInt64)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="33" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="ofUInt64" signature="(System.UInt64)" line-rate="0" branch-rate="0" complexity="2">
+              <lines>
+                <line number="36" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="7" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="37" hits="0" branch="False" />
+                <line number="39" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="toUInt64" signature="(System.UInt64)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="41" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="add" signature="(System.UInt64,System.UInt64)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="43" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="sub" signature="(System.UInt64,System.UInt64)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="45" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="powOfTwoAux" signature="(System.UInt64,System.UInt64)" line-rate="1" branch-rate="1" complexity="2">
+              <lines>
+                <line number="48" hits="4" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="2" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+              </lines>
+            </method>
+            <method name="powOfTwo" signature="(System.UInt64)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="50" hits="1" branch="False" />
+              </lines>
+            </method>
+            <method name="isAndMask" signature="(System.UInt64)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="52" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="27" hits="13" branch="False" />
+            <line number="29" hits="0" branch="False" />
+            <line number="31" hits="0" branch="False" />
+            <line number="33" hits="0" branch="False" />
+            <line number="36" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="7" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="37" hits="0" branch="False" />
+            <line number="39" hits="0" branch="False" />
+            <line number="41" hits="0" branch="False" />
+            <line number="43" hits="0" branch="False" />
+            <line number="45" hits="0" branch="False" />
+            <line number="48" hits="4" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="2" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="50" hits="1" branch="False" />
+            <line number="52" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="&lt;StartupCode$PointerAnalyzer&gt;.$PointerAnalyzer.Convention.X86_32.IntTypes" filename="Convention/x86_32/IntTypes.fs" line-rate="1" branch-rate="1" complexity="1">
+          <methods>
+            <method name=".cctor" signature="()" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="7" hits="1" branch="False" />
+                <line number="8" hits="1" branch="False" />
+                <line number="9" hits="1" branch="False" />
+                <line number="10" hits="1" branch="False" />
+                <line number="11" hits="1" branch="False" />
+                <line number="12" hits="1" branch="False" />
+                <line number="15" hits="1" branch="False" />
+                <line number="16" hits="1" branch="False" />
+                <line number="17" hits="1" branch="False" />
+                <line number="18" hits="1" branch="False" />
+                <line number="19" hits="1" branch="False" />
+                <line number="20" hits="1" branch="False" />
+                <line number="21" hits="1" branch="False" />
+                <line number="22" hits="1" branch="False" />
+                <line number="23" hits="1" branch="False" />
+                <line number="24" hits="1" branch="False" />
+                <line number="25" hits="1" branch="False" />
+                <line number="54" hits="1" branch="False" />
+                <line number="55" hits="1" branch="False" />
+                <line number="56" hits="1" branch="False" />
+                <line number="57" hits="1" branch="False" />
+                <line number="58" hits="1" branch="False" />
+                <line number="59" hits="1" branch="False" />
+                <line number="60" hits="1" branch="False" />
+                <line number="61" hits="1" branch="False" />
+                <line number="62" hits="1" branch="False" />
+                <line number="63" hits="1" branch="False" />
+                <line number="64" hits="1" branch="False" />
+                <line number="65" hits="1" branch="False" />
+                <line number="66" hits="1" branch="False" />
+                <line number="67" hits="1" branch="False" />
+                <line number="68" hits="1" branch="False" />
+                <line number="69" hits="1" branch="False" />
+                <line number="70" hits="1" branch="False" />
+                <line number="71" hits="1" branch="False" />
+                <line number="72" hits="1" branch="False" />
+                <line number="73" hits="1" branch="False" />
+                <line number="74" hits="1" branch="False" />
+                <line number="75" hits="1" branch="False" />
+                <line number="76" hits="1" branch="False" />
+                <line number="77" hits="1" branch="False" />
+                <line number="78" hits="1" branch="False" />
+                <line number="79" hits="1" branch="False" />
+                <line number="80" hits="1" branch="False" />
+                <line number="81" hits="1" branch="False" />
+                <line number="82" hits="1" branch="False" />
+                <line number="83" hits="1" branch="False" />
+                <line number="84" hits="1" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="7" hits="1" branch="False" />
+            <line number="8" hits="1" branch="False" />
+            <line number="9" hits="1" branch="False" />
+            <line number="10" hits="1" branch="False" />
+            <line number="11" hits="1" branch="False" />
+            <line number="12" hits="1" branch="False" />
+            <line number="15" hits="1" branch="False" />
+            <line number="16" hits="1" branch="False" />
+            <line number="17" hits="1" branch="False" />
+            <line number="18" hits="1" branch="False" />
+            <line number="19" hits="1" branch="False" />
+            <line number="20" hits="1" branch="False" />
+            <line number="21" hits="1" branch="False" />
+            <line number="22" hits="1" branch="False" />
+            <line number="23" hits="1" branch="False" />
+            <line number="24" hits="1" branch="False" />
+            <line number="25" hits="1" branch="False" />
+            <line number="54" hits="1" branch="False" />
+            <line number="55" hits="1" branch="False" />
+            <line number="56" hits="1" branch="False" />
+            <line number="57" hits="1" branch="False" />
+            <line number="58" hits="1" branch="False" />
+            <line number="59" hits="1" branch="False" />
+            <line number="60" hits="1" branch="False" />
+            <line number="61" hits="1" branch="False" />
+            <line number="62" hits="1" branch="False" />
+            <line number="63" hits="1" branch="False" />
+            <line number="64" hits="1" branch="False" />
+            <line number="65" hits="1" branch="False" />
+            <line number="66" hits="1" branch="False" />
+            <line number="67" hits="1" branch="False" />
+            <line number="68" hits="1" branch="False" />
+            <line number="69" hits="1" branch="False" />
+            <line number="70" hits="1" branch="False" />
+            <line number="71" hits="1" branch="False" />
+            <line number="72" hits="1" branch="False" />
+            <line number="73" hits="1" branch="False" />
+            <line number="74" hits="1" branch="False" />
+            <line number="75" hits="1" branch="False" />
+            <line number="76" hits="1" branch="False" />
+            <line number="77" hits="1" branch="False" />
+            <line number="78" hits="1" branch="False" />
+            <line number="79" hits="1" branch="False" />
+            <line number="80" hits="1" branch="False" />
+            <line number="81" hits="1" branch="False" />
+            <line number="82" hits="1" branch="False" />
+            <line number="83" hits="1" branch="False" />
+            <line number="84" hits="1" branch="False" />
+          </lines>
+        </class>
+        <class name="PointerAnalyzer.ArchitectureModule" filename="Core/IntTypes.fs" line-rate="0" branch-rate="0" complexity="8">
+          <methods>
+            <method name="ofString" signature="(System.String)" line-rate="0" branch-rate="0" complexity="8">
+              <lines>
+                <line number="7" hits="0" branch="True" condition-coverage="0% (0/8)">
+                  <conditions>
+                    <condition number="13" type="jump" coverage="0%" />
+                    <condition number="26" type="jump" coverage="0%" />
+                    <condition number="39" type="jump" coverage="0%" />
+                    <condition number="52" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="11" hits="0" branch="False" />
+                <line number="13" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="7" hits="0" branch="True" condition-coverage="0% (0/8)">
+              <conditions>
+                <condition number="13" type="jump" coverage="0%" />
+                <condition number="26" type="jump" coverage="0%" />
+                <condition number="39" type="jump" coverage="0%" />
+                <condition number="52" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="11" hits="0" branch="False" />
+            <line number="13" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="PointerAnalyzer.Utils" filename="Core/Utils.fs" line-rate="0" branch-rate="0" complexity="6">
+          <methods>
+            <method name="print" signature="(System.String)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="8" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="println" signature="(System.String)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="10" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="logInternal" signature="(System.String,Microsoft.FSharp.Core.PrintfFormat`4&lt;a,Microsoft.FSharp.Core.Unit,System.String,Microsoft.FSharp.Core.Unit&gt;)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="13" hits="0" branch="False" />
+                <line number="14" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="logInfo" signature="(Microsoft.FSharp.Core.PrintfFormat`4&lt;a,Microsoft.FSharp.Core.Unit,System.String,Microsoft.FSharp.Core.Unit&gt;)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="16" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="checkFileExist" signature="(System.String)" line-rate="0" branch-rate="0" complexity="2">
+              <lines>
+                <line number="25" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="11" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="26" hits="0" branch="False" />
+                <line number="27" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="8" hits="0" branch="False" />
+            <line number="10" hits="0" branch="False" />
+            <line number="13" hits="0" branch="False" />
+            <line number="14" hits="0" branch="False" />
+            <line number="16" hits="0" branch="False" />
+            <line number="25" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="11" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="26" hits="0" branch="False" />
+            <line number="27" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="&lt;StartupCode$PointerAnalyzer&gt;.$PointerAnalyzer.Utils" filename="Core/Utils.fs" line-rate="0" branch-rate="1" complexity="1">
+          <methods>
+            <method name=".cctor" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="6" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="6" hits="0" branch="False" />
+          </lines>
+        </class>
+      </classes>
+    </package>
+  </packages>
+</coverage>
