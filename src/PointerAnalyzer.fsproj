@@ -10,7 +10,6 @@
     <Compile Include="Core/Utils.fs" />
     <Compile Include="Core/IntTypes.fs" />
     <Compile Include="Domain/Signature.fs" />
-    <Compile Include="Domain/Functor.fs" />
     <Compile Include="Domain/AbsVal.fs" />
     <Compile Include="Domain/RegMap.fs" />
     <Compile Include="Domain/TypeMap.fs" />
