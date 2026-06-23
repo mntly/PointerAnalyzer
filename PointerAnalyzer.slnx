@@ -1,5 +1,3 @@
 <Solution>
-  <Folder Name="/src/" />
   <Project Path="src/PointerAnalyzer.fsproj" />
-  <Project Path="src/Domain.Tests/Domain.Tests.fsproj" />
 </Solution>

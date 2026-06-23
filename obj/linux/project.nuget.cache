@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "mKLsIArLUK4=",
+  "success": true,
+  "projectFilePath": "/mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/PointerAnalyzer.fsproj",
+  "expectedPackageFiles": [
+    "/home/mntly/.nuget/packages/fsharp.core/10.0.108/fsharp.core.10.0.108.nupkg.sha512",
+    "/home/mntly/.nuget/packages/microsoft.z3/4.12.2/microsoft.z3.4.12.2.nupkg.sha512"
+  ],
+  "logs": []
+}

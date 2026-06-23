@@ -1,36 +1,76 @@
 module PointerAnalyzer.AbsDom.AbsMem
 
 open PointerAnalyzer
-open PointerAnalyzer.AbsDom.Functor
-open PointerAnalyzer.AbsDom.AbsLoc
 open PointerAnalyzer.AbsDom.AbsVal
+open PointerAnalyzer.AbsDom.TypeMap
 
-type AbsMem = Map<AbsLoc, AbsVal>
+/// L = <memory SSA version, concrete address>
+[<StructuralEquality; StructuralComparison>]
+type MemLoc = { Version: int; Address: uint64 }
+
+type MemVal = { Value: AbsVal; TypeId: TypeId }
+
+type AbsMem = Map<MemLoc, MemVal>
 
 type AbsMemModule (architecture: Architecture) =
-  inherit
-    MapDomain<AbsLoc, AbsVal> (
-      AbsLocDomain.create architecture,
-      AbsValDomain.create architecture
-    )
-
   let absVal = AbsValDomain.create architecture
 
-  member __.findSet locs mem =
-    Set.fold (fun acc loc -> absVal.join acc (__.find loc mem)) absVal.bot locs
+  member _.bot: AbsMem = Map.empty
 
-  member __.weakStore loc value mem =
-    let old = __.find loc mem
-    __.add loc (absVal.join old value) mem
+  member _.location version address =
+    { Version = version; Address = address }
 
-  member __.strongStore loc value mem = __.add loc value mem
+  member _.tryFind location (memory: AbsMem) = Map.tryFind location memory
 
-  member __.store locs value mem =
-    // Need to handle Unkonwn
-    if Set.count locs = 1 then
-      __.strongStore (Set.minElement locs) value mem
+  member _.add location cell (memory: AbsMem) = Map.add location cell memory
+
+  member _.updateVersion prevVersion newVersion (memory: AbsMem) =
+    if prevVersion = newVersion then
+      memory
     else
-      Set.fold (fun acc loc -> __.weakStore loc value acc) mem locs
+      memory
+      |> Map.fold
+        (fun acc location value ->
+          if location.Version <> prevVersion then
+            acc
+          else
+            let newLoc = { location with Version = newVersion }
+
+            if Map.containsKey newLoc acc then
+              acc
+            else
+              Map.add newLoc value acc)
+        memory
+
+  member _.join left (right: AbsMem) =
+    right
+    |> Map.fold
+      (fun acc location value ->
+        match Map.tryFind location acc with
+        | None -> Map.add location value acc
+        | Some old ->
+          let typeId =
+            if old.TypeId = value.TypeId then old.TypeId else old.TypeId
+          // ToDo! Add constraint Same TypeId
+
+          Map.add
+            location
+            { Value = absVal.join old.Value value.Value
+              TypeId = typeId }
+            acc)
+      left
+
+  member _.toString memory =
+    memory
+    |> Map.toList
+    |> List.map (fun (location, value) ->
+      sprintf
+        "<MEM_%d, 0x%x> |-> <%s, t%d>"
+        location.Version
+        location.Address
+        (absVal.toString value.Value)
+        value.TypeId)
+    |> String.concat "\n"
 
 module AbsMemDomain =
   let create architecture = AbsMemModule architecture

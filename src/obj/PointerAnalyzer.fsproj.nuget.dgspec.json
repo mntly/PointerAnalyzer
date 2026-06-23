@@ -61,6 +61,11 @@
               "target": "Package",
               "version": "[10.0.108, )",
               "generatePathProperty": true
+            },
+            "Microsoft.Z3": {
+              "target": "Package",
+              "version": "[4.12.2, )",
+              "generatePathProperty": true
             }
           },
           "imports": [

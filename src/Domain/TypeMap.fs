@@ -1,44 +1,30 @@
 module PointerAnalyzer.AbsDom.TypeMap
 
-open PointerAnalyzer.AbsDom.Signature
-open PointerAnalyzer.AbsDom.Functor
-open PointerAnalyzer.AbsDom.AbsType
+open B2R2.BinIR.SSA
 
-/// Type variable used as a key in the abstract type map.
-type TypePtr = TypePtr of int
+type TypeId = int
 
-module TypePtr =
-  let bot = TypePtr 0
-  let baseAddr = TypePtr 1
-  let baseVal = TypePtr 2
-  let top = TypePtr 3
-  let firstFreshId = 4
+/// T_I = R -> N
+type TypeIndicatorMap = Map<Variable, TypeId>
 
-  let toString =
-    function
-    | TypePtr id -> sprintf "TypePtr(%d)" id
-
-type private TypePtrElem () =
-  inherit Elem<TypePtr> ()
-
-  override __.toString tptr = TypePtr.toString tptr
-
-/// Map from type variables to the two-point abstract type domain.
-type TypeMap = Map<TypePtr, TwoType>
+type TypeMap = TypeIndicatorMap
 
 type TypeMapModule () =
-  inherit MapDomain<TypePtr, TwoType> (TypePtrElem (), AbsTypeDomain.create ())
+  member _.bot: TypeIndicatorMap = Map.empty
 
-  member __.initial =
-    Map.ofList
-      [ TypePtr.bot, Bot
-        TypePtr.baseAddr, Address
-        TypePtr.baseVal, Value
-        TypePtr.top, Top ]
+  member _.tryFind variable typeIndicators = Map.tryFind variable typeIndicators
 
-  override this.bot = this.initial
+  member _.find variable typeIndicators = Map.tryFind variable typeIndicators
 
-  member __.make entries : TypeMap = Map.ofList entries
+  member _.add variable typeId typeIndicators =
+    Map.add variable typeId typeIndicators
+
+  member _.toString typeIndicators =
+    typeIndicators
+    |> Map.toList
+    |> List.map (fun (variable, typeId) ->
+      sprintf "%s |-> tid_%d" (Variable.ToString variable) typeId)
+    |> String.concat "\n"
 
 module TypeMapDomain =
   let create () = TypeMapModule ()

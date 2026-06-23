@@ -11,7 +11,8 @@
           "Argu": "6.2.5",
           "B2R2.FrontEnd.API": "0.9.1",
           "B2R2.MiddleEnd.API": "0.9.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203",
+          "Microsoft.Z3": "4.12.2"
         },
         "runtime": {
           "PointerAnalyzer.dll": {}
@@ -19,7 +20,7 @@
       },
       "Argu/6.2.5": {
         "dependencies": {
-          "FSharp.Core": "10.0.108",
+          "FSharp.Core": "10.1.203",
           "System.Configuration.ConfigurationManager": "4.4.0"
         },
         "runtime": {
@@ -33,7 +34,7 @@
         "dependencies": {
           "B2R2.Core": "0.9.1",
           "FParsec": "1.1.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/net9.0/B2R2.BinIR.dll": {
@@ -44,7 +45,7 @@
       },
       "B2R2.Core/0.9.1": {
         "dependencies": {
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/net9.0/B2R2.Core.dll": {
@@ -74,7 +75,7 @@
           "B2R2.FrontEnd.SPARC": "0.9.1",
           "B2R2.FrontEnd.TMS320C6000": "0.9.1",
           "B2R2.FrontEnd.WASM": "0.9.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/net9.0/B2R2.FrontEnd.API.dll": {
@@ -90,7 +91,7 @@
           "B2R2.FrontEnd.BinFile": "0.9.1",
           "B2R2.FrontEnd.BinLifter": "0.9.1",
           "B2R2.FrontEnd.Registers": "0.9.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/net9.0/B2R2.FrontEnd.ARM32.dll": {
@@ -105,7 +106,7 @@
           "B2R2.Core": "0.9.1",
           "B2R2.FrontEnd.BinLifter": "0.9.1",
           "B2R2.FrontEnd.Registers": "0.9.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/net9.0/B2R2.FrontEnd.ARM64.dll": {
@@ -120,7 +121,7 @@
           "B2R2.Core": "0.9.1",
           "B2R2.FrontEnd.BinLifter": "0.9.1",
           "B2R2.FrontEnd.Registers": "0.9.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/net9.0/B2R2.FrontEnd.AVR.dll": {
@@ -135,7 +136,7 @@
           "B2R2.Core": "0.9.1",
           "B2R2.FrontEnd.BinLifter": "0.9.1",
           "B2R2.FrontEnd.Registers": "0.9.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/net9.0/B2R2.FrontEnd.BinFile.dll": {
@@ -148,7 +149,7 @@
         "dependencies": {
           "B2R2.BinIR": "0.9.1",
           "B2R2.Core": "0.9.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/net9.0/B2R2.FrontEnd.BinLifter.dll": {
@@ -162,7 +163,7 @@
           "B2R2.BinIR": "0.9.1",
           "B2R2.Core": "0.9.1",
           "B2R2.FrontEnd.BinLifter": "0.9.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/net9.0/B2R2.FrontEnd.CIL.dll": {
@@ -176,7 +177,7 @@
           "B2R2.BinIR": "0.9.1",
           "B2R2.Core": "0.9.1",
           "B2R2.FrontEnd.BinLifter": "0.9.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/net9.0/B2R2.FrontEnd.EVM.dll": {
@@ -191,7 +192,7 @@
           "B2R2.Core": "0.9.1",
           "B2R2.FrontEnd.BinLifter": "0.9.1",
           "B2R2.FrontEnd.Registers": "0.9.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/net9.0/B2R2.FrontEnd.Intel.dll": {
@@ -206,7 +207,7 @@
           "B2R2.Core": "0.9.1",
           "B2R2.FrontEnd.BinLifter": "0.9.1",
           "B2R2.FrontEnd.Registers": "0.9.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/net9.0/B2R2.FrontEnd.MIPS.dll": {
@@ -221,7 +222,7 @@
           "B2R2.Core": "0.9.1",
           "B2R2.FrontEnd.BinLifter": "0.9.1",
           "B2R2.FrontEnd.Registers": "0.9.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/net9.0/B2R2.FrontEnd.PARISC.dll": {
@@ -236,7 +237,7 @@
           "B2R2.Core": "0.9.1",
           "B2R2.FrontEnd.BinLifter": "0.9.1",
           "B2R2.FrontEnd.Registers": "0.9.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/net9.0/B2R2.FrontEnd.PPC32.dll": {
@@ -251,7 +252,7 @@
           "B2R2.Core": "0.9.1",
           "B2R2.FrontEnd.BinFile": "0.9.1",
           "B2R2.FrontEnd.BinLifter": "0.9.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/net9.0/B2R2.FrontEnd.Python.dll": {
@@ -263,7 +264,7 @@
       "B2R2.FrontEnd.Registers/0.9.1": {
         "dependencies": {
           "B2R2.Core": "0.9.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/net9.0/B2R2.FrontEnd.Registers.dll": {
@@ -278,7 +279,7 @@
           "B2R2.Core": "0.9.1",
           "B2R2.FrontEnd.BinLifter": "0.9.1",
           "B2R2.FrontEnd.Registers": "0.9.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/net9.0/B2R2.FrontEnd.RISCV64.dll": {
@@ -293,7 +294,7 @@
           "B2R2.Core": "0.9.1",
           "B2R2.FrontEnd.BinLifter": "0.9.1",
           "B2R2.FrontEnd.Registers": "0.9.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/net9.0/B2R2.FrontEnd.S390.dll": {
@@ -308,7 +309,7 @@
           "B2R2.Core": "0.9.1",
           "B2R2.FrontEnd.BinLifter": "0.9.1",
           "B2R2.FrontEnd.Registers": "0.9.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/net9.0/B2R2.FrontEnd.SH4.dll": {
@@ -323,7 +324,7 @@
           "B2R2.Core": "0.9.1",
           "B2R2.FrontEnd.BinLifter": "0.9.1",
           "B2R2.FrontEnd.Registers": "0.9.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/net9.0/B2R2.FrontEnd.SPARC.dll": {
@@ -338,7 +339,7 @@
           "B2R2.Core": "0.9.1",
           "B2R2.FrontEnd.BinLifter": "0.9.1",
           "B2R2.FrontEnd.Registers": "0.9.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/net9.0/B2R2.FrontEnd.TMS320C6000.dll": {
@@ -352,7 +353,7 @@
           "B2R2.BinIR": "0.9.1",
           "B2R2.Core": "0.9.1",
           "B2R2.FrontEnd.BinLifter": "0.9.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/net9.0/B2R2.FrontEnd.WASM.dll": {
@@ -369,7 +370,7 @@
           "B2R2.MiddleEnd.ControlFlowAnalysis": "0.9.1",
           "B2R2.MiddleEnd.ControlFlowGraph": "0.9.1",
           "B2R2.MiddleEnd.DataFlow": "0.9.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/net9.0/B2R2.MiddleEnd.API.dll": {
@@ -381,7 +382,7 @@
       "B2R2.MiddleEnd.BinGraph/0.9.1": {
         "dependencies": {
           "B2R2.FrontEnd.API": "0.9.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/net9.0/B2R2.MiddleEnd.BinGraph.dll": {
@@ -393,7 +394,7 @@
       "B2R2.MiddleEnd.ConcEval/0.9.1": {
         "dependencies": {
           "B2R2.BinIR": "0.9.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/net9.0/B2R2.MiddleEnd.ConcEval.dll": {
@@ -410,7 +411,7 @@
           "B2R2.MiddleEnd.ControlFlowGraph": "0.9.1",
           "B2R2.MiddleEnd.DataFlow": "0.9.1",
           "B2R2.MiddleEnd.SSA": "0.9.1",
-          "FSharp.Core": "10.0.108",
+          "FSharp.Core": "10.1.203",
           "FSharp.Data": "6.6.0",
           "SHA3Core": "1.0.1"
         },
@@ -425,7 +426,7 @@
         "dependencies": {
           "B2R2.FrontEnd.API": "0.9.1",
           "B2R2.MiddleEnd.BinGraph": "0.9.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/net9.0/B2R2.MiddleEnd.ControlFlowGraph.dll": {
@@ -438,7 +439,7 @@
         "dependencies": {
           "B2R2.MiddleEnd.BinGraph": "0.9.1",
           "B2R2.MiddleEnd.ControlFlowGraph": "0.9.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/net9.0/B2R2.MiddleEnd.DataFlow.dll": {
@@ -453,7 +454,7 @@
           "B2R2.MiddleEnd.BinGraph": "0.9.1",
           "B2R2.MiddleEnd.ControlFlowGraph": "0.9.1",
           "B2R2.MiddleEnd.DataFlow": "0.9.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/net9.0/B2R2.MiddleEnd.SSA.dll": {
@@ -464,7 +465,7 @@
       },
       "FParsec/1.1.1": {
         "dependencies": {
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/netstandard2.0/FParsec.dll": {
@@ -477,11 +478,11 @@
           }
         }
       },
-      "FSharp.Core/10.0.108": {
+      "FSharp.Core/10.1.203": {
         "runtime": {
           "lib/netstandard2.1/FSharp.Core.dll": {
-            "assemblyVersion": "10.0.0.0",
-            "fileVersion": "10.1.826.23019"
+            "assemblyVersion": "10.1.0.0",
+            "fileVersion": "10.102.326.22005"
           }
         },
         "resources": {
@@ -528,7 +529,7 @@
       },
       "FSharp.Data/6.6.0": {
         "dependencies": {
-          "FSharp.Core": "10.0.108",
+          "FSharp.Core": "10.1.203",
           "FSharp.Data.Csv.Core": "6.6.0",
           "FSharp.Data.Html.Core": "6.6.0",
           "FSharp.Data.Http": "6.6.0",
@@ -546,7 +547,7 @@
       },
       "FSharp.Data.Csv.Core/6.6.0": {
         "dependencies": {
-          "FSharp.Core": "10.0.108",
+          "FSharp.Core": "10.1.203",
           "FSharp.Data.Runtime.Utilities": "6.6.0"
         },
         "runtime": {
@@ -558,7 +559,7 @@
       },
       "FSharp.Data.Html.Core/6.6.0": {
         "dependencies": {
-          "FSharp.Core": "10.0.108",
+          "FSharp.Core": "10.1.203",
           "FSharp.Data.Csv.Core": "6.6.0",
           "FSharp.Data.Runtime.Utilities": "6.6.0"
         },
@@ -571,7 +572,7 @@
       },
       "FSharp.Data.Http/6.6.0": {
         "dependencies": {
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.1.203"
         },
         "runtime": {
           "lib/netstandard2.0/FSharp.Data.Http.dll": {
@@ -582,7 +583,7 @@
       },
       "FSharp.Data.Json.Core/6.6.0": {
         "dependencies": {
-          "FSharp.Core": "10.0.108",
+          "FSharp.Core": "10.1.203",
           "FSharp.Data.Http": "6.6.0",
           "FSharp.Data.Runtime.Utilities": "6.6.0"
         },
@@ -595,7 +596,7 @@
       },
       "FSharp.Data.Runtime.Utilities/6.6.0": {
         "dependencies": {
-          "FSharp.Core": "10.0.108",
+          "FSharp.Core": "10.1.203",
           "FSharp.Data.Http": "6.6.0"
         },
         "runtime": {
@@ -607,7 +608,7 @@
       },
       "FSharp.Data.WorldBank.Core/6.6.0": {
         "dependencies": {
-          "FSharp.Core": "10.0.108",
+          "FSharp.Core": "10.1.203",
           "FSharp.Data.Http": "6.6.0",
           "FSharp.Data.Json.Core": "6.6.0",
           "FSharp.Data.Runtime.Utilities": "6.6.0"
@@ -621,7 +622,7 @@
       },
       "FSharp.Data.Xml.Core/6.6.0": {
         "dependencies": {
-          "FSharp.Core": "10.0.108",
+          "FSharp.Core": "10.1.203",
           "FSharp.Data.Http": "6.6.0",
           "FSharp.Data.Json.Core": "6.6.0",
           "FSharp.Data.Runtime.Utilities": "6.6.0"
@@ -630,6 +631,26 @@
           "lib/netstandard2.0/FSharp.Data.Xml.Core.dll": {
             "assemblyVersion": "6.6.0.0",
             "fileVersion": "6.6.0.0"
+          }
+        }
+      },
+      "Microsoft.Z3/4.12.2": {
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Z3.dll": {
+            "assemblyVersion": "4.12.2.0",
+            "fileVersion": "4.12.2.0"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/osx-x64/native/libz3.dylib": {
+            "rid": "osx-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/win-x64/native/libz3.dll": {
+            "rid": "win-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
           }
         }
       },
@@ -893,12 +914,12 @@
       "path": "fparsec/1.1.1",
       "hashPath": "fparsec.1.1.1.nupkg.sha512"
     },
-    "FSharp.Core/10.0.108": {
+    "FSharp.Core/10.1.203": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-kD6E9tjZ5MYtpM92PJND3Tw4GnEpViHEakTkhVwRoJ/Eo4WvH9ncQnrlyIPH2kJrtcnn241Bq1F3pBC7BmwV6A==",
-      "path": "fsharp.core/10.0.108",
-      "hashPath": "fsharp.core.10.0.108.nupkg.sha512"
+      "sha512": "sha512-I2MFk72yHqfgI594gKFigq8PVIso0Mh1ZUgG9R4n8gyYQ4IwpBxmvecfjnKA7iMLdVHYULB70PsLwYW/K76gew==",
+      "path": "fsharp.core/10.1.203",
+      "hashPath": "fsharp.core.10.1.203.nupkg.sha512"
     },
     "FSharp.Data/6.6.0": {
       "type": "package",
@@ -955,6 +976,13 @@
       "sha512": "sha512-Z7U4mO0FHT5uHOYRLSK67izqJrCSvWpjcDPRQkJmYB5ge0sRfHWoKV8b4ttHLmpEg/eAdu64u00nITxpbZm+CA==",
       "path": "fsharp.data.xml.core/6.6.0",
       "hashPath": "fsharp.data.xml.core.6.6.0.nupkg.sha512"
+    },
+    "Microsoft.Z3/4.12.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-dOV/D1K+OH2Ris7HcXHM2OIyHaFc6t3twNg9d8xqRKs3JZBvWgTp+OmzVfNGPn+Yz/wQDAHeWgecJly5aHGYAw==",
+      "path": "microsoft.z3/4.12.2",
+      "hashPath": "microsoft.z3.4.12.2.nupkg.sha512"
     },
     "SHA3Core/1.0.1": {
       "type": "package",

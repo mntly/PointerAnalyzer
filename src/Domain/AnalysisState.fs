@@ -1,102 +1,122 @@
 module PointerAnalyzer.AbsDom.AnalysisState
 
+open B2R2.BinIR.SSA
 open PointerAnalyzer
+open PointerAnalyzer.AbsDom.AbsMem
+open PointerAnalyzer.AbsDom.AbsVal
+open PointerAnalyzer.AbsDom.RegMap
 open PointerAnalyzer.AbsDom.TypeMap
 open PointerAnalyzer.AbsDom.TypeState
-open PointerAnalyzer.AbsDom.SymbolConstraint
-open PointerAnalyzer.AbsDom.AbsMem
-open PointerAnalyzer.AbsDom.RegMap
 
 type AnalysisState =
-  { Memory: AbsMem
-    Registers: RegMap
-    TypeState: TypeState
-    SymbolIdx: SymbolIdx
-    SymbolConstraints: SymbolConstraintMap }
+  { RegMap: RegMap
+    Memory: AbsMem
+    Types: TypeState }
 
-type AnalysisStateModule
-  (
-    architecture: Architecture,
-    startTypePtr: int,
-    startSymIntIdx: int,
-    startSymLocIdx: int
-  ) =
-  let typeState = TypeStateDomain.create startTypePtr
-  let symbolConstraint = SymbolConstraintDomain.create architecture
-  let absMem = AbsMemDomain.create architecture
+type AnalysisStateModule (architecture: Architecture, startTypeId: TypeId) =
+  let absVal = AbsValDomain.create architecture
   let regMap = RegMapDomain.create architecture
+  let memory = AbsMemDomain.create architecture
+  let types = TypeStateDomain.create startTypeId
 
-  member __.TypeState = typeState
-  member __.SymbolConstraint = symbolConstraint
-  member __.AbsMem = absMem
-  member __.RegMap = regMap
+  member _.AbsVal = absVal
+  member _.RegMap = regMap
+  member _.AbsMem = memory
+  member _.TypeState = types
 
-  member __.bot =
-    { Memory = absMem.bot
-      Registers = regMap.bot
-      TypeState = typeState.bot
-      SymbolIdx = SymbolIdx.create startSymIntIdx startSymLocIdx
-      SymbolConstraints = symbolConstraint.bot }
+  member _.bot =
+    { RegMap = regMap.bot
+      Memory = memory.bot
+      Types = types.bot }
 
-  member __.freshIntSymbol state =
-    let sym, symbolIdx = SymbolIdx.freshInt state.SymbolIdx
-    sym, { state with SymbolIdx = symbolIdx }
+  member _.freshTypeId state =
+    let typeId, typeState = types.fresh state.Types
+    typeId, { state with Types = typeState }
 
-  member __.freshLocSymbol state =
-    let sym, symbolIdx = SymbolIdx.freshLoc state.SymbolIdx
-    sym, { state with SymbolIdx = symbolIdx }
+  member _.getOrFreshTypeId variable state =
+    let typeId, typeState = types.getOrFresh variable state.Types
+    typeId, { state with Types = typeState }
 
-  member __.addIntSymbolConstraint sym value state =
+  member _.tryFindTypeId variable state = types.tryFind variable state.Types
+
+  member _.findRegister variable state = regMap.find variable state.RegMap
+
+  member _.tryFindRegister variable state = regMap.tryFind variable state.RegMap
+
+  member _.setRegister variable value typeId state =
     { state with
-        SymbolConstraints =
-          symbolConstraint.addInt sym value state.SymbolConstraints }
+        RegMap = regMap.add variable value state.RegMap
+        Types = types.set variable typeId state.Types }
 
-  member __.addIntSymbolBot sym state =
+  member _.addConstraint constraint_ state =
     { state with
-        SymbolConstraints =
-          symbolConstraint.addIntBot sym state.SymbolConstraints }
+        Types = types.addConstraint constraint_ state.Types }
 
-  member __.addLocSymbolConstraint sym value state =
+  member _.addAddress typeId state =
     { state with
-        SymbolConstraints =
-          symbolConstraint.addLocSet sym value state.SymbolConstraints }
+        Types = types.addAddress typeId state.Types }
 
-  member __.load locs state = absMem.findSet locs state.Memory
-
-  member __.store locs value state =
+  member _.addValue typeId state =
     { state with
-        Memory = absMem.store locs value state.Memory }
+        Types = types.addValue typeId state.Types }
 
-  member __.findReg reg state =
-    regMap.find reg state.Registers
+  member _.addSame typeIds state =
+    { state with
+        Types = types.addSame typeIds state.Types }
 
-  member __.setReg reg value state =
-    { state with Registers = regMap.add reg value state.Registers }
+  member _.addAddResult result left right state =
+    { state with
+        Types = types.addAddResult result left right state.Types }
 
-  member __.joinReg reg value state =
-    let old = regMap.find reg state.Registers
-    __.setReg reg (regMap.joinValue old value) state
+  member _.addSubResult result left right state =
+    { state with
+        Types = types.addSubResult result left right state.Types }
 
-  member __.join x y =
-    { TypeState = typeState.join x.TypeState y.TypeState
-      Registers = regMap.join x.Registers y.Registers
-      SymbolIdx =
-        { NextSymIntIdx =
-            max x.SymbolIdx.NextSymIntIdx y.SymbolIdx.NextSymIntIdx
-          NextSymLocIdx =
-            max x.SymbolIdx.NextSymLocIdx y.SymbolIdx.NextSymLocIdx }
-      SymbolConstraints =
-        symbolConstraint.join x.SymbolConstraints y.SymbolConstraints
-      Memory = absMem.join x.Memory y.Memory }
+  member _.load memoryVersion address state =
+    match absVal.tryGetUInt64 address with
+    | None -> absVal.top, None, state
+    | Some address ->
+      let location = memory.location memoryVersion address
+
+      match memory.tryFind location state.Memory with
+      | Some value -> value.Value, Some value.TypeId, state
+      | None ->
+        // New Location -> Add new Value
+        let typeId, typeState = types.fresh state.Types
+        let newState = { state with Types = typeState }
+        let value = { Value = absVal.top; TypeId = typeId }
+
+        absVal.top,
+        Some typeId,
+        { newState with
+            Memory = memory.add location value newState.Memory }
+
+  member _.store prevVersion newVersion address value valueTypeId state =
+    match absVal.tryGetUInt64 address with
+    | None -> valueTypeId, state
+    | Some address ->
+      let typeId, typeState =
+        match valueTypeId with
+        | None -> types.fresh state.Types
+        | Some id -> id, state.Types
+
+      let updated = memory.updateVersion prevVersion newVersion state.Memory
+      let location = memory.location newVersion address
+
+      let valueMem = { Value = value; TypeId = typeId }
+
+      Some typeId,
+      { state with
+          Memory = memory.add location valueMem updated
+          Types = typeState }
+
+  member _.join left right =
+    { RegMap = regMap.join left.RegMap right.RegMap
+      Memory = memory.join left.Memory right.Memory
+      Types = types.join left.Types right.Types }
 
 module AnalysisStateDomain =
-  let create architecture startTypePtr startSymIntIdx startSymLocIdx =
-    AnalysisStateModule (
-      architecture,
-      startTypePtr,
-      startSymIntIdx,
-      startSymLocIdx
-    )
+  let create architecture startTypeId =
+    AnalysisStateModule (architecture, startTypeId)
 
-  let createDefault architecture =
-    create architecture TypePtr.firstFreshId 0 0
+  let createDefault architecture = create architecture 0

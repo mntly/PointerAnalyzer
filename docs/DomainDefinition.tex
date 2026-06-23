@@ -1,0 +1,869 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,mathtools,array}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\newcommand{\step}[4]{\langle #1,#2\rangle \rightarrow \langle #3,#4\rangle}
+\newcommand{\type}{\mathsf{Type}}
+\newcommand{\nexti}{\mathsf{next}}
+\newcommand{\eval}[3]{eval(#1,#2) \Downarrow #3}
+\newcommand{\addr}{\mathsf{Address}}
+\newcommand{\val}{\mathsf{Value}}
+\newcommand{\Top}{\top}
+\newcommand{\Bot}{\bot}
+\newcommand{\join}{\sqcup}
+\newcommand{\addC}{\mathsf{add_{Const}}}
+\newcommand{\filter}{\mathsf{filter}}
+\newcommand{\NonMem}{\mathsf{NonMem}}
+\newcommand{\Mem}{\mathsf{Mem}}
+\newcommand{\NoInd}{\mathsf{NoIndicator}}
+\newcommand{\bconst}{\mathsf{B2R2Const}}
+
+\begin{document}
+
+\section{Syntax}
+
+\[
+\begin{array}{rcl}
+
+\diamond_u & ::= & \mathsf{UnOpType}\\[2mm]
+\diamond_b & ::= & \mathsf{BinOpType}\\[2mm]
+\diamond_r & ::= & \mathsf{RelOpType}\\[2mm]
+\diamond_c & ::= & \mathsf{CastKind}\\[2mm]
+
+var & ::= & \mathsf{RegVar}(k,reg_{id},name)
+\mid \mathsf{PCVar}(k)
+\mid \mathsf{TempVar}(k,id)\\
+& | & \mathsf{StackVar}(k,id)
+\mid \mathsf{GlobalVar}(k,id)
+\mid \mathsf{MemVar}\\[2mm]
+
+exp & ::= & \mathsf{BinOp}(\diamond_b,k,exp,exp)\\
+& | & \mathsf{Cast}(\diamond_c,k,exp)\\
+& | & \mathsf{ExprList}(exp^\ast)\\
+& | & \mathsf{Extract}(exp,k,pos)\\
+& | & \mathsf{FuncName}(s)\\
+& | & \mathsf{ITE}(exp_c,k,exp_t,exp_f)\\
+& | & \mathsf{Load}(var_{mem},k,exp)\\
+& | & \mathsf{Store}(var_{mem},k,exp_a,exp_v)\\
+& | & \mathsf{Num}(n)\\
+& | & \mathsf{RelOp}(\diamond_r,k,exp,exp)\\
+& | & \mathsf{UnOp}(\diamond_u,k,exp)\\
+& | & \mathsf{Undefined}(k,str)\\
+& | & \mathsf{Var}(var)\\[2mm]
+
+stmt
+& ::= & \mathsf{LMark}(\ell)\\
+& | & \mathsf{Def}(var,exp)\\
+& | & \mathsf{Phi}(var,\mathbb{Z}^{\ast})\\
+& | & \mathsf{Jmp}(jmpType)\\
+& | & \mathsf{ExternalCall}(exp,var^\ast_{in},var^\ast_{out})\\
+& | & \mathsf{SideEffect}(SideEffect)\\[2mm]
+
+jmpType
+& ::= & \mathsf{IntraJmp}(\ell)\\
+& | & \mathsf{IntraCJmp}(exp_c,\ell_t,\ell_f)\\
+& | & \mathsf{InterJmp}(exp)\\
+& | & \mathsf{InterCJmp}(exp_c,exp_t,exp_f)
+
+\end{array}
+\]
+
+\section{Abstract Domains}
+
+\[
+\begin{array}{lrcl}
+
+\text{(Abstract Value)}
+& \mathbb{V} & = & n \mid \bot \mid \top\\[4pt]
+
+\text{(Register Indicator)}
+& \mathbb{R} & & \\[4pt]
+
+\text{(Register Map)}
+& \mathbb{R}_{\mathbb{M}} & = & \mathbb{R} \rightarrow \mathbb{V}\\[4pt]
+
+\text{(Location)}
+& \mathbb{L} & = & \langle \mathbb{N}, \mathbb{N} \rangle : \langle Version, Address \rangle \\[4pt]
+
+\text{(Memory)}
+& \mathbb{M} & = & \mathbb{L} \rightarrow \langle \mathbb{V}, \mathbb{N} \rangle : \langle AbsValue, Type Indicator \rangle \\[4pt]
+
+\\[4pt]
+
+\text{(Type Indicator Map)}
+& \mathbb{T}_{\mathbb{I}} & = & \mathbb{R} \rightarrow \mathbb{N}\\[4pt]
+
+\text{(Type Constraint)}
+& \mathbb{T}_\mathbb{C} & = &
+    \mathrm{Address}(\mathbb{N})\\
+& & | & \mathrm{Value}(\mathbb{N})\\
+& & | & \mathrm{Same}(2 ^ {\mathbb{N}})\\
+& & | & \mathrm{AddResult}(\mathbb{N}\times\mathbb{N}\times\mathbb{N})\\
+& & | & \mathrm{SubResult}(\mathbb{N}\times\mathbb{N}\times\mathbb{N})\\
+
+\text{(Type State)}
+& \mathbb{T}_{\mathbb{S}} & = & \langle \mathbb{T}_{\mathbb{I}} \times 2^{\mathbb{T}_\mathbb{C}} \rangle\\[4pt]
+
+\text{(Abstract State)}
+& \mathbb{S} & = & \mathbb{R}_{\mathbb{M}} \times \mathbb{M} \times \mathbb{T}_{\mathbb{S}}
+
+\end{array}
+\]
+
+\section{Summary Domain}
+
+\[
+\begin{array}{lrcl}
+\mathsf{(Argument \ Map)} & \mathbb{A}  & = & \mathbb{Z} \rightarrow \mathbb{V}\\[2mm]
+% \mathsf{(Update \ Set)}   &\mathbb{U}  & = & 2^{\mathbb{L}\times\mathbb{V}}\\[2mm]
+% \mathsf{(Side \ Effect)}  & \Delta      & = & \mathbb{A}\times\mathbb{U}\\[2mm]
+\mathsf{(Operand \ Type \ Map)} & \mathbb{O}  & = & instr \rightarrow operand\\[2mm]
+% \mathsf{(Function \ Summary)} & \Sigma_F    & = & \langle \Delta,Ret\rangle\\[2mm]
+\mathsf{(Function \ Summary)} & \Sigma_F    & = & \langle A, Ret\rangle\\[2mm]
+\mathsf{(Return \ Value \ of \ Summarize)}    & \Sigma      & = & \langle \Sigma_F,\mathbb{O},\mathbb{T}_\mathbb{M}\rangle
+\end{array}
+\]
+
+\section{Auxiliary Functions Need to Modify}
+
+\[
+\mathsf{phiVals}(l,S)=\{v_0,\ldots,v_n\}
+\]
+
+\[
+\mathsf{kind}(l,e)=\mathsf{Call}(f)\mid\mathsf{Return}\mid\mathsf{InterJump}
+\]
+
+\[
+\mathsf{args}(l)=\mathsf{callArguments}(l)
+\qquad
+\mathsf{rets}(l)=\mathsf{callReturns}(l)
+\]
+
+\[
+\bconst(l,x)=n
+\quad\text{iff B2R2 SSA constant propagation reports }
+x\text{ at }l\text{ as }\mathsf{Const}(n)
+\]
+
+\section{Type Constraint Addition}
+
+\[
+\frac{
+    S=\langle R_M,M,\langle T_I,T_C\rangle\rangle
+}{
+    \addC(S,c) \Downarrow \langle R_M,M,\langle T_I,T_C\cup\{c\}\rangle\rangle
+}
+\]
+
+\section{Type Constraint Solving}
+
+\[
+\frac{
+    \mathrm{Same}(\{id_0,\ldots,id_n\})\in T_C
+    \qquad
+    \forall i. \mathrm{Address}(id_i) \notin T_C \land \mathrm{Value}(id_i) \notin T_C
+}{
+    T_M' = T_M
+}
+\]
+
+\[
+\frac{
+    \mathrm{Same}(\{id_0,\ldots,id_n\})\in T_C
+    \qquad
+    \exists i \forall j. \mathrm{Address}(id_i) \in T_C \land \mathrm{Value}(id_j) \notin T_C
+}{
+    T_C' = T_C \cup \{\mathrm{Address}(id_i) | i \in \{0, \ldots, n\}\}
+}
+\]
+
+\[
+\frac{
+    \mathrm{Same}(\{id_0,\ldots,id_n\})\in T_C
+    \qquad
+    \exists i \forall j. \mathrm{Value}(id_i) \in T_C \land \mathrm{Address}(id_j) \notin T_C
+}{
+    T_C' = T_C \cup \{\mathrm{Value}(id_i) | i \in \{0, \ldots, n\}\}
+}
+\]
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\[
+\frac{
+    \mathrm{AddResult}(id_d,id_0,id_1)\in T_C
+    \qquad \mathrm{Address}(id_0) \in T_C \qquad \mathrm{Value}(id_1) \in T_C
+}{
+    T_C' = T_C \cup \{\mathrm{Address}(id_d)\}
+}
+\]
+
+\[
+\frac{
+    \mathrm{AddResult}(id_d,id_0,id_1)\in T_C
+    \qquad \mathrm{Value}(id_0) \in T_C \qquad \mathrm{Address}(id_1) \in T_C
+}{
+    T_C' = T_C \cup \{\mathrm{Address}(id_d)\}
+}
+\]
+
+\[
+\frac{
+    \mathrm{AddResult}(id_d,id_0,id_1)\in T_C
+    \qquad \mathrm{Value}(id_0) \in T_C \qquad \mathrm{Value}(id_1) \in T_C
+}{
+    T_C' = T_C \cup \{\mathrm{Value}(id_d)\}
+}
+\]
+
+\[
+\frac{
+    \mathrm{AddResult}(id_d,id_0,id_1)\in T_C
+    \qquad \mathrm{Address}(id_d) \in T_C \qquad \mathrm{Value}(id_0) \in T_C
+}{
+    T_C' = T_C \cup \{\mathrm{Address}(id_1)\}
+}
+\]
+
+\[
+\frac{
+    \mathrm{AddResult}(id_d,id_0,id_1)\in T_C
+    \qquad \mathrm{Address}(id_d) \in T_C \qquad \mathrm{Value}(id_1) \in T_C
+}{
+    T_C' = T_C \cup \{\mathrm{Address}(id_0)\}
+}
+\]
+
+\[
+\frac{
+    \mathrm{AddResult}(id_d,id_0,id_1)\in T_C
+    \qquad \mathrm{Value}(id_d) \in T_C
+}{
+    T_C' = T_C \cup \{\mathrm{Value}(id_0), \mathrm{Value}(id_1)\}
+}
+\]
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\[
+\frac{
+    \mathrm{SubResult}(id_d,id_0,id_1)\in T_C
+    \qquad \mathrm{Address}(id_0) \in T_C \qquad \mathrm{Value}(id_1) \in T_C
+}{
+    T_C' = T_C \cup \{\mathrm{Address}(id_d)\}
+}
+\]
+
+\[
+\frac{
+    \mathrm{SubResult}(id_d,id_0,id_1)\in T_C
+    \qquad \mathrm{Address}(id_0) \in T_C \qquad \mathrm{Address}(id_1) \in T_C
+}{
+    T_C' = T_C \cup \{\mathrm{Value}(id_d)\}
+}
+\]
+\[
+\frac{
+    \mathrm{SubResult}(id_d,id_0,id_1)\in T_C
+    \qquad \mathrm{Value}(id_0) \in T_C
+}{
+    T_C' = T_C \cup \{\mathrm{Value}(id_d), \mathrm{Value}(id_1\}
+}
+\]
+
+\[
+\frac{
+    \mathrm{SubResult}(id_d,id_0,id_1)\in T_C
+    \qquad \mathrm{Address}(id_d) \in T_C
+}{
+    T_C' = T_C \cup \{\mathrm{Address}(id_0), \mathrm{Value}(id_1)\}
+}
+\]
+
+\section{AbsVal BinOp}
+
+\[ \mathsf{updateBinOp}(\diamond_b,S,v_1,v_2,tid_1,tid_2)\Downarrow \langle S',v_r,tid_r \rangle \]
+
+\[
+\frac{
+    \begin{array}{@{}c@{}}
+        \diamond_b=\mathsf{ADD} \qquad
+        S=\langle R,M,\langle T_I, T_C \rangle\qquad
+        tid_0, T_I' = newId(T_I)\qquad\\
+        v_r=v_1 +^\# v_2\qquad
+        T_C'=T_C\cup\{\mathsf{AddResult}(tid_0,tid_1,tid_2)\}\qquad
+        S'=\langle R,M,\langle T_I',T_C'\rangle\rangle
+    \end{array}
+} {
+    \mathsf{updateBinOp}(S,\diamond_b,v_1,v_2,tid_1,tid_2)
+    \Downarrow \langle S',v_r,tid_0\rangle
+}
+\]
+
+\[
+\frac{
+    \begin{array}{@{}c@{}}
+        \diamond_b=\mathsf{SUB} \qquad
+        S=\langle R,M,\langle T_I, T_C \rangle\qquad
+        tid_0, T_I' = newId(T_I)\qquad\\
+        v_r=v_1 -^\# v_2\qquad
+        T_C'=T_C\cup\{\mathsf{SubResult}(tid_0,tid_1,tid_2)\}\qquad
+        S'=\langle R,M,\langle T_I',T_C'\rangle\rangle
+    \end{array}
+} {
+    \mathsf{updateBinOp}(S,\diamond_b,v_1,v_2,tid_1,tid_2)
+    \Downarrow \langle S',v_r,tid_0\rangle
+}
+\]
+
+\[
+\frac{
+    \begin{array}{@{}c@{}}
+        \diamond_b\notin\{\mathsf{ADD},\mathsf{SUB}\} \qquad
+        % S=\langle R,M,\langle T_I, T_C \rangle
+        % tid_0, T_I' = newId(T_I)\qquad\\
+        v_r=v_1 \diamond_b^\# v_2\qquad
+        % T_C'=T_C\cup\{\mathsf{SubResult}(tid_0,tid_1,tid_2)\}\qquad
+        % S'=\langle R,M,\langle T_I',T_C'\rangle\rangle
+    \end{array}
+} {
+    \mathsf{updateBinOp}(S,\diamond_b,v_1,v_2,tid_1,tid_2)
+    \Downarrow \langle S,v_r,None\rangle
+}
+\]
+
+\newpage
+
+\section{Expr Evaluation}
+
+\[ \eval{S}{expr}{\langle v,tid,S'\rangle} \]
+
+\subsection{BinOp}
+\[
+\frac{
+    \begin{array}{@{}c@{}}
+        \eval{S}{e_1}{\langle v_1,tid_1,S_1\rangle} \qquad
+        \eval{S_1}{e_2}{\langle v_2,tid_2,S_2\rangle}\qquad
+        \mathsf{updateBinOp}(\diamond_b, S_1, v_1, v_2, tid_1, tid_2) \Downarrow \langle S_2,v,tid \rangle
+    \end{array}
+} {
+    \eval{S}{\mathsf{BinOp}(\diamond_b,k,e_1,e_2)}
+    {\langle v,tid,S_2\rangle}
+}
+\]
+
+\subsection{Store}
+\[
+\frac{
+    \begin{array}{@{}c@{}}
+        \eval{S}{e_a}{\langle v_a,tid_a,S_1\rangle} \qquad
+        S_1=\langle R,M,\langle T_I, T_C \rangle\qquad
+        T_C'=T_C \cup \{\mathsf{Address}(tid_a)\}\qquad\\
+        \eval{\langle R,M,\langle T_I, T_C' \rangle}{e_v}{\langle v,S_3\rangle}\qquad
+        S_3=\langle R',M',\langle T_I',T_C''\rangle\rangle\qquad
+        tid_e, T_I'' = newId(T_I')\qquad\\
+        M'' =
+        \begin{cases}
+            M'[\langle m.Identifier, v_a \rangle \mapsto \langle v_e, tid_e \rangle], & \text{if } v_a \in \mathbb{N} \\
+            M', & \text{otherwise}
+        \end{cases}\qquad
+        T_I''' =
+        \begin{cases}
+            T_I'', & \text{if } v_a \in \mathbb{N} \\
+            T_I', & \text{otherwise}
+        \end{cases}
+    \end{array}
+} {
+    \eval{S}{\mathsf{Store}(m,k,e_a,e_v)}
+    {\langle v_e,tid_e\langle R',M'',\langle T_I''',T_C''\rangle\rangle\rangle}
+}
+\]
+
+\subsection{Load}
+\[
+\frac{
+    \begin{array}{@{}c@{}}
+        \eval{S}{e}{\langle v_a,tid_a,S_1\rangle} \qquad
+        S_1=\langle R,M,\langle T_I, T_C \rangle\qquad
+        T_C'=T_C \cup \{\mathsf{Address}(tid_a)\}\qquad
+        loc = \langle m.Identifier, v_a \rangle\qquad\\
+        tid_v, T_I' = newId(T_I)\qquad
+        M', T_I'' =
+        \begin{cases}
+            M, T_I & \text{if } loc \in M \\
+            M[loc \mapsto \langle \top, tid_v \rangle], T_I' & \text{otherwise}
+        \end{cases}\qquad
+        v, tid = M[loc]
+    \end{array}
+} {
+    \eval{S}{\mathsf{Load}(m,k,e)}
+    {\langle v,tid,\langle R,M',\langle T_I'',T_C'\rangle\rangle\rangle}
+}
+\]
+
+\subsection{Num}
+\[
+\frac{
+    S=\langle R,M,\langle T_I, T_C \rangle \rangle \qquad
+    tid, T_I' = newId(T_I)\qquad
+    T_C' =\mathsf{CheckAddr}(T_C, n, tid)\qquad
+}{
+    \eval{S}{\mathsf{Num}(n)}
+    {\langle v,tid,\langle R,M,\langle T_I', T_C' \rangle \rangle}
+}
+\]
+
+\subsection{Var}
+\[
+\frac{
+    S=\langle R,M,\langle T_I, T_C \rangle \rangle \qquad
+    regId=\mathsf{ident}(\mathsf{Var}(x))\qquad
+    v=R[regId]\qquad
+    tid=T_I[regId]
+}
+{\eval{S}{\mathsf{Var}(x)}{\langle v,tid,S\rangle}}
+\]
+
+\subsection{Cast}
+\[
+\frac{
+\begin{array}{@{}c@{}}
+    S=\langle R,M,\langle T_I, T_C \rangle \rangle \qquad
+    \eval{S}{e}{\langle v, tid, S' \rangle}\qquad
+    v_{new} = Cast(\diamond_c, v)\qquad\\
+    tid_{new},T_I' = newId(T_I)\qquad
+    T_C'=T_C \cup \{\mathsf{Value}(tid_{new})\}
+\end{array}
+}
+{
+    \eval{S}{\mathsf{Cast}(\diamond_c,k,e)}
+    {\langle v_{new}, tid_{new}, \langle R,M,\langle T_I', T_C' \rangle\rangle\rangle}
+}
+\]
+
+\subsection{ExprList}
+\[
+\frac{
+    \begin{array}{@{}c@{}}
+        S_0 = S \qquad
+        
+        \eval{S_0}{e_0}{\langle v_0,tid_0,S_{1}\rangle}\qquad
+        ...\qquad
+        \eval{S_n}{e_n}{\langle v_n,tid_n,S_{n+1}\rangle}\qquad
+    \end{array}
+}{
+    \eval{S}{\mathsf{ExprList}(e_0,\ldots,e_n)}
+    {\langle \mathsf{List}(v_0, ..., v_n), \mathsf{List}(tid_0, ..., tid_n), S_{n+1} \rangle}
+}
+\]
+
+\subsection{Extract}
+\[
+\frac{
+\begin{array}{@{}c@{}}
+    \eval{S}{e}{\langle v,tid,S'\rangle}\qquad
+    S'=\langle R,M,\langle T_I,T_C\rangle\rangle \qquad
+    v_{new}=\mathsf{Extract}(v,k,pos)\qquad\\
+    tid_{new}, T_I' = newId(T_I)\qquad
+    T_C'=T_C \cup \{\mathsf{Value}(tid_{new})\}
+\end{array}
+}
+{
+    \eval{S}{\mathsf{Extract}(e,k,pos)}
+    {\langle v_{new}, tid_{new},\langle R,M,\langle T_I',T_C'\rangle\rangle\rangle}
+}
+\]
+
+\subsection{FuncName}
+\[
+\frac{
+}{
+    \eval{S}{\mathsf{FuncName}(s)}
+    {\langle \bot, None,S \rangle}
+}
+\]
+
+\subsection{ITE}
+\[
+\frac{
+\begin{array}{@{}c@{}}
+    \langle R, M, \langle T_I, T_C = S \rangle \rangle \qquad
+    \eval{\filter(S,e_c)}{e_t}{\langle v_t,tid_t,S_t\rangle}\qquad
+    \langle R_t, M_t, \langle T_{I_t}, T_{C_t} \rangle \rangle = S_t \\
+    
+    S'=\langle R, M, \langle T_{I_t}, T_{C_t} \rangle \rangle \qquad
+    \eval{\filter(S',\neg e_c)}{e_f}{\langle v_f,tid_f,S_f\rangle}\qquad
+    \langle R_f, M_f, \langle T_{I_f}, T_{C_f} \rangle \rangle = S_f\\
+
+    v=v_t \join v_f\qquad tid, T_I'=newId(T_{I_f})\qquad
+    T_C'=T_C \cup \{\mathsf{Same}(\{tid_t, tid_f\})\}
+\end{array}
+}{
+    \eval{S}{\mathsf{ITE}(e_c,k,e_t,e_f)}
+    {\langle v,tid,\langle R_t \join R_f, M_t \join M_f, \langle T_I', T_c' \rangle \rangle\rangle}
+}
+\]
+
+\subsection{RelOp}
+\[
+\frac{
+\begin{array}{@{}c@{}}
+    \eval{S}{e_1}{\langle v_1,tid_1,S_1\rangle}\qquad
+    \eval{S_1}{e_2}{\langle v_2,tid_2,S_2\rangle}\qquad
+    \langle R', M', \langle T_I, T_C \rangle \rangle = S_2\\
+
+    v=\mathsf{evalRelOp}(\diamond_r,v_1,v_2)\qquad
+    tid, T_I'=newId(T_I)\qquad
+
+    T_C'=T_C \cup \{\mathsf{Value}(tid_1), \mathsf{Value}(tid_2), \mathsf{Value}(tid)\}\\
+\end{array}
+}
+{
+    \eval{S}{\mathsf{RelOp}(\diamond_r,k,e_1,e_2)}
+    {\langle v,tid,\langle R', M', \langle T_I',T_C'\rangle\rangle\rangle}
+}
+\]
+
+\subsection{UnOp}
+\[
+\frac{
+\begin{array}{@{}c@{}}
+    \eval{S}{e}{\langle v,tid,S_1\rangle}\qquad
+    \langle R, M, \langle T_I, T_C \rangle \rangle = S_1\\
+
+    v_{new}=\mathsf{evalUnOp}(\diamond_r,v)\qquad
+    tid_{new}, T_I'=newId(T_I)\qquad
+
+    T_C'=T_C \cup \{\mathsf{Value}(tid), \mathsf{Value}(tid_{new})\}
+\end{array}
+}{
+    \eval{S}{\mathsf{UnOp}(\diamond_u,k,e)}
+    {\langle v_{new},tid_{new}\langle R,M,\langle T_I',T_C'\rangle\rangle\rangle}
+}
+\]
+
+\subsection{Undefined}
+\[
+\frac{}{
+    \eval{S}{\mathsf{Undefined}(k,str)}
+    {\langle \bot,S \rangle}
+}
+\]
+
+\newpage
+
+\section{Statement Transfer Semantics}
+
+\[ \step{l}{S}{l'}{S'} \]
+
+\subsection{LMark}
+\[
+\frac{cmd(l)=\mathsf{LMark}(\ell)}
+{ \step{l}{S}{\nexti(l)}{S} }
+\]
+
+\subsection{Def}
+\[
+\frac{
+    \begin{array}{@{}c@{}}
+        cmd(l)=\mathsf{Def}(x,e) \qquad
+        x\in\{\mathsf{RegVar},\mathsf{TempVar},\mathsf{PCVar},\mathsf{StackVar}\} \qquad
+        \bconst(l,x)=n\\
+        
+        \langle R,M,\langle T_I,T_C\rangle\rangle = S \qquad
+        regId=RegId(x)\qquad
+        tid,T_I'=newId(T_I)\qquad
+
+    \end{array}
+} {
+    \step{l}{S}{\nexti(l)}
+    {
+    \left\langle
+      R[regId \mapsto n],M,
+      \left\langle T_I'[regId \mapsto tid], T_C \right\rangle
+    \right\rangle
+    }
+}
+\]
+
+\[
+\frac{
+    \begin{array}{@{}c@{}}
+        cmd(l)=\mathsf{Def}(x,e) \qquad
+        \bconst(l,x) \text{ is not Const} \qquad
+        \eval{S}{e}{\langle v,tid,S_1 \rangle} \qquad\\
+    
+        \langle R,M,\langle T_I,T_C \rangle \rangle = S_1 \qquad
+        regId=RegId(x)\qquad
+    \end{array}
+} {
+    \step{l}{S}{\nexti(l)}
+    {
+        \left\langle
+          R[regId \mapsto v],M,
+          \left\langle T_I[regId \mapsto tid], T_C \right\rangle
+        \right\rangle
+    }
+}
+\]
+
+\subsection{Phi}
+\[
+\frac{
+    \begin{array}{@{}c@{}}
+        cmd(l)=\mathsf{Phi}(x,\vec{i}) \qquad
+        S=\langle R,M,\langle T_I,T_C\rangle\rangle \qquad
+        \mathsf{phiVals}(l,S)=\{\langle v_0, tid_0\rangle,\ldots,\langle v_n, tid_n\rangle\}\\
+
+        v_\phi = v_0 \join \ldots \join v_n\qquad
+        regId=RegId(\mathsf{Var}(x))
+
+        tid, T_I'=newId(T_I)\qquad
+        T_C'=T_C \cup \{ \mathsf{Same}(\{tid_0, \ldots, tid_n, tid\}) \}\qquad
+    \end{array}
+} {
+    \step{l}{S}{\nexti(l)}
+    {
+    \left\langle
+      R[regId \mapsto v_\phi],M,\langle T_I'[regId \mapsto tid], T_C' \rangle
+    \right\rangle
+    }
+}
+\]
+
+\subsection{Jmp}
+\[
+\frac{
+    cmd(l)=\mathsf{Jmp}(\mathsf{IntraJmp}(\ell))
+} { \step{l}{S}{\ell}{S} }
+\]
+
+\[
+\frac{
+    \begin{array}{@{}c@{}}
+        cmd(l)=\mathsf{Jmp}(\mathsf{IntraCJmp}(e_c,\ell_t,\ell_f)) \qquad
+        \eval{S}{e_c}{\langle v,tid,S'\rangle}\\
+        \langle R,M,\langle T_I,T_C\rangle\rangle = S'\qquad
+        T_C'=T_C \cup \{\mathsf{Value}(tid)\}
+    \end{array}
+} { \step{l}{S}{\ell_t}{ \langle R,M,\langle T_I,T_C'\rangle\rangle } }
+\]
+
+\[
+\frac{
+    \begin{array}{@{}c@{}}
+        cmd(l)=\mathsf{Jmp}(\mathsf{IntraCJmp}(e_c,\ell_t,\ell_f)) \qquad
+        \eval{S}{e_c}{\langle v,tid,S'\rangle}\\
+        \langle R,M,\langle T_I,T_C\rangle\rangle = S'\qquad
+        T_C'=T_C \cup \{\mathsf{Value}(tid)\}
+    \end{array}
+} { \step{l}{S}{\ell_f}{ \langle R,M,\langle T_I,T_C'\rangle\rangle } }
+\]
+
+\[
+\frac{
+    \begin{array}{@{}c@{}}
+        cmd(l)=\mathsf{Jmp}(\mathsf{InterJmp}(e)) \qquad
+        \eval{S}{e}{\langle v, tid, S'\rangle} \qquad
+        \langle R,M,\langle T_I,T_C\rangle\rangle = S'\\
+        T_C'=T_C \cup \{\mathsf{Address}(tid)\}\qquad
+        S''=\langle R,M,\langle T_I,T_C'\rangle\rangle\\
+        
+        \mathsf{kind}(l,e)=\mathsf{Call}(f)\qquad
+        \Sigma_F(f)=\langle \Delta_f,Ret_f\rangle \qquad
+        \mathsf{applySummary}(\Delta_f,Ret_f,\mathsf{args}(l),\mathsf{rets}(l),S'')\Downarrow S'''
+    \end{array}
+} { \step{l}{S}{\nexti(l)}{S'''} }
+\]
+
+\[
+\frac{
+    \begin{array}{@{}c@{}}
+        cmd(l)=\mathsf{Jmp}(\mathsf{InterJmp}(e)) \qquad
+        \eval{S}{e}{\langle v, tid, S'\rangle} \qquad
+        \langle R,M,\langle T_I,T_C\rangle\rangle = S'\\
+        T_C'=T_C \cup \{\mathsf{Address}(tid)\}\qquad
+        S''=\langle R,M,\langle T_I,T_C'\rangle\rangle\\
+        \mathsf{kind}(l,e)=\mathsf{Return}
+    \end{array}
+} { \step{l}{S}{\mathsf{Exit}}{S''} }
+\]
+
+\[
+\frac{
+    \begin{array}{@{}c@{}}
+        cmd(l)=\mathsf{Jmp}(\mathsf{InterJmp}(e)) \qquad
+        \eval{S}{e}{\langle v, tid, S'\rangle} \qquad
+        \langle R,M,\langle T_I,T_C\rangle\rangle = S'\\
+        T_C'=T_C \cup \{\mathsf{Address}(tid)\}\qquad
+        S''=\langle R,M,\langle T_I,T_C'\rangle\rangle\\
+        \mathsf{kind}(l,e)=\mathsf{InterJump}
+    \end{array}
+} { \step{l}{S}{v}{S''} }
+\]
+
+\[
+\frac{
+    \begin{array}{@{}c@{}}
+        cmd(l)=\mathsf{Jmp}(\mathsf{InterCJmp}(e_c,e_t,e_f)) \qquad
+        \eval{S}{e_c}{\langle v_c, tid_c,S_1\rangle} \\
+        
+        \eval{S_1}{e_t}{\langle v_t,tid_t,S_2\rangle} \qquad
+        \eval{S_2}{e_f}{\langle v_f,tid_f,S_3\rangle} \\
+
+        \langle R,M,\langle T_I,T_C\rangle\rangle = S_3\qquad
+        T_C'=T_C \cup \{ \mathsf{Value}(tid_c), \mathsf{Address}(tid_t), \mathsf{Address}(tid_f) \}\qquad
+        S_4=\langle R,M,\langle T_I,T_C'\rangle\rangle\\
+        
+        \mathsf{kind}(l,e_t)=\mathsf{Call}(f)\qquad
+        \Sigma_F(f)=\langle \Delta_f,Ret_f\rangle \qquad
+        \mathsf{applySummary}(\Delta_f,Ret_f,\mathsf{args}(l),\mathsf{rets}(l),S_4)\Downarrow S_5
+    \end{array}
+} { \step{l}{S}{\nexti(l)}{S_5} }
+\]
+
+\[
+\frac{
+    \begin{array}{@{}c@{}}
+        cmd(l)=\mathsf{Jmp}(\mathsf{InterCJmp}(e_c,e_t,e_f)) \qquad
+        \eval{S}{e_c}{\langle v_c, tid_c,S_1\rangle} \\
+        
+        \eval{S_1}{e_t}{\langle v_t,tid_t,S_2\rangle} \qquad
+        \eval{S_2}{e_f}{\langle v_f,tid_f,S_3\rangle} \\
+
+        \langle R,M,\langle T_I,T_C\rangle\rangle = S_3\qquad
+        T_C'=T_C \cup \{ \mathsf{Value}(tid_c), \mathsf{Address}(tid_t), \mathsf{Address}(tid_f) \}\qquad
+        S_4=\langle R,M,\langle T_I,T_C'\rangle\rangle\\
+        
+        \mathsf{kind}(l,e_f)=\mathsf{Call}(f)\qquad
+        \Sigma_F(f)=\langle \Delta_f,Ret_f\rangle \qquad
+        \mathsf{applySummary}(\Delta_f,Ret_f,\mathsf{args}(l),\mathsf{rets}(l),S_4)\Downarrow S_5
+    \end{array}
+} { \step{l}{S}{\nexti(l)}{S_5} }
+\]
+
+\[
+\frac{
+    \begin{array}{@{}c@{}}
+        cmd(l)=\mathsf{Jmp}(\mathsf{InterCJmp}(e_c,e_t,e_f)) \qquad
+        \eval{S}{e_c}{\langle v_c, tid_c,S_1\rangle} \\
+        
+        \eval{S_1}{e_t}{\langle v_t,tid_t,S_2\rangle} \qquad
+        \eval{S_2}{e_f}{\langle v_f,tid_f,S_3\rangle} \\
+
+        \langle R,M,\langle T_I,T_C\rangle\rangle = S_3\qquad
+        T_C'=T_C \cup \{ \mathsf{Value}(tid_c), \mathsf{Address}(tid_t), \mathsf{Address}(tid_f) \}\qquad
+        S_4=\langle R,M,\langle T_I,T_C'\rangle\rangle\\
+        
+        \mathsf{kind}(l,e_t)=\mathsf{Return}
+    \end{array}
+} { \step{l}{S}{Exit}{S_4} }
+\]
+
+\[
+\frac{
+    \begin{array}{@{}c@{}}
+        cmd(l)=\mathsf{Jmp}(\mathsf{InterCJmp}(e_c,e_t,e_f)) \qquad
+        \eval{S}{e_c}{\langle v_c, tid_c,S_1\rangle} \\
+        
+        \eval{S_1}{e_t}{\langle v_t,tid_t,S_2\rangle} \qquad
+        \eval{S_2}{e_f}{\langle v_f,tid_f,S_3\rangle} \\
+
+        \langle R,M,\langle T_I,T_C\rangle\rangle = S_3\qquad
+        T_C'=T_C \cup \{ \mathsf{Value}(tid_c), \mathsf{Address}(tid_t), \mathsf{Address}(tid_f) \}\qquad
+        S_4=\langle R,M,\langle T_I,T_C'\rangle\rangle\\
+        
+        \mathsf{kind}(l,e_f)=\mathsf{Return}
+    \end{array}
+} { \step{l}{S}{Exit}{S_4} }
+\]
+
+\[
+\frac{
+    \begin{array}{@{}c@{}}
+        cmd(l)=\mathsf{Jmp}(\mathsf{InterCJmp}(e_c,e_t,e_f)) \qquad
+        \eval{S}{e_c}{\langle v_c, tid_c,S_1\rangle} \\
+        
+        \eval{S_1}{e_t}{\langle v_t,tid_t,S_2\rangle} \qquad
+        \eval{S_2}{e_f}{\langle v_f,tid_f,S_3\rangle} \\
+
+        \langle R,M,\langle T_I,T_C\rangle\rangle = S_3\qquad
+        T_C'=T_C \cup \{ \mathsf{Value}(tid_c), \mathsf{Address}(tid_t), \mathsf{Address}(tid_f) \}\qquad
+        S_4=\langle R,M,\langle T_I,T_C'\rangle\rangle\\
+        
+        \mathsf{kind}(l,e_t)=\mathsf{InterJump}
+    \end{array}
+} { \step{l}{S}{v_t}{S_4} }
+\]
+
+\[
+\frac{
+    \begin{array}{@{}c@{}}
+        cmd(l)=\mathsf{Jmp}(\mathsf{InterCJmp}(e_c,e_t,e_f)) \qquad
+        \eval{S}{e_c}{\langle v_c, tid_c,S_1\rangle} \\
+        
+        \eval{S_1}{e_t}{\langle v_t,tid_t,S_2\rangle} \qquad
+        \eval{S_2}{e_f}{\langle v_f,tid_f,S_3\rangle} \\
+
+        \langle R,M,\langle T_I,T_C\rangle\rangle = S_3\qquad
+        T_C'=T_C \cup \{ \mathsf{Value}(tid_c), \mathsf{Address}(tid_t), \mathsf{Address}(tid_f) \}\qquad
+        S_4=\langle R,M,\langle T_I,T_C'\rangle\rangle\\
+        
+        \mathsf{kind}(l,e_f)=\mathsf{InterJump}
+    \end{array}
+} { \step{l}{S}{v_f}{S_4} }
+\]
+
+\subsection{ExternalCall}
+\[
+\frac{
+    \begin{array}{@{}c@{}}
+        cmd(l)=\mathsf{ExternalCall}(e,\vec{x}_{in},\vec{x}_{out}) \qquad
+        \eval{S}{e}{\langle v, tid, S_1\rangle} \\
+
+        \langle R,M,\langle T_I,T_C\rangle\rangle = S_1\qquad
+        T_C'=T_C \cup \{\mathsf{Address}(tid)\}\qquad
+        \langle R,M,\langle T_I,T_C'\rangle\rangle = S_2\\
+
+        f=\mathsf{getFunction}(v) \qquad
+        \Sigma_F(f)=\langle \Delta_f,Ret_f\rangle \qquad
+        
+        \mathsf{applySummary}(\Delta_f,Ret_f,\vec{x}_{in},\vec{x}_{out},S_2)\Downarrow S_3
+    \end{array}
+} { \step{l}{S}{\nexti(l)}{S_3} }
+\]
+
+\subsection{SideEffect}
+\[
+\frac{
+    cmd(l)=\mathsf{SideEffect}(\mathsf{SysCall}) \qquad
+    S'=\mathsf{applySysCall}(l,S)
+} { \step{l}{S}{\nexti(l)}{S'} }
+\]
+
+\[
+\frac{
+    cmd(l)=\mathsf{SideEffect}(se)
+} { \step{l}{S}{\nexti(l)}{S} }
+\]
+
+\section{ApplySummary}
+
+\[
+\frac{
+    \begin{array}{@{}c@{}}
+        \Delta_f=\langle A_f,U_f\rangle \qquad
+        \mathsf{matchArgs}(A_f,\vec{x}_{in},S)\Downarrow S_1\\
+        \mathsf{applyUpdates}(U_f,S_1)\Downarrow S_2 \qquad
+        \mathsf{matchReturn}(Ret_f,\vec{x}_{out},S_2)\Downarrow S'
+    \end{array}
+}{
+    \mathsf{applySummary}(\Delta_f,Ret_f,\vec{x}_{in},\vec{x}_{out},S)\Downarrow S'
+}
+\]
+
+\end{document}

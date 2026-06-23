@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "QMSt3zGvHcw=",
+  "dgSpecHash": "fj5768mCFkU=",
   "success": true,
   "projectFilePath": "/mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/src/PointerAnalyzer.fsproj",
   "expectedPackageFiles": [
@@ -44,19 +44,10 @@
     "/home/mntly/.nuget/packages/fsharp.data.runtime.utilities/6.6.0/fsharp.data.runtime.utilities.6.6.0.nupkg.sha512",
     "/home/mntly/.nuget/packages/fsharp.data.worldbank.core/6.6.0/fsharp.data.worldbank.core.6.6.0.nupkg.sha512",
     "/home/mntly/.nuget/packages/fsharp.data.xml.core/6.6.0/fsharp.data.xml.core.6.6.0.nupkg.sha512",
+    "/home/mntly/.nuget/packages/microsoft.z3/4.12.2/microsoft.z3.4.12.2.nupkg.sha512",
     "/home/mntly/.nuget/packages/sha3core/1.0.1/sha3core.1.0.1.nupkg.sha512",
     "/home/mntly/.nuget/packages/system.configuration.configurationmanager/4.4.0/system.configuration.configurationmanager.4.4.0.nupkg.sha512",
     "/home/mntly/.nuget/packages/system.security.cryptography.protecteddata/4.4.0/system.security.cryptography.protecteddata.4.4.0.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1900",
-      "level": "Warning",
-      "message": "Error occurred while getting package vulnerability data: Unable to load the service index for source https://api.nuget.org/v3/index.json.",
-      "projectPath": "/mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/src/PointerAnalyzer.fsproj",
-      "warningLevel": 1,
-      "filePath": "/mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/src/PointerAnalyzer.fsproj",
-      "targetGraphs": []
-    }
-  ]
+  "logs": []
 }

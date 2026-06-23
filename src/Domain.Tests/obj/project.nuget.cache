@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "AOLrfXiQenw=",
+  "dgSpecHash": "CLbtPjPS2gs=",
   "success": true,
   "projectFilePath": "/mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/src/Domain.Tests/Domain.Tests.fsproj",
   "expectedPackageFiles": [
@@ -56,6 +56,7 @@
     "/home/mntly/.nuget/packages/microsoft.testplatform.adapterutilities/17.13.0/microsoft.testplatform.adapterutilities.17.13.0.nupkg.sha512",
     "/home/mntly/.nuget/packages/microsoft.testplatform.objectmodel/17.14.1/microsoft.testplatform.objectmodel.17.14.1.nupkg.sha512",
     "/home/mntly/.nuget/packages/microsoft.testplatform.testhost/17.14.1/microsoft.testplatform.testhost.17.14.1.nupkg.sha512",
+    "/home/mntly/.nuget/packages/microsoft.z3/4.12.2/microsoft.z3.4.12.2.nupkg.sha512",
     "/home/mntly/.nuget/packages/mstest.analyzers/3.10.5/mstest.analyzers.3.10.5.nupkg.sha512",
     "/home/mntly/.nuget/packages/mstest.testadapter/3.10.5/mstest.testadapter.3.10.5.nupkg.sha512",
     "/home/mntly/.nuget/packages/mstest.testframework/3.10.5/mstest.testframework.3.10.5.nupkg.sha512",

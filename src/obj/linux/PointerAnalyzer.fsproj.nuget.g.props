@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <RestoreSuccess Condition=" '$(RestoreSuccess)' == '' ">True</RestoreSuccess>
+    <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
+    <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>
+    <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">/home/mntly/.nuget/packages/</NuGetPackageRoot>
+    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">/home/mntly/.nuget/packages/</NuGetPackageFolders>
+    <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
+    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">7.0.0</NuGetToolVersion>
+  </PropertyGroup>
+  <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <SourceRoot Include="/home/mntly/.nuget/packages/" />
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <PkgMicrosoft_Z3_x64 Condition=" '$(PkgMicrosoft_Z3_x64)' == '' ">/home/mntly/.nuget/packages/microsoft.z3.x64/4.8.10</PkgMicrosoft_Z3_x64>
+    <PkgFSharp_Core Condition=" '$(PkgFSharp_Core)' == '' ">/home/mntly/.nuget/packages/fsharp.core/10.1.300</PkgFSharp_Core>
+    <PkgB2R2_FrontEnd_API Condition=" '$(PkgB2R2_FrontEnd_API)' == '' ">/home/mntly/.nuget/packages/b2r2.frontend.api/0.10.0</PkgB2R2_FrontEnd_API>
+    <PkgB2R2_MiddleEnd_API Condition=" '$(PkgB2R2_MiddleEnd_API)' == '' ">/home/mntly/.nuget/packages/b2r2.middleend.api/0.10.0</PkgB2R2_MiddleEnd_API>
+    <PkgB2R2_Assembly_API Condition=" '$(PkgB2R2_Assembly_API)' == '' ">/home/mntly/.nuget/packages/b2r2.assembly.api/0.10.0</PkgB2R2_Assembly_API>
+    <PkgArgu Condition=" '$(PkgArgu)' == '' ">/home/mntly/.nuget/packages/argu/6.2.5</PkgArgu>
+  </PropertyGroup>
+</Project>

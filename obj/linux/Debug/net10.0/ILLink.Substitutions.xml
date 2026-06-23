@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<linker>
+  <assembly fullname="PointerAnalyzer">
+    <resource name="FSharpSignatureData.PointerAnalyzer" action="remove"></resource>
+    <resource name="FSharpSignatureCompressedData.PointerAnalyzer" action="remove"></resource>
+    <resource name="FSharpSignatureDataB.PointerAnalyzer" action="remove"></resource>
+    <resource name="FSharpSignatureCompressedDataB.PointerAnalyzer" action="remove"></resource>
+    <resource name="FSharpOptimizationData.PointerAnalyzer" action="remove"></resource>
+    <resource name="FSharpOptimizationCompressedData.PointerAnalyzer" action="remove"></resource>
+    <resource name="FSharpOptimizationDataB.PointerAnalyzer" action="remove"></resource>
+    <resource name="FSharpOptimizationCompressedDataB.PointerAnalyzer" action="remove"></resource>
+    <resource name="FSharpOptimizationInfo.PointerAnalyzer" action="remove"></resource>
+    <resource name="FSharpSignatureInfo.PointerAnalyzer" action="remove"></resource>
+  </assembly>
+</linker>

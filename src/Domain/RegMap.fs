@@ -2,31 +2,44 @@ module PointerAnalyzer.AbsDom.RegMap
 
 open B2R2.BinIR.SSA
 open PointerAnalyzer
-open PointerAnalyzer.AbsDom.Signature
-open PointerAnalyzer.AbsDom.Functor
 open PointerAnalyzer.AbsDom.AbsVal
 
-type SsaRegister = Variable
-
-type private SsaRegisterElem () =
-  inherit Elem<SsaRegister> ()
-
-  override __.toString reg = Variable.ToString reg
-
-type RegMap = Map<SsaRegister, AbsVal>
+/// R_M = R -> V, where an SSA Variable is the register indicator R.
+type RegMap = Map<Variable, AbsVal>
 
 type RegMapModule (architecture: Architecture) =
-  inherit MapDomain<SsaRegister, AbsVal>
-    (SsaRegisterElem (), AbsValDomain.create architecture)
-
   let absVal = AbsValDomain.create architecture
 
-  member __.make entries : RegMap = Map.ofList entries
+  member _.bot: RegMap = Map.empty
 
-  member __.joinValue x y = absVal.join x y
+  member _.tryFind variable regMap = Map.tryFind variable regMap
+
+  member _.find variable regMap =
+    Map.tryFind variable regMap |> Option.defaultValue absVal.bot
+
+  member _.add variable value regMap = Map.add variable value regMap
+
+  member _.join (left: Map<Variable, AbsVal>) right =
+    let joinInner acc variable value =
+      match Map.tryFind variable acc with
+      | Some oldValue -> Map.add variable (absVal.join oldValue value) acc
+      | None -> Map.add variable value acc
+
+    Map.fold joinInner right left
+
+  member _.leq left right =
+    let leqInner variable value =
+      match Map.tryFind variable right with
+      | Some rightValue -> absVal.leq value rightValue
+      | None -> false
+
+    Map.forall leqInner left
+
+  member _.toString registers =
+    let printElem (variable, value) =
+      sprintf "%s |-> %s" (Variable.ToString variable) (absVal.toString value)
+
+    registers |> Map.toList |> List.map printElem |> String.concat "\n"
 
 module RegMapDomain =
   let create architecture = RegMapModule architecture
-
-  let createFromString architecture =
-    Architecture.ofString architecture |> create

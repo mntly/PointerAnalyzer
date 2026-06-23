@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup>
+    <BuildHostOS Condition="$([MSBuild]::IsOSPlatform('Windows'))">windows</BuildHostOS>
+    <BuildHostOS Condition="$([MSBuild]::IsOSPlatform('Linux'))">linux</BuildHostOS>
+    <BuildHostOS Condition="$([MSBuild]::IsOSPlatform('OSX'))">macos</BuildHostOS>
+    <BuildHostOS Condition="'$(BuildHostOS)' == ''">other</BuildHostOS>
+
+    <BaseIntermediateOutputPath>obj/$(BuildHostOS)/</BaseIntermediateOutputPath>
+    <BaseOutputPath>bin/$(BuildHostOS)/</BaseOutputPath>
+  </PropertyGroup>
+</Project>

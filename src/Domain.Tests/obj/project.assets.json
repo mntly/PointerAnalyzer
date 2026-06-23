@@ -1434,6 +1434,32 @@
           "build/net8.0/Microsoft.TestPlatform.TestHost.targets": {}
         }
       },
+      "Microsoft.Z3/4.12.2": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Z3.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Z3.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "build/_._": {}
+        },
+        "runtimeTargets": {
+          "runtimes/osx-x64/native/libz3.dylib": {
+            "assetType": "native",
+            "rid": "osx-x64"
+          },
+          "runtimes/win-x64/native/libz3.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          }
+        }
+      },
       "MSTest.Analyzers/3.10.5": {
         "type": "package",
         "build": {
@@ -1572,7 +1598,8 @@
           "Argu": "6.2.5",
           "B2R2.FrontEnd.API": "0.9.1",
           "B2R2.MiddleEnd.API": "0.9.1",
-          "FSharp.Core": "10.0.108"
+          "FSharp.Core": "10.0.108",
+          "Microsoft.Z3": "4.12.2"
         },
         "compile": {
           "bin/placeholder/PointerAnalyzer.dll": {}
@@ -3142,6 +3169,23 @@
         "lib/net8.0/zh-Hant/Microsoft.VisualStudio.TestPlatform.Common.resources.dll",
         "microsoft.testplatform.testhost.17.14.1.nupkg.sha512",
         "microsoft.testplatform.testhost.nuspec"
+      ]
+    },
+    "Microsoft.Z3/4.12.2": {
+      "sha512": "dOV/D1K+OH2Ris7HcXHM2OIyHaFc6t3twNg9d8xqRKs3JZBvWgTp+OmzVfNGPn+Yz/wQDAHeWgecJly5aHGYAw==",
+      "type": "package",
+      "path": "microsoft.z3/4.12.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "build/Microsoft.Z3.targets",
+        "content/icon.jpg",
+        "lib/netstandard2.0/Microsoft.Z3.dll",
+        "lib/netstandard2.0/Microsoft.Z3.xml",
+        "microsoft.z3.4.12.2.nupkg.sha512",
+        "microsoft.z3.nuspec",
+        "runtimes/osx-x64/native/libz3.dylib",
+        "runtimes/win-x64/native/libz3.dll"
       ]
     },
     "MSTest.Analyzers/3.10.5": {

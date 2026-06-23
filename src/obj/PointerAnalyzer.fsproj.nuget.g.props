@@ -13,6 +13,7 @@
     <SourceRoot Include="/home/mntly/.nuget/packages/" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <PkgMicrosoft_Z3 Condition=" '$(PkgMicrosoft_Z3)' == '' ">/home/mntly/.nuget/packages/microsoft.z3/4.12.2</PkgMicrosoft_Z3>
     <PkgFSharp_Core Condition=" '$(PkgFSharp_Core)' == '' ">/home/mntly/.nuget/packages/fsharp.core/10.0.108</PkgFSharp_Core>
     <PkgB2R2_FrontEnd_API Condition=" '$(PkgB2R2_FrontEnd_API)' == '' ">/home/mntly/.nuget/packages/b2r2.frontend.api/0.9.1</PkgB2R2_FrontEnd_API>
     <PkgB2R2_MiddleEnd_API Condition=" '$(PkgB2R2_MiddleEnd_API)' == '' ">/home/mntly/.nuget/packages/b2r2.middleend.api/0.9.1</PkgB2R2_MiddleEnd_API>
