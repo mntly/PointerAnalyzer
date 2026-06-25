@@ -1,14 +1,14 @@
 module PointerAnalyzer.AbsDom.RegMap
 
 open B2R2.BinIR.SSA
-open PointerAnalyzer
+open PointerAnalyzer.Platform.PlatformTypes
 open PointerAnalyzer.AbsDom.AbsVal
 
 /// R_M = R -> V, where an SSA Variable is the register indicator R.
 type RegMap = Map<Variable, AbsVal>
 
-type RegMapModule (architecture: Architecture) =
-  let absVal = AbsValDomain.create architecture
+type RegMapModule (platform: Platform) =
+  let absVal = AbsValDomain.create platform
 
   member _.bot: RegMap = Map.empty
 
@@ -42,4 +42,4 @@ type RegMapModule (architecture: Architecture) =
     registers |> Map.toList |> List.map printElem |> String.concat "\n"
 
 module RegMapDomain =
-  let create architecture = RegMapModule architecture
+  let create platform = RegMapModule platform

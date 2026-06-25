@@ -1,15 +1,13 @@
 module PointerAnalyzer.Summary.SummaryApplicator
 
 open B2R2.BinIR.SSA
-open PointerAnalyzer
-open PointerAnalyzer.Platform.CallingConvention
+open PointerAnalyzer.Platform.PlatformTypes
 open PointerAnalyzer.AbsDom.AnalysisState
 open PointerAnalyzer.Summary
 
-type SummaryApplicatorModule
-  (architecture: Architecture, convention: CallingConvention) =
+type SummaryApplicatorModule (platform: Platform) =
 
-  let stateDom = AnalysisStateDomain.createDefault architecture
+  let stateDom = AnalysisStateDomain.createDefault platform
 
   let callSiteContext summary state =
     { ReturnAddressOffset = state.StackDelta
@@ -26,7 +24,7 @@ type SummaryApplicatorModule
 
   let inferArguments context state =
     let filterArg (reg, _regVal) =
-      match convention.TryCallArgumentIndex context reg with
+      match platform.TryCallArgumentIndex context reg with
       | Some idx -> Some (idx, reg)
       | None -> None
 
@@ -42,7 +40,7 @@ type SummaryApplicatorModule
 
   let setPendingReturns summary state =
     let setPendingReturnsInner state retIdx calleeRetTypId =
-      match List.tryItem retIdx convention.ReturnRegisters with
+      match List.tryItem retIdx platform.ReturnRegisters with
       | Some retRegId -> stateDom.setPendingReturn retRegId calleeRetTypId state
       | None -> state
 
@@ -58,11 +56,11 @@ type SummaryApplicatorModule
     let context = callSiteContext summary state
 
     let inVarType variable =
-      convention.TryCallArgumentIndex context variable
+      platform.TryCallArgumentIndex context variable
       |> Option.bind (fun index -> Map.tryFind index summary.Parameters)
 
     let outVarType variable =
-      convention.TryReturnIndex variable
+      platform.TryReturnIndex variable
       |> Option.bind (fun index -> Map.tryFind index summary.Returns)
 
     let state =
@@ -78,5 +76,4 @@ type SummaryApplicatorModule
       connectVariables outVarType outputs state
 
 module SummaryApplicator =
-  let create architecture convention =
-    SummaryApplicatorModule (architecture, convention)
+  let create platform = SummaryApplicatorModule platform

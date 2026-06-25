@@ -2,7 +2,7 @@ module PointerAnalyzer.AbsDom.AnalysisState
 
 open B2R2
 open B2R2.BinIR.SSA
-open PointerAnalyzer
+open PointerAnalyzer.Platform.PlatformTypes
 open PointerAnalyzer.AbsDom.AbsMem
 open PointerAnalyzer.AbsDom.AbsVal
 open PointerAnalyzer.AbsDom.RegMap
@@ -16,10 +16,10 @@ type AnalysisState =
     PendingReturns: Map<RegisterID, TypeId>
     StackDelta: int option }
 
-type AnalysisStateModule (architecture: Architecture, startTypeId: TypeId) =
-  let absVal = AbsValDomain.create architecture
-  let regMap = RegMapDomain.create architecture
-  let memory = AbsMemDomain.create architecture
+type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
+  let absVal = AbsValDomain.create platform
+  let regMap = RegMapDomain.create platform
+  let memory = AbsMemDomain.create platform
   let types = TypeStateDomain.create startTypeId
 
   member _.AbsVal = absVal
@@ -87,7 +87,7 @@ type AnalysisStateModule (architecture: Architecture, startTypeId: TypeId) =
 
     { state with StackDelta = stackDelta }
 
-  member _.consumePendingReturn variable state =
+  member _.consumePendingReturn (variable: Variable) state =
     match variable.Kind with
     | RegVar (_, registerId, _) ->
       match Map.tryFind registerId state.PendingReturns with
@@ -153,7 +153,7 @@ type AnalysisStateModule (architecture: Architecture, startTypeId: TypeId) =
         | _ -> None }
 
 module AnalysisStateDomain =
-  let create architecture startTypeId =
-    AnalysisStateModule (architecture, startTypeId)
+  let create platform startTypeId =
+    AnalysisStateModule (platform, startTypeId)
 
-  let createDefault architecture = create architecture 0
+  let createDefault platform = create platform 0

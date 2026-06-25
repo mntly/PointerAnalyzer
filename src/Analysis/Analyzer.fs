@@ -3,7 +3,7 @@ module PointerAnalyzer.Analysis.Analyzer
 open B2R2.BinIR.SSA
 open B2R2.MiddleEnd.BinGraph
 open B2R2.MiddleEnd.ControlFlowGraph
-open PointerAnalyzer
+open PointerAnalyzer.Platform.PlatformTypes
 open PointerAnalyzer.AbsDom.AnalysisState
 open PointerAnalyzer.AbsDom.TypeConstraint
 open PointerAnalyzer.AbsDom.TypeMap
@@ -15,15 +15,15 @@ type AnalysisResult =
     TypeConflicts: Set<TypeId> }
 
 type AnalyzerModule
-  (architecture: Architecture, startTypeId: TypeId, config: StmtEvalConfig) =
-  let stateDom = AnalysisStateDomain.create architecture startTypeId
-  let stmtEval = StmtEvalDomain.createWithConfig architecture config
+  (platform: Platform, startTypeId: TypeId, config: StmtEvalConfig) =
+  let stateDom = AnalysisStateDomain.create platform startTypeId
+  let stmtEval = StmtEvalDomain.createWithConfig platform config
 
-  new (architecture: Architecture) =
-    AnalyzerModule (architecture, 0, StmtEvalConfig.empty)
+  new (platform: Platform) =
+    AnalyzerModule (platform, 0, StmtEvalConfig.empty)
 
-  new (architecture: Architecture, config: StmtEvalConfig) =
-    AnalyzerModule (architecture, 0, config)
+  new (platform: Platform, config: StmtEvalConfig) =
+    AnalyzerModule (platform, 0, config)
 
   member __.InitialState = stateDom.bot
 
@@ -127,21 +127,21 @@ type AnalyzerModule
     Array.fold runRoot (this.InitialState, Set.empty) cfg.Roots |> fst
 
 module AnalyzerDomain =
-  let createWithStart architecture startTypeId config =
-    AnalyzerModule (architecture, startTypeId, config)
+  let createWithStart platform startTypeId config =
+    AnalyzerModule (platform, startTypeId, config)
 
-  let createWithConfig architecture config =
-    createWithStart architecture 0 config
+  let createWithConfig platform config =
+    createWithStart platform 0 config
 
-  let create architecture = AnalyzerModule architecture
+  let create platform = AnalyzerModule platform
 
-  let createFromString architecture =
-    Architecture.ofString architecture |> create
+  let createFromString platform =
+    PointerAnalyzer.Platform.Platform.ofString platform |> create
 
-  let analyzeWithStart architecture startTypeId config cfg =
-    let analyzer = createWithStart architecture startTypeId config
+  let analyzeWithStart platform startTypeId config cfg =
+    let analyzer = createWithStart platform startTypeId config
     let finalState = analyzer.analyze cfg
-    let stateDomain = AnalysisStateDomain.create architecture startTypeId
+    let stateDomain = AnalysisStateDomain.create platform startTypeId
 
     let solvedState =
       { finalState with
@@ -151,5 +151,5 @@ module AnalyzerDomain =
       TypeConstraints = solvedState.Types.Constraints
       TypeConflicts = solvedState.Types.Conflicts }
 
-  let analyze architecture config cfg =
-    analyzeWithStart architecture 0 config cfg
+  let analyze platform config cfg =
+    analyzeWithStart platform 0 config cfg

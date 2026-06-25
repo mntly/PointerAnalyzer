@@ -1,7 +1,7 @@
 module PointerAnalyzer.Summary.FunctionSummaryBuilder
 
 open B2R2.BinIR.SSA
-open PointerAnalyzer.Platform.CallingConvention
+open PointerAnalyzer.Platform.PlatformTypes
 open PointerAnalyzer.Analysis.Analyzer
 open PointerAnalyzer.Summary
 
@@ -26,16 +26,16 @@ module FunctionSummaryBuilder =
   let build
     address
     name
-    (convention: CallingConvention)
+    (platform: Platform)
     (result: AnalysisResult)
     =
     let filterParams (reg, tid: PointerAnalyzer.AbsDom.TypeMap.TypeId) =
-      match convention.TryParameterIndex reg with
+      match platform.TryParameterIndex reg with
       | Some paramIdx -> Some (paramIdx, reg, tid)
       | None -> None
 
     let filterReturns (reg, tid: PointerAnalyzer.AbsDom.TypeMap.TypeId) =
-      match convention.TryReturnIndex reg with
+      match platform.TryReturnIndex reg with
       | Some paramIdx -> Some (paramIdx, reg, tid)
       | None -> None
 

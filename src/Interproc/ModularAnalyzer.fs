@@ -73,9 +73,8 @@ module ModularAnalyzer =
     | _ -> None
 
   let analyze (program: ProgramDFAResult) =
-    let architecture = program.Binary.Architecture
-    let convention = program.Binary.CallingConvention
-    let applicator = SummaryApplicator.create architecture convention
+    let platform = program.Binary.Platform
+    let applicator = SummaryApplicator.create platform
     let visitOrder = revDFS program.Functions
 
     let analyzeFunction (calleeAnalyResults, summaries, nextTypeId) targetAddr =
@@ -103,12 +102,12 @@ module ModularAnalyzer =
             ConstValue = function_.DFAResult.ConstValue
             ClassifyConstant =
               ConstantClassifier.forBinary program.Binary.Handle
-            StackPointer = Some convention.StackPointer
+            StackPointer = Some platform.StackPointer
             ApplyCallSummary = applyCallSummary }
 
       let result =
         AnalyzerDomain.analyzeWithStart
-          architecture
+          platform
           nextTypeId
           config
           function_.CFG
@@ -117,7 +116,7 @@ module ModularAnalyzer =
         FunctionSummaryBuilder.build
           function_.Address
           function_.Name
-          convention
+          platform
           result
 
       let analysis =

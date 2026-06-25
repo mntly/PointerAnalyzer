@@ -134,7 +134,7 @@ let main argv =
 
       printfn "Binary: %s" binary.Path
       printfn "ISA: %A" binary.Handle.File.ISA
-      printfn "Calling convention: %s" binary.CallingConvention.Name
+      printfn "Platform: %s" binary.Platform.Name
 
       let program = ProgramRecovery.recover binary
       printfn "Recovered functions: %d" program.Functions.Count

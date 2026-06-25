@@ -3,7 +3,7 @@ module PointerAnalyzer.Analysis.ExprEval
 open B2R2
 open B2R2.BinIR
 open B2R2.BinIR.SSA
-open PointerAnalyzer
+open PointerAnalyzer.Platform.PlatformTypes
 open PointerAnalyzer.AbsDom.AbsVal
 open PointerAnalyzer.AbsDom.AnalysisState
 open PointerAnalyzer.AbsDom.TypeMap
@@ -19,13 +19,12 @@ type ExprEvalConfig =
 module ExprEvalConfig =
   let empty = { ClassifyConstant = fun _ -> ValueConstant }
 
-type ExprEvalModule (architecture: Architecture, config: ExprEvalConfig) =
+type ExprEvalModule (platform: Platform, config: ExprEvalConfig) =
 
-  let absVal = AbsValDomain.create architecture
-  let stateDom = AnalysisStateDomain.createDefault architecture
+  let absVal = AbsValDomain.create platform
+  let stateDom = AnalysisStateDomain.createDefault platform
 
-  new (architecture: Architecture) =
-    ExprEvalModule (architecture, ExprEvalConfig.empty)
+  new (platform: Platform) = ExprEvalModule (platform, ExprEvalConfig.empty)
 
   member private _.markValue typeId state =
     match typeId with
@@ -196,10 +195,9 @@ type ExprEvalModule (architecture: Architecture, config: ExprEvalConfig) =
     | Undefined _ -> absVal.bot, None, state
 
 module ExprEvalDomain =
-  let createWithConfig architecture config =
-    ExprEvalModule (architecture, config)
+  let createWithConfig platform config = ExprEvalModule (platform, config)
 
-  let create architecture = ExprEvalModule architecture
+  let create platform = ExprEvalModule platform
 
-  let createFromString architecture =
-    Architecture.ofString architecture |> create
+  let createFromString platform =
+    PointerAnalyzer.Platform.Platform.ofString platform |> create

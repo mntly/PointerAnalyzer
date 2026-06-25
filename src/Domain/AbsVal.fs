@@ -2,7 +2,7 @@ module PointerAnalyzer.AbsDom.AbsVal
 
 open B2R2
 open B2R2.BinIR
-open PointerAnalyzer
+open PointerAnalyzer.Platform.PlatformTypes
 open PointerAnalyzer.AbsDom.Signature
 
 /// V = n | bottom | top
@@ -11,7 +11,7 @@ type AbsVal =
   | Const of BitVector
   | Top
 
-type AbsValModule (_architecture: Architecture) =
+type AbsValModule (_platform: Platform) =
   inherit AbstractDomain<AbsVal> ()
 
   let unary op =
@@ -135,7 +135,7 @@ type AbsValModule (_architecture: Architecture) =
     | _ -> Top
 
 module AbsValDomain =
-  let create architecture = AbsValModule architecture
+  let create platform = AbsValModule platform
 
-  let createFromString architecture =
-    Architecture.ofString architecture |> create
+  let createFromString platform =
+    PointerAnalyzer.Platform.Platform.ofString platform |> create

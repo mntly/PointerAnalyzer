@@ -1,6 +1,6 @@
 module PointerAnalyzer.AbsDom.AbsMem
 
-open PointerAnalyzer
+open PointerAnalyzer.Platform.PlatformTypes
 open PointerAnalyzer.AbsDom.AbsVal
 open PointerAnalyzer.AbsDom.TypeMap
 
@@ -12,8 +12,8 @@ type MemVal = { Value: AbsVal; TypeId: TypeId }
 
 type AbsMem = Map<MemLoc, MemVal>
 
-type AbsMemModule (architecture: Architecture) =
-  let absVal = AbsValDomain.create architecture
+type AbsMemModule (platform: Platform) =
+  let absVal = AbsValDomain.create platform
 
   member _.bot: AbsMem = Map.empty
 
@@ -73,7 +73,7 @@ type AbsMemModule (architecture: Architecture) =
     |> String.concat "\n"
 
 module AbsMemDomain =
-  let create architecture = AbsMemModule architecture
+  let create platform = AbsMemModule platform
 
-  let createFromString architecture =
-    Architecture.ofString architecture |> create
+  let createFromString platform =
+    PointerAnalyzer.Platform.Platform.ofString platform |> create

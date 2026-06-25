@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Core/IntTypes.fs" />
+    <Compile Include="Platform/PlatformTypes.fs" />
+    <Compile Include="Platform/ELF/x86_32/Platform.fs" />
+    <Compile Include="Platform/Platform.fs" />
     <Compile Include="Domain/Signature.fs" />
     <Compile Include="Domain/AbsVal.fs" />
     <Compile Include="Domain/RegMap.fs" />
@@ -17,7 +19,6 @@
     <Compile Include="Domain/TypeState.fs" />
     <Compile Include="Domain/AbsMem.fs" />
     <Compile Include="Domain/AnalysisState.fs" />
-    <Compile Include="Architecture/CallingConvention.fs" />
     <Compile Include="Summary/TypePerInst.fs" />
     <Compile Include="Summary/FunctionSummary.fs" />
     <Compile Include="Summary/SummaryApplicator.fs" />

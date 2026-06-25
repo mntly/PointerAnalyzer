@@ -3,7 +3,7 @@ module PointerAnalyzer.Analysis.StmtEval
 open B2R2
 open B2R2.BinIR
 open B2R2.BinIR.SSA
-open PointerAnalyzer
+open PointerAnalyzer.Platform.PlatformTypes
 open PointerAnalyzer.AbsDom.AbsVal
 open PointerAnalyzer.AbsDom.AnalysisState
 open PointerAnalyzer.Analysis.ExprEval
@@ -45,18 +45,18 @@ module StmtEvalConfig =
       ApplyCallSummary = fun _ _ _ _ -> None
       Debug = false }
 
-type StmtEvalModule (architecture: Architecture, config: StmtEvalConfig) =
+type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
 
-  let absVal = AbsValDomain.create architecture
-  let stateDom = AnalysisStateDomain.createDefault architecture
+  let absVal = AbsValDomain.create platform
+  let stateDom = AnalysisStateDomain.createDefault platform
 
   let exprEval =
     ExprEvalDomain.createWithConfig
-      architecture
+      platform
       { ClassifyConstant = config.ClassifyConstant }
 
-  new (architecture: Architecture) =
-    StmtEvalModule (architecture, StmtEvalConfig.empty)
+  new (platform: Platform) =
+    StmtEvalModule (platform, StmtEvalConfig.empty)
 
   member private _.ensureTypeId typeId state =
     match typeId with
@@ -69,7 +69,7 @@ type StmtEvalModule (architecture: Architecture, config: StmtEvalConfig) =
     else
       state
 
-  member private _.isStackPointer variable =
+  member private _.isStackPointer (variable: Variable) =
     match config.StackPointer, variable.Kind with
     | Some stackPointer, RegVar (_, registerId, _) -> registerId = stackPointer
     | _ -> false
@@ -85,7 +85,7 @@ type StmtEvalModule (architecture: Architecture, config: StmtEvalConfig) =
     with _ ->
       None
 
-  member private this.tryStackDeltaChange expr =
+  member private this.tryStackDeltaChange (expr: Expr) =
     let isStackPointerExpr =
       function
       | Var variable when this.isStackPointer variable -> true
@@ -109,7 +109,7 @@ type StmtEvalModule (architecture: Architecture, config: StmtEvalConfig) =
       | None -> None
     | _ -> None
 
-  member private this.updateStackDelta variable expr state =
+  member private this.updateStackDelta (variable: Variable) expr state =
     if this.isStackPointer variable then
       match this.tryStackDeltaChange expr with
       | Some delta -> stateDom.adjustStackDelta delta state
@@ -117,7 +117,7 @@ type StmtEvalModule (architecture: Architecture, config: StmtEvalConfig) =
     else
       state
 
-  member private this.defReg variable value typeId state =
+  member private this.defReg (variable: Variable) value typeId state =
     let typeId, state = this.ensureTypeId typeId state
     let pendingReturn, state = stateDom.consumePendingReturn variable state
 
@@ -129,7 +129,7 @@ type StmtEvalModule (architecture: Architecture, config: StmtEvalConfig) =
     let state = stateDom.setRegister variable value typeId state
     state |> this.applyPointerHint variable typeId
 
-  member private this.evalDefinition variable expr state =
+  member private this.evalDefinition (variable: Variable) expr state =
     let evaluatedValue, typeId, state = exprEval.Eval state expr
 
     let value =
@@ -310,10 +310,10 @@ type StmtEvalModule (architecture: Architecture, config: StmtEvalConfig) =
     results
 
 module StmtEvalDomain =
-  let createWithConfig architecture config =
-    StmtEvalModule (architecture, config)
+  let createWithConfig platform config =
+    StmtEvalModule (platform, config)
 
-  let create architecture = StmtEvalModule architecture
+  let create platform = StmtEvalModule platform
 
-  let createFromString architecture =
-    Architecture.ofString architecture |> create
+  let createFromString platform =
+    PointerAnalyzer.Platform.Platform.ofString platform |> create
