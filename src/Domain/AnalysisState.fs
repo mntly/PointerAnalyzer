@@ -1,5 +1,6 @@
 module PointerAnalyzer.AbsDom.AnalysisState
 
+open B2R2
 open B2R2.BinIR.SSA
 open PointerAnalyzer
 open PointerAnalyzer.AbsDom.AbsMem
@@ -11,7 +12,9 @@ open PointerAnalyzer.AbsDom.TypeState
 type AnalysisState =
   { RegMap: RegMap
     Memory: AbsMem
-    Types: TypeState }
+    Types: TypeState
+    PendingReturns: Map<RegisterID, TypeId>
+    StackDelta: int option }
 
 type AnalysisStateModule (architecture: Architecture, startTypeId: TypeId) =
   let absVal = AbsValDomain.create architecture
@@ -27,7 +30,9 @@ type AnalysisStateModule (architecture: Architecture, startTypeId: TypeId) =
   member _.bot =
     { RegMap = regMap.bot
       Memory = memory.bot
-      Types = types.bot }
+      Types = types.bot
+      PendingReturns = Map.empty
+      StackDelta = None }
 
   member _.freshTypeId state =
     let typeId, typeState = types.fresh state.Types
@@ -72,6 +77,27 @@ type AnalysisStateModule (architecture: Architecture, startTypeId: TypeId) =
     { state with
         Types = types.addSubResult result left right state.Types }
 
+  member _.setPendingReturn retRegId calleeRetTypId state =
+    { state with
+        PendingReturns = Map.add retRegId calleeRetTypId state.PendingReturns }
+
+  member _.adjustStackDelta delta state =
+    let stackDelta =
+      state.StackDelta |> Option.defaultValue 0 |> (+) delta |> Some
+
+    { state with StackDelta = stackDelta }
+
+  member _.consumePendingReturn variable state =
+    match variable.Kind with
+    | RegVar (_, registerId, _) ->
+      match Map.tryFind registerId state.PendingReturns with
+      | Some typeId ->
+        Some typeId,
+        { state with
+            PendingReturns = Map.remove registerId state.PendingReturns }
+      | None -> None, state
+    | _ -> None, state
+
   member _.load memoryVersion address state =
     match absVal.tryGetUInt64 address with
     | None -> absVal.top, None, state
@@ -113,7 +139,18 @@ type AnalysisStateModule (architecture: Architecture, startTypeId: TypeId) =
   member _.join left right =
     { RegMap = regMap.join left.RegMap right.RegMap
       Memory = memory.join left.Memory right.Memory
-      Types = types.join left.Types right.Types }
+      Types = types.join left.Types right.Types
+      PendingReturns =
+        right.PendingReturns
+        |> Map.fold
+          (fun result registerId typeId -> Map.add registerId typeId result)
+          left.PendingReturns
+      StackDelta =
+        match left.StackDelta, right.StackDelta with
+        | Some left, Some right when left = right -> Some left
+        | Some delta, None
+        | None, Some delta -> Some delta
+        | _ -> None }
 
 module AnalysisStateDomain =
   let create architecture startTypeId =

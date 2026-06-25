@@ -21,16 +21,29 @@ type PointerUse = Variable -> bool
 
 type ConstValue = Variable -> BitVector option
 
+type ApplyCallSummary =
+  ProgramPoint
+    -> Variable list
+    -> Variable list
+    -> AnalysisState
+    -> AnalysisState option
+
 type StmtEvalConfig =
   { PointerUse: PointerUse
     ConstValue: ConstValue
-    ClassifyConstant: BitVector -> ConstantType }
+    ClassifyConstant: BitVector -> ConstantType
+    StackPointer: RegisterID option
+    ApplyCallSummary: ApplyCallSummary
+    Debug: bool }
 
 module StmtEvalConfig =
   let empty =
     { PointerUse = fun _ -> false
       ConstValue = fun _ -> None
-      ClassifyConstant = fun _ -> UnknownConstant }
+      ClassifyConstant = fun _ -> UnknownConstant
+      StackPointer = None
+      ApplyCallSummary = fun _ _ _ _ -> None
+      Debug = false }
 
 type StmtEvalModule (architecture: Architecture, config: StmtEvalConfig) =
 
@@ -56,8 +69,63 @@ type StmtEvalModule (architecture: Architecture, config: StmtEvalConfig) =
     else
       state
 
+  member private _.isStackPointer variable =
+    match config.StackPointer, variable.Kind with
+    | Some stackPointer, RegVar (_, registerId, _) -> registerId = stackPointer
+    | _ -> false
+
+  member private _.tryInt value =
+    try
+      let value = BitVector.ToUInt64 value
+
+      if value <= uint64 System.Int32.MaxValue then
+        Some (int value)
+      else
+        None
+    with _ ->
+      None
+
+  member private this.tryStackDeltaChange expr =
+    let isStackPointerExpr =
+      function
+      | Var variable when this.isStackPointer variable -> true
+      | _ -> false
+
+    let tryNum =
+      function
+      | Num value -> this.tryInt value
+      | _ -> None
+
+    match expr with
+    | BinOp (BinOpType.SUB, _, left, right) when isStackPointerExpr left ->
+      tryNum right
+    | BinOp (BinOpType.ADD, _, left, right) when isStackPointerExpr left ->
+      match tryNum right with
+      | Some del -> Some -del
+      | None -> None
+    | BinOp (BinOpType.ADD, _, left, right) when isStackPointerExpr right ->
+      match tryNum left with
+      | Some del -> Some -del
+      | None -> None
+    | _ -> None
+
+  member private this.updateStackDelta variable expr state =
+    if this.isStackPointer variable then
+      match this.tryStackDeltaChange expr with
+      | Some delta -> stateDom.adjustStackDelta delta state
+      | None -> { state with StackDelta = None }
+    else
+      state
+
   member private this.defReg variable value typeId state =
     let typeId, state = this.ensureTypeId typeId state
+    let pendingReturn, state = stateDom.consumePendingReturn variable state
+
+    let state =
+      match pendingReturn with
+      | Some returnTypeId -> stateDom.addSame [ typeId; returnTypeId ] state
+      | None -> state
+
     let state = stateDom.setRegister variable value typeId state
     state |> this.applyPointerHint variable typeId
 
@@ -69,7 +137,9 @@ type StmtEvalModule (architecture: Architecture, config: StmtEvalConfig) =
       | Some constant -> absVal.ofBitVector constant
       | None -> evaluatedValue
 
-    this.defReg variable value typeId state
+    state
+    |> this.defReg variable value typeId
+    |> this.updateStackDelta variable expr
 
   member private _.evalMemoryDefinition newMem expr state =
     match expr with
@@ -87,37 +157,43 @@ type StmtEvalModule (architecture: Architecture, config: StmtEvalConfig) =
       let _, _, state = exprEval.Eval state expr
       state
 
-  member private _.phiSource destVar sourceId state =
-    let sourceVar = { destVar with Identifier = sourceId }
+  member private _.phiSource destVar srcId state =
+    let srcVar = { destVar with Identifier = srcId }
 
-    let typeId, state = stateDom.getOrFreshTypeId sourceVar state
+    let srcTypeId, state = stateDom.getOrFreshTypeId srcVar state
 
-    match stateDom.tryFindRegister sourceVar state with
-    | Some value -> value, typeId, state
+    match stateDom.tryFindRegister srcVar state with
+    | Some value -> value, srcTypeId, state
     | None ->
-      match config.ConstValue sourceVar with
+      match config.ConstValue srcVar with
       | Some constant ->
         let value = absVal.ofBitVector constant
-        value, typeId, stateDom.setRegister sourceVar value typeId state
-      | None -> absVal.bot, typeId, state
+        value, srcTypeId, stateDom.setRegister srcVar value srcTypeId state
+      | None -> absVal.bot, srcTypeId, state
 
-  member private this.evalPhi variable sourceIds state =
+  member private this.evalPhi variable srcIds state =
+    let getSrcValTyp (values, typeIds, state) sourceId =
+      let value, typeId, state = this.phiSource variable sourceId state
+      value :: values, typeId :: typeIds, state
+
     let values, sourceTypeIds, state =
-      (([], [], state), sourceIds)
-      ||> Array.fold (fun (values, typeIds, state) sourceId ->
-        let value, typeId, state = this.phiSource variable sourceId state
-        value :: values, typeId :: typeIds, state)
+      Array.fold getSrcValTyp ([], [], state) srcIds
 
-    let value = List.fold absVal.join absVal.bot values
-    let destinationTypeId, state = stateDom.getOrFreshTypeId variable state
+    let valueJoined = List.fold absVal.join absVal.bot values
+    let destTypeId, state = stateDom.getOrFreshTypeId variable state
 
     state
-    |> stateDom.addSame (destinationTypeId :: sourceTypeIds)
-    |> stateDom.setRegister variable value destinationTypeId
-    |> this.applyPointerHint variable destinationTypeId
+    |> stateDom.addSame (destTypeId :: sourceTypeIds)
+    |> stateDom.setRegister variable valueJoined destTypeId
+    |> this.applyPointerHint variable destTypeId
 
-  member this.Eval (stmt: B2R2.BinIR.SSA.Stmt) state : TransferResult list =
-    printfn "Stmt: %s" (PrettyPrinter.ToString [| stmt |])
+  member this.Eval
+    (programPoint: ProgramPoint)
+    (stmt: B2R2.BinIR.SSA.Stmt)
+    state
+    : TransferResult list =
+    if config.Debug then
+      printfn "Stmt: %s" (PrettyPrinter.ToString [| stmt |])
 
     let results =
       match stmt with
@@ -163,8 +239,11 @@ type StmtEvalModule (architecture: Architecture, config: StmtEvalConfig) =
           | Some typeId -> stateDom.addAddress typeId state
           | None -> state
 
-        [ { Target = InterTarget target
-            State = state } ]
+        match config.ApplyCallSummary programPoint [] [] state with
+        | Some state -> [ { Target = Next; State = state } ]
+        | None ->
+          [ { Target = InterTarget target
+              State = state } ]
 
       | Jmp (InterCJmp (conditionExpr, trueExpr, falseExpr)) ->
         let _, conditionTypeId, state = exprEval.Eval state conditionExpr
@@ -186,13 +265,17 @@ type StmtEvalModule (architecture: Architecture, config: StmtEvalConfig) =
             | Some typeId -> stateDom.addAddress typeId state
             | None -> state)
 
+        // How to distinguish real call target VS ambiguity
+        // match config.ApplyCallSummary programPoint [] [] state with
+        // | Some state -> [ { Target = Next; State = state } ]
+        // | None ->
         [ { Target = InterTarget trueTarget
             State = state }
           { Target = InterTarget falseTarget
             State = state } ]
 
       // Need to Apply Callee Function
-      | ExternalCall (calleeExpr, _, _) ->
+      | ExternalCall (calleeExpr, inputs, outputs) ->
         let _, calleeTypeId, state = exprEval.Eval state calleeExpr
 
         let state =
@@ -200,23 +283,29 @@ type StmtEvalModule (architecture: Architecture, config: StmtEvalConfig) =
           | Some typeId -> stateDom.addAddress typeId state
           | None -> state
 
+        let state =
+          match config.ApplyCallSummary programPoint inputs outputs state with
+          | Some appliedState -> appliedState
+          | None -> state
+
         [ { Target = Next; State = state } ]
 
       | SideEffect _ -> [ { Target = Next; State = state } ]
 
-    let addedConstraints =
-      results
-      |> Seq.collect (fun result ->
-        Set.difference result.State.Types.Constraints state.Types.Constraints)
-      |> Set.ofSeq
+    if config.Debug then
+      let addedConstraints =
+        results
+        |> Seq.collect (fun result ->
+          Set.difference result.State.Types.Constraints state.Types.Constraints)
+        |> Set.ofSeq
 
-    if Set.isEmpty addedConstraints then
-      printfn "  Added constraints: <none>"
-    else
-      printfn "  Added constraints:"
+      if Set.isEmpty addedConstraints then
+        printfn "  Added constraints: <none>"
+      else
+        printfn "  Added constraints:"
 
-      addedConstraints
-      |> Set.iter (stateDom.TypeState.constraintToString >> printfn "    %s")
+        addedConstraints
+        |> Set.iter (stateDom.TypeState.constraintToString >> printfn "    %s")
 
     results
 

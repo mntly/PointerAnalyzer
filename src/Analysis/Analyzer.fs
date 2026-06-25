@@ -14,22 +14,24 @@ type AnalysisResult =
     TypeConstraints: ConstraintSet
     TypeConflicts: Set<TypeId> }
 
-type AnalyzerModule (architecture: Architecture, config: StmtEvalConfig) =
-  let stateDom = AnalysisStateDomain.createDefault architecture
+type AnalyzerModule
+  (architecture: Architecture, startTypeId: TypeId, config: StmtEvalConfig) =
+  let stateDom = AnalysisStateDomain.create architecture startTypeId
   let stmtEval = StmtEvalDomain.createWithConfig architecture config
 
   new (architecture: Architecture) =
-    AnalyzerModule (architecture, StmtEvalConfig.empty)
+    AnalyzerModule (architecture, 0, StmtEvalConfig.empty)
+
+  new (architecture: Architecture, config: StmtEvalConfig) =
+    AnalyzerModule (architecture, 0, config)
 
   member __.InitialState = stateDom.bot
 
-  member __.EvalStmt state stmt = stmtEval.Eval stmt state
-
-  member private _.runBlock state stmts =
-    let rec runBlockInner state lst =
+  member private _.runBlock state (stmts: (B2R2.ProgramPoint * Stmt) array) =
+    let rec runBlockInner state (lst: (B2R2.ProgramPoint * Stmt) list) =
       match lst with
-      | (_, stmt) :: tl ->
-        match stmtEval.Eval stmt state with
+      | (programPoint, stmt) :: tl ->
+        match stmtEval.Eval programPoint stmt state with
         | [ { Target = Next; State = nextState } ] -> runBlockInner nextState tl
         | results -> results
       | [] -> [ { Target = Next; State = state } ]
@@ -65,13 +67,39 @@ type AnalyzerModule (architecture: Architecture, config: StmtEvalConfig) =
   member private _.JoinNormal left right types =
     { RegMap = stateDom.RegMap.join left.RegMap right.RegMap
       Memory = stateDom.AbsMem.join left.Memory right.Memory
-      Types = types }
+      Types = types
+      PendingReturns =
+        right.PendingReturns
+        |> Map.fold
+          (fun acc regId typeId -> Map.add regId typeId acc)
+          left.PendingReturns
+      StackDelta =
+        match left.StackDelta, right.StackDelta with
+        | Some left, Some right when left = right -> Some left
+        | Some delta, None
+        | None, Some delta -> Some delta
+        | _ -> None }
 
   member this.analyze (cfg: SSACFG) =
     let rec run (block: IVertex<SSABasicBlock>) inputState visited =
       if Set.contains block.ID visited then
         inputState, visited
       else
+        let transNext (absState, visited) transfer =
+          let newState =
+            { transfer.State with
+                Types = absState.Types }
+
+          let transStateRet, transVisitedRet =
+            match this.TryResolveTarget cfg block transfer.Target with
+            | Some successor -> run successor newState visited
+            | None -> newState, visited
+
+          let retState =
+            this.JoinNormal absState transStateRet transStateRet.Types
+
+          retState, transVisitedRet
+
         let visited = Set.add block.ID visited
 
         let transfers =
@@ -82,48 +110,38 @@ type AnalyzerModule (architecture: Architecture, config: StmtEvalConfig) =
 
         let resultState, resultVisited =
           List.fold
-            (fun (absState, visited) transfer ->
-              let newState =
-                { transfer.State with
-                    Types = absState.Types }
-
-              let transStateRet, transVisitedRet =
-                match this.TryResolveTarget cfg block transfer.Target with
-                | Some successor -> run successor newState visited
-                | None -> newState, visited
-
-              let retState =
-                this.JoinNormal absState transStateRet transStateRet.Types
-
-              retState, transVisitedRet)
-            ({ stateDom.bot with Types = typeState }, visited)
+            transNext
+            ({ inputState with Types = typeState }, visited)
             transfers
 
         resultState, resultVisited
 
-    ((this.InitialState, Set.empty), cfg.Roots)
-    ||> Array.fold (fun (state, visited) root ->
+    let runRoot (state, visited) root =
       let rootStateInput =
-        { stateDom.bot with
+        { this.InitialState with
             Types = state.Types }
 
       let rootResult, visited = run root rootStateInput visited
-      this.JoinNormal state rootResult rootResult.Types, visited)
-    |> fst
+      this.JoinNormal state rootResult rootResult.Types, visited
+
+    Array.fold runRoot (this.InitialState, Set.empty) cfg.Roots |> fst
 
 module AnalyzerDomain =
+  let createWithStart architecture startTypeId config =
+    AnalyzerModule (architecture, startTypeId, config)
+
   let createWithConfig architecture config =
-    AnalyzerModule (architecture, config)
+    createWithStart architecture 0 config
 
   let create architecture = AnalyzerModule architecture
 
   let createFromString architecture =
     Architecture.ofString architecture |> create
 
-  let analyze architecture config cfg =
-    let analyzer = createWithConfig architecture config
+  let analyzeWithStart architecture startTypeId config cfg =
+    let analyzer = createWithStart architecture startTypeId config
     let finalState = analyzer.analyze cfg
-    let stateDomain = AnalysisStateDomain.createDefault architecture
+    let stateDomain = AnalysisStateDomain.create architecture startTypeId
 
     let solvedState =
       { finalState with
@@ -132,3 +150,6 @@ module AnalyzerDomain =
     { FinalState = solvedState
       TypeConstraints = solvedState.Types.Constraints
       TypeConflicts = solvedState.Types.Conflicts }
+
+  let analyze architecture config cfg =
+    analyzeWithStart architecture 0 config cfg

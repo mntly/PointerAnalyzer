@@ -75,36 +75,45 @@ type TypeConstraintSolverModule () =
     let addOf result left right = app addResult [ result; left; right ]
     let subOf result left right = app subResult [ result; left; right ]
 
-    // Same(X,Y) propagates either known type in both directions because
-    // Same constraints are inserted as ordered pairs below.
     addRule [ x; y ] [ sameOf x y; addressOf x ] (addressOf y)
-
+    addRule [ x; y ] [ sameOf x y; addressOf y ] (addressOf x)
     addRule [ x; y ] [ sameOf x y; valueOf x ] (valueOf y)
+    addRule [ x; y ] [ sameOf x y; valueOf y ] (valueOf x)
 
-    // X = Y + Z
+    (* x = Addr + Val | Val + Addr -> x:Addr *)
     addRule [ x; y; z ] [ addOf x y z; addressOf y; valueOf z ] (addressOf x)
-
     addRule [ x; y; z ] [ addOf x y z; valueOf y; addressOf z ] (addressOf x)
 
+    (* x = Val + Val -> x:Addr *)
     addRule [ x; y; z ] [ addOf x y z; valueOf y; valueOf z ] (valueOf x)
 
+    (* Addr = Val + x | x + Val -> x:Addr *)
     addRule [ x; y; z ] [ addOf x y z; addressOf x; valueOf y ] (addressOf z)
-
     addRule [ x; y; z ] [ addOf x y z; addressOf x; valueOf z ] (addressOf y)
 
+    (* Addr = Addr + x | x + Addr -> x:Val *)
+    addRule [ x; y; z ] [ addOf x y z; addressOf x; addressOf y ] (valueOf z)
+    addRule [ x; y; z ] [ addOf x y z; addressOf x; addressOf z ] (valueOf y)
+
+    (* Val = y + z -> y:Val, z:Val *)
     addRule [ x; y; z ] [ addOf x y z; valueOf x ] (valueOf y)
     addRule [ x; y; z ] [ addOf x y z; valueOf x ] (valueOf z)
 
-    // X = Y - Z
+    (* x = Addr - Val -> x:Addr *)
     addRule [ x; y; z ] [ subOf x y z; addressOf y; valueOf z ] (addressOf x)
 
+    (* x = Addr - Addr -> x:Val *)
     addRule [ x; y; z ] [ subOf x y z; addressOf y; addressOf z ] (valueOf x)
 
+    (* x = Val - z -> x:Val, z:Val *)
     addRule [ x; y; z ] [ subOf x y z; valueOf y ] (valueOf x)
     addRule [ x; y; z ] [ subOf x y z; valueOf y ] (valueOf z)
+
+    (* Addr = y - z -> y:Addr, z:Val *)
     addRule [ x; y; z ] [ subOf x y z; addressOf x ] (addressOf y)
     addRule [ x; y; z ] [ subOf x y z; addressOf x ] (valueOf z)
 
+    (* x is both Addr, Val: Wrong -> Conflict *)
     addRule [ x ] [ addressOf x; valueOf x ] (app conflict [ x ])
 
     let intExpr (typeId: TypeId) =

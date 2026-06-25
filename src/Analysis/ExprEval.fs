@@ -27,11 +27,6 @@ type ExprEvalModule (architecture: Architecture, config: ExprEvalConfig) =
   new (architecture: Architecture) =
     ExprEvalModule (architecture, ExprEvalConfig.empty)
 
-  member private _.ensureTypeId typeId state =
-    match typeId with
-    | Some typeId -> typeId, state
-    | None -> stateDom.freshTypeId state
-
   member private _.markValue typeId state =
     match typeId with
     | Some typeId -> stateDom.addValue typeId state
@@ -122,8 +117,8 @@ type ExprEvalModule (architecture: Architecture, config: ExprEvalConfig) =
       //   sourceMemory
       //   addressExpr
       //   valueExpr
-      printfn "This must handled by Def(Mem, Store)"
-      absVal.bot, None, state
+      // printfn "This must handled by Def(Mem, Store)"
+      failwith "[ExprEval.fs] Store: This must handled by Def(Mem, Store)"
 
     | Cast (kind, regType, innerExpr) ->
       let value, _, state = this.Eval state innerExpr
@@ -185,15 +180,16 @@ type ExprEvalModule (architecture: Architecture, config: ExprEvalConfig) =
       absVal.join trueValue falseValue, Some resultTypeId, state
 
     | ExprList exprs ->
-      let values, typeIds, state = this.evalMany state exprs
-      let value = List.fold absVal.join absVal.bot values
-      let presentTypeIds = List.choose id typeIds
+      // let values, typeIds, state = this.evalMany state exprs
+      // let value = List.fold absVal.join absVal.bot values
+      // let presentTypeIds = List.choose id typeIds
 
-      match presentTypeIds with
-      | [] -> value, None, state
-      | _ ->
-        let typeId, state = stateDom.freshTypeId state
-        value, Some typeId, stateDom.addSame (typeId :: presentTypeIds) state
+      // match presentTypeIds with
+      // | [] -> value, None, state
+      // | _ ->
+      //   let typeId, state = stateDom.freshTypeId state
+      //   value, Some typeId, stateDom.addSame (typeId :: presentTypeIds) state
+      failwith "[ExprEval.fs] ExprList: How should I handle this?"
 
     | FuncName _ -> absVal.bot, None, state
 

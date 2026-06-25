@@ -50,11 +50,3 @@ type NativeIntTypes =
   { Architecture: Architecture
     NInt: NativeNInt
     NUInt: NativeNUInt }
-
-type NativeAbsLoc =
-  { IsStackArgument: int -> bool
-    IsStackRootArgument: int -> bool
-    IsNthStackArgument: int -> int -> bool
-    TryGetStackRootArgIdx: int -> int option
-    IsSymbolicArgument: bool
-    IsSymbolicRootArgument: bool }

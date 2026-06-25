@@ -1,9 +1,3 @@
-# PointerAnalyzer.TypeInference
+# Type Inference
 
-### PointerAnalyzer?
-
-
-
-### PointerAnalyzer.TypeInference Package?
-
-`PointerAnalyzer.TypeInference` provides modules for post-processing such as deciding types.
+[`TypeConstraintSolver.fs`](./TypeConstraintSolver.fs) translates the analyzer's finite type constraints into Z3 fixed-point relations and returns inferred constraints and conflicts according to [Constraint Solving Rule](../../docs/DomainDefinition.pdf).

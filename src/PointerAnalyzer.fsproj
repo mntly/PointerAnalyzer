@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Core/Utils.fs" />
     <Compile Include="Core/IntTypes.fs" />
     <Compile Include="Domain/Signature.fs" />
     <Compile Include="Domain/AbsVal.fs" />
@@ -18,13 +17,23 @@
     <Compile Include="Domain/TypeState.fs" />
     <Compile Include="Domain/AbsMem.fs" />
     <Compile Include="Domain/AnalysisState.fs" />
+    <Compile Include="Architecture/CallingConvention.fs" />
     <Compile Include="Summary/TypePerInst.fs" />
     <Compile Include="Summary/FunctionSummary.fs" />
+    <Compile Include="Summary/SummaryApplicator.fs" />
 
     <Compile Include="Analysis/ExprEval.fs" />
     <Compile Include="Analysis/StmtEval.fs" />
     <Compile Include="Analysis/Analyzer.fs" />
-    
+    <Compile Include="Summary/FunctionSummaryBuilder.fs" />
+
+    <Compile Include="Frontend/BinaryLoader.fs" />
+    <Compile Include="Frontend/ConstantClassifier.fs" />
+    <Compile Include="Frontend/FunctionDFA.fs" />
+    <Compile Include="Frontend/ProgramDFA.fs" />
+
+    <Compile Include="Interproc/ModularAnalyzer.fs" />
+
     <Compile Include="Main/Main.fs" />
   </ItemGroup>
 
