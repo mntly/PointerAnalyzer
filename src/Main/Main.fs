@@ -1,6 +1,10 @@
 module PointerAnalyzer.Main
 
+open System
+open System.Diagnostics
+open System.Globalization
 open System.IO
+open Argu
 open B2R2
 open B2R2.BinIR
 open B2R2.BinIR.SSA
@@ -9,48 +13,163 @@ open PointerAnalyzer.Frontend.BinaryLoader
 open PointerAnalyzer.Frontend.ProgramDFA
 open PointerAnalyzer.Interproc.ModularAnalyzer
 
-let private constraintToString =
-  function
-  | Address typeId -> sprintf "Address(t%d)" typeId
-  | Value typeId -> sprintf "Value(t%d)" typeId
-  | Same typeIds ->
-    typeIds
-    |> Set.toList
-    |> List.map (sprintf "t%d")
-    |> String.concat ", "
-    |> sprintf "Same({%s})"
-  | AddResult (result, left, right) ->
-    sprintf "AddResult(t%d, t%d, t%d)" result left right
-  | SubResult (result, left, right) ->
-    sprintf "SubResult(t%d, t%d, t%d)" result left right
+type FunctionSelector =
+  | ByAddress of Addr
+  | ByName of string
 
-let private typeToString constraints conflicts typeId =
-  if Set.contains typeId conflicts then
-    sprintf "Conflict(t%d)" typeId
+  member this.ToString =
+    match this with
+    | ByAddress address -> sprintf "0x%x" address
+    | ByName name -> name
+
+type MainOptions =
+  { BinaryPath: string
+    OutputDirPath: string
+    IsStore: bool
+    DumpSSA: bool
+    ListFunctions: bool
+    FunctionSelector: FunctionSelector option
+    TrackTime: bool }
+
+type CLIArg =
+  | [<AltCommandLine("-b")>] Binary of string
+  | [<AltCommandLine("-o")>] Output of string
+  | [<AltCommandLine("-d")>] DumpSSA
+  | [<AltCommandLine("-lf")>] ListFunctions
+  | Function of string
+  | Store of int
+  | TrackTime of int
+
+  interface IArgParserTemplate with
+    member this.Usage =
+      match this with
+      | Binary _ -> "Binary file to analyze."
+      | Output _ ->
+        "Output directory to store analysis results. Basically, the inferred type will be stored here."
+      | Store _ ->
+        "If 1 then store printed result (Dumped SSA, Listed Function) at output directory. If 0 then print out."
+      | DumpSSA -> "Print recovered B2R2 SSA"
+      | ListFunctions -> "Print recovered functions and exit before analysis."
+      | Function _ ->
+        "Print only the selected function. Accepts an address or exact function name."
+      | TrackTime _ -> "Track and print out the processing time of each step."
+
+let private tryParseAddress (text: string) =
+  let parseHex (value: string) =
+    match
+      UInt64.TryParse (
+        value,
+        NumberStyles.HexNumber,
+        CultureInfo.InvariantCulture
+      )
+    with
+    | true, address -> Some address
+    | false, _ -> None
+
+  let parseDecimal (value: string) =
+    match UInt64.TryParse value with
+    | true, address -> Some address
+    | false, _ -> None
+
+  if text.StartsWith ("0x", StringComparison.OrdinalIgnoreCase) then
+    parseHex text[2..]
   else
-    let isAddress = Set.contains (Address typeId) constraints
-    let isValue = Set.contains (Value typeId) constraints
+    parseDecimal text |> Option.orElseWith (fun () -> parseHex text)
 
-    match isAddress, isValue with
-    | true, false -> sprintf "Address(t%d)" typeId
-    | false, true -> sprintf "Value(t%d)" typeId
-    | false, false -> sprintf "Unknown(t%d)" typeId
-    | true, true -> sprintf "Conflict(t%d)" typeId
+let private parseArg (args: string array) =
+  let parser =
+    ArgumentParser.Create<CLIArg> (
+      programName = "dotnet run --project src/PointerAnalyzer.fsproj --"
+    )
+
+  let r =
+    try
+      parser.Parse args
+    with :? Argu.ArguParseException ->
+      printfn "%s" (parser.PrintUsage ())
+      exit 1
+
+  let bin = r.GetResult <@ Binary @>
+  let outDir = r.GetResult (<@ Output @>, defaultValue = "../../output")
+  let isStore = r.GetResult (<@ Store @>, defaultValue = 0) = 1
+  let dumpSSA = r.Contains DumpSSA
+  let listFunctions = r.Contains ListFunctions
+  let trackTime = r.GetResult (<@ TrackTime @>, defaultValue = 0) = 1
+
+  let targetFunc =
+    match r.TryGetResult Function with
+    | Some tarFun ->
+      match tryParseAddress tarFun with
+      | Some address -> Some (ByAddress address)
+      | None -> Some (ByName tarFun)
+    | None -> None
+
+  { BinaryPath = bin
+    OutputDirPath = outDir
+    IsStore = isStore
+    DumpSSA = dumpSSA
+    ListFunctions = listFunctions
+    FunctionSelector = targetFunc
+    TrackTime = trackTime }
+
+let private formatElapsed (elapsed: TimeSpan) =
+  sprintf "%.3fs" elapsed.TotalSeconds
+
+let private timed trackTime label work =
+  if trackTime then
+    let stopwatch = Stopwatch.StartNew ()
+    let result = work ()
+    stopwatch.Stop ()
+    printfn "[Time] %s: %s" label (formatElapsed stopwatch.Elapsed)
+    result
+  else
+    work ()
+
+let private resolveFunctionSelector
+  (program: ProgramDFAResult)
+  (selector: FunctionSelector)
+  =
+  match selector with
+  | ByAddress address ->
+    if Map.containsKey address program.Functions then
+      Ok address
+    else
+      Error (sprintf "Function address not found: 0x%x" address)
+  | ByName name ->
+    let matches =
+      program.Functions
+      |> Map.toList
+      |> List.filter (fun (_, function_) -> function_.Name = name)
+
+    match matches with
+    | [ address, _ ] -> Ok address
+    | [] -> Error (sprintf "Function name not found: %s" name)
+    | many ->
+      let candidates =
+        many
+        |> List.map (fun (address, function_) ->
+          sprintf "0x%x (%s)" address function_.Name)
+        |> String.concat ", "
+
+      Error (
+        sprintf "Ambiguous function name: %s. Candidates: %s" name candidates
+      )
 
 let private formatProgramPoint (programPoint: ProgramPoint) =
   sprintf "0x%08x+%d" programPoint.Address programPoint.Position
 
-let private dumpSSA (binaryPath: string) (program: ProgramDFAResult) =
+let private dumpSSA (binaryPath: string) (suffix: string) targetFunctions =
   let outputDirectory =
     Path.Combine (Directory.GetCurrentDirectory (), "output")
 
   Directory.CreateDirectory outputDirectory |> ignore
 
   let binaryName = Path.GetFileName binaryPath
-  let outputPath = Path.Combine (outputDirectory, binaryName + "_ssa")
+
+  let outputPath = Path.Combine (outputDirectory, binaryName + suffix)
 
   let lines =
-    program.Functions
+    targetFunctions
     |> Map.toList
     |> List.collect (fun (address, function_) ->
       let header = [ sprintf "Function 0x%x (%s)" address function_.Name ]
@@ -66,92 +185,104 @@ let private dumpSSA (binaryPath: string) (program: ProgramDFAResult) =
       header @ statements @ [ "" ])
 
   File.WriteAllLines (outputPath, lines)
+  printfn "SSA output: %s" outputPath
   outputPath
-
-let private printFunctionAnalysis resultAnalysisResult address analysis =
-  printfn ""
-  printfn "Function 0x%x (%s)" address analysis.Function.Name
-  printfn "  NextTypeId: t%d" analysis.Summary.NextTypeId
-
-  printfn "  Parameters:"
-
-  if Map.isEmpty analysis.Summary.Parameters then
-    printfn "    <none detected>"
-  else
-    analysis.Summary.Parameters
-    |> Map.iter (fun index typeId -> printfn "    arg%d -> t%d" index typeId)
-
-  printfn "  Returns:"
-
-  if Map.isEmpty analysis.Summary.Returns then
-    printfn "    <none detected>"
-  else
-    analysis.Summary.Returns
-    |> Map.iter (fun index typeId -> printfn "    ret%d -> t%d" index typeId)
-
-  printfn "  SSA register types:"
-
-  analysis.Result.FinalState.Types.TypeIndicators
-  |> Map.iter (fun variable typeId ->
-    let inferredType =
-      typeToString
-        resultAnalysisResult.TypeConstraints
-        resultAnalysisResult.TypeConflicts
-        typeId
-
-    printfn "    %s -> %s" (Variable.ToString variable) inferredType)
-
-  printfn "  Constraints:"
-
-  if Set.isEmpty analysis.Result.TypeConstraints then
-    printfn "    <empty>"
-  else
-    analysis.Result.TypeConstraints
-    |> Set.iter (constraintToString >> printfn "    %s")
-
-  printfn "  Conflicts:"
-
-  if Set.isEmpty analysis.Result.TypeConflicts then
-    printfn "    <empty>"
-  else
-    analysis.Result.TypeConflicts |> Set.iter (printfn "    t%d")
 
 [<EntryPoint>]
 let main argv =
-  let validArguments =
-    argv.Length = 1 || (argv.Length = 2 && argv[1] = "--dump-ssa")
+  let totalStopwatch = Stopwatch.StartNew ()
+  let options = parseArg argv
 
-  if not validArguments then
-    eprintfn
-      "Usage: dotnet run --project src/PointerAnalyzer.fsproj -- \
-       <binary> [--dump-ssa]"
+  (* Load Given Binary *)
+  let binary =
+    timed options.TrackTime "Load binary" (fun () ->
+      BinaryLoader.load options.BinaryPath)
 
-    1
+  (* Print Binary Info *)
+  printfn "Binary: %s" binary.Path
+  printfn "ISA: %A" binary.Handle.File.ISA
+  printfn "Platform: %s" binary.Platform.Name
+
+  (* PreAnalysis Given Binary (B2R2 DFA)  *)
+  let program =
+    timed
+      options.TrackTime
+      "PreAnalyze binary (B2R2 DFA) and lift SSA"
+      (fun () -> ProgramDFA.runDFA binary)
+
+  (* Print PreAnalysis Result *)
+  printfn "Recovered functions: %d" program.Functions.Count
+
+  if options.ListFunctions then
+    (* ListFunctions: Only print out the functions in given binary *)
+    timed options.TrackTime "Print function list" (fun () ->
+      program.PrintFuncList)
+
+    totalStopwatch.Stop ()
+    printfn "[Time] Total: %s" (formatElapsed totalStopwatch.Elapsed)
+    0
   else
-    try
-      let binary = BinaryLoader.load argv[0]
-      let shouldDumpSSA = argv.Length = 2
+    let targetParsed =
+      match options.FunctionSelector with
+      | Some funSelector ->
+        (* Analyze All, Print out only given function *)
+        match resolveFunctionSelector program funSelector with
+        | Ok addr ->
+          printfn "Selected function: %s -> 0x%x" funSelector.ToString addr
 
-      printfn "Binary: %s" binary.Path
-      printfn "ISA: %A" binary.Handle.File.ISA
-      printfn "Platform: %s" binary.Platform.Name
+          let suffix = sprintf "_0x%x_ssa" addr
 
-      let program = ProgramRecovery.recover binary
-      printfn "Recovered functions: %d" program.Functions.Count
+          let extractFuncDFA allFunctions =
+            match Map.tryFind addr allFunctions with
+            | Some function_ -> Map.ofList [ addr, function_ ]
+            | None -> Map.empty
 
-      if shouldDumpSSA then
-        let outputPath = dumpSSA binary.Path program
-        printfn "SSA output: %s" outputPath
+          let extractFuncRes allFunctions =
+            match Map.tryFind addr allFunctions with
+            | Some function_ -> Map.ofList [ addr, function_ ]
+            | None -> Map.empty
 
-      let result = ModularAnalyzer.analyze program
+          Ok (suffix, extractFuncDFA, extractFuncRes)
+        | Error reason -> Error reason
+      | None ->
+        (* Analyze All, Print out all functions *)
+        printfn "Analyze all functions in given binary"
 
-      Map.iter (printFunctionAnalysis result) result.Functions
+        let suffix = "_ssa"
+        let extractFuncDFA allFunctions = allFunctions
+        let extractFuncRes allFunctions = allFunctions
 
+        Ok (suffix, extractFuncDFA, extractFuncRes)
+
+    match targetParsed with
+    | Ok (suffix, extractFuncDFA, extractFuncRes) ->
+      (* Dump SSA *)
+      if options.DumpSSA then
+        let outputPath =
+          timed options.TrackTime "Dump SSA" (fun () ->
+            extractFuncDFA program.Functions |> dumpSSA binary.Path suffix)
+
+        ()
+
+      (* Run PointerAnalyzer *)
+      let result =
+        timed options.TrackTime "Analyze functions" (fun () ->
+          ModularAnalyzer.analyze program)
+
+      (* Extract only target function *)
+      timed options.TrackTime "Print analysis result" (fun () ->
+        extractFuncRes result.Functions
+        |> Map.iter (ModularAnalyzer.printFunctionAnalysis result))
+
+      (* Print out overall analysis result *)
       printfn ""
       printfn "Whole-program constraints: %d" result.TypeConstraints.Count
       printfn "Whole-program conflicts: %d" result.TypeConflicts.Count
       printfn "Next global TypeId: t%d" result.NextTypeId
+      totalStopwatch.Stop ()
+      printfn "[Time] Total: %s" (formatElapsed totalStopwatch.Elapsed)
       0
-    with ex ->
-      eprintfn "Analysis failed: %s" ex.Message
+
+    | Error reason ->
+      eprintfn "%s" reason
       1

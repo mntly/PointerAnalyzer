@@ -1,0 +1,31 @@
+Function 0x8057cbb (__GI_mmap)
+  0x00000000+1         MEM_1 := MEM_1
+  0x00000000+2         EAX_2 := Undefined expression (ret)
+  0x08057cbb+0         PC_1 := 0x8057cbb:I32
+  0x08057cbb+1         EDX_1 := EBX_0
+  0x08057cbd+0         PC_2 := 0x8057cbd:I32
+  0x08057cbd+1         EAX_1 := 0x5a:I32
+  0x08057cc2+0         PC_3 := 0x8057cc2:I32
+  0x08057cc2+1         EBX_1 := (ESP_0 + 0x4:I32)
+  0x08057cc6+0         PC_4 := 0x8057cc6:I32
+  0x08057cc6+1         SideEffect Int128
+  0x08057cc8+0         PC_5 := 0x8057cc8:I32
+  0x08057cc8+1         EBX_2 := EDX_1
+  0x08057cca+0         PC_6 := 0x8057cca:I32
+  0x08057cca+1         T_1_1 := EAX_2
+  0x08057cca+2         T_2_1 := (T_1_1 - 0xfffff000:I32)
+  0x08057cca+3         CF_1 := (T_1_1 < 0xfffff000:I32)
+  0x08057cca+4         OF_1 := (((0xfffff000:I32 ^ T_1_1) & (T_2_1 ^ T_1_1))[31:31])
+  0x08057cca+5         AF_1 := (((0xfffff000:I32 ^ (T_1_1 ^ T_2_1)) & 0x10:I32) = 0x10:I32)
+  0x08057cca+6         SF_1 := (T_2_1[31:31])
+  0x08057cca+7         ZF_1 := (T_2_1 = 0x0:I32)
+  0x08057cca+8         T_3_1 := ((T_2_1 >> 0x4:I32) ^ T_2_1)
+  0x08057cca+9         T_4_1 := ((T_3_1 >> 0x2:I32) ^ T_3_1)
+  0x08057cca+10        PF_1 := (~ (((T_4_1 >> 0x1:I32) ^ T_4_1)[0:0]))
+  0x08057ccf+0         PC_7 := 0x8057ccf:I32
+  0x08057ccf+1         if ((ZF_1 | CF_1) = 0x0:I1) then Jmp 0x805987a:I32 else Jmp 0x8057cd5:I32
+  0x08057cd5+0         PC_8 := 0x8057cd5:I32
+  0x08057cd5+1         T_9_1 := V_0_0
+  0x08057cd5+2         ESP_1 := (ESP_0 + 0x4:I32)
+  0x08057cd5+3         Jmp T_9_1
+

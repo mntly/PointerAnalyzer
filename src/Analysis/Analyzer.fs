@@ -14,13 +14,25 @@ type AnalysisResult =
     TypeConstraints: ConstraintSet
     TypeConflicts: Set<TypeId> }
 
+  member this.ConstraintsToString = ConstraintSet.toString this.TypeConstraints
+
+  member this.ConflictToString =
+    let header = "  Conflicts:"
+
+    let content =
+      if Set.isEmpty this.TypeConflicts then
+        "    <empty>"
+      else
+        this.TypeConflicts |> Set.map (sprintf "    t%d\n") |> String.concat ""
+
+    header + content
+
 type AnalyzerModule
   (platform: Platform, startTypeId: TypeId, config: StmtEvalConfig) =
   let stateDom = AnalysisStateDomain.create platform startTypeId
   let stmtEval = StmtEvalDomain.createWithConfig platform config
 
-  new (platform: Platform) =
-    AnalyzerModule (platform, 0, StmtEvalConfig.empty)
+  new (platform: Platform) = AnalyzerModule (platform, 0, StmtEvalConfig.empty)
 
   new (platform: Platform, config: StmtEvalConfig) =
     AnalyzerModule (platform, 0, config)
@@ -130,26 +142,31 @@ module AnalyzerDomain =
   let createWithStart platform startTypeId config =
     AnalyzerModule (platform, startTypeId, config)
 
-  let createWithConfig platform config =
-    createWithStart platform 0 config
+  let createWithConfig platform config = createWithStart platform 0 config
 
   let create platform = AnalyzerModule platform
 
   let createFromString platform =
     PointerAnalyzer.Platform.Platform.ofString platform |> create
 
-  let analyzeWithStart platform startTypeId config cfg =
+  let analyzeRawWithStart platform startTypeId config cfg =
     let analyzer = createWithStart platform startTypeId config
     let finalState = analyzer.analyze cfg
+
+    { FinalState = finalState
+      TypeConstraints = finalState.Types.Constraints
+      TypeConflicts = finalState.Types.Conflicts }
+
+  let analyzeWithStart platform startTypeId config cfg =
+    let result = analyzeRawWithStart platform startTypeId config cfg
     let stateDomain = AnalysisStateDomain.create platform startTypeId
 
     let solvedState =
-      { finalState with
-          Types = stateDomain.TypeState.solve finalState.Types }
+      { result.FinalState with
+          Types = stateDomain.TypeState.solve result.FinalState.Types }
 
     { FinalState = solvedState
       TypeConstraints = solvedState.Types.Constraints
       TypeConflicts = solvedState.Types.Conflicts }
 
-  let analyze platform config cfg =
-    analyzeWithStart platform 0 config cfg
+  let analyze platform config cfg = analyzeWithStart platform 0 config cfg

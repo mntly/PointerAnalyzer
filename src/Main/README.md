@@ -4,6 +4,7 @@
 binary path
 -> BinaryLoader.load
 -> ProgramRecovery.recover
+-> optionally print recovered functions and exit
 -> ModularAnalyzer.analyze
--> print per-function summaries and whole-program totals
+-> print all function summaries, or only the function selected by --function
 ```

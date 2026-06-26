@@ -19,7 +19,17 @@ type ProgramDFAResult =
   { Binary: LoadedBinary
     Functions: Map<Addr, FunctionDFAResult> }
 
-module ProgramRecovery =
+  member this.PrintFuncList =
+    printfn "Recovered functions:"
+
+    if Map.isEmpty this.Functions then
+      printfn "  <empty>"
+    else
+      this.Functions
+      |> Map.iter (fun address function_ ->
+        printfn "  0x%08x  %s" address function_.Name)
+
+module ProgramDFA =
   let private callees (function_: Function) =
     if isNull function_.Callees then
       Map.empty
@@ -41,7 +51,7 @@ module ProgramRecovery =
             Map.add callSite.CallSiteAddress targets acc)
         Map.empty
 
-  let recover binary =
+  let runDFA binary =
     let brew = BinaryBrew binary.Handle
     let lifter = SSALifterFactory.Create binary.Handle
 

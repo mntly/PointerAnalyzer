@@ -1,6 +1,5 @@
 module PointerAnalyzer.TypeInfer.TypeConstraintSolver
 
-open Microsoft.Z3
 open PointerAnalyzer.AbsDom.TypeConstraint
 open PointerAnalyzer.AbsDom.TypeMap
 
@@ -8,175 +7,260 @@ type TypeSolution =
   { Constraints: ConstraintSet
     Conflicts: Set<TypeId> }
 
+type private NormalizedConstraints =
+  { TypeIds: Set<TypeId>
+    OriginalConstraints: ConstraintSet
+    Constraints: ConstraintSet
+    MembersByRep: Map<TypeId, Set<TypeId>>
+    Address: Set<TypeId>
+    Value: Set<TypeId>
+    AddResults: Set<TypeId * TypeId * TypeId>
+    SubResults: Set<TypeId * TypeId * TypeId> }
+
+type private SaturationState =
+  { Address: Set<TypeId>
+    Value: Set<TypeId> }
+
 type TypeConstraintSolverModule () =
-  member _.solve typeIds constraints =
-    use ctx = new Context ()
-    let fp = ctx.MkFixedpoint ()
+  let addMany ids set = Set.fold (fun result id -> Set.add id result) set ids
 
-    let domainSize =
-      if Set.isEmpty typeIds then
-        1UL
-      else
-        uint64 (Set.maxElement typeIds) + 1UL
+  let rec find parent typeId =
+    match Map.tryFind typeId parent with
+    | Some next when next <> typeId -> find parent next
+    | _ -> typeId
 
-    let typeIdSort = ctx.MkFiniteDomainSort ("TypeId", domainSize) :> Sort
+  let union left right parent =
+    let leftRoot = find parent left
+    let rightRoot = find parent right
 
-    let parameters = ctx.MkParams ()
-    parameters.Add ("engine", "datalog") |> ignore
-    fp.Parameters <- parameters
+    if leftRoot = rightRoot then
+      parent
+    else
+      let root = min leftRoot rightRoot
+      let child = max leftRoot rightRoot
+      Map.add child root parent
 
-    let addResult =
-      ctx.MkFuncDecl (
-        "addResult",
-        [| typeIdSort; typeIdSort; typeIdSort |],
-        ctx.BoolSort
-      )
+  let unionSame ids parent =
+    match Set.toList ids with
+    | []
+    | [ _ ] -> parent
+    | head :: tail -> List.fold (fun parent id -> union head id parent) parent tail
 
-    let subResult =
-      ctx.MkFuncDecl (
-        "subResult",
-        [| typeIdSort; typeIdSort; typeIdSort |],
-        ctx.BoolSort
-      )
-
-    let same =
-      ctx.MkFuncDecl ("same", [| typeIdSort; typeIdSort |], ctx.BoolSort)
-
-    let address = ctx.MkFuncDecl ("address", [| typeIdSort |], ctx.BoolSort)
-
-    let value = ctx.MkFuncDecl ("value", [| typeIdSort |], ctx.BoolSort)
-
-    let conflict = ctx.MkFuncDecl ("conflict", [| typeIdSort |], ctx.BoolSort)
-
-    [ addResult; subResult; same; address; value; conflict ]
-    |> List.iter fp.RegisterRelation
-
-    let app (relation: FuncDecl) arguments =
-      ctx.MkApp (relation, Array.ofList arguments) :?> BoolExpr
-
-    let addRule variables premises conclusion =
-      let body =
-        match premises with
-        | [ premise ] -> premise
-        | premises -> ctx.MkAnd (Array.ofList premises)
-
-      fp.AddRule (
-        ctx.MkForall (Array.ofList variables, ctx.MkImplies (body, conclusion)),
-        null
-      )
-
-    let x = ctx.MkConst ("X", typeIdSort)
-    let y = ctx.MkConst ("Y", typeIdSort)
-    let z = ctx.MkConst ("Z", typeIdSort)
-
-    let addressOf variable = app address [ variable ]
-    let valueOf variable = app value [ variable ]
-    let sameOf left right = app same [ left; right ]
-    let addOf result left right = app addResult [ result; left; right ]
-    let subOf result left right = app subResult [ result; left; right ]
-
-    addRule [ x; y ] [ sameOf x y; addressOf x ] (addressOf y)
-    addRule [ x; y ] [ sameOf x y; addressOf y ] (addressOf x)
-    addRule [ x; y ] [ sameOf x y; valueOf x ] (valueOf y)
-    addRule [ x; y ] [ sameOf x y; valueOf y ] (valueOf x)
-
-    (* x = Addr + Val | Val + Addr -> x:Addr *)
-    addRule [ x; y; z ] [ addOf x y z; addressOf y; valueOf z ] (addressOf x)
-    addRule [ x; y; z ] [ addOf x y z; valueOf y; addressOf z ] (addressOf x)
-
-    (* x = Val + Val -> x:Addr *)
-    addRule [ x; y; z ] [ addOf x y z; valueOf y; valueOf z ] (valueOf x)
-
-    (* Addr = Val + x | x + Val -> x:Addr *)
-    addRule [ x; y; z ] [ addOf x y z; addressOf x; valueOf y ] (addressOf z)
-    addRule [ x; y; z ] [ addOf x y z; addressOf x; valueOf z ] (addressOf y)
-
-    (* Addr = Addr + x | x + Addr -> x:Val *)
-    addRule [ x; y; z ] [ addOf x y z; addressOf x; addressOf y ] (valueOf z)
-    addRule [ x; y; z ] [ addOf x y z; addressOf x; addressOf z ] (valueOf y)
-
-    (* Val = y + z -> y:Val, z:Val *)
-    addRule [ x; y; z ] [ addOf x y z; valueOf x ] (valueOf y)
-    addRule [ x; y; z ] [ addOf x y z; valueOf x ] (valueOf z)
-
-    (* x = Addr - Val -> x:Addr *)
-    addRule [ x; y; z ] [ subOf x y z; addressOf y; valueOf z ] (addressOf x)
-
-    (* x = Addr - Addr -> x:Val *)
-    addRule [ x; y; z ] [ subOf x y z; addressOf y; addressOf z ] (valueOf x)
-
-    (* x = Val - z -> x:Val, z:Val *)
-    addRule [ x; y; z ] [ subOf x y z; valueOf y ] (valueOf x)
-    addRule [ x; y; z ] [ subOf x y z; valueOf y ] (valueOf z)
-
-    (* Addr = y - z -> y:Addr, z:Val *)
-    addRule [ x; y; z ] [ subOf x y z; addressOf x ] (addressOf y)
-    addRule [ x; y; z ] [ subOf x y z; addressOf x ] (valueOf z)
-
-    (* x is both Addr, Val: Wrong -> Conflict *)
-    addRule [ x ] [ addressOf x; valueOf x ] (app conflict [ x ])
-
-    let intExpr (typeId: TypeId) =
-      ctx.MkNumeral (uint64 typeId, typeIdSort)
-
-    let addFact relation arguments =
-      arguments
-      |> List.map intExpr
-      |> app relation
-      |> fun fact -> fp.AddRule (fact, null)
-
-    Set.iter
-      (fun constraint_ ->
-        match constraint_ with
-        | Address typeId -> addFact address [ typeId ]
-        | Value typeId -> addFact value [ typeId ]
-        | AddResult (result, left, right) ->
-          addFact addResult [ result; left; right ]
-        | SubResult (result, left, right) ->
-          addFact subResult [ result; left; right ]
-        | Same ids ->
-          Set.iter
-            (fun tidl ->
-              Set.iter
-                (fun tidr ->
-                  if tidl <> tidr then
-                    addFact same [ tidl; tidr ])
-                ids)
-            ids)
+  let normalize typeIds constraints =
+    let allTypeIds =
       constraints
-    |> ignore
+      |> Seq.map TypeConstraint.typeIds
+      |> Seq.fold Set.union typeIds
 
-    let isDerived relation typeId =
-      let query = app relation [ intExpr typeId ]
-      fp.Query query = Status.SATISFIABLE
+    let parent =
+      allTypeIds |> Set.fold (fun parent id -> Map.add id id parent) Map.empty
 
-    let constraints, conflicts =
-      typeIds
+    let parent =
+      constraints
       |> Set.fold
-        (fun (constraints, conflicts) typeId ->
-          let constraints =
-            if isDerived address typeId then
-              Set.add (Address typeId) constraints
-            else
-              constraints
+        (fun parent constraint_ ->
+          match constraint_ with
+          | Same ids -> unionSame ids parent
+          | _ -> parent)
+        parent
 
-          let constraints =
-            if isDerived value typeId then
-              Set.add (Value typeId) constraints
-            else
-              constraints
+    let rep typeId = find parent typeId
 
-          let conflicts =
-            if isDerived conflict typeId then
-              Set.add typeId conflicts
-            else
-              conflicts
+    let membersByRep =
+      allTypeIds
+      |> Set.fold
+        (fun groups typeId ->
+          let representative = rep typeId
+          let members = Map.tryFind representative groups |> Option.defaultValue Set.empty
+          Map.add representative (Set.add typeId members) groups)
+        Map.empty
 
-          constraints, conflicts)
-        (constraints, Set.empty)
+    let addSameConstraint members constraints =
+      if Set.count members <= 1 then
+        constraints
+      else
+        Set.add (Same members) constraints
+
+    let normalized: NormalizedConstraints =
+      { TypeIds = allTypeIds |> Set.map rep
+        OriginalConstraints = constraints
+        Constraints =
+          membersByRep
+          |> Map.toSeq
+          |> Seq.map snd
+          |> Seq.fold (fun result members -> addSameConstraint members result) Set.empty
+        MembersByRep = membersByRep
+        Address = Set.empty
+        Value = Set.empty
+        AddResults = Set.empty
+        SubResults = Set.empty }
+
+    constraints
+    |> Set.fold
+      (fun (normalized: NormalizedConstraints) constraint_ ->
+        match constraint_ with
+        | Address typeId ->
+          { normalized with
+              Address = Set.add (rep typeId) normalized.Address }
+        | Value typeId ->
+          { normalized with
+              Value = Set.add (rep typeId) normalized.Value }
+        | Same _ -> normalized
+        | AddResult (result, left, right) ->
+          { normalized with
+              AddResults =
+                Set.add
+                  (rep result, rep left, rep right)
+                  normalized.AddResults }
+        | SubResult (result, left, right) ->
+          { normalized with
+              SubResults =
+                Set.add
+                  (rep result, rep left, rep right)
+                  normalized.SubResults })
+      normalized
+
+  let saturateAdd (state: SaturationState) (result, left, right) =
+    let isAddress typeId = Set.contains typeId state.Address
+    let isValue typeId = Set.contains typeId state.Value
+
+    let addressToAdd =
+      Set.empty
+      |> fun ids ->
+        if isAddress left && isValue right then
+          Set.add result ids
+        else
+          ids
+      |> fun ids ->
+        if isValue left && isAddress right then
+          Set.add result ids
+        else
+          ids
+      |> fun ids ->
+        if isAddress result && isValue left then
+          Set.add right ids
+        else
+          ids
+      |> fun ids ->
+        if isAddress result && isValue right then
+          Set.add left ids
+        else
+          ids
+
+    let valueToAdd =
+      Set.empty
+      |> fun ids ->
+        if isValue left && isValue right then
+          Set.add result ids
+        else
+          ids
+      |> fun ids ->
+        if isAddress result && isAddress left then
+          Set.add right ids
+        else
+          ids
+      |> fun ids ->
+        if isAddress result && isAddress right then
+          Set.add left ids
+        else
+          ids
+      |> fun ids ->
+        if isValue result then
+          ids |> Set.add left |> Set.add right
+        else
+          ids
+
+    { Address = addMany addressToAdd state.Address
+      Value = addMany valueToAdd state.Value }
+
+  let saturateSub (state: SaturationState) (result, left, right) =
+    let isAddress typeId = Set.contains typeId state.Address
+    let isValue typeId = Set.contains typeId state.Value
+
+    let addressToAdd =
+      Set.empty
+      |> fun ids ->
+        if isAddress left && isValue right then
+          Set.add result ids
+        else
+          ids
+      |> fun ids ->
+        if isAddress result then
+          Set.add left ids
+        else
+          ids
+
+    let valueToAdd =
+      Set.empty
+      |> fun ids ->
+        if isAddress left && isAddress right then
+          Set.add result ids
+        else
+          ids
+      |> fun ids ->
+        if isValue left then
+          ids |> Set.add result |> Set.add right
+        else
+          ids
+      |> fun ids ->
+        if isAddress result then
+          Set.add right ids
+        else
+          ids
+
+    { Address = addMany addressToAdd state.Address
+      Value = addMany valueToAdd state.Value }
+
+  let rec saturate (normalized: NormalizedConstraints) state =
+    let nextFromAdd =
+      normalized.AddResults |> Set.fold saturateAdd state
+
+    let next =
+      normalized.SubResults |> Set.fold saturateSub nextFromAdd
+
+    if next = state then
+      state
+    else
+      saturate normalized next
+
+  let expandFacts normalized saturated =
+    let expand reps =
+      reps
+      |> Set.fold
+        (fun result rep ->
+          normalized.MembersByRep
+          |> Map.tryFind rep
+          |> Option.defaultValue (Set.singleton rep)
+          |> fun members -> Set.union members result)
+        Set.empty
+
+    let addressIds = expand saturated.Address
+    let valueIds = expand saturated.Value
+
+    let constraints =
+      normalized.OriginalConstraints
+      |> fun constraints ->
+        addressIds
+        |> Set.fold (fun result typeId -> Set.add (Address typeId) result) constraints
+      |> fun constraints ->
+        valueIds
+        |> Set.fold (fun result typeId -> Set.add (Value typeId) result) constraints
+
+    let conflicts = Set.intersect addressIds valueIds
 
     { Constraints = constraints
       Conflicts = conflicts }
+
+  member _.solve typeIds constraints =
+    let normalized = normalize typeIds constraints
+
+    let saturated =
+      saturate
+        normalized
+        ({ Address = normalized.Address
+           Value = normalized.Value }: SaturationState)
+
+    expandFacts normalized saturated
 
 module TypeConstraintSolver =
   let create () = TypeConstraintSolverModule ()

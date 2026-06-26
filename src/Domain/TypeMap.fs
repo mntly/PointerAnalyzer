@@ -23,7 +23,7 @@ type TypeMapModule () =
     typeIndicators
     |> Map.toList
     |> List.map (fun (variable, typeId) ->
-      sprintf "%s |-> tid_%d" (Variable.ToString variable) typeId)
+      sprintf "%s |-> t%d" (Variable.ToString variable) typeId)
     |> String.concat "\n"
 
 module TypeMapDomain =
