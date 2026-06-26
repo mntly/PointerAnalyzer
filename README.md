@@ -1,57 +1,87 @@
 # PointerAnalyzer
-Build:
+
+## ToDo: Description of PointerAnalyzer
+
+## Usage
+
 ```bash
-dotnet build
+dotnet run --project src/PointerAnalyzer.fsproj \
+    -b <binary> \
+    -o <outputdir> \
+    [OPTIONS]
 ```
 
-Run it with:
+### Required Arguments
+
+| Option | Description |
+|--------|-------------|
+| `-b`, `--binary <file>` | Binary file to analyze. |
+| `-o`, `--output <dir>` | Directory to store analysis results. |
+
+### Optional Arguments
+
+| Option | Description |
+|--------|-------------|
+| `-d`, `--dumpssa` | Print/Store recovered B2R2 SSA. |
+| `-lf`, `--listfunctions` | Print/Store recovered functions and exit before analysis. |
+| `-s`, `--store <int>` | If `1`, store the printed result in the output directory. If `0`, print to stdout. |
+| `-t`, `--tracktime` | Print the processing time of each analysis step. |
+| `--function <name\|address>` | After analyzing the binary, print the result of only the selected function. |
+| `--help` | Display help information. |
+
+## Examples
+
+### Analyze all functions
 
 ```bash
-dotnet run --project src/PointerAnalyzer.fsproj -- /PATH/TO/BINARY
+dotnet run --project src/PointerAnalyzer.fsproj \
+    -b datas/binaries/pointer_argument_return \
+    -o output
 ```
 
-Example:
+### Print recovered SSA
+
 ```bash
-dotnet run --project src/PointerAnalyzer.fsproj -- datas/binaries/pointer_argument_return
+dotnet run --project src/PointerAnalyzer.fsproj \
+    -b datas/binaries/pointer_argument_return \
+    -o output \
+    -d
 ```
 
-The analysis result containing type constraints per each functions will be printed out.
-
----
-
-To also store the recovered B2R2 SSA:
+### Dump the recovered SSA
 
 ```bash
-dotnet run --project src/PointerAnalyzer.fsproj -- /PATH/TO/BINARY --dump-ssa
+dotnet run --project src/PointerAnalyzer.fsproj \
+    -b datas/binaries/pointer_argument_return \
+    -o output \
+    -d \
+    -s 1
 ```
 
-Example:
+### List recovered functions
+
 ```bash
-dotnet run --project src/PointerAnalyzer.fsproj -- datas/binaries/pointer_argument_return --dump-ssa
+dotnet run --project src/PointerAnalyzer.fsproj \
+    -b datas/binaries/pointer_argument_return \
+    -o output \
+    -lf
 ```
 
-The SSA of each function is stored at `output/<BINARY_NAME>_ssa`.
-
-List recovered functions without running analysis:
+### Save the recovered funtions
 
 ```bash
-dotnet run --project src/PointerAnalyzer.fsproj -- datas/binaries/helloword-x86_32-i586-uclibc-O0 --list-functions
+dotnet run --project src/PointerAnalyzer.fsproj \
+    -b datas/binaries/pointer_argument_return \
+    -o output \
+    -lf \
+    -s 1
 ```
 
-Example:
-```bash
-dotnet run --project src/PointerAnalyzer.fsproj -- datas/binaries/helloword-x86_32-i586-uclibc-O0 --list-functions
-```
-
-Analyze all functions, but print only one selected function:
+### Track analysis time
 
 ```bash
-dotnet run --project src/PointerAnalyzer.fsproj -- /PATH/TO/BINARY --function 0x8049000
-dotnet run --project src/PointerAnalyzer.fsproj -- /PATH/TO/BINARY --function function_name
-```
-
-Dump SSA only for one selected function:
-
-```bash
-dotnet run --project src/PointerAnalyzer.fsproj -- /PATH/TO/BINARY --dump-ssa --function function_name
+dotnet run --project src/PointerAnalyzer.fsproj \
+    -b datas/binaries/pointer_argument_return \
+    -o output \
+    -t
 ```

@@ -36,9 +36,9 @@ type CLIArg =
   | [<AltCommandLine("-o")>] Output of string
   | [<AltCommandLine("-d")>] DumpSSA
   | [<AltCommandLine("-lf")>] ListFunctions
+  | [<AltCommandLine("-s")>] Store of int
+  | [<AltCommandLine("-t")>] TrackTime
   | Function of string
-  | Store of int
-  | TrackTime of int
 
   interface IArgParserTemplate with
     member this.Usage =
@@ -52,7 +52,7 @@ type CLIArg =
       | ListFunctions -> "Print recovered functions and exit before analysis."
       | Function _ ->
         "Print only the selected function. Accepts an address or exact function name."
-      | TrackTime _ -> "Track and print out the processing time of each step."
+      | TrackTime -> "Track and print out the processing time of each step."
 
 let private tryParseAddress (text: string) =
   let parseHex (value: string) =
@@ -90,11 +90,11 @@ let private parseArg (args: string array) =
       exit 1
 
   let bin = r.GetResult <@ Binary @>
-  let outDir = r.GetResult (<@ Output @>, defaultValue = "../../output")
+  let outDir = r.GetResult <@ Output @>
   let isStore = r.GetResult (<@ Store @>, defaultValue = 0) = 1
   let dumpSSA = r.Contains DumpSSA
   let listFunctions = r.Contains ListFunctions
-  let trackTime = r.GetResult (<@ TrackTime @>, defaultValue = 0) = 1
+  let trackTime = r.Contains TrackTime
 
   let targetFunc =
     match r.TryGetResult Function with
@@ -158,35 +158,71 @@ let private resolveFunctionSelector
 let private formatProgramPoint (programPoint: ProgramPoint) =
   sprintf "0x%08x+%d" programPoint.Address programPoint.Position
 
-let private dumpSSA (binaryPath: string) (suffix: string) targetFunctions =
-  let outputDirectory =
-    Path.Combine (Directory.GetCurrentDirectory (), "output")
+let private outputDirectory options =
+  Path.Combine (options.OutputDirPath, Path.GetFileName options.BinaryPath)
 
-  Directory.CreateDirectory outputDirectory |> ignore
+let private emitOutput
+  (options: MainOptions)
+  (fileName: string)
+  (content: string)
+  =
+  if options.IsStore then
+    let directory = outputDirectory options
+    Directory.CreateDirectory directory |> ignore
+    let outputPath = Path.Combine (directory, fileName)
+    File.WriteAllText (outputPath, content)
+    printfn "%s output: %s" fileName outputPath
+  else
+    printf "%s" content
 
-  let binaryName = Path.GetFileName binaryPath
+let private formatFunctionList (program: ProgramDFAResult) =
+  let header = "Recovered functions:"
 
-  let outputPath = Path.Combine (outputDirectory, binaryName + suffix)
+  let content =
+    if Map.isEmpty program.Functions then
+      [ "  <empty>" ]
+    else
+      program.Functions
+      |> Map.toList
+      |> List.map (fun (address, function_) ->
+        sprintf "  0x%08x  %s" address function_.Name)
 
-  let lines =
+  header :: content |> String.concat "\n" |> (fun text -> text + "\n")
+
+let private formatSSA targetFunctions =
+  targetFunctions
+  |> Map.toList
+  |> List.collect (fun (address, function_) ->
+    let header = [ sprintf "Function 0x%x (%s)" address function_.Name ]
+
+    let statements =
+      function_.DFAResult.Statements
+      |> List.map (fun (programPoint, statement) ->
+        sprintf
+          "  %-20s %s"
+          (formatProgramPoint programPoint)
+          ((PrettyPrinter.ToString [| statement |]).Trim ()))
+
+    header @ statements @ [ "" ])
+  |> String.concat "\n"
+  |> fun text -> text + "\n"
+
+let private formatAnalysisResult result targetFunctions =
+  let functionResults =
     targetFunctions
     |> Map.toList
-    |> List.collect (fun (address, function_) ->
-      let header = [ sprintf "Function 0x%x (%s)" address function_.Name ]
+    |> List.map (fun (address, analysis) ->
+      ModularAnalyzer.functionAnalysisToString result address analysis)
+    |> String.concat "\n\n"
 
-      let statements =
-        function_.DFAResult.Statements
-        |> List.map (fun (programPoint, statement) ->
-          sprintf
-            "  %-20s %s"
-            (formatProgramPoint programPoint)
-            ((PrettyPrinter.ToString [| statement |]).Trim ()))
+  let wholeProgram =
+    [ ""
+      sprintf "Whole-program constraints: %d" result.TypeConstraints.Count
+      sprintf "Whole-program conflicts: %d" result.TypeConflicts.Count
+      sprintf "Next global TypeId: t%d" result.NextTypeId ]
+    |> String.concat "\n"
 
-      header @ statements @ [ "" ])
-
-  File.WriteAllLines (outputPath, lines)
-  printfn "SSA output: %s" outputPath
-  outputPath
+  functionResults + wholeProgram + "\n"
 
 [<EntryPoint>]
 let main argv =
@@ -216,10 +252,13 @@ let main argv =
   if options.ListFunctions then
     (* ListFunctions: Only print out the functions in given binary *)
     timed options.TrackTime "Print function list" (fun () ->
-      program.PrintFuncList)
+      formatFunctionList program |> emitOutput options "funcList")
 
     totalStopwatch.Stop ()
-    printfn "[Time] Total: %s" (formatElapsed totalStopwatch.Elapsed)
+
+    if options.TrackTime then
+      printfn "[Time] Total: %s" (formatElapsed totalStopwatch.Elapsed)
+
     0
   else
     let targetParsed =
@@ -229,8 +268,6 @@ let main argv =
         match resolveFunctionSelector program funSelector with
         | Ok addr ->
           printfn "Selected function: %s -> 0x%x" funSelector.ToString addr
-
-          let suffix = sprintf "_0x%x_ssa" addr
 
           let extractFuncDFA allFunctions =
             match Map.tryFind addr allFunctions with
@@ -242,45 +279,44 @@ let main argv =
             | Some function_ -> Map.ofList [ addr, function_ ]
             | None -> Map.empty
 
-          Ok (suffix, extractFuncDFA, extractFuncRes)
+          Ok (extractFuncDFA, extractFuncRes)
         | Error reason -> Error reason
       | None ->
         (* Analyze All, Print out all functions *)
         printfn "Analyze all functions in given binary"
 
-        let suffix = "_ssa"
         let extractFuncDFA allFunctions = allFunctions
         let extractFuncRes allFunctions = allFunctions
 
-        Ok (suffix, extractFuncDFA, extractFuncRes)
+        Ok (extractFuncDFA, extractFuncRes)
 
     match targetParsed with
-    | Ok (suffix, extractFuncDFA, extractFuncRes) ->
+    | Ok (extractFuncDFA, extractFuncRes) ->
       (* Dump SSA *)
       if options.DumpSSA then
-        let outputPath =
-          timed options.TrackTime "Dump SSA" (fun () ->
-            extractFuncDFA program.Functions |> dumpSSA binary.Path suffix)
-
-        ()
+        timed options.TrackTime "Dump SSA" (fun () ->
+          extractFuncDFA program.Functions
+          |> formatSSA
+          |> emitOutput options "dumpedSSA")
 
       (* Run PointerAnalyzer *)
       let result =
         timed options.TrackTime "Analyze functions" (fun () ->
-          ModularAnalyzer.analyze program)
+          ModularAnalyzer.analyzeWithTimer options.TrackTime program)
 
       (* Extract only target function *)
-      timed options.TrackTime "Print analysis result" (fun () ->
-        extractFuncRes result.Functions
-        |> Map.iter (ModularAnalyzer.printFunctionAnalysis result))
+      let selectedResults = extractFuncRes result.Functions
 
-      (* Print out overall analysis result *)
-      printfn ""
-      printfn "Whole-program constraints: %d" result.TypeConstraints.Count
-      printfn "Whole-program conflicts: %d" result.TypeConflicts.Count
-      printfn "Next global TypeId: t%d" result.NextTypeId
+      timed options.TrackTime "Print analysis result" (fun () ->
+        selectedResults
+        |> formatAnalysisResult result
+        |> emitOutput options "inferredTypes")
+
       totalStopwatch.Stop ()
-      printfn "[Time] Total: %s" (formatElapsed totalStopwatch.Elapsed)
+
+      if options.TrackTime then
+        printfn "[Time] Total: %s" (formatElapsed totalStopwatch.Elapsed)
+
       0
 
     | Error reason ->

@@ -17,7 +17,7 @@ type AnalysisResult =
   member this.ConstraintsToString = ConstraintSet.toString this.TypeConstraints
 
   member this.ConflictToString =
-    let header = "  Conflicts:"
+    let header = "  Conflicts:\n"
 
     let content =
       if Set.isEmpty this.TypeConflicts then

@@ -41,38 +41,51 @@ module ModularAnalyzer =
       | false, false -> sprintf "Unknown(t%d)" typeId
       | true, true -> sprintf "Conflict(t%d)" typeId
 
-  let printFunctionAnalysis resultAnalysisResult (address: Addr) analysis =
-    printfn ""
-    printfn "Function 0x%x (%s)" address analysis.Function.Name
-    printfn "  NextTypeId: t%d" analysis.Summary.NextTypeId
+  let functionAnalysisToString
+    resultAnalysisResult
+    (address: Addr)
+    funAnalysis
+    =
+    let registerTypes =
+      funAnalysis.Result.FinalState.Types.TypeIndicators
+      |> Map.toSeq
+      |> Seq.map (fun (variable, typeId) ->
+        let inferredType =
+          typeToString
+            resultAnalysisResult.TypeConstraints
+            resultAnalysisResult.TypeConflicts
+            typeId
 
-    printfn "%s" analysis.Summary.ParamToString
-    printfn "%s" analysis.Summary.ReturnToString
+        sprintf "    %s -> %s" (Variable.ToString variable) inferredType)
+      |> String.concat "\n"
 
-    printfn "  SSA register types:"
+    [ sprintf "Function 0x%x (%s)" address funAnalysis.Function.Name
+      sprintf "  NextTypeId: t%d" funAnalysis.Summary.NextTypeId
+      funAnalysis.Summary.ParamToString.TrimEnd ()
+      funAnalysis.Summary.ReturnToString.TrimEnd ()
+      "  SSA register types:"
+      if registerTypes = "" then "    <empty>" else registerTypes
+      funAnalysis.Result.ConstraintsToString
+      funAnalysis.Result.ConflictToString ]
+    |> String.concat "\n"
 
-    analysis.Result.FinalState.Types.TypeIndicators
-    |> Map.iter (fun variable typeId ->
-      let inferredType =
-        typeToString
-          resultAnalysisResult.TypeConstraints
-          resultAnalysisResult.TypeConflicts
-          typeId
-
-      printfn "    %s -> %s" (Variable.ToString variable) inferredType)
-
-    printfn "%s" analysis.Result.ConstraintsToString
-    printfn "%s" analysis.Result.ConflictToString
+  let printFunctionAnalysis resultAnalysisResult address analysis =
+    printfn
+      "%s"
+      (functionAnalysisToString resultAnalysisResult address analysis)
 
   let private formatElapsed (elapsed: TimeSpan) =
     sprintf "%.3fs" elapsed.TotalSeconds
 
-  let private timed label work =
-    let stopwatch = Stopwatch.StartNew ()
-    let result = work ()
-    stopwatch.Stop ()
-    printfn "[Time] %s: %s" label (formatElapsed stopwatch.Elapsed)
-    result
+  let private timed trackTime label work =
+    if trackTime then
+      let stopwatch = Stopwatch.StartNew ()
+      let result = work ()
+      stopwatch.Stop ()
+      printfn "[Time] %s: %s" label (formatElapsed stopwatch.Elapsed)
+      result
+    else
+      work ()
 
   let private internalCallees
     (functions: Map<Addr, FunctionDFAResult>)
@@ -121,7 +134,7 @@ module ModularAnalyzer =
       Some (Set.minElement calleeSet)
     | _ -> None
 
-  let analyze (program: ProgramDFAResult) =
+  let analyzeWithTimer trackTime (program: ProgramDFAResult) =
     let platform = program.Binary.Platform
     let applicator = SummaryApplicator.create platform
     let classifyConstant = ConstantClassifier.forBinary program.Binary.Handle
@@ -178,7 +191,7 @@ module ModularAnalyzer =
       summary.NextTypeId
 
     let analyses, summaries, nextTypeId =
-      timed "Analyze transfer and summaries" (fun () ->
+      timed trackTime "Analyze transfer and summaries" (fun () ->
         List.fold analyzeFunction (Map.empty, Map.empty, 0) visitOrder)
 
     let typeStateDomain = TypeStateDomain.createDefault ()
@@ -190,7 +203,7 @@ module ModularAnalyzer =
       |> Seq.fold typeStateDomain.join typeStateDomain.bot
 
     let solvedTypeState =
-      timed "Solve type constraints" (fun () ->
+      timed trackTime "Solve type constraints" (fun () ->
         typeStateDomain.solve rawTypeState)
 
     { Functions = analyses
@@ -198,3 +211,5 @@ module ModularAnalyzer =
       TypeConstraints = solvedTypeState.Constraints
       TypeConflicts = solvedTypeState.Conflicts
       NextTypeId = nextTypeId }
+
+  let analyze program = analyzeWithTimer true program
