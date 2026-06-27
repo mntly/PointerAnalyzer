@@ -4,10 +4,9 @@ open System.Text.Encodings.Web
 open System.Text.Json
 open System.Text.Json.Serialization
 open B2R2
-open PointerAnalyzer.AbsDom.TypeConstraint
-open PointerAnalyzer.AbsDom.TypeMap
 open PointerAnalyzer.Interproc.ModularAnalyzer
 open PointerAnalyzer.Summary
+open PointerAnalyzer.TypeInference.ResolvedType
 
 type ArgumentsJson =
   { [<JsonPropertyName("ArgNum")>]
@@ -44,31 +43,13 @@ type FunctionJson =
 type AnalysisResultJson = Map<string, FunctionJson>
 
 module FunctionJson =
-  let private typeToOutputString
-    (constraints: ConstraintSet)
-    (conflicts: Set<TypeId>)
-    typeId
-    =
-    if Set.contains typeId conflicts then
-      "Conflict"
-    else
-      let isAddress = Set.contains (TypeConstraint.Address typeId) constraints
-
-      let isValue = Set.contains (TypeConstraint.Value typeId) constraints
-
-      match isAddress, isValue with
-      | true, false -> "Address"
-      | false, true -> "Value"
-      | true, true -> "Conflict"
-      | false, false -> "Unknown"
-
   let private indexedTypesToStringList constraints conflicts indexedTypes =
-    indexedTypes
-    |> Map.toSeq
-    |> Seq.sortBy fst
-    |> Seq.map (fun (_, typeId) ->
-      typeToOutputString constraints conflicts typeId)
-    |> Seq.toList
+    let resolveTypeId2Str (_idx, typeId) =
+      let resolvedType = ResolvedTypeInfo.ofTypeId constraints conflicts typeId
+      resolvedType.Type.ToOutputString
+
+    let sortedIndexedTypes = indexedTypes |> Map.toSeq |> Seq.sortBy fst
+    sortedIndexedTypes |> Seq.map resolveTypeId2Str |> Seq.toList
 
   let fromAnalysisResult
     (resultAnalysisResult: ModularAnalysisResult)
@@ -87,11 +68,13 @@ module FunctionJson =
       indexedTypesToStringList constraints conflicts funAnalysis.Summary.Returns
 
     let detailType =
-      TypePerInst.build
-        constraints
-        conflicts
-        funAnalysis.Result.FinalState.Types.TypeIndicators
-        funAnalysis.Function.DFAResult.Statements
+      let resolvedTypes =
+        ResolvedTypeMap.build
+          constraints
+          conflicts
+          funAnalysis.Result.FinalState.Types.TypeIndicators
+
+      TypePerInst.build resolvedTypes funAnalysis.Function.DFAResult.Statements
 
     { Name = funAnalysis.Function.Name
       Arguments =

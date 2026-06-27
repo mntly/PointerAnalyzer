@@ -181,6 +181,17 @@ let private emitOutput
   else
     printf "%s" content
 
+let private storeOutput
+  (options: MainOptions)
+  (fileName: string)
+  (content: string)
+  =
+  let directory = outputDirectory options
+  Directory.CreateDirectory directory |> ignore
+  let outputPath = Path.Combine (directory, fileName)
+  File.WriteAllText (outputPath, content)
+  printfn "%s output: %s" fileName outputPath
+
 let private formatFunctionList (program: ProgramDFAResult) =
   let header = "Recovered functions:"
 
@@ -316,7 +327,7 @@ let main argv =
       timed options.TrackTime "Print analysis result" (fun () ->
         selectedResults
         |> Result2Json.AnalysisResultJson.fromAnalysisResultToJsonString result
-        |> emitOutput options "inferredTypes.json")
+        |> storeOutput options "inferredTypes.json")
 
       if options.DumpConstraints then
         timed options.TrackTime "Print type constraints" (fun () ->

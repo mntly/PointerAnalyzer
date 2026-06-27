@@ -16,6 +16,7 @@
     <Compile Include="Domain/TypeMap.fs" />
     <Compile Include="Domain/TypeConstraint.fs" />
     <Compile Include="TypeInference/TypeConstraintSolver.fs" />
+    <Compile Include="TypeInference/ResolvedType.fs" />
     <Compile Include="Domain/TypeState.fs" />
     <Compile Include="Domain/AbsMem.fs" />
     <Compile Include="Domain/AnalysisState.fs" />

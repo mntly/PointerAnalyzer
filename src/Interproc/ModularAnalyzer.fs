@@ -14,6 +14,7 @@ open PointerAnalyzer.Frontend.ProgramDFA
 open PointerAnalyzer.Summary
 open PointerAnalyzer.Summary.FunctionSummaryBuilder
 open PointerAnalyzer.Summary.SummaryApplicator
+open PointerAnalyzer.TypeInference.ResolvedType
 
 type FunctionAnalysisResult =
   { Function: FunctionDFAResult
@@ -28,42 +29,25 @@ type ModularAnalysisResult =
     NextTypeId: TypeId }
 
 module ModularAnalyzer =
-  let private typeToString constraints conflicts typeId =
-    if Set.contains typeId conflicts then
-      sprintf "Conflict(t%d)" typeId
-    else
-      let isAddress =
-        Set.contains
-          (PointerAnalyzer.AbsDom.TypeConstraint.Address typeId)
-          constraints
-
-      let isValue =
-        Set.contains
-          (PointerAnalyzer.AbsDom.TypeConstraint.Value typeId)
-          constraints
-
-      match isAddress, isValue with
-      | true, false -> sprintf "Address(t%d)" typeId
-      | false, true -> sprintf "Value(t%d)" typeId
-      | false, false -> sprintf "Unknown(t%d)" typeId
-      | true, true -> sprintf "Conflict(t%d)" typeId
-
   let functionAnalysisToString
     resultAnalysisResult
     (address: Addr)
     funAnalysis
     =
-    let registerTypes =
-      funAnalysis.Result.FinalState.Types.TypeIndicators
-      |> Map.toSeq
-      |> Seq.map (fun (variable, typeId) ->
-        let inferredType =
-          typeToString
-            resultAnalysisResult.TypeConstraints
-            resultAnalysisResult.TypeConflicts
-            typeId
+    let resolvedTypes =
+      ResolvedTypeMap.build
+        resultAnalysisResult.TypeConstraints
+        resultAnalysisResult.TypeConflicts
+        funAnalysis.Result.FinalState.Types.TypeIndicators
 
-        sprintf "    %s -> %s" (Variable.ToString variable) inferredType)
+    let registerTypes =
+      resolvedTypes
+      |> Map.toSeq
+      |> Seq.map (fun (variable, typeInfo) ->
+        sprintf
+          "    %s -> %s"
+          (Variable.ToString variable)
+          (ResolvedTypeInfo.toDebugString typeInfo))
       |> String.concat "\n"
 
     [ sprintf "Function 0x%x (%s)" address funAnalysis.Function.Name

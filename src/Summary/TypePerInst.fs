@@ -2,31 +2,7 @@ namespace PointerAnalyzer.Summary
 
 open B2R2
 open B2R2.BinIR.SSA
-open PointerAnalyzer.AbsDom.TypeConstraint
-open PointerAnalyzer.AbsDom.TypeMap
-
-type ResolvedType =
-  | Address
-  | Value
-  | Conflict
-  | Unknown
-
-  member this.ToOutputString =
-    match this with
-    | Address -> "Address"
-    | Value -> "Value"
-    | Conflict -> "Conflict"
-    | Unknown -> "Unknown"
-
-type VarTypeMap = Map<Variable, ResolvedType>
-
-module VarTypeMap =
-  let empty: VarTypeMap = Map.empty
-
-  let tryFind variable variableTypes = Map.tryFind variable variableTypes
-
-  let add variable resolvedType variableTypes =
-    Map.add variable resolvedType variableTypes
+open PointerAnalyzer.TypeInference.ResolvedType
 
 type PP = string
 type SSARegName = string
@@ -56,20 +32,6 @@ module TypePerInst =
       (fun result (variable, inferredType) ->
         add programPoint variable inferredType result)
       types
-
-  let private resolveType constraints conflicts typeId =
-    if Set.contains typeId conflicts then
-      Conflict
-    else
-      let isAddress = Set.contains (TypeConstraint.Address typeId) constraints
-
-      let isValue = Set.contains (TypeConstraint.Value typeId) constraints
-
-      match isAddress, isValue with
-      | true, false -> Address
-      | false, true -> Value
-      | true, true -> Conflict
-      | false, false -> Unknown
 
   let private varsInExpr expr =
     let rec collect acc expr =
@@ -119,19 +81,13 @@ module TypePerInst =
           Set.ofList inputVariables
           Set.ofList outputVariables ]
 
-  let build
-    constraints
-    conflicts
-    typeIndicators
-    (statements: (ProgramPoint * Stmt) seq)
-    =
+  let build resolvedTypes (statements: (ProgramPoint * Stmt) seq) =
     let trackTypPerInst (tracking: TypePerInst) (programPoint, stmt) =
       let filterInTypeIndicator variable =
-        match Map.tryFind variable typeIndicators with
-        | Some typeId ->
+        match Map.tryFind variable resolvedTypes with
+        | Some typeInfo ->
           let variableStr = Variable.ToString variable
-          let resolvedType = resolveType constraints conflicts typeId
-          let typeStr = resolvedType.ToOutputString
+          let typeStr = typeInfo.Type.ToOutputString
           Some (variableStr, typeStr)
         | None -> None
 
