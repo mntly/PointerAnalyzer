@@ -1,0 +1,27 @@
+{
+  "0x08049051": {
+    "Name": "__get_pc_thunk_bx",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": []
+    },
+    "Return": {
+      "ReturnNum": 0,
+      "Returns": []
+    },
+    "DetailType": {
+      "0x08049051": {
+        "EBX_1": "Address",
+        "PC_1": "Conflict",
+        "V_0_0": "Address"
+      },
+      "0x08049054": {
+        "ESP_0": "Conflict",
+        "ESP_1": "Conflict",
+        "PC_2": "Conflict",
+        "T_1_1": "Address",
+        "V_0_0": "Address"
+      }
+    }
+  }
+}

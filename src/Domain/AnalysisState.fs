@@ -57,7 +57,10 @@ type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
             Types = types.set variable typeId state.Types }
       | None ->
         let typeId, typeState = types.fresh state.Types
-        typeId, { state with Types = types.set variable typeId typeState }
+
+        typeId,
+        { state with
+            Types = types.set variable typeId typeState }
 
   member _.tryFindTypeId variable state = types.tryFind variable state.Types
 
@@ -83,8 +86,37 @@ type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
         Types = types.addValue typeId state.Types }
 
   member _.addSame typeIds state =
-    { state with
-        Types = types.addSame typeIds state.Types }
+    let containAddr = Seq.contains TypeIds.address typeIds
+    let containVal = Seq.contains TypeIds.value typeIds
+
+    let newTypes =
+      match containAddr, containVal with
+      | false, true ->
+        (* All become Value *)
+        Seq.fold
+          (fun acc tid ->
+            if tid = TypeIds.value then acc else types.addValue tid acc)
+          state.Types
+          typeIds
+      | true, false ->
+        (* All become Address *)
+        Seq.fold
+          (fun acc tid ->
+            if tid = TypeIds.address then
+              acc
+            else
+              types.addAddress tid acc)
+          state.Types
+          typeIds
+      | false, false ->
+        (* Normal Same *)
+        types.addSame typeIds state.Types
+      | true, true ->
+        (* All become Conflict: This must error *)
+        (* To notify error occur by including trivial types *)
+        types.addSame typeIds state.Types
+
+    { state with Types = newTypes }
 
   member _.addAddResult result left right state =
     { state with

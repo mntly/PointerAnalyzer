@@ -113,6 +113,7 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
 
   member private this.defReg (variable: Variable) value exprTypeId state =
     let typeId, state = stateDom.getOrFreshTypeId variable state
+    let isTrivial = platform.IsTrivialAddress variable
 
     let state =
       match exprTypeId with
