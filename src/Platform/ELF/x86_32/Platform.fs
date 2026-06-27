@@ -19,6 +19,34 @@ let private returnRegisters = [ regId B2R2.FrontEnd.Intel.Register.EAX ]
 
 let private stackPointer = regId B2R2.FrontEnd.Intel.Register.ESP
 
+let private trivialAddressRegisters = Set.ofList [ stackPointer ]
+
+let private trivialValueRegisters =
+  Set.ofList
+    [ regId B2R2.FrontEnd.Intel.Register.DF
+      regId B2R2.FrontEnd.Intel.Register.IF
+      regId B2R2.FrontEnd.Intel.Register.TF
+
+      regId B2R2.FrontEnd.Intel.Register.CF
+      regId B2R2.FrontEnd.Intel.Register.PF
+      regId B2R2.FrontEnd.Intel.Register.AF
+      regId B2R2.FrontEnd.Intel.Register.ZF
+      regId B2R2.FrontEnd.Intel.Register.SF
+      regId B2R2.FrontEnd.Intel.Register.OF ]
+
+let private isTrivialAddress (variable: Variable) =
+  match variable.Kind with
+  | VariableKind.PCVar _ -> true
+  | VariableKind.RegVar (_, registerId, _) ->
+    Set.contains registerId trivialAddressRegisters
+  | _ -> false
+
+let private isTrivialValue (variable: Variable) =
+  match variable.Kind with
+  | VariableKind.RegVar (_, registerId, _) ->
+    Set.contains registerId trivialValueRegisters
+  | _ -> false
+
 let private tryRegisterArgumentIndex (variable: Variable) =
   match tryRegisterId variable with
   | Some registerId -> argumentRegisters |> List.tryFindIndex ((=) registerId)
@@ -65,6 +93,11 @@ let create () =
     StackPointer = stackPointer
     ArgumentRegisters = argumentRegisters
     ReturnRegisters = returnRegisters
+
+    TrivialAddressRegisters = trivialAddressRegisters
+    TrivialValueRegisters = trivialValueRegisters
+    IsTrivialAddress = isTrivialAddress
+    IsTrivialValue = isTrivialValue
 
     TryParameterIndex =
       fun variable ->

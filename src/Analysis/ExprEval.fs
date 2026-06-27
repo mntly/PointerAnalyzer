@@ -68,13 +68,11 @@ type ExprEvalModule (platform: Platform, config: ExprEvalConfig) =
   member this.Eval state expr : AbsVal * TypeId option * AnalysisState =
     match expr with
     | Num bv ->
-      let typeId, state = stateDom.freshTypeId state
-
-      let state =
+      let typeId, state =
         match config.ClassifyConstant bv with
-        | AddressConstant -> stateDom.addAddress typeId state
-        | ValueConstant -> stateDom.addValue typeId state
-        | UnknownConstant -> state
+        | AddressConstant -> TypeIds.address, state
+        | ValueConstant -> TypeIds.value, state
+        | UnknownConstant -> stateDom.freshTypeId state
 
       absVal.ofBitVector bv, Some typeId, state
 

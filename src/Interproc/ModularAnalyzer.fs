@@ -55,9 +55,7 @@ module ModularAnalyzer =
       funAnalysis.Summary.ParamToString.TrimEnd ()
       funAnalysis.Summary.ReturnToString.TrimEnd ()
       "  SSA register types:"
-      if registerTypes = "" then "    <empty>" else registerTypes
-      funAnalysis.Result.ConstraintsToString
-      funAnalysis.Result.ConflictToString ]
+      if registerTypes = "" then "    <empty>" else registerTypes ]
     |> String.concat "\n"
 
   let printFunctionAnalysis resultAnalysisResult address analysis =

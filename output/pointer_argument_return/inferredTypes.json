@@ -25,23 +25,23 @@
         "CF_1": "Value",
         "EAX_1": "Address",
         "EAX_2": "Unknown",
-        "OF_1": "Unknown",
+        "OF_1": "Value",
         "PC_2": "Address",
-        "PF_1": "Unknown",
-        "SF_1": "Unknown",
+        "PF_1": "Value",
+        "SF_1": "Value",
         "T_2_1": "Address",
         "T_3_1": "Unknown",
         "T_4_1": "Unknown",
         "T_5_1": "Unknown",
-        "T_6_1": "Unknown",
+        "T_6_1": "Value",
         "T_7_1": "Unknown",
         "T_8_1": "Unknown",
         "V_-8_0": "Unknown",
         "ZF_1": "Value"
       },
       "0x08049008": {
-        "ESP_0": "Unknown",
-        "ESP_1": "Unknown",
+        "ESP_0": "Address",
+        "ESP_1": "Address",
         "PC_3": "Address",
         "T_1_1": "Address",
         "V_0_0": "Address"
@@ -63,55 +63,55 @@
     "DetailType": {
       "0x08049000": {
         "EAX_1": "Unknown",
-        "ESP_4": "Unknown",
-        "ESP_5": "Unknown",
+        "ESP_4": "Address",
+        "ESP_5": "Address",
         "MEM_1": "Unknown"
       },
       "0x08049009": {
         "EBP_0": "Unknown",
-        "ESP_0": "Unknown",
-        "ESP_1": "Unknown",
+        "ESP_0": "Address",
+        "ESP_1": "Address",
         "PC_1": "Address",
         "V_4_1": "Unknown"
       },
       "0x0804900a": {
-        "EBP_1": "Unknown",
-        "ESP_1": "Unknown",
+        "EBP_1": "Address",
+        "ESP_1": "Address",
         "PC_2": "Address"
       },
       "0x0804900c": {
-        "ESP_1": "Unknown",
-        "ESP_2": "Unknown",
+        "ESP_1": "Address",
+        "ESP_2": "Address",
         "PC_3": "Address",
         "V_8_1": "Unknown"
       },
       "0x0804900e": {
-        "ESP_2": "Unknown",
-        "ESP_3": "Unknown",
+        "ESP_2": "Address",
+        "ESP_3": "Address",
         "PC_4": "Address",
         "V_12_1": "Address"
       },
       "0x08049013": {
-        "ESP_3": "Unknown",
-        "ESP_4": "Unknown",
+        "ESP_3": "Address",
+        "ESP_4": "Address",
         "PC_5": "Address",
         "V_16_1": "Address"
       },
       "0x08049018": {
         "AF_1": "Value",
         "CF_1": "Value",
-        "ESP_5": "Unknown",
-        "ESP_6": "Unknown",
-        "OF_1": "Unknown",
+        "ESP_5": "Address",
+        "ESP_6": "Address",
+        "OF_1": "Value",
         "PC_6": "Address",
-        "PF_1": "Unknown",
-        "SF_1": "Unknown",
+        "PF_1": "Value",
+        "SF_1": "Value",
         "T_10_1": "Unknown",
-        "T_11_1": "Unknown",
+        "T_11_1": "Value",
         "T_12_1": "Unknown",
         "T_13_1": "Unknown",
-        "T_8_1": "Unknown",
-        "T_9_1": "Unknown",
+        "T_8_1": "Address",
+        "T_9_1": "Address",
         "ZF_1": "Value"
       },
       "0x0804901b": {
@@ -119,14 +119,14 @@
         "CF_2": "Value",
         "EAX_1": "Unknown",
         "EAX_2": "Unknown",
-        "OF_2": "Unknown",
+        "OF_2": "Value",
         "PC_7": "Address",
-        "PF_2": "Unknown",
-        "SF_2": "Unknown",
+        "PF_2": "Value",
+        "SF_2": "Value",
         "T_2_1": "Unknown",
         "T_3_1": "Unknown",
         "T_4_1": "Unknown",
-        "T_5_1": "Unknown",
+        "T_5_1": "Value",
         "T_6_1": "Unknown",
         "T_7_1": "Unknown",
         "ZF_2": "Value"
@@ -137,16 +137,16 @@
         "V_2012962812_1": "Unknown"
       },
       "0x08049023": {
-        "EBP_1": "Unknown",
+        "EBP_1": "Address",
         "EBP_2": "Unknown",
-        "ESP_7": "Unknown",
-        "ESP_8": "Unknown",
+        "ESP_7": "Address",
+        "ESP_8": "Address",
         "PC_9": "Address",
         "V_4_1": "Unknown"
       },
       "0x08049024": {
-        "ESP_8": "Unknown",
-        "ESP_9": "Unknown",
+        "ESP_8": "Address",
+        "ESP_9": "Address",
         "PC_10": "Address",
         "T_1_1": "Address",
         "V_0_0": "Address"
@@ -168,13 +168,13 @@
     "DetailType": {
       "0x08049009": {
         "EAX_1": "Unknown",
-        "ESP_1": "Unknown",
-        "ESP_2": "Unknown",
+        "ESP_1": "Address",
+        "ESP_2": "Address",
         "MEM_1": "Unknown"
       },
       "0x08049025": {
-        "ESP_0": "Unknown",
-        "ESP_1": "Unknown",
+        "ESP_0": "Address",
+        "ESP_1": "Address",
         "PC_1": "Address",
         "V_4_1": "Address"
       }

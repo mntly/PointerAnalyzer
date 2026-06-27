@@ -4,6 +4,11 @@ open B2R2.BinIR.SSA
 
 type TypeId = int
 
+module TypeIds =
+  let address = 0
+  let value = 1
+  let firstFresh = 2
+
 /// T_I = R -> N
 type TypeIndicatorMap = Map<Variable, TypeId>
 

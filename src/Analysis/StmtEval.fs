@@ -55,13 +55,7 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
       platform
       { ClassifyConstant = config.ClassifyConstant }
 
-  new (platform: Platform) =
-    StmtEvalModule (platform, StmtEvalConfig.empty)
-
-  member private _.ensureTypeId typeId state =
-    match typeId with
-    | Some typeId -> typeId, state
-    | None -> stateDom.freshTypeId state
+  new (platform: Platform) = StmtEvalModule (platform, StmtEvalConfig.empty)
 
   member private _.applyPointerHint variable typeId state =
     if config.PointerUse variable then
@@ -117,8 +111,14 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
     else
       state
 
-  member private this.defReg (variable: Variable) value typeId state =
-    let typeId, state = this.ensureTypeId typeId state
+  member private this.defReg (variable: Variable) value exprTypeId state =
+    let typeId, state = stateDom.getOrFreshTypeId variable state
+
+    let state =
+      match exprTypeId with
+      | Some exprTypeId -> stateDom.addSame [ typeId; exprTypeId ] state
+      | None -> state
+
     let pendingReturn, state = stateDom.consumePendingReturn variable state
 
     let state =
@@ -310,8 +310,7 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
     results
 
 module StmtEvalDomain =
-  let createWithConfig platform config =
-    StmtEvalModule (platform, config)
+  let createWithConfig platform config = StmtEvalModule (platform, config)
 
   let create platform = StmtEvalModule platform
 

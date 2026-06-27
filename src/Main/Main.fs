@@ -224,6 +224,26 @@ let private formatSSA targetFunctions =
   |> String.concat "\n"
   |> fun text -> text + "\n"
 
+let private formatConstraintSet constraints =
+  let content =
+    if Set.isEmpty constraints then
+      [ "  <empty>" ]
+    else
+      constraints
+      |> Set.toList
+      |> List.map (TypeConstraint.toString >> sprintf "  %s")
+
+  "Constraints" :: content |> String.concat "\n"
+
+let private formatConflictSet conflicts =
+  let content =
+    if Set.isEmpty conflicts then
+      [ "  <empty>" ]
+    else
+      conflicts |> Set.toList |> List.map (sprintf "  t%d")
+
+  "Conflicts" :: content |> String.concat "\n"
+
 let private formatAnalysisResult result targetFunctions =
   let functionResults =
     targetFunctions
@@ -233,13 +253,14 @@ let private formatAnalysisResult result targetFunctions =
     |> String.concat "\n\n"
 
   let wholeProgram =
-    [ ""
-      sprintf "Whole-program constraints: %d" result.TypeConstraints.Count
-      sprintf "Whole-program conflicts: %d" result.TypeConflicts.Count
+    [ "---"
+      formatConstraintSet result.TypeConstraints
+      ""
+      formatConflictSet result.TypeConflicts
       sprintf "Next global TypeId: t%d" result.NextTypeId ]
     |> String.concat "\n"
 
-  functionResults + wholeProgram + "\n"
+  functionResults + "\n" + wholeProgram + "\n"
 
 [<EntryPoint>]
 let main argv =

@@ -13,11 +13,14 @@ type TypeState =
 type TypeStateModule (startTypeId: TypeId) =
   let typeMap = TypeMapDomain.create ()
   let solver = TypeConstraintSolver.create ()
+  let startTypeId = max startTypeId TypeIds.firstFresh
 
   member _.bot =
     { TypeIndicators = typeMap.bot
       NextTypeId = startTypeId
-      Constraints = Set.empty
+      Constraints =
+        Set.ofList [ Address TypeIds.address
+                     Value TypeIds.value ]
       Conflicts = Set.empty }
 
   member _.fresh state =

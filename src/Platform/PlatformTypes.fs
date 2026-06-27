@@ -20,6 +20,11 @@ type Platform =
     ArgumentRegisters: RegisterID list
     ReturnRegisters: RegisterID list
 
+    TrivialAddressRegisters: Set<RegisterID>
+    TrivialValueRegisters: Set<RegisterID>
+    IsTrivialAddress: Variable -> bool
+    IsTrivialValue: Variable -> bool
+
     TryParameterIndex: Variable -> int option
     TryCallArgumentIndex: CallSiteStackContext -> Variable -> int option
     TryReturnIndex: Variable -> int option }

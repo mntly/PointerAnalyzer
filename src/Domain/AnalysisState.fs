@@ -39,8 +39,25 @@ type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
     typeId, { state with Types = typeState }
 
   member _.getOrFreshTypeId variable state =
-    let typeId, typeState = types.getOrFresh variable state.Types
-    typeId, { state with Types = typeState }
+    match types.tryFind variable state.Types with
+    | Some typeId -> typeId, state
+    | None ->
+      let trivialTypeId =
+        if platform.IsTrivialAddress variable then
+          Some TypeIds.address
+        elif platform.IsTrivialValue variable then
+          Some TypeIds.value
+        else
+          None
+
+      match trivialTypeId with
+      | Some typeId ->
+        typeId,
+        { state with
+            Types = types.set variable typeId state.Types }
+      | None ->
+        let typeId, typeState = types.fresh state.Types
+        typeId, { state with Types = types.set variable typeId typeState }
 
   member _.tryFindTypeId variable state = types.tryFind variable state.Types
 
