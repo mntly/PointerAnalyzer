@@ -27,6 +27,7 @@ type MainOptions =
     OutputDirPath: string
     IsStore: bool
     DumpSSA: bool
+    DumpConstraints: bool
     ListFunctions: bool
     FunctionSelector: FunctionSelector option
     TrackTime: bool }
@@ -35,6 +36,7 @@ type CLIArg =
   | [<AltCommandLine("-b")>] Binary of string
   | [<AltCommandLine("-o")>] Output of string
   | [<AltCommandLine("-d")>] DumpSSA
+  | [<AltCommandLine("-dc")>] DumpConstraints
   | [<AltCommandLine("-lf")>] ListFunctions
   | [<AltCommandLine("-s")>] Store of int
   | [<AltCommandLine("-t")>] TrackTime
@@ -49,6 +51,8 @@ type CLIArg =
       | Store _ ->
         "If 1 then store printed result (Dumped SSA, Listed Function) at output directory. If 0 then print out."
       | DumpSSA -> "Print recovered B2R2 SSA"
+      | DumpConstraints ->
+        "Print/Store the human-readable type constraints and type IDs."
       | ListFunctions -> "Print recovered functions and exit before analysis."
       | Function _ ->
         "Print only the selected function. Accepts an address or exact function name."
@@ -93,6 +97,7 @@ let private parseArg (args: string array) =
   let outDir = r.GetResult <@ Output @>
   let isStore = r.GetResult (<@ Store @>, defaultValue = 0) = 1
   let dumpSSA = r.Contains DumpSSA
+  let dumpConstraints = r.Contains DumpConstraints
   let listFunctions = r.Contains ListFunctions
   let trackTime = r.Contains TrackTime
 
@@ -108,6 +113,7 @@ let private parseArg (args: string array) =
     OutputDirPath = outDir
     IsStore = isStore
     DumpSSA = dumpSSA
+    DumpConstraints = dumpConstraints
     ListFunctions = listFunctions
     FunctionSelector = targetFunc
     TrackTime = trackTime }
@@ -309,8 +315,14 @@ let main argv =
 
       timed options.TrackTime "Print analysis result" (fun () ->
         selectedResults
-        |> formatAnalysisResult result
-        |> emitOutput options "inferredTypes")
+        |> Result2Json.AnalysisResultJson.fromAnalysisResultToJsonString result
+        |> emitOutput options "inferredTypes.json")
+
+      if options.DumpConstraints then
+        timed options.TrackTime "Print type constraints" (fun () ->
+          selectedResults
+          |> formatAnalysisResult result
+          |> emitOutput options "typeConstraints")
 
       totalStopwatch.Stop ()
 

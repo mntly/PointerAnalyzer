@@ -6,5 +6,6 @@ binary path
 -> ProgramRecovery.recover
 -> optionally print recovered functions and exit
 -> ModularAnalyzer.analyze
--> print all function summaries, or only the function selected by --function
+-> print JSON inferred types for all functions, or only the function selected by --function
+-> optionally print human-readable constraints when --dumpconstraints is set
 ```

@@ -32,8 +32,15 @@ module ModularAnalyzer =
     if Set.contains typeId conflicts then
       sprintf "Conflict(t%d)" typeId
     else
-      let isAddress = Set.contains (Address typeId) constraints
-      let isValue = Set.contains (Value typeId) constraints
+      let isAddress =
+        Set.contains
+          (PointerAnalyzer.AbsDom.TypeConstraint.Address typeId)
+          constraints
+
+      let isValue =
+        Set.contains
+          (PointerAnalyzer.AbsDom.TypeConstraint.Value typeId)
+          constraints
 
       match isAddress, isValue with
       | true, false -> sprintf "Address(t%d)" typeId

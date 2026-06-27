@@ -23,6 +23,7 @@ dotnet run --project src/PointerAnalyzer.fsproj \
 | Option | Description |
 |--------|-------------|
 | `-d`, `--dumpssa` | Print/Store recovered B2R2 SSA. |
+| `-dc`, `--dumpconstraints` | Print/Store the human-readable type constraints and type IDs. |
 | `-lf`, `--listfunctions` | Print/Store recovered functions and exit before analysis. |
 | `-s`, `--store <int>` | If `1`, store the printed result in the output directory. If `0`, print to stdout. |
 | `-t`, `--tracktime` | Print the processing time of each analysis step. |
@@ -84,4 +85,13 @@ dotnet run --project src/PointerAnalyzer.fsproj \
     -b datas/binaries/pointer_argument_return \
     -o output \
     -t
+```
+
+### Dump type constraints
+
+```bash
+dotnet run --project src/PointerAnalyzer.fsproj \
+    -b datas/binaries/pointer_argument_return \
+    -o output \
+    -dc
 ```

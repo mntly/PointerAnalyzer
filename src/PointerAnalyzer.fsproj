@@ -35,6 +35,8 @@
 
     <Compile Include="Interproc/ModularAnalyzer.fs" />
 
+    <Compile Include="Core/Result2Json.fs" />
+
     <Compile Include="Main/Main.fs" />
   </ItemGroup>
 
