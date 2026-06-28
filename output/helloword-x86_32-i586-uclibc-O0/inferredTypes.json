@@ -12,13 +12,13 @@
     "DetailType": {
       "0x08049051": {
         "EBX_1": "Address",
-        "PC_1": "Conflict",
+        "PC_1": "Address",
         "V_0_0": "Address"
       },
       "0x08049054": {
-        "ESP_0": "Conflict",
-        "ESP_1": "Conflict",
-        "PC_2": "Conflict",
+        "ESP_0": "Address",
+        "ESP_1": "Address",
+        "PC_2": "Address",
         "T_1_1": "Address",
         "V_0_0": "Address"
       }

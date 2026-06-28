@@ -260,13 +260,21 @@ type TypeConstraintSolverModule () =
     let updateConstSet constraints addrSet valSet =
       let updateAddr =
         Set.fold
-          (fun constSet typeId -> Set.add (Address typeId) constSet)
+          (fun constSet typeId ->
+            if typeId = TypeIds.value then
+              constSet
+            else
+              Set.add (Address typeId) constSet)
           constraints
           addrSet
 
       let updateVal =
         Set.fold
-          (fun constSet typeId -> Set.add (Value typeId) constSet)
+          (fun constSet typeId ->
+            if typeId = TypeIds.address then
+              constSet
+            else
+              Set.add (Value typeId) constSet)
           updateAddr
           valSet
 

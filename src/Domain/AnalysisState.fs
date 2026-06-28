@@ -42,25 +42,38 @@ type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
     match types.tryFind variable state.Types with
     | Some typeId -> typeId, state
     | None ->
-      let trivialTypeId =
+      // let trivialTypeId =
+      //   if platform.IsTrivialAddress variable then
+      //     Some TypeIds.address
+      //   elif platform.IsTrivialValue variable then
+      //     Some TypeIds.value
+      //   else
+      //     None
+
+      // match trivialTypeId with
+      // | Some typeId ->
+      //   typeId,
+      //   { state with
+      //       Types = types.set variable typeId state.Types }
+      // | None ->
+      //   let typeId, typeState = types.fresh state.Types
+
+      //   typeId,
+      //   { state with
+      //       Types = types.set variable typeId typeState }
+
+      let typeId, typeState = types.fresh state.Types
+      let typeState = types.set variable typeId typeState
+
+      let newTypeState =
         if platform.IsTrivialAddress variable then
-          Some TypeIds.address
-        elif platform.IsTrivialValue variable then
-          Some TypeIds.value
+          types.addAddress typeId typeState
+        else if platform.IsTrivialValue variable then
+          types.addValue typeId typeState
         else
-          None
+          typeState
 
-      match trivialTypeId with
-      | Some typeId ->
-        typeId,
-        { state with
-            Types = types.set variable typeId state.Types }
-      | None ->
-        let typeId, typeState = types.fresh state.Types
-
-        typeId,
-        { state with
-            Types = types.set variable typeId typeState }
+      typeId, { state with Types = newTypeState }
 
   member _.tryFindTypeId variable state = types.tryFind variable state.Types
 
