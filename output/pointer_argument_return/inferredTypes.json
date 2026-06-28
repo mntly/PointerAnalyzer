@@ -16,20 +16,37 @@
     },
     "DetailType": {
       "0x08049000": {
-        "EAX_1": "Address",
+        "EBP_0": "Unknown",
+        "ESP_0": "Address",
+        "ESP_1": "Address",
         "PC_1": "Address",
+        "V_4_1": "Unknown"
+      },
+      "0x08049001": {
+        "EBP_1": "Address",
+        "ESP_1": "Address",
+        "PC_2": "Address"
+      },
+      "0x08049003": {
+        "EAX_1": "Address",
+        "PC_3": "Address",
         "V_-4_0": "Address"
       },
-      "0x08049004": {
-        "AF_1": "Value",
-        "CF_1": "Value",
+      "0x08049006": {
         "EAX_1": "Address",
         "EAX_2": "Unknown",
+        "PC_4": "Address"
+      },
+      "0x08049008": {
+        "AF_1": "Value",
+        "CF_1": "Value",
+        "EAX_2": "Unknown",
+        "EAX_3": "Unknown",
         "OF_1": "Value",
-        "PC_2": "Address",
+        "PC_5": "Address",
         "PF_1": "Value",
         "SF_1": "Value",
-        "T_2_1": "Address",
+        "T_2_1": "Unknown",
         "T_3_1": "Unknown",
         "T_4_1": "Unknown",
         "T_5_1": "Unknown",
@@ -39,16 +56,23 @@
         "V_-8_0": "Unknown",
         "ZF_1": "Value"
       },
-      "0x08049008": {
-        "ESP_0": "Address",
+      "0x0804900b": {
+        "EBP_2": "Unknown",
         "ESP_1": "Address",
-        "PC_3": "Address",
+        "ESP_2": "Address",
+        "PC_6": "Address",
+        "V_4_1": "Unknown"
+      },
+      "0x0804900c": {
+        "ESP_2": "Address",
+        "ESP_3": "Address",
+        "PC_7": "Address",
         "T_1_1": "Address",
         "V_0_0": "Address"
       }
     }
   },
-  "0x08049009": {
+  "0x0804900d": {
     "Name": "compute_result",
     "Arguments": {
       "ArgNum": 0,
@@ -67,37 +91,37 @@
         "ESP_5": "Address",
         "MEM_1": "Unknown"
       },
-      "0x08049009": {
+      "0x0804900d": {
         "EBP_0": "Unknown",
         "ESP_0": "Address",
         "ESP_1": "Address",
         "PC_1": "Address",
         "V_4_1": "Unknown"
       },
-      "0x0804900a": {
+      "0x0804900e": {
         "EBP_1": "Address",
         "ESP_1": "Address",
         "PC_2": "Address"
       },
-      "0x0804900c": {
+      "0x08049010": {
         "ESP_1": "Address",
         "ESP_2": "Address",
         "PC_3": "Address",
         "V_8_1": "Unknown"
       },
-      "0x0804900e": {
+      "0x08049012": {
         "ESP_2": "Address",
         "ESP_3": "Address",
         "PC_4": "Address",
         "V_12_1": "Address"
       },
-      "0x08049013": {
+      "0x08049017": {
         "ESP_3": "Address",
         "ESP_4": "Address",
         "PC_5": "Address",
         "V_16_1": "Address"
       },
-      "0x08049018": {
+      "0x0804901c": {
         "AF_1": "Value",
         "CF_1": "Value",
         "ESP_5": "Address",
@@ -114,7 +138,7 @@
         "T_9_1": "Address",
         "ZF_1": "Value"
       },
-      "0x0804901b": {
+      "0x0804901f": {
         "AF_2": "Value",
         "CF_2": "Value",
         "EAX_1": "Unknown",
@@ -131,12 +155,12 @@
         "T_7_1": "Unknown",
         "ZF_2": "Value"
       },
-      "0x0804901e": {
+      "0x08049022": {
         "EAX_2": "Unknown",
         "PC_8": "Address",
         "V_2012962812_1": "Unknown"
       },
-      "0x08049023": {
+      "0x08049027": {
         "EBP_1": "Address",
         "EBP_2": "Unknown",
         "ESP_7": "Address",
@@ -144,7 +168,7 @@
         "PC_9": "Address",
         "V_4_1": "Unknown"
       },
-      "0x08049024": {
+      "0x08049028": {
         "ESP_8": "Address",
         "ESP_9": "Address",
         "PC_10": "Address",
@@ -153,7 +177,7 @@
       }
     }
   },
-  "0x08049025": {
+  "0x08049029": {
     "Name": "_start",
     "Arguments": {
       "ArgNum": 0,
@@ -166,13 +190,13 @@
       ]
     },
     "DetailType": {
-      "0x08049009": {
+      "0x0804900d": {
         "EAX_1": "Unknown",
         "ESP_1": "Address",
         "ESP_2": "Address",
         "MEM_1": "Unknown"
       },
-      "0x08049025": {
+      "0x08049029": {
         "ESP_0": "Address",
         "ESP_1": "Address",
         "PC_1": "Address",
