@@ -1,52 +1,49 @@
 .section .data
 .align 4
-source_value:
+operPtr:
   .long 40
 
-result_value:
+result:
   .long 0
 
 .section .text
 .intel_syntax noprefix
 .global _start
 
-# int load_and_add(int *ptr, int delta)
-.type load_and_add, @function
-load_and_add:
+# int addOffset(int *ptr, int offset)
+.type addOffset, @function
+addOffset:
   push ebp
   mov ebp, esp
 
   mov eax, [ebp+8]
-  mov eax, [eax]
   add eax, [ebp+12]
 
   pop ebp
   ret
-.size load_and_add, .-load_and_add
+.size addOffset, .-addOffset
 
-# int compute_result(void)
-.type compute_result, @function
-compute_result:
+# int compute(void)
+.type compute, @function
+compute:
   push ebp
   mov ebp, esp
 
-  # cdecl arguments are pushed from right to left.
   push 2
-  push OFFSET FLAT:source_value
-  call load_and_add
+  push OFFSET FLAT:operPtr
+  call addOffset
   add esp, 8
 
-  # Use the callee return value, then store the result.
   add eax, 1
-  mov DWORD PTR [result_value], eax
+  mov DWORD PTR [result], eax
 
   leave
   ret
-.size compute_result, .-compute_result
+.size compute, .-compute
 
 .type _start, @function
 _start:
-  call compute_result
+  call compute
 
   mov ebx, eax
   mov eax, 1

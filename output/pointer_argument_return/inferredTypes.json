@@ -1,17 +1,17 @@
 {
   "0x08049000": {
-    "Name": "load_and_add",
+    "Name": "addOffset",
     "Arguments": {
       "ArgNum": 2,
       "Args": [
         "Address",
-        "Unknown"
+        "Value"
       ]
     },
     "Return": {
       "ReturnNum": 1,
       "Returns": [
-        "Unknown"
+        "Address"
       ]
     },
     "DetailType": {
@@ -33,47 +33,42 @@
         "V_-4_0": "Address"
       },
       "0x08049006": {
-        "EAX_1": "Address",
-        "EAX_2": "Unknown",
-        "PC_4": "Address"
-      },
-      "0x08049008": {
         "AF_1": "Value",
         "CF_1": "Value",
-        "EAX_2": "Unknown",
-        "EAX_3": "Unknown",
+        "EAX_1": "Address",
+        "EAX_2": "Address",
         "OF_1": "Value",
-        "PC_5": "Address",
+        "PC_4": "Address",
         "PF_1": "Value",
         "SF_1": "Value",
-        "T_2_1": "Unknown",
-        "T_3_1": "Unknown",
-        "T_4_1": "Unknown",
+        "T_2_1": "Address",
+        "T_3_1": "Value",
+        "T_4_1": "Address",
         "T_5_1": "Unknown",
         "T_6_1": "Value",
         "T_7_1": "Unknown",
         "T_8_1": "Unknown",
-        "V_-8_0": "Unknown",
+        "V_-8_0": "Value",
         "ZF_1": "Value"
       },
-      "0x0804900b": {
+      "0x08049009": {
         "EBP_2": "Unknown",
         "ESP_1": "Address",
         "ESP_2": "Address",
-        "PC_6": "Address",
+        "PC_5": "Address",
         "V_4_1": "Unknown"
       },
-      "0x0804900c": {
+      "0x0804900a": {
         "ESP_2": "Address",
         "ESP_3": "Address",
-        "PC_7": "Address",
+        "PC_6": "Address",
         "T_1_1": "Address",
         "V_0_0": "Address"
       }
     }
   },
-  "0x0804900d": {
-    "Name": "compute_result",
+  "0x0804900b": {
+    "Name": "compute",
     "Arguments": {
       "ArgNum": 0,
       "Args": []
@@ -81,47 +76,47 @@
     "Return": {
       "ReturnNum": 1,
       "Returns": [
-        "Unknown"
+        "Address"
       ]
     },
     "DetailType": {
       "0x08049000": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Address",
         "ESP_4": "Address",
         "ESP_5": "Address",
         "MEM_1": "Unknown"
       },
-      "0x0804900d": {
+      "0x0804900b": {
         "EBP_0": "Unknown",
         "ESP_0": "Address",
         "ESP_1": "Address",
         "PC_1": "Address",
         "V_4_1": "Unknown"
       },
-      "0x0804900e": {
+      "0x0804900c": {
         "EBP_1": "Address",
         "ESP_1": "Address",
         "PC_2": "Address"
       },
-      "0x08049010": {
+      "0x0804900e": {
         "ESP_1": "Address",
         "ESP_2": "Address",
         "PC_3": "Address",
-        "V_8_1": "Unknown"
+        "V_8_1": "Value"
       },
-      "0x08049012": {
+      "0x08049010": {
         "ESP_2": "Address",
         "ESP_3": "Address",
         "PC_4": "Address",
         "V_12_1": "Address"
       },
-      "0x08049017": {
+      "0x08049015": {
         "ESP_3": "Address",
         "ESP_4": "Address",
         "PC_5": "Address",
         "V_16_1": "Address"
       },
-      "0x0804901c": {
+      "0x0804901a": {
         "AF_1": "Value",
         "CF_1": "Value",
         "ESP_5": "Address",
@@ -138,29 +133,29 @@
         "T_9_1": "Address",
         "ZF_1": "Value"
       },
-      "0x0804901f": {
+      "0x0804901d": {
         "AF_2": "Value",
         "CF_2": "Value",
-        "EAX_1": "Unknown",
-        "EAX_2": "Unknown",
+        "EAX_1": "Address",
+        "EAX_2": "Address",
         "OF_2": "Value",
         "PC_7": "Address",
         "PF_2": "Value",
         "SF_2": "Value",
-        "T_2_1": "Unknown",
-        "T_3_1": "Unknown",
+        "T_2_1": "Address",
+        "T_3_1": "Address",
         "T_4_1": "Unknown",
         "T_5_1": "Value",
         "T_6_1": "Unknown",
         "T_7_1": "Unknown",
         "ZF_2": "Value"
       },
-      "0x08049022": {
-        "EAX_2": "Unknown",
+      "0x08049020": {
+        "EAX_2": "Address",
         "PC_8": "Address",
-        "V_2012962812_1": "Unknown"
+        "V_2012962812_1": "Address"
       },
-      "0x08049027": {
+      "0x08049025": {
         "EBP_1": "Address",
         "EBP_2": "Unknown",
         "ESP_7": "Address",
@@ -168,7 +163,7 @@
         "PC_9": "Address",
         "V_4_1": "Unknown"
       },
-      "0x08049028": {
+      "0x08049026": {
         "ESP_8": "Address",
         "ESP_9": "Address",
         "PC_10": "Address",
@@ -177,7 +172,7 @@
       }
     }
   },
-  "0x08049029": {
+  "0x08049027": {
     "Name": "_start",
     "Arguments": {
       "ArgNum": 0,
@@ -186,17 +181,17 @@
     "Return": {
       "ReturnNum": 1,
       "Returns": [
-        "Unknown"
+        "Address"
       ]
     },
     "DetailType": {
-      "0x0804900d": {
-        "EAX_1": "Unknown",
+      "0x0804900b": {
+        "EAX_1": "Address",
         "ESP_1": "Address",
         "ESP_2": "Address",
         "MEM_1": "Unknown"
       },
-      "0x08049029": {
+      "0x08049027": {
         "ESP_0": "Address",
         "ESP_1": "Address",
         "PC_1": "Address",

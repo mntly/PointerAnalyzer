@@ -12,6 +12,6 @@ module ConstantClassifier =
       if handle.File.IsValidAddr address then
         AddressConstant
       else
-        UnknownConstant
+        ValueConstant
     with _ ->
       UnknownConstant
