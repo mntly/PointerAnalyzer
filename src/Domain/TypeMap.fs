@@ -2,16 +2,25 @@ module PointerAnalyzer.AbsDom.TypeMap
 
 open B2R2.BinIR.SSA
 
+/// <summary>
+/// Identity to represent type constraint of each SSA varaible.
+/// </summary>
 type TypeId = int
 
+(*
+  ToDo
+    Current it does not use global Type Id for Address, Value.
+    If the global Type Id is removed, then change to Normal Same
+*)
 module TypeIds =
   let address = 0
   let value = 1
   let firstFresh = 2
 
-/// T_I = R -> N
+/// <summary>
+/// Mapping from SSA varaible to its type Id.
+/// </summary>
 type TypeIndicatorMap = Map<Variable, TypeId>
-
 type TypeMap = TypeIndicatorMap
 
 type TypeMapModule () =

@@ -9,6 +9,21 @@ open PointerAnalyzer.AbsDom.RegMap
 open PointerAnalyzer.AbsDom.TypeMap
 open PointerAnalyzer.AbsDom.TypeState
 
+/// <summary>
+/// Analysis state of main-analysis step.
+/// </summary>
+/// <remarks>
+/// <c>RegMap</c> is PointerAnalyzer's
+/// <see cref="PointerAnalyzer.AbsDom.RegMap" />.
+/// <c>Memory</c> is PointerAnalyzer's
+/// <see cref="PointerAnalyzer.AbsDom.AbsMem.AbsMem" />.
+/// <c>Types</c> is PointerAnalyzer's
+/// <see cref="PointerAnalyzer.AbsDom.TypeState.TypeState" />.
+/// <c>PendingReturns</c> tracks the type of return registers after applying
+/// callee. The stored register is eliminated when it is used.
+/// <c>StackDelta</c> tracks offset of current stack pointer to find out the
+/// arguments passed by stack.
+/// </remarks>
 type AnalysisState =
   { RegMap: RegMap
     Memory: AbsMem
@@ -16,6 +31,9 @@ type AnalysisState =
     PendingReturns: Map<RegisterID, TypeId>
     StackDelta: int option }
 
+/// <summary>
+/// Updates Analysis State.
+/// </summary>
 type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
   let absVal = AbsValDomain.create platform
   let regMap = RegMapDomain.create platform
@@ -34,34 +52,16 @@ type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
       PendingReturns = Map.empty
       StackDelta = None }
 
+  /// Return new type Id
   member _.freshTypeId state =
     let typeId, typeState = types.fresh state.Types
     typeId, { state with Types = typeState }
 
+  /// Return new type Id only if given SSA variable assigned first
   member _.getOrFreshTypeId variable state =
     match types.tryFind variable state.Types with
     | Some typeId -> typeId, state
     | None ->
-      // let trivialTypeId =
-      //   if platform.IsTrivialAddress variable then
-      //     Some TypeIds.address
-      //   elif platform.IsTrivialValue variable then
-      //     Some TypeIds.value
-      //   else
-      //     None
-
-      // match trivialTypeId with
-      // | Some typeId ->
-      //   typeId,
-      //   { state with
-      //       Types = types.set variable typeId state.Types }
-      // | None ->
-      //   let typeId, typeState = types.fresh state.Types
-
-      //   typeId,
-      //   { state with
-      //       Types = types.set variable typeId typeState }
-
       let typeId, typeState = types.fresh state.Types
       let typeState = types.set variable typeId typeState
 
@@ -77,28 +77,40 @@ type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
 
   member _.tryFindTypeId variable state = types.tryFind variable state.Types
 
+  /// Return the Abstract Value of given register
   member _.findRegister variable state = regMap.find variable state.RegMap
 
+  /// Return the Abstract Value of given register
   member _.tryFindRegister variable state = regMap.tryFind variable state.RegMap
 
+  /// Set the abstract value of given register as given abstract value
   member _.setRegister variable value typeId state =
     { state with
         RegMap = regMap.add variable value state.RegMap
         Types = types.set variable typeId state.Types }
 
+  /// Add new type constraint
   member _.addConstraint constraint_ state =
     { state with
         Types = types.addConstraint constraint_ state.Types }
 
+  /// Add new Address type constraint
   member _.addAddress typeId state =
     { state with
         Types = types.addAddress typeId state.Types }
 
+  /// Add new Value type constraint
   member _.addValue typeId state =
     { state with
         Types = types.addValue typeId state.Types }
 
+  /// Add new Same type constraint
   member _.addSame typeIds state =
+    (*
+      ToDo
+        Current it does not use global Type Id for Address, Value.
+        If the global Type Id is removed, then change to Normal Same
+    *)
     let containAddr = Seq.contains TypeIds.address typeIds
     let containVal = Seq.contains TypeIds.value typeIds
 
@@ -131,24 +143,29 @@ type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
 
     { state with Types = newTypes }
 
+  /// Add new AddResult(result, left, right) type constraint
   member _.addAddResult result left right state =
     { state with
         Types = types.addAddResult result left right state.Types }
 
+  /// Add new SubResult(result, left, right) type constraint
   member _.addSubResult result left right state =
     { state with
         Types = types.addSubResult result left right state.Types }
 
+  /// Set the type of return register as given type Id
   member _.setPendingReturn retRegId calleeRetTypId state =
     { state with
         PendingReturns = Map.add retRegId calleeRetTypId state.PendingReturns }
 
+  /// Update offset of stack pointer
   member _.adjustStackDelta delta state =
     let stackDelta =
       state.StackDelta |> Option.defaultValue 0 |> (+) delta |> Some
 
     { state with StackDelta = stackDelta }
 
+  /// If return register is used, remove it from pending return
   member _.consumePendingReturn (variable: Variable) state =
     match variable.Kind with
     | RegVar (_, registerId, _) ->
@@ -160,16 +177,22 @@ type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
       | None -> None, state
     | _ -> None, state
 
+  /// Load value of given address. If the address is not in AbsMem,
+  /// return AbsVal Top
   member _.load memoryVersion address state =
     match absVal.tryGetUInt64 address with
-    | None -> absVal.top, None, state
+    | None ->
+      (* Address is not integer -> Return AbsVal Top *)
+      absVal.top, None, state
     | Some address ->
       let location = memory.location memoryVersion address
 
       match memory.tryFind location state.Memory with
-      | Some value -> value.Value, Some value.TypeId, state
+      | Some value ->
+        (* Already stored -> Normal Load *)
+        value.Value, Some value.TypeId, state
       | None ->
-        // New Location -> Add new Value
+        (* New Location -> Add new Value *)
         let typeId, typeState = types.fresh state.Types
         let newState = { state with Types = typeState }
         let value = { Value = absVal.top; TypeId = typeId }
@@ -179,10 +202,15 @@ type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
         { newState with
             Memory = memory.add location value newState.Memory }
 
+  /// Store value to given address. Only if given address is integer,
+  /// the value is tracked
   member _.store prevVersion newVersion address value valueTypeId state =
     match absVal.tryGetUInt64 address with
-    | None -> valueTypeId, state
+    | None ->
+      (* Address is not integer -> Do not store *)
+      valueTypeId, state
     | Some address ->
+      (* Address is integer -> Store *)
       let typeId, typeState =
         match valueTypeId with
         | None -> types.fresh state.Types
@@ -198,6 +226,7 @@ type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
           Memory = memory.add location valueMem updated
           Types = typeState }
 
+  /// Join analysis state
   member _.join left right =
     { RegMap = regMap.join left.RegMap right.RegMap
       Memory = memory.join left.Memory right.Memory
@@ -215,7 +244,9 @@ type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
         | _ -> None }
 
 module AnalysisStateDomain =
+  /// Create analysis state handler starting with given type id
   let create platform startTypeId =
     AnalysisStateModule (platform, startTypeId)
 
+  /// Create analysis state handler starting with type Id 0
   let createDefault platform = create platform 0

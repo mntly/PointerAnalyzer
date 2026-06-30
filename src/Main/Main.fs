@@ -12,6 +12,7 @@ open PointerAnalyzer.AbsDom.TypeConstraint
 open PointerAnalyzer.Frontend.BinaryLoader
 open PointerAnalyzer.Frontend.ProgramDFA
 open PointerAnalyzer.Interproc.ModularAnalyzer
+open PointerAnalyzer.Utils
 
 type FunctionSelector =
   | ByAddress of Addr
@@ -118,23 +119,11 @@ let private parseArg (args: string array) =
     FunctionSelector = targetFunc
     TrackTime = trackTime }
 
-let private formatElapsed (elapsed: TimeSpan) =
-  sprintf "%.3fs" elapsed.TotalSeconds
-
-let private timed trackTime label work =
-  if trackTime then
-    let stopwatch = Stopwatch.StartNew ()
-    let result = work ()
-    stopwatch.Stop ()
-    printfn "[Time] %s: %s" label (formatElapsed stopwatch.Elapsed)
-    result
-  else
-    work ()
-
-let private resolveFunctionSelector
-  (program: ProgramDFAResult)
-  (selector: FunctionSelector)
-  =
+(*
+  Filter only given target function.
+  Only single target function is valid.
+*)
+let private resolveFunctionSelector (program: ProgramDFAResult) selector =
   match selector with
   | ByAddress address ->
     if Map.containsKey address program.Functions then
@@ -148,11 +137,11 @@ let private resolveFunctionSelector
       |> List.filter (fun (_, function_) -> function_.Name = name)
 
     match matches with
-    | [ address, _ ] -> Ok address
     | [] -> Error (sprintf "Function name not found: %s" name)
-    | many ->
+    | [ address, _dfaRet ] -> Ok address
+    | targetFuncs ->
       let candidates =
-        many
+        targetFuncs
         |> List.map (fun (address, function_) ->
           sprintf "0x%x (%s)" address function_.Name)
         |> String.concat ", "
@@ -161,70 +150,63 @@ let private resolveFunctionSelector
         sprintf "Ambiguous function name: %s. Candidates: %s" name candidates
       )
 
-let private formatProgramPoint (programPoint: ProgramPoint) =
-  sprintf "0x%08x+%d" programPoint.Address programPoint.Position
+let private storeOutput options fileName (content: string) =
+  let dirPath = options.OutputDirPath
+  let binName = Path.GetFileName options.BinaryPath
+  let outDirPath = Path.Combine (dirPath, binName)
+  Directory.CreateDirectory outDirPath |> ignore
 
-let private outputDirectory options =
-  Path.Combine (options.OutputDirPath, Path.GetFileName options.BinaryPath)
+  let outFilePath = Path.Combine (outDirPath, fileName)
+  File.WriteAllText (outFilePath, content)
 
-let private emitOutput
-  (options: MainOptions)
-  (fileName: string)
-  (content: string)
-  =
+  printfn "%s output: %s" fileName outFilePath
+
+let private emitOutput options fileName (content: string) =
   if options.IsStore then
-    let directory = outputDirectory options
-    Directory.CreateDirectory directory |> ignore
-    let outputPath = Path.Combine (directory, fileName)
-    File.WriteAllText (outputPath, content)
-    printfn "%s output: %s" fileName outputPath
+    storeOutput options fileName content
   else
     printf "%s" content
 
-let private storeOutput
-  (options: MainOptions)
-  (fileName: string)
-  (content: string)
-  =
-  let directory = outputDirectory options
-  Directory.CreateDirectory directory |> ignore
-  let outputPath = Path.Combine (directory, fileName)
-  File.WriteAllText (outputPath, content)
-  printfn "%s output: %s" fileName outputPath
+let private functionListStr (program: ProgramDFAResult) =
+  let addrFun2Str (addr, func) = sprintf "  0x%08x  %s" addr func.Name
 
-let private formatFunctionList (program: ProgramDFAResult) =
   let header = "Recovered functions:"
 
   let content =
     if Map.isEmpty program.Functions then
       [ "  <empty>" ]
     else
-      program.Functions
-      |> Map.toList
-      |> List.map (fun (address, function_) ->
-        sprintf "  0x%08x  %s" address function_.Name)
+      program.Functions |> Map.toList |> List.map addrFun2Str
 
-  header :: content |> String.concat "\n" |> (fun text -> text + "\n")
+  let funLstStr = header :: content |> String.concat "\n"
+  funLstStr + "\n"
 
-let private formatSSA targetFunctions =
-  targetFunctions
-  |> Map.toList
-  |> List.collect (fun (address, function_) ->
-    let header = [ sprintf "Function 0x%x (%s)" address function_.Name ]
+let private funcSSAStr targetFunctions =
+  let ppStr (programPoint: ProgramPoint) =
+    sprintf "0x%08x+%d" programPoint.Address programPoint.Position
 
-    let statements =
-      function_.DFAResult.Statements
-      |> List.map (fun (programPoint, statement) ->
-        sprintf
-          "  %-20s %s"
-          (formatProgramPoint programPoint)
-          ((PrettyPrinter.ToString [| statement |]).Trim ()))
+  let stmtStr (pp, stmt: Stmt) =
+    sprintf
+      "  %-20s %s"
+      (ppStr pp)
+      ((PrettyPrinter.ToString [| stmt |]).Trim ())
 
-    header @ statements @ [ "" ])
-  |> String.concat "\n"
-  |> fun text -> text + "\n"
+  let funcSSA2Str (addr, func) =
+    let header = sprintf "Function 0x%x (%s)" addr func.Name
+    let statements = func.DFAResult.Statements |> List.map stmtStr
+    header :: statements @ [ "" ]
 
-let private formatConstraintSet constraints =
+  let ssaStr =
+    targetFunctions
+    |> Map.toList
+    |> List.collect funcSSA2Str
+    |> String.concat "\n"
+
+  ssaStr + "\n"
+
+let private constraintSetStr constraints =
+  let header = "Constraints"
+
   let content =
     if Set.isEmpty constraints then
       [ "  <empty>" ]
@@ -233,18 +215,20 @@ let private formatConstraintSet constraints =
       |> Set.toList
       |> List.map (TypeConstraint.toString >> sprintf "  %s")
 
-  "Constraints" :: content |> String.concat "\n"
+  header :: content |> String.concat "\n"
 
-let private formatConflictSet conflicts =
+let private conflictSetStr conflicts =
+  let header = "Conflicts"
+
   let content =
     if Set.isEmpty conflicts then
       [ "  <empty>" ]
     else
       conflicts |> Set.toList |> List.map (sprintf "  t%d")
 
-  "Conflicts" :: content |> String.concat "\n"
+  header :: content |> String.concat "\n"
 
-let private formatAnalysisResult result targetFunctions =
+let private analysisResultStr result targetFunctions =
   let functionResults =
     targetFunctions
     |> Map.toList
@@ -252,15 +236,14 @@ let private formatAnalysisResult result targetFunctions =
       ModularAnalyzer.functionAnalysisToString result address analysis)
     |> String.concat "\n\n"
 
-  let wholeProgram =
-    [ "---"
-      formatConstraintSet result.TypeConstraints
+  let typeState =
+    [ "------------------------------"
+      constraintSetStr result.TypeConstraints
       ""
-      formatConflictSet result.TypeConflicts
-      sprintf "Next global TypeId: t%d" result.NextTypeId ]
+      conflictSetStr result.TypeConflicts ]
     |> String.concat "\n"
 
-  functionResults + "\n" + wholeProgram + "\n"
+  functionResults + "\n" + typeState + "\n"
 
 [<EntryPoint>]
 let main argv =
@@ -290,7 +273,7 @@ let main argv =
   if options.ListFunctions then
     (* ListFunctions: Only print out the functions in given binary *)
     timed options.TrackTime "Print function list" (fun () ->
-      formatFunctionList program |> emitOutput options "funcList")
+      functionListStr program |> emitOutput options "funcList")
 
     totalStopwatch.Stop ()
 
@@ -299,6 +282,7 @@ let main argv =
 
     0
   else
+    (* Filtering to print/store only given function *)
     let targetParsed =
       match options.FunctionSelector with
       | Some funSelector ->
@@ -332,17 +316,15 @@ let main argv =
     | Ok (extractFuncDFA, extractFuncRes) ->
       (* Dump SSA *)
       if options.DumpSSA then
+        let selectedSSA = extractFuncDFA program.Functions
+
         timed options.TrackTime "Dump SSA" (fun () ->
-          extractFuncDFA program.Functions
-          |> formatSSA
-          |> emitOutput options "dumpedSSA")
+          selectedSSA |> funcSSAStr |> emitOutput options "dumpedSSA")
 
       (* Run PointerAnalyzer *)
-      let result =
-        timed options.TrackTime "Analyze functions" (fun () ->
-          ModularAnalyzer.analyzeWithTimer options.TrackTime program)
+      let result = ModularAnalyzer.analyzeWithTimer options.TrackTime program
 
-      (* Extract only target function *)
+      (* Extract only targeted function *)
       let selectedResults = extractFuncRes result.Functions
 
       timed options.TrackTime "Print analysis result" (fun () ->
@@ -350,10 +332,11 @@ let main argv =
         |> Result2Json.AnalysisResultJson.fromAnalysisResultToJsonString result
         |> storeOutput options "inferredTypes.json")
 
+      (* Dump type constraints collected during entire analysis process *)
       if options.DumpConstraints then
         timed options.TrackTime "Print type constraints" (fun () ->
           selectedResults
-          |> formatAnalysisResult result
+          |> analysisResultStr result
           |> emitOutput options "typeConstraints")
 
       totalStopwatch.Stop ()

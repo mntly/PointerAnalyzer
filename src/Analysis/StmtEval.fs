@@ -7,6 +7,7 @@ open PointerAnalyzer.Platform.PlatformTypes
 open PointerAnalyzer.AbsDom.AbsVal
 open PointerAnalyzer.AbsDom.AnalysisState
 open PointerAnalyzer.Analysis.ExprEval
+open PointerAnalyzer.Frontend.FunctionDFA
 
 type TransferTarget =
   | Next
@@ -44,6 +45,20 @@ module StmtEvalConfig =
       StackPointer = None
       ApplyCallSummary = fun _ _ _ _ -> None
       Debug = false }
+
+  let construct
+    (funDFAResult: FunctionDFA)
+    classifyConst
+    sp
+    applyCallee
+    isDebug
+    =
+    { PointerUse = funDFAResult.PointerUse
+      ConstValue = funDFAResult.ConstValue
+      ClassifyConstant = classifyConst
+      StackPointer = Some sp
+      ApplyCallSummary = applyCallee
+      Debug = isDebug }
 
 type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
 

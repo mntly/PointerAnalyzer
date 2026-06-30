@@ -4,10 +4,26 @@ open PointerAnalyzer.AbsDom.TypeConstraint
 open PointerAnalyzer.TypeInfer.TypeConstraintSolver
 open PointerAnalyzer.AbsDom.TypeMap
 
+/// <summary>
+/// Store type constraints retrieved during the main-analysis step.
+/// </summary>
+/// <remarks>
+/// <c>TypeIndicators</c> is PointerAnalyzer's
+/// <see cref="PointerAnalyzer.AbsDom.TypeMap.TypeIndicatorMap">.
+/// <c>NextTypeId</c> is next fresh Type Id.
+/// <c>Constraints</c> contains type constraints retrieved during the
+/// main-analysis step.
+/// <c>Conflicts</c> contains type Ids that are inferred both Address and Value
+/// </remarks>
 type TypeState =
   { TypeIndicators: TypeIndicatorMap
     NextTypeId: TypeId
     Constraints: ConstraintSet
+    (*
+      ToDo
+        In current implementation,
+        Conflicts are not updated during analysis
+    *)
     Conflicts: Set<TypeId> }
 
 type TypeStateModule (startTypeId: TypeId) =
@@ -18,54 +34,55 @@ type TypeStateModule (startTypeId: TypeId) =
   member _.bot =
     { TypeIndicators = typeMap.bot
       NextTypeId = startTypeId
-      Constraints =
-        Set.ofList [ Address TypeIds.address
-                     Value TypeIds.value ]
+      Constraints = Set.ofList [ Address TypeIds.address; Value TypeIds.value ]
       Conflicts = Set.empty }
 
+  /// Assign new fresh type Id
   member _.fresh state =
     state.NextTypeId,
     { state with
         NextTypeId = state.NextTypeId + 1 }
 
+  /// Set the type Id of given variable as given Type Id
   member _.set variable typeId state =
     { state with
         TypeIndicators = typeMap.add variable typeId state.TypeIndicators }
 
-  member this.getOrFresh variable state =
-    match typeMap.tryFind variable state.TypeIndicators with
-    | Some typeId -> typeId, state
-    | None ->
-      let typeId, state = this.fresh state
-
-      typeId, this.set variable typeId state
-
+  /// Return type Id of given variable
   member _.tryFind variable state =
     typeMap.tryFind variable state.TypeIndicators
 
+  /// Add type constraint
   member _.addConstraint constraint_ (state: TypeState) =
     { state with
         Constraints = Set.add constraint_ state.Constraints }
 
+  /// Add Address type constraint
   member this.addAddress typeId state =
     this.addConstraint (Address typeId) state
 
+  /// Add Value type constraint
   member this.addValue typeId state = this.addConstraint (Value typeId) state
 
+  /// Add Same type constraint
   member this.addSame typeIds state =
     let typeIds = Set.ofSeq typeIds
 
     if Set.count typeIds <= 1 then
+      (* Same Single: Not Same constraint *)
       state
     else
       this.addConstraint (Same typeIds) state
 
+  /// Add AddResult(result, left, right) type constraint
   member this.addAddResult result left right state =
     this.addConstraint (AddResult (result, left, right)) state
 
+  /// Add SubResult(result, left, right) type constraint
   member this.addSubResult result left right state =
     this.addConstraint (SubResult (result, left, right)) state
 
+  /// Join TypeState
   member _.join left right =
     { TypeIndicators =
         right.TypeIndicators
@@ -80,6 +97,7 @@ type TypeStateModule (startTypeId: TypeId) =
       Constraints = Set.union left.Constraints right.Constraints
       Conflicts = Set.union left.Conflicts right.Conflicts }
 
+  /// Solve type constraints
   member _.solve state =
     let mappedTypeIds =
       state.TypeIndicators |> Map.toSeq |> Seq.map snd |> Set.ofSeq
@@ -108,9 +126,6 @@ type TypeStateModule (startTypeId: TypeId) =
       sprintf "AddResult(t%d, t%d, t%d)" result left right
     | SubResult (result, left, right) ->
       sprintf "SubResult(t%d, t%d, t%d)" result left right
-
-  member _.typeEntryToString variable typeId =
-    sprintf "%s |-> tid_%d" (B2R2.BinIR.SSA.Variable.ToString variable) typeId
 
 module TypeStateDomain =
   let create startTypeId = TypeStateModule startTypeId

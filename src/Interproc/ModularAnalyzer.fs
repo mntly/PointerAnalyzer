@@ -1,7 +1,5 @@
 module PointerAnalyzer.Interproc.ModularAnalyzer
 
-open System
-open System.Diagnostics
 open B2R2
 open B2R2.BinIR.SSA
 open PointerAnalyzer.AbsDom.TypeConstraint
@@ -15,12 +13,35 @@ open PointerAnalyzer.Summary
 open PointerAnalyzer.Summary.FunctionSummaryBuilder
 open PointerAnalyzer.Summary.SummaryApplicator
 open PointerAnalyzer.TypeInference.ResolvedType
+open PointerAnalyzer.Utils
 
+/// <summary>
+/// Main analysis result of one specific function.
+/// </summary>
+/// <remarks>
+/// <c>Function</c> is PointerAnalyzer's
+/// <see cref="PPointerAnalyzer.Frontend.ProgramDFA.FunctionDFAResult" />.
+/// <c>Result</c> is PointerAnalyzer's
+/// <see cref="PointerAnalyzer.Analysis.Analyzer.AnalysisResult" />.
+/// <c>Summary</c> is PointerAnalyzer's
+/// <see cref="PointerAnalyzer.Summary.FunctionSummary" />.
+/// </remarks>
 type FunctionAnalysisResult =
   { Function: FunctionDFAResult
     Result: AnalysisResult
     Summary: FunctionSummary }
 
+/// <summary>
+/// Main analysis result of given binary.
+/// </summary>
+/// <remarks>
+/// <c>Functions</c> is per-function main analysis result.
+/// <c>Summaries</c> is per-function summary used for function applying.
+/// <c>TypeConstraints</c> is final type constraints from constraint sovler.
+/// <c>TypeConflicts</c> contains some SSA variables inferred as both address
+/// and constant value.
+/// <c>NextTypeId</c> is next fresh type id.
+/// </remarks>
 type ModularAnalysisResult =
   { Functions: Map<Addr, FunctionAnalysisResult>
     Summaries: Map<Addr, FunctionSummary>
@@ -29,18 +50,21 @@ type ModularAnalysisResult =
     NextTypeId: TypeId }
 
 module ModularAnalyzer =
+  (* Used for print out the result type of each variable *)
   let functionAnalysisToString
     resultAnalysisResult
     (address: Addr)
     funAnalysis
     =
+    (* Get final type of each SSA varaible *)
     let resolvedTypes =
       ResolvedTypeMap.build
         resultAnalysisResult.TypeConstraints
         resultAnalysisResult.TypeConflicts
         funAnalysis.Result.FinalState.Types.TypeIndicators
 
-    let registerTypes =
+    (* Transform the SSA variable type mapping into string *)
+    let registerTypeStr =
       resolvedTypes
       |> Map.toSeq
       |> Seq.map (fun (variable, typeInfo) ->
@@ -55,41 +79,27 @@ module ModularAnalyzer =
       funAnalysis.Summary.ParamToString.TrimEnd ()
       funAnalysis.Summary.ReturnToString.TrimEnd ()
       "  SSA register types:"
-      if registerTypes = "" then "    <empty>" else registerTypes ]
+      if registerTypeStr = "" then
+        "    <empty>"
+      else
+        registerTypeStr ]
     |> String.concat "\n"
 
-  let printFunctionAnalysis resultAnalysisResult address analysis =
-    printfn
-      "%s"
-      (functionAnalysisToString resultAnalysisResult address analysis)
+  (* From all callees, filtering only internal functions *)
+  let private internalCallees (funcs: Map<Addr, FunctionDFAResult>) func =
+    let calleeSeq = func.Callees |> Map.toSeq |> Seq.collect (snd >> Set.toSeq)
 
-  let private formatElapsed (elapsed: TimeSpan) =
-    sprintf "%.3fs" elapsed.TotalSeconds
-
-  let private timed trackTime label work =
-    if trackTime then
-      let stopwatch = Stopwatch.StartNew ()
-      let result = work ()
-      stopwatch.Stop ()
-      printfn "[Time] %s: %s" label (formatElapsed stopwatch.Elapsed)
-      result
-    else
-      work ()
-
-  let private internalCallees
-    (functions: Map<Addr, FunctionDFAResult>)
-    function_
-    =
-    let calleeSeq =
-      function_.Callees |> Map.toSeq |> Seq.collect (snd >> Set.toSeq)
-
-    let inFunctionsCallees =
+    let internalFuncs =
       calleeSeq
-      |> Seq.filter (fun address -> Map.containsKey address functions)
+      |> Seq.filter (fun address -> Map.containsKey address funcs)
       |> Set.ofSeq
 
-    inFunctionsCallees
+    internalFuncs
 
+  (*
+    Sort functions from Callee to Caller.
+    The modular analysis is processed with this order
+  *)
   let private revDFS functions =
     let rec dfs address (visited, visitOrder) =
       if Set.contains address visited then
@@ -115,6 +125,11 @@ module ModularAnalyzer =
     |> snd
     |> List.rev
 
+  (* Extract callee at given callsite *)
+  (*
+    ToDo
+      Handle when there exist multiple callees at same callsite 
+  *)
   let private trySingleCallee function_ callSite =
     let callee = Map.tryFind callSite function_.Callees
 
@@ -123,22 +138,26 @@ module ModularAnalyzer =
       Some (Set.minElement calleeSet)
     | _ -> None
 
+  /// Process main-analysis as modular analysis
   let analyzeWithTimer trackTime (program: ProgramDFAResult) =
     let platform = program.Binary.Platform
     let applicator = SummaryApplicator.create platform
     let classifyConstant = ConstantClassifier.forBinary program.Binary.Handle
     let visitOrder = revDFS program.Functions
 
+    (* Analyze each function *)
     let analyzeFunction (calleeAnalyResults, summaries, nextTypeId) targetAddr =
-      let function_ = Map.find targetAddr program.Functions
+      (* Recover function to analyze *)
+      let func = Map.find targetAddr program.Functions
 
+      (* If callee is valid, then apply callee summary *)
       let applyCallSummary
         (programPoint: ProgramPoint)
         (inputs: Variable list)
         (outputs: Variable list)
         state
         =
-        let calleeOpt = trySingleCallee function_ programPoint.Address
+        let calleeOpt = trySingleCallee func programPoint.Address
 
         match calleeOpt with
         | Some callee ->
@@ -149,29 +168,23 @@ module ModularAnalyzer =
         | None -> None
 
       let config =
-        { StmtEvalConfig.empty with
-            PointerUse = function_.DFAResult.PointerUse
-            ConstValue = function_.DFAResult.ConstValue
-            ClassifyConstant = classifyConstant
-            StackPointer = Some platform.StackPointer
-            ApplyCallSummary = applyCallSummary }
+        StmtEvalConfig.construct
+          func.DFAResult
+          classifyConstant
+          platform.StackPointer
+          applyCallSummary
+          false
 
+      (* Transfer stmt to collect type constraints *)
       let result =
-        AnalyzerDomain.analyzeRawWithStart
-          platform
-          nextTypeId
-          config
-          function_.CFG
+        AnalyzerDomain.analyzeRawWithStart platform nextTypeId config func.CFG
 
+      (* Store analysis result *)
       let summary =
-        FunctionSummaryBuilder.build
-          function_.Address
-          function_.Name
-          platform
-          result
+        FunctionSummaryBuilder.build func.Address func.Name platform result
 
       let analysis =
-        { Function = function_
+        { Function = func
           Result = result
           Summary = summary }
 
@@ -200,5 +213,3 @@ module ModularAnalyzer =
       TypeConstraints = solvedTypeState.Constraints
       TypeConflicts = solvedTypeState.Conflicts
       NextTypeId = nextTypeId }
-
-  let analyze program = analyzeWithTimer true program

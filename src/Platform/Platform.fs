@@ -4,6 +4,7 @@ open B2R2
 open B2R2.FrontEnd
 open B2R2.FrontEnd.BinFile
 
+/// According to ISA and file format, set binary-specific information
 let forBinary (handle: BinHandle) =
   match handle.File.ISA, handle.File.Format with
   | ISA.X86, FileFormat.ELFBinary -> ELF.X86_32.Platform.create ()

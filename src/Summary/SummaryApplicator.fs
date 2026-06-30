@@ -5,8 +5,12 @@ open PointerAnalyzer.Platform.PlatformTypes
 open PointerAnalyzer.AbsDom.AnalysisState
 open PointerAnalyzer.Summary
 
+/// <summary>
+/// Define how to apply callee summary to caller.
+/// </summary>
 type SummaryApplicatorModule (platform: Platform) =
 
+  ///
   let stateDom = AnalysisStateDomain.createDefault platform
 
   let callSiteContext summary state =
