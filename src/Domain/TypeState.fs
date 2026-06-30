@@ -2,21 +2,21 @@ module PointerAnalyzer.AbsDom.TypeState
 
 open PointerAnalyzer.AbsDom.TypeConstraint
 open PointerAnalyzer.TypeInfer.TypeConstraintSolver
-open PointerAnalyzer.AbsDom.TypeMap
+open PointerAnalyzer.AbsDom.TypeIdMap
 
 /// <summary>
 /// Store type constraints retrieved during the main-analysis step.
 /// </summary>
 /// <remarks>
 /// <c>TypeIndicators</c> is PointerAnalyzer's
-/// <see cref="PointerAnalyzer.AbsDom.TypeMap.TypeIndicatorMap">.
+/// <see cref="PointerAnalyzer.AbsDom.TypeIdMap.TypeIdMap">.
 /// <c>NextTypeId</c> is next fresh Type Id.
 /// <c>Constraints</c> contains type constraints retrieved during the
 /// main-analysis step.
 /// <c>Conflicts</c> contains type Ids that are inferred both Address and Value
 /// </remarks>
 type TypeState =
-  { TypeIndicators: TypeIndicatorMap
+  { TypeIndicators: TypeIdMap
     NextTypeId: TypeId
     Constraints: ConstraintSet
     (*
@@ -27,7 +27,7 @@ type TypeState =
     Conflicts: Set<TypeId> }
 
 type TypeStateModule (startTypeId: TypeId) =
-  let typeMap = TypeMapDomain.create ()
+  let typeMap = TypeIdMapDomain.create ()
   let solver = TypeConstraintSolver.create ()
   let startTypeId = max startTypeId TypeIds.firstFresh
 

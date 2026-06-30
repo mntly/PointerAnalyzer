@@ -9,7 +9,7 @@ This directory contains the implementation related to Abstract Interpretation, T
 
 2. Type Constraint
     - [`TypeConstraint.fs`](./TypeConstraint.fs): Define type constraints among Address/Value/Equality/Arithmetic(addition, subtraction)
-    - [`TypeMap.fs`](./TypeMap.fs): Mapping from SSA variable to type IDs. (Type ID increases monotonly during overall analysis.)
+    - [`TypeIdMap.fs`](./TypeIdMap.fs): Mapping from SSA variable to type IDs. (Type ID increases monotonly during overall analysis.)
     - [`TypeState.fs`](./TypeState.fs): Manage the type constraint and provide interface of Type Constraint Solving.
 
 3. Analysis State

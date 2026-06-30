@@ -3,7 +3,7 @@ module PointerAnalyzer.Interproc.ModularAnalyzer
 open B2R2
 open B2R2.BinIR.SSA
 open PointerAnalyzer.AbsDom.TypeConstraint
-open PointerAnalyzer.AbsDom.TypeMap
+open PointerAnalyzer.AbsDom.TypeIdMap
 open PointerAnalyzer.AbsDom.TypeState
 open PointerAnalyzer.Analysis.Analyzer
 open PointerAnalyzer.Analysis.StmtEval
@@ -50,7 +50,7 @@ type ModularAnalysisResult =
     NextTypeId: TypeId }
 
 module ModularAnalyzer =
-  (* Used for print out the result type of each variable *)
+  /// Used for print out the result type of each variable
   let functionAnalysisToString
     resultAnalysisResult
     (address: Addr)
@@ -85,7 +85,7 @@ module ModularAnalyzer =
         registerTypeStr ]
     |> String.concat "\n"
 
-  (* From all callees, filtering only internal functions *)
+  /// From all callees, filtering only internal functions
   let private internalCallees (funcs: Map<Addr, FunctionDFAResult>) func =
     let calleeSeq = func.Callees |> Map.toSeq |> Seq.collect (snd >> Set.toSeq)
 
@@ -96,10 +96,8 @@ module ModularAnalyzer =
 
     internalFuncs
 
-  (*
-    Sort functions from Callee to Caller.
-    The modular analysis is processed with this order
-  *)
+  /// Sort functions from Callee to Caller.
+  /// The modular analysis is processed with this order.
   let private revDFS functions =
     let rec dfs address (visited, visitOrder) =
       if Set.contains address visited then
@@ -125,11 +123,11 @@ module ModularAnalyzer =
     |> snd
     |> List.rev
 
-  (* Extract callee at given callsite *)
   (*
     ToDo
       Handle when there exist multiple callees at same callsite 
   *)
+  /// Extract callee at given callsite
   let private trySingleCallee function_ callSite =
     let callee = Map.tryFind callSite function_.Callees
 
@@ -145,12 +143,12 @@ module ModularAnalyzer =
     let classifyConstant = ConstantClassifier.forBinary program.Binary.Handle
     let visitOrder = revDFS program.Functions
 
-    (* Analyze each function *)
+    /// Analyze each function
     let analyzeFunction (calleeAnalyResults, summaries, nextTypeId) targetAddr =
       (* Recover function to analyze *)
       let func = Map.find targetAddr program.Functions
 
-      (* If callee is valid, then apply callee summary *)
+      /// If callee is valid, then apply callee summary
       let applyCallSummary
         (programPoint: ProgramPoint)
         (inputs: Variable list)

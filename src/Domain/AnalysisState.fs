@@ -6,7 +6,7 @@ open PointerAnalyzer.Platform.PlatformTypes
 open PointerAnalyzer.AbsDom.AbsMem
 open PointerAnalyzer.AbsDom.AbsVal
 open PointerAnalyzer.AbsDom.RegMap
-open PointerAnalyzer.AbsDom.TypeMap
+open PointerAnalyzer.AbsDom.TypeIdMap
 open PointerAnalyzer.AbsDom.TypeState
 
 /// <summary>

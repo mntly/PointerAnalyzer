@@ -17,7 +17,7 @@
     <Compile Include="Domain/Signature.fs" />
     <Compile Include="Domain/AbsVal.fs" />
     <Compile Include="Domain/RegMap.fs" />
-    <Compile Include="Domain/TypeMap.fs" />
+    <Compile Include="Domain/TypeIdMap.fs" />
     <Compile Include="Domain/TypeConstraint.fs" />
     
     <Compile Include="TypeInference/TypeConstraintSolver.fs" />

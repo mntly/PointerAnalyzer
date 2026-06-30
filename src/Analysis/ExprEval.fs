@@ -6,13 +6,31 @@ open B2R2.BinIR.SSA
 open PointerAnalyzer.Platform.PlatformTypes
 open PointerAnalyzer.AbsDom.AbsVal
 open PointerAnalyzer.AbsDom.AnalysisState
-open PointerAnalyzer.AbsDom.TypeMap
+open PointerAnalyzer.AbsDom.TypeIdMap
 
+/// <summary>
+/// Type of constant value. This is checked by B2R2's
+/// <see cref="B2R2.FrontEnd.BinFile.IContentAddressable.IsValidAddr" />.
+/// </summary>
+/// <remarks>
+/// <c>AddressConstant</c> indicates the integer is possible address.
+/// <c>ValueCount</c> indicates the integer is not address.
+/// <c>UnknownConstant</c> indicates the case that it can not distinguish one
+/// of above.
+/// </remarks>
+(*
+  ToDo
+    Do not use now
+*)
 type ConstantType =
   | AddressConstant
   | ValueConstant
   | UnknownConstant
 
+/// <summary>
+/// Classify the type of given bitvector. This is defined at PointerAnalyzer's
+/// <see cref="PointerAnalyzer.Frontend.ConstantClassifier.ConstantClassifier.forBinary" />
+/// </summary>
 type ExprEvalConfig =
   { ClassifyConstant: BitVector -> ConstantType }
 
@@ -26,23 +44,19 @@ type ExprEvalModule (platform: Platform, config: ExprEvalConfig) =
 
   new (platform: Platform) = ExprEvalModule (platform, ExprEvalConfig.empty)
 
+  /// Add Value type constraint to given type Id
   member private _.markValue typeId state =
     match typeId with
     | Some typeId -> stateDom.addValue typeId state
     | None -> state
 
+  /// Add Address type constraint to given type Id
   member private _.markAddress typeId state =
     match typeId with
     | Some typeId -> stateDom.addAddress typeId state
     | None -> state
 
-  member private this.evalMany state exprs =
-    (([], [], state), exprs)
-    ||> List.fold (fun (values, typeIds, state) expr ->
-      let value, typeId, state = this.Eval state expr
-      value :: values, typeId :: typeIds, state)
-    |> fun (values, typeIds, state) -> List.rev values, List.rev typeIds, state
-
+  (* Evaluate Store. But, this should handled during evaluating stmt *)
   member this.EvalStore
     state
     newMemVersion
@@ -65,6 +79,7 @@ type ExprEvalModule (platform: Platform, config: ExprEvalConfig) =
 
     value, storedTypeId, state
 
+  /// Evaluate expression
   member this.Eval state expr : AbsVal * TypeId option * AnalysisState =
     match expr with
     | Num bv ->
@@ -186,6 +201,10 @@ type ExprEvalModule (platform: Platform, config: ExprEvalConfig) =
       // | _ ->
       //   let typeId, state = stateDom.freshTypeId state
       //   value, Some typeId, stateDom.addSame (typeId :: presentTypeIds) state
+      (*
+        ToDo
+          When ExprList comes, and how to handle?
+      *)
       failwith "[ExprEval.fs] ExprList: How should I handle this?"
 
     | FuncName _ -> absVal.bot, None, state

@@ -52,14 +52,17 @@ let private tryRegisterArgumentIndex (variable: Variable) =
   | Some registerId -> argumentRegisters |> List.tryFindIndex ((=) registerId)
   | None -> None
 
-// Callee-side x86-32 stack arguments are represented by B2R2 as:
-// arg0 = StackVar(-4), arg1 = StackVar(-8), ...
+(*
+  Callee-side x86-32 stack arguments are represented by B2R2 as:
+  arg0 = StackVar(-4), arg1 = StackVar(-8), ...
+*)
 let private tryParameterStackIndex (variable: Variable) =
   match variable.Kind with
   | StackVar (_, offset) when offset <= -wordSize ->
     Some (argumentRegisters.Length + -offset / wordSize - 1)
   | _ -> None
 
+/// Get index of arguments (passed through stack) of given variable
 let private tryCallStackIndex
   (context: CallSiteStackContext)
   (variable: Variable)
@@ -78,6 +81,7 @@ let private tryCallStackIndex
       if index >= context.ParameterCount then None else Some index
   | _ -> None
 
+/// Get index of return register of given variabel
 let private tryReturnIndex (variable: Variable) =
   match tryRegisterId variable with
   | Some registerId -> returnRegisters |> List.tryFindIndex ((=) registerId)

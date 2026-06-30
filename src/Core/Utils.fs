@@ -5,7 +5,7 @@ open System.Diagnostics
 
 let formatElapsed (elapsed: TimeSpan) = sprintf "%.3fs" elapsed.TotalSeconds
 
-(* Track the time consumption of given wrok *)
+/// Track the time consumption of given work
 let timed trackTime label work =
   if trackTime then
     let stopwatch = Stopwatch.StartNew ()

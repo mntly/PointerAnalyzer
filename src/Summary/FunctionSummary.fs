@@ -2,7 +2,7 @@ namespace PointerAnalyzer.Summary
 
 open B2R2
 open PointerAnalyzer.AbsDom.TypeConstraint
-open PointerAnalyzer.AbsDom.TypeMap
+open PointerAnalyzer.AbsDom.TypeIdMap
 
 type FunctionSummary =
   { Address: Addr

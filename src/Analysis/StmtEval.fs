@@ -9,11 +9,26 @@ open PointerAnalyzer.AbsDom.AnalysisState
 open PointerAnalyzer.Analysis.ExprEval
 open PointerAnalyzer.Frontend.FunctionDFA
 
+/// <summary>
+/// Type of next instructions.
+/// </summary>
+/// <remarks>
+/// <c>Next</c> indicates normal next instruction.
+/// <c>LabelTarget</c> indicates jump target with Label.
+/// <c>InterTarget</c> indicates jump target with address, not function call.
+/// </remarks>
 type TransferTarget =
   | Next
   | LabelTarget of Label
   | InterTarget of AbsVal
 
+/// <summary>
+/// The transfer result of each statement.
+/// </summary>
+/// <remarks>
+/// <c>Target</c> is next instruction to evaluate.
+/// <c>State</c> is result analysis result after evaluating current statement.
+/// </remarks>
 type TransferResult =
   { Target: TransferTarget
     State: AnalysisState }
@@ -29,6 +44,10 @@ type ApplyCallSummary =
     -> AnalysisState
     -> AnalysisState option
 
+/// <summary>
+/// Some information used by evaluation, passed from
+/// <see cref="PointerAnalyzer.Interproc.ModularAnalyzer.ModularAnalyzer.analyzeWithTimer" />.
+/// </summary>
 type StmtEvalConfig =
   { PointerUse: PointerUse
     ConstValue: ConstValue
@@ -46,6 +65,7 @@ module StmtEvalConfig =
       ApplyCallSummary = fun _ _ _ _ -> None
       Debug = false }
 
+  /// Construct config used for analyzing.
   let construct
     (funDFAResult: FunctionDFA)
     classifyConst
@@ -60,6 +80,7 @@ module StmtEvalConfig =
       ApplyCallSummary = applyCallee
       Debug = isDebug }
 
+/// Main logic of evaluating Statement
 type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
 
   let absVal = AbsValDomain.create platform
@@ -72,17 +93,21 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
 
   new (platform: Platform) = StmtEvalModule (platform, StmtEvalConfig.empty)
 
+  /// If given variable is used as pointer, add Address type constraint of
+  /// given variable
   member private _.applyPointerHint variable typeId state =
     if config.PointerUse variable then
       stateDom.addAddress typeId state
     else
       state
 
+  /// Check whether given variable is the stack pointer or not
   member private _.isStackPointer (variable: Variable) =
     match config.StackPointer, variable.Kind with
     | Some stackPointer, RegVar (_, registerId, _) -> registerId = stackPointer
     | _ -> false
 
+  /// Get integer value of given bitvector
   member private _.tryInt value =
     try
       let value = BitVector.ToUInt64 value
@@ -94,6 +119,7 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
     with _ ->
       None
 
+  /// Update stack pointer offset according to given expression.
   member private this.tryStackDeltaChange (expr: Expr) =
     let isStackPointerExpr =
       function
@@ -118,6 +144,7 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
       | None -> None
     | _ -> None
 
+  /// If the definition target is stack pointer then update stack pointer offset
   member private this.updateStackDelta (variable: Variable) expr state =
     if this.isStackPointer variable then
       match this.tryStackDeltaChange expr with
@@ -126,6 +153,9 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
     else
       state
 
+  /// Assign evaluated value to target variable and connect type constraint.
+  /// The type Id of expression and target variable are connected with Same
+  /// type constraint.
   member private this.defReg (variable: Variable) value exprTypeId state =
     let typeId, state = stateDom.getOrFreshTypeId variable state
 
@@ -144,6 +174,8 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
     let state = stateDom.setRegister variable value typeId state
     state |> this.applyPointerHint variable typeId
 
+  /// Handle variable definition by evaluating the expression and assign it to
+  /// target variable
   member private this.evalDefinition (variable: Variable) expr state =
     let evaluatedValue, typeId, state = exprEval.Eval state expr
 
@@ -156,6 +188,10 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
     |> this.defReg variable value typeId
     |> this.updateStackDelta variable expr
 
+  /// Handle memory definition by evaluating the expression. Memory definition
+  /// occurs only when store expression, this evaluate store expression and
+  /// update the memory. For this reason, the expression evaluation process
+  /// does not handle about store expression.
   member private _.evalMemoryDefinition newMem expr state =
     match expr with
     | Store (prevMem, _, addressExpr, valueExpr) ->
@@ -172,6 +208,7 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
       let _, _, state = exprEval.Eval state expr
       state
 
+  /// Load appropriate variable of phi source
   member private _.phiSource destVar srcId state =
     let srcVar = { destVar with Identifier = srcId }
 
@@ -186,6 +223,8 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
         value, srcTypeId, stateDom.setRegister srcVar value srcTypeId state
       | None -> absVal.bot, srcTypeId, state
 
+  /// Get type Ids of phi source and connect them with target variable as Same
+  /// type constraint.
   member private this.evalPhi variable srcIds state =
     let getSrcValTyp (values, typeIds, state) sourceId =
       let value, typeId, state = this.phiSource variable sourceId state
@@ -202,6 +241,7 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
     |> stateDom.setRegister variable valueJoined destTypeId
     |> this.applyPointerHint variable destTypeId
 
+  /// Statement evaluation
   member this.Eval
     (programPoint: ProgramPoint)
     (stmt: B2R2.BinIR.SSA.Stmt)
@@ -222,7 +262,10 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
         [ { Target = Next
             State = this.evalDefinition variable expr state } ]
 
-      // ToDo! Need to Check
+      (*
+        ToDo
+          Need to check when and how should treat memory phi
+      *)
       | Phi ({ Kind = MemVar }, _) -> [ { Target = Next; State = state } ]
 
       | Phi (variable, sourceIds) ->
@@ -280,16 +323,16 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
             | Some typeId -> stateDom.addAddress typeId state
             | None -> state)
 
-        // How to distinguish real call target VS ambiguity
-        // match config.ApplyCallSummary programPoint [] [] state with
-        // | Some state -> [ { Target = Next; State = state } ]
-        // | None ->
         [ { Target = InterTarget trueTarget
             State = state }
           { Target = InterTarget falseTarget
             State = state } ]
 
-      // Need to Apply Callee Function
+      (*
+        ToDo
+          If the analyzer can figure out ExternalCall, it is possible to apply
+          the information of it
+      *)
       | ExternalCall (calleeExpr, inputs, outputs) ->
         let _, calleeTypeId, state = exprEval.Eval state calleeExpr
 

@@ -5,7 +5,9 @@ open B2R2.BinIR
 open PointerAnalyzer.Platform.PlatformTypes
 open PointerAnalyzer.AbsDom.Signature
 
-/// V = n | bottom | top
+/// <summary>
+/// Abstract value of variable.
+/// </summary>
 type AbsVal =
   | Bot
   | Const of BitVector

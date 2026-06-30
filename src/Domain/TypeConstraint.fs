@@ -1,7 +1,22 @@
 module PointerAnalyzer.AbsDom.TypeConstraint
 
-open PointerAnalyzer.AbsDom.TypeMap
+open PointerAnalyzer.AbsDom.TypeIdMap
 
+/// <summary>
+/// Type constraints collected during main-analysis.
+/// </summary>
+/// <remarks>
+/// <c>Address(tid)</c> indicates the expression corresponding tid is address.
+/// <c>Value(tid)</c> indicates the expression corresponding tid is value.
+/// <c>Same({tid1, ..., tidN})</c> indicates the all expressions corresponding
+/// each tid has same type.
+/// <c>AddResult(tid0, tid1, tid2)</c> indicates the binary operation, add.
+/// The expression corresponding tid0 type id is the addition of expressions
+/// corresponding to tid1 and tid2 type id.
+/// <c>SubResult(tid0, tid1, tid2)</c> indicates the binary operation, sub.
+/// The expression corresponding tid0 type id is the subtraction of expressions
+/// corresponding to tid1 and tid2 type id.
+/// </remarks>
 type TypeConstraint =
   | Address of TypeId
   | Value of TypeId
@@ -9,6 +24,7 @@ type TypeConstraint =
   | AddResult of TypeId * TypeId * TypeId
   | SubResult of TypeId * TypeId * TypeId
 
+  /// Return type Ids in given TypeConstraint
   member this.TypeIds =
     match this with
     | Address typeId
@@ -17,7 +33,7 @@ type TypeConstraint =
     | AddResult (result, left, right)
     | SubResult (result, left, right) -> Set.ofList [ result; left; right ]
 
-  member this.ToString =
+  override this.ToString () =
     match this with
     | Address typeId -> sprintf "Address(t%d)" typeId
     | Value typeId -> sprintf "Value(t%d)" typeId
@@ -35,7 +51,7 @@ type TypeConstraint =
 module TypeConstraint =
   let typeIds (constraint_: TypeConstraint) = constraint_.TypeIds
 
-  let toString (constraint_: TypeConstraint) = constraint_.ToString
+  let toString (constraint_: TypeConstraint) = constraint_.ToString ()
 
 type ConstraintSet = Set<TypeConstraint>
 

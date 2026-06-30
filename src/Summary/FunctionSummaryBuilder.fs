@@ -6,12 +6,15 @@ open PointerAnalyzer.Analysis.Analyzer
 open PointerAnalyzer.Summary
 
 module FunctionSummaryBuilder =
+  /// Select type Id which the corresdonding variable satisfies given
+  /// condition, and return as mapping from index to type Id. This is used for
+  /// extracting the type Id of parameters and return values of each index.
   let private selectByIdentifier
     identifierCond
-    (entries: (int * Variable * PointerAnalyzer.AbsDom.TypeMap.TypeId) seq)
-    : Map<int, PointerAnalyzer.AbsDom.TypeMap.TypeId> =
+    (entries: (int * Variable * PointerAnalyzer.AbsDom.TypeIdMap.TypeId) seq)
+    : Map<int, PointerAnalyzer.AbsDom.TypeIdMap.TypeId> =
     let extractRegId
-      (_paramIdx: int, reg, _tid: PointerAnalyzer.AbsDom.TypeMap.TypeId)
+      (_paramIdx: int, reg, _tid: PointerAnalyzer.AbsDom.TypeIdMap.TypeId)
       =
       reg.Identifier
 
@@ -23,18 +26,14 @@ module FunctionSummaryBuilder =
 
     sameParamIdxSeq |> Seq.map chooseReg |> Map.ofSeq
 
-  let build
-    address
-    name
-    (platform: Platform)
-    (result: AnalysisResult)
-    =
-    let filterParams (reg, tid: PointerAnalyzer.AbsDom.TypeMap.TypeId) =
+  /// Construct function summary for analyzing caller
+  let build address name (platform: Platform) (result: AnalysisResult) =
+    let filterParams (reg, tid: PointerAnalyzer.AbsDom.TypeIdMap.TypeId) =
       match platform.TryParameterIndex reg with
       | Some paramIdx -> Some (paramIdx, reg, tid)
       | None -> None
 
-    let filterReturns (reg, tid: PointerAnalyzer.AbsDom.TypeMap.TypeId) =
+    let filterReturns (reg, tid: PointerAnalyzer.AbsDom.TypeIdMap.TypeId) =
       match platform.TryReturnIndex reg with
       | Some paramIdx -> Some (paramIdx, reg, tid)
       | None -> None

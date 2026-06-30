@@ -2,7 +2,7 @@ module PointerAnalyzer.TypeInference.ResolvedType
 
 open B2R2.BinIR.SSA
 open PointerAnalyzer.AbsDom.TypeConstraint
-open PointerAnalyzer.AbsDom.TypeMap
+open PointerAnalyzer.AbsDom.TypeIdMap
 
 /// <summary>
 /// Final type of each SSA varible.
@@ -55,7 +55,7 @@ type ResolvedTypeMap = Map<Variable, ResolvedTypeInfo>
 module ResolvedTypeMap =
   /// Transform all types idof given type indicator map
   /// into corresponding resolved type
-  let build constraints conflicts (typeIndicators: TypeIndicatorMap) =
+  let build constraints conflicts (typeIndicators: TypeIdMap) =
     typeIndicators
     |> Map.toSeq
     |> Seq.map (fun (variable, typeId) ->

@@ -6,30 +6,32 @@ open B2R2.MiddleEnd.ControlFlowGraph
 open PointerAnalyzer.Platform.PlatformTypes
 open PointerAnalyzer.AbsDom.AnalysisState
 open PointerAnalyzer.AbsDom.TypeConstraint
-open PointerAnalyzer.AbsDom.TypeMap
+open PointerAnalyzer.AbsDom.TypeIdMap
 open PointerAnalyzer.Analysis.StmtEval
 
+/// <summary>
+/// Result of each modular analysis.
+/// </summary>
+/// <remarks>
+/// <c>FinalState</c> is PointerAnalyzer's
+/// <see cref="PointerAnalyzer.AbsDom.AnalysisState.AnalysisState" />.
+/// <c>TypeConstraints</c> is set of
+/// <see cref="PointerAnalyzer.AbsDom.TypeConstraint.TypeConstraint" />.
+/// <c>TypeConflicts</c> is set of Type Ids to indicates which type Ids are
+/// inferred to both address and value.
+/// </remarks>
 type AnalysisResult =
   { FinalState: AnalysisState
     TypeConstraints: ConstraintSet
     TypeConflicts: Set<TypeId> }
 
-  member this.ConstraintsToString = ConstraintSet.toString this.TypeConstraints
-
-  member this.ConflictToString =
-    let header = "  Conflicts:\n"
-
-    let content =
-      if Set.isEmpty this.TypeConflicts then
-        "    <empty>"
-      else
-        this.TypeConflicts |> Set.map (sprintf "    t%d\n") |> String.concat ""
-
-    header + content
-
+/// <summary>
+///
+/// </summary>
 type AnalyzerModule
   (platform: Platform, startTypeId: TypeId, config: StmtEvalConfig) =
   let stateDom = AnalysisStateDomain.create platform startTypeId
+
   let stmtEval = StmtEvalDomain.createWithConfig platform config
 
   new (platform: Platform) = AnalyzerModule (platform, 0, StmtEvalConfig.empty)
@@ -39,6 +41,8 @@ type AnalyzerModule
 
   member __.InitialState = stateDom.bot
 
+  /// Analyze one block. Transfer the statements in given block and collect
+  /// type constraints.
   member private _.runBlock state (stmts: (B2R2.ProgramPoint * Stmt) array) =
     let rec runBlockInner state (lst: (B2R2.ProgramPoint * Stmt) list) =
       match lst with
@@ -52,6 +56,8 @@ type AnalyzerModule
 
     runBlockInner state stmtsLst
 
+  /// According to next target, resolve the next instruction; jump target,
+  /// right next instruction, ...
   member private _.TryResolveTarget
     (cfg: SSACFG)
     (block: IVertex<SSABasicBlock>)
@@ -76,6 +82,8 @@ type AnalyzerModule
         |> Array.tryFind (fun edge -> edge.Label = CFGEdgeKind.FallThroughEdge)
         |> Option.map (fun edge -> edge.Second)
 
+  /// Join analysis state by keeping TypeState, since TypeState is passed
+  /// during analysis
   member private _.JoinNormal left right types =
     { RegMap = stateDom.RegMap.join left.RegMap right.RegMap
       Memory = stateDom.AbsMem.join left.Memory right.Memory
@@ -92,7 +100,10 @@ type AnalyzerModule
         | None, Some delta -> Some delta
         | _ -> None }
 
+  /// Analyze given CFG (entire binary) and return AnalysisState
+  /// collected TypeConstraint
   member this.analyze (cfg: SSACFG) =
+    /// Analyze given one block
     let rec run (block: IVertex<SSABasicBlock>) inputState visited =
       if Set.contains block.ID visited then
         inputState, visited
@@ -149,6 +160,7 @@ module AnalyzerDomain =
   let createFromString platform =
     PointerAnalyzer.Platform.Platform.ofString platform |> create
 
+  /// Main-Analysis
   let analyzeRawWithStart platform startTypeId config cfg =
     let analyzer = createWithStart platform startTypeId config
     let finalState = analyzer.analyze cfg
@@ -157,10 +169,12 @@ module AnalyzerDomain =
       TypeConstraints = finalState.Types.Constraints
       TypeConflicts = finalState.Types.Conflicts }
 
+  /// Main-Analysis and Constraint Solving process
   let analyzeWithStart platform startTypeId config cfg =
     let result = analyzeRawWithStart platform startTypeId config cfg
     let stateDomain = AnalysisStateDomain.create platform startTypeId
 
+    (* Solve type constraints *)
     let solvedState =
       { result.FinalState with
           Types = stateDomain.TypeState.solve result.FinalState.Types }

@@ -1,8 +1,16 @@
 module PointerAnalyzer.TypeInfer.TypeConstraintSolver
 
 open PointerAnalyzer.AbsDom.TypeConstraint
-open PointerAnalyzer.AbsDom.TypeMap
+open PointerAnalyzer.AbsDom.TypeIdMap
 
+/// <summary>
+/// Solution of Type Constraint Solving process.
+/// </summary>
+/// <remarks>
+/// <c>Constraints</c> is set of TypeConstraints from main-analysis.
+/// <c>Conflicts</c> is set of Type Ids that are inferred as both Address and
+/// Value.
+/// </remarks>
 type TypeSolution =
   { Constraints: ConstraintSet
     Conflicts: Set<TypeId> }

@@ -2,7 +2,7 @@ module PointerAnalyzer.AbsDom.AbsMem
 
 open PointerAnalyzer.Platform.PlatformTypes
 open PointerAnalyzer.AbsDom.AbsVal
-open PointerAnalyzer.AbsDom.TypeMap
+open PointerAnalyzer.AbsDom.TypeIdMap
 
 [<StructuralEquality; StructuralComparison>]
 type MemLoc = { Version: int; Address: uint64 }
