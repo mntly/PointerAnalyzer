@@ -119,10 +119,7 @@ let private parseArg (args: string array) =
     FunctionSelector = targetFunc
     TrackTime = trackTime }
 
-(*
-  Filter only given target function.
-  Only single target function is valid.
-*)
+/// Filter only given target function. Only single target function is valid.
 let private resolveFunctionSelector (program: ProgramDFAResult) selector =
   match selector with
   | ByAddress address ->

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<linker>
+  <assembly fullname="Checker">
+    <resource name="FSharpSignatureData.Checker" action="remove"></resource>
+    <resource name="FSharpSignatureCompressedData.Checker" action="remove"></resource>
+    <resource name="FSharpSignatureDataB.Checker" action="remove"></resource>
+    <resource name="FSharpSignatureCompressedDataB.Checker" action="remove"></resource>
+    <resource name="FSharpOptimizationData.Checker" action="remove"></resource>
+    <resource name="FSharpOptimizationCompressedData.Checker" action="remove"></resource>
+    <resource name="FSharpOptimizationDataB.Checker" action="remove"></resource>
+    <resource name="FSharpOptimizationCompressedDataB.Checker" action="remove"></resource>
+    <resource name="FSharpOptimizationInfo.Checker" action="remove"></resource>
+    <resource name="FSharpSignatureInfo.Checker" action="remove"></resource>
+  </assembly>
+</linker>
