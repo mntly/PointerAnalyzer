@@ -25,8 +25,8 @@ type FunctionDFA =
     ConstValue: Variable -> BitVector option }
 
 module FunctionDFA =
-  (* Return the constant value from DFA result *)
-  let private constantValueFrom handle (ssaCFG: SSACFG) variable =
+  /// Return the constant value from DFA result
+  let private constantValueFrom handle (ssaCFG: SSACFG) =
     let dfa =
       SSAConstantPropagation handle
       :> IDataFlowComputable<
@@ -39,10 +39,11 @@ module FunctionDFA =
     let provider =
       dfa.Compute ssaCFG :> IAbsValProvider<SSAVarPoint, ConstantDomain.Lattice>
 
-    match provider.GetAbsValue (RegularSSAVar variable) with
-    | ConstantDomain.Const value -> Some value
-    | ConstantDomain.NotAConst
-    | ConstantDomain.Undef -> None
+    fun variable ->
+      match provider.GetAbsValue (RegularSSAVar variable) with
+      | ConstantDomain.Const value -> Some value
+      | ConstantDomain.NotAConst
+      | ConstantDomain.Undef -> None
 
   (* Check given variable is in given expression *)
   let private exprContainsVar variable expression =
