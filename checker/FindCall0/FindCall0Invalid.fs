@@ -84,8 +84,8 @@ let private collectJumpZeroSites
   let filterTarget0Jump (pp, stmt) =
     if isJumpTargetZero constValue stmt then
       Some
-        { FunctionAddress = symbol.Address
-          FunctionName = symbol.Name
+        { FunctionAddress = builder.EntryPoint
+          FunctionState = builder.BuilderState
           ProgramPoint = pp
           Statement = stmt }
     else
