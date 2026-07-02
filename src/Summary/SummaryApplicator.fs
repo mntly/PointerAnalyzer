@@ -1,8 +1,12 @@
 module PointerAnalyzer.Summary.SummaryApplicator
 
+open B2R2
+open B2R2.FrontEnd
 open B2R2.BinIR.SSA
+
 open PointerAnalyzer.Platform.PlatformTypes
 open PointerAnalyzer.AbsDom.AnalysisState
+open PointerAnalyzer.AbsDom.TypeIdMap
 open PointerAnalyzer.Summary
 
 /// <summary>
@@ -58,8 +62,17 @@ type SummaryApplicatorModule (platform: Platform) =
 
     summary.Returns |> Map.fold setPendingReturnsInner state
 
+  /// Check given callee is get_pc_thunk function.
+  /// If it is get_pc_thunk, set corresponding return register and type
+  /// constraint
+  let getPcThunkHandle handle calleeAddr state =
+    match platform.CheckIntrinsic PCThunk handle calleeAddr with
+    | Some outputRegId ->
+      Some (stateDom.setPendingReturn outputRegId TypeIds.address state)
+    | None -> None
+
   /// Applying the analysis result of callee to caller's analysis state
-  member _.apply summary inputs outputs state =
+  member _.apply handle calleeAddr summary inputs outputs state =
     let context = callSiteContext summary state
 
     (* According to calling convention, get argument index of given variable *)
@@ -81,6 +94,10 @@ type SummaryApplicatorModule (platform: Platform) =
         connectVariables inVarType inputs state
 
     (* Connect type or set pending returns between return registers *)
+    (* If target address is get_pc_thunk, handle heuristically *)
+    (* match getPcThunkHandle handle calleeAddr state with
+    | Some state -> state
+    | None -> *)
     if List.isEmpty outputs then
       setPendingReturns summary state
     else

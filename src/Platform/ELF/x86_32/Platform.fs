@@ -1,12 +1,21 @@
 module PointerAnalyzer.Platform.ELF.X86_32.Platform
 
+open B2R2
+open B2R2.FrontEnd
 open B2R2.BinIR.SSA
 open PointerAnalyzer.Platform.PlatformTypes
 
 let private wordSize = 4
 
-let private regId register =
-  B2R2.FrontEnd.Intel.Register.toRegID register
+let private regId register = Intel.Register.toRegID register
+
+let private esp = regId Intel.Register.ESP
+let private eax = regId Intel.Register.EAX
+let private ecx = regId Intel.Register.ECX
+let private edx = regId Intel.Register.EDX
+let private ebx = regId Intel.Register.EBX
+let private esi = regId Intel.Register.ESI
+let private edi = regId Intel.Register.EDI
 
 let private tryRegisterId (variable: Variable) =
   match variable.Kind with
@@ -15,36 +24,33 @@ let private tryRegisterId (variable: Variable) =
 
 let private argumentRegisters = []
 
-let private returnRegisters = [ regId B2R2.FrontEnd.Intel.Register.EAX ]
+let private returnRegisters = [ eax ]
 
-let private stackPointer = regId B2R2.FrontEnd.Intel.Register.ESP
+let private stackPointer = esp
 
 let private trivialAddressRegisters = Set.ofList [ stackPointer ]
 
 let private trivialValueRegisters =
   Set.ofList
-    [ regId B2R2.FrontEnd.Intel.Register.DF
-      regId B2R2.FrontEnd.Intel.Register.IF
-      regId B2R2.FrontEnd.Intel.Register.TF
-
-      regId B2R2.FrontEnd.Intel.Register.CF
-      regId B2R2.FrontEnd.Intel.Register.PF
-      regId B2R2.FrontEnd.Intel.Register.AF
-      regId B2R2.FrontEnd.Intel.Register.ZF
-      regId B2R2.FrontEnd.Intel.Register.SF
-      regId B2R2.FrontEnd.Intel.Register.OF ]
+    [ regId Intel.Register.DF
+      regId Intel.Register.IF
+      regId Intel.Register.TF
+      regId Intel.Register.CF
+      regId Intel.Register.PF
+      regId Intel.Register.AF
+      regId Intel.Register.ZF
+      regId Intel.Register.SF
+      regId Intel.Register.OF ]
 
 let private isTrivialAddress (variable: Variable) =
   match variable.Kind with
-  | VariableKind.PCVar _ -> true
-  | VariableKind.RegVar (_, registerId, _) ->
-    Set.contains registerId trivialAddressRegisters
+  | PCVar _ -> true
+  | RegVar (_, registerId, _) -> Set.contains registerId trivialAddressRegisters
   | _ -> false
 
 let private isTrivialValue (variable: Variable) =
   match variable.Kind with
-  | VariableKind.RegVar (_, registerId, _) ->
-    Set.contains registerId trivialValueRegisters
+  | RegVar (_, registerId, _) -> Set.contains registerId trivialValueRegisters
   | _ -> false
 
 let private tryRegisterArgumentIndex (variable: Variable) =
@@ -87,6 +93,21 @@ let private tryReturnIndex (variable: Variable) =
   | Some registerId -> returnRegisters |> List.tryFindIndex ((=) registerId)
   | None -> None
 
+/// Heuristic handling of get pcthunk instrinsic functions
+let private tryPCThunk (handle: BinHandle) (address: Addr) =
+  match handle.TryReadBytes (address, 4) with
+  | Ok [| 0x8Buy; 0x04uy; 0x24uy; 0xC3uy |] -> Some eax
+  | Ok [| 0x8Buy; 0x0Cuy; 0x24uy; 0xC3uy |] -> Some ecx
+  | Ok [| 0x8Buy; 0x14uy; 0x24uy; 0xC3uy |] -> Some edx
+  | Ok [| 0x8Buy; 0x1Cuy; 0x24uy; 0xC3uy |] -> Some ebx
+  | Ok [| 0x8Buy; 0x34uy; 0x24uy; 0xC3uy |] -> Some esi
+  | Ok [| 0x8Buy; 0x3Cuy; 0x24uy; 0xC3uy |] -> Some edi
+  | _ -> None
+
+let private CheckIntrinsic kind handle address =
+  match kind with
+  | PCThunk -> tryPCThunk handle address
+
 let create () =
   { Kind = ElfX86_32
     Name = "ELF x86-32"
@@ -102,6 +123,8 @@ let create () =
     TrivialValueRegisters = trivialValueRegisters
     IsTrivialAddress = isTrivialAddress
     IsTrivialValue = isTrivialValue
+
+    CheckIntrinsic = CheckIntrinsic
 
     TryParameterIndex =
       fun variable ->

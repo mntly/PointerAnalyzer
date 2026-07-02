@@ -6,8 +6,10 @@
       "Args": []
     },
     "Return": {
-      "ReturnNum": 0,
-      "Returns": []
+      "ReturnNum": 1,
+      "Returns": [
+        "Address"
+      ]
     },
     "DetailType": {
       "0x08049051": {
@@ -424,21 +426,23 @@
       "Args": []
     },
     "Return": {
-      "ReturnNum": 0,
-      "Returns": []
+      "ReturnNum": 1,
+      "Returns": [
+        "Conflict"
+      ]
     },
     "DetailType": {
       "0x08049514": {
-        "EDX_1": "Address",
+        "EDX_1": "Conflict",
         "PC_1": "Address",
-        "V_0_0": "Address"
+        "V_0_0": "Conflict"
       },
       "0x08049517": {
         "ESP_0": "Address",
         "ESP_1": "Address",
         "PC_2": "Address",
-        "T_1_1": "Address",
-        "V_0_0": "Address"
+        "T_1_1": "Conflict",
+        "V_0_0": "Conflict"
       }
     }
   },
@@ -449,21 +453,23 @@
       "Args": []
     },
     "Return": {
-      "ReturnNum": 0,
-      "Returns": []
+      "ReturnNum": 1,
+      "Returns": [
+        "Conflict"
+      ]
     },
     "DetailType": {
       "0x08049518": {
-        "EBX_1": "Address",
+        "EBX_1": "Conflict",
         "PC_1": "Address",
-        "V_0_0": "Address"
+        "V_0_0": "Conflict"
       },
       "0x0804951b": {
         "ESP_0": "Address",
         "ESP_1": "Address",
         "PC_2": "Address",
-        "T_1_1": "Address",
-        "V_0_0": "Address"
+        "T_1_1": "Conflict",
+        "V_0_0": "Conflict"
       }
     }
   },
@@ -474,8 +480,10 @@
       "Args": []
     },
     "Return": {
-      "ReturnNum": 0,
-      "Returns": []
+      "ReturnNum": 1,
+      "Returns": [
+        "Address"
+      ]
     },
     "DetailType": {
       "0x08049739": {
@@ -1364,7 +1372,7 @@
         "ESP_8": "Address"
       },
       "0x08049518": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EBX_1": "Address",
         "ESP_4": "Address",
         "ESP_5": "Address",
@@ -1656,8 +1664,10 @@
       "Args": []
     },
     "Return": {
-      "ReturnNum": 0,
-      "Returns": []
+      "ReturnNum": 1,
+      "Returns": [
+        "Address"
+      ]
     },
     "DetailType": {
       "0x0804a431": {
@@ -1992,7 +2002,7 @@
     },
     "DetailType": {
       "0x08049518": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EBX_1": "Address",
         "ESP_4": "Address",
         "ESP_5": "Address",
@@ -2840,7 +2850,7 @@
     },
     "DetailType": {
       "0x08049514": {
-        "EAX_1": "Address",
+        "EAX_1": "Conflict",
         "EDX_1": "Address",
         "ESP_6": "Address",
         "ESP_7": "Address",
@@ -2860,11 +2870,11 @@
         "PC_2": "Address"
       },
       "0x0804a812": {
-        "EDI_0": "Address",
+        "EDI_0": "Conflict",
         "ESP_1": "Address",
         "ESP_2": "Address",
         "PC_3": "Address",
-        "V_8_1": "Address"
+        "V_8_1": "Conflict"
       },
       "0x0804a813": {
         "ESI_0": "Address",
@@ -2874,11 +2884,11 @@
         "V_12_1": "Address"
       },
       "0x0804a814": {
-        "EBX_0": "Address",
+        "EBX_0": "Conflict",
         "ESP_3": "Address",
         "ESP_4": "Address",
         "PC_5": "Address",
-        "V_16_1": "Address"
+        "V_16_1": "Conflict"
       },
       "0x0804a815": {
         "AF_1": "Value",
@@ -2919,36 +2929,36 @@
         "ZF_2": "Value"
       },
       "0x0804a823": {
-        "EAX_1": "Address",
+        "EAX_1": "Conflict",
         "PC_9": "Address",
-        "V_40_1": "Address"
+        "V_40_1": "Conflict"
       },
       "0x0804a826": {
         "EAX_2": "Address",
         "PC_10": "Address"
       },
       "0x0804a82c": {
-        "ECX_1": "Address",
+        "ECX_1": "Conflict",
         "PC_11": "Address",
-        "V_40_1": "Address"
+        "V_40_1": "Conflict"
       },
       "0x0804a82f": {
         "EAX_2": "Address",
-        "ECX_1": "Address",
+        "ECX_1": "Conflict",
         "PC_12": "Address"
       },
       "0x0804a831": {
-        "EAX_3": "Address",
+        "EAX_3": "Conflict",
         "PC_13": "Address"
       },
       "0x0804a837": {
-        "EAX_3": "Address",
+        "EAX_3": "Conflict",
         "PC_14": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804a83a": {
         "PC_15": "Address",
-        "V_24_1": "Address"
+        "V_24_1": "Conflict"
       },
       "0x0804a841": {
         "PC_16": "Address",
@@ -2991,39 +3001,39 @@
         "ZF_4": "Value"
       },
       "0x0804a858": {
-        "EAX_44": "Address",
+        "EAX_44": "Conflict",
         "PC_310": "Address",
-        "V_24_1": "Address"
+        "V_24_1": "Conflict"
       },
       "0x0804a85b": {
-        "EAX_44": "Address",
-        "ECX_1": "Address",
-        "ECX_52": "Address",
+        "EAX_44": "Conflict",
+        "ECX_1": "Conflict",
+        "ECX_52": "Conflict",
         "PC_311": "Address"
       },
       "0x0804a85d": {
-        "EAX_45": "Address",
+        "EAX_45": "Conflict",
         "PC_312": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804a860": {
-        "EAX_45": "Address",
-        "ECX_52": "Address",
+        "EAX_45": "Conflict",
+        "ECX_52": "Conflict",
         "PC_313": "Address"
       },
       "0x0804a862": {
         "PC_314": "Address"
       },
       "0x0804a867": {
-        "EAX_4": "Address",
+        "EAX_4": "Conflict",
         "PC_22": "Address",
-        "V_24_1": "Address"
+        "V_24_1": "Conflict"
       },
       "0x0804a86a": {
         "AF_5": "Value",
         "CF_5": "Value",
-        "EAX_4": "Address",
-        "EAX_5": "Unknown",
+        "EAX_4": "Conflict",
+        "EAX_5": "Value",
         "OF_5": "Value",
         "PC_23": "Address",
         "PF_5": "Value",
@@ -3033,25 +3043,25 @@
         "ZF_5": "Value"
       },
       "0x0804a86f": {
-        "EAX_5": "Unknown",
-        "ECX_2": "Unknown",
+        "EAX_5": "Value",
+        "ECX_2": "Value",
         "PC_24": "Address"
       },
       "0x0804a871": {
-        "EAX_6": "Unknown",
-        "ECX_2": "Unknown",
+        "EAX_6": "Value",
+        "ECX_2": "Value",
         "PC_25": "Address"
       },
       "0x0804a873": {
         "AF_6": "Value",
         "CF_6": "Value",
-        "EAX_6": "Unknown",
-        "EAX_7": "Unknown",
+        "EAX_6": "Value",
+        "EAX_7": "Conflict",
         "OF_6": "Value",
         "PC_26": "Address",
         "PF_6": "Value",
         "SF_6": "Value",
-        "T_39_1": "Unknown",
+        "T_39_1": "Value",
         "T_40_1": "Unknown",
         "T_41_1": "Unknown",
         "ZF_6": "Value"
@@ -3059,16 +3069,16 @@
       "0x0804a876": {
         "AF_7": "Value",
         "CF_7": "Value",
-        "EAX_7": "Unknown",
-        "EAX_8": "Unknown",
-        "ECX_2": "Unknown",
+        "EAX_7": "Conflict",
+        "EAX_8": "Conflict",
+        "ECX_2": "Value",
         "OF_7": "Value",
         "PC_27": "Address",
         "PF_7": "Value",
         "SF_7": "Value",
-        "T_32_1": "Unknown",
-        "T_33_1": "Unknown",
-        "T_34_1": "Unknown",
+        "T_32_1": "Conflict",
+        "T_33_1": "Value",
+        "T_34_1": "Conflict",
         "T_35_1": "Unknown",
         "T_36_1": "Value",
         "T_37_1": "Unknown",
@@ -3076,20 +3086,20 @@
         "ZF_7": "Value"
       },
       "0x0804a878": {
-        "EAX_8": "Unknown",
-        "ECX_3": "Unknown",
+        "EAX_8": "Conflict",
+        "ECX_3": "Conflict",
         "PC_28": "Address"
       },
       "0x0804a87a": {
         "AF_8": "Value",
         "CF_8": "Value",
-        "ECX_3": "Unknown",
-        "ECX_4": "Unknown",
+        "ECX_3": "Conflict",
+        "ECX_4": "Value",
         "OF_8": "Value",
         "PC_29": "Address",
         "PF_8": "Value",
         "SF_8": "Value",
-        "T_29_1": "Unknown",
+        "T_29_1": "Conflict",
         "T_30_1": "Unknown",
         "T_31_1": "Unknown",
         "ZF_8": "Value"
@@ -3097,16 +3107,16 @@
       "0x0804a87d": {
         "AF_9": "Value",
         "CF_9": "Value",
-        "EAX_8": "Unknown",
-        "EAX_9": "Address",
-        "ECX_4": "Unknown",
+        "EAX_8": "Conflict",
+        "EAX_9": "Conflict",
+        "ECX_4": "Value",
         "OF_9": "Value",
         "PC_30": "Address",
         "PF_9": "Value",
         "SF_9": "Value",
-        "T_22_1": "Unknown",
-        "T_23_1": "Unknown",
-        "T_24_1": "Address",
+        "T_22_1": "Conflict",
+        "T_23_1": "Value",
+        "T_24_1": "Conflict",
         "T_25_1": "Unknown",
         "T_26_1": "Value",
         "T_27_1": "Unknown",
@@ -3114,9 +3124,9 @@
         "ZF_9": "Value"
       },
       "0x0804a87f": {
-        "EAX_9": "Address",
+        "EAX_9": "Conflict",
         "PC_31": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804a882": {
         "AF_10": "Value",
@@ -3137,18 +3147,18 @@
         "ZF_10": "Value"
       },
       "0x0804a888": {
-        "EAX_43": "Address",
+        "EAX_43": "Conflict",
         "PC_306": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804a88b": {
-        "ECX_51": "Address",
+        "ECX_51": "Conflict",
         "PC_307": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804a88e": {
-        "EAX_43": "Address",
-        "ECX_51": "Address",
+        "EAX_43": "Conflict",
+        "ECX_51": "Conflict",
         "PC_308": "Address"
       },
       "0x0804a891": {
@@ -3173,36 +3183,36 @@
         "ZF_11": "Value"
       },
       "0x0804a89c": {
-        "EAX_40": "Address",
+        "EAX_40": "Conflict",
         "PC_298": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804a89f": {
-        "ECX_49": "Address",
+        "ECX_49": "Conflict",
         "PC_299": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804a8a2": {
-        "EAX_40": "Address",
-        "ECX_49": "Address",
+        "EAX_40": "Conflict",
+        "ECX_49": "Conflict",
         "PC_300": "Address"
       },
       "0x0804a8a5": {
-        "EAX_41": "Address",
+        "EAX_41": "Conflict",
         "PC_301": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804a8a8": {
         "AF_35": "Value",
         "CF_35": "Value",
-        "EAX_41": "Address",
-        "EAX_42": "Address",
+        "EAX_41": "Conflict",
+        "EAX_42": "Conflict",
         "OF_35": "Value",
         "PC_302": "Address",
         "PF_35": "Value",
         "SF_35": "Value",
-        "T_87_1": "Address",
-        "T_88_1": "Address",
+        "T_87_1": "Conflict",
+        "T_88_1": "Conflict",
         "T_89_1": "Unknown",
         "T_90_1": "Value",
         "T_91_1": "Unknown",
@@ -3210,13 +3220,13 @@
         "ZF_35": "Value"
       },
       "0x0804a8ab": {
-        "ECX_50": "Address",
+        "ECX_50": "Conflict",
         "PC_303": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804a8ae": {
-        "EAX_42": "Address",
-        "ECX_50": "Address",
+        "EAX_42": "Conflict",
+        "ECX_50": "Conflict",
         "PC_304": "Address"
       },
       "0x0804a8b0": {
@@ -3241,18 +3251,18 @@
         "ZF_12": "Value"
       },
       "0x0804a8bb": {
-        "ECX_48": "Address",
+        "ECX_48": "Conflict",
         "PC_294": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804a8be": {
-        "EAX_39": "Address",
+        "EAX_39": "Conflict",
         "PC_295": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804a8c1": {
-        "EAX_39": "Address",
-        "ECX_48": "Address",
+        "EAX_39": "Conflict",
+        "ECX_48": "Conflict",
         "PC_296": "Address"
       },
       "0x0804a8c3": {
@@ -3277,36 +3287,36 @@
         "ZF_13": "Value"
       },
       "0x0804a8ce": {
-        "ECX_46": "Address",
+        "ECX_46": "Conflict",
         "PC_286": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804a8d1": {
-        "EAX_36": "Address",
+        "EAX_36": "Conflict",
         "PC_287": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804a8d4": {
-        "EAX_36": "Address",
-        "ECX_46": "Address",
+        "EAX_36": "Conflict",
+        "ECX_46": "Conflict",
         "PC_288": "Address"
       },
       "0x0804a8d6": {
-        "EAX_37": "Address",
+        "EAX_37": "Conflict",
         "PC_289": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804a8d9": {
         "AF_34": "Value",
         "CF_34": "Value",
-        "EAX_37": "Address",
-        "EAX_38": "Address",
+        "EAX_37": "Conflict",
+        "EAX_38": "Conflict",
         "OF_34": "Value",
         "PC_290": "Address",
         "PF_34": "Value",
         "SF_34": "Value",
-        "T_108_1": "Address",
-        "T_109_1": "Address",
+        "T_108_1": "Conflict",
+        "T_109_1": "Conflict",
         "T_110_1": "Unknown",
         "T_111_1": "Value",
         "T_112_1": "Unknown",
@@ -3314,13 +3324,13 @@
         "ZF_34": "Value"
       },
       "0x0804a8dc": {
-        "ECX_47": "Address",
+        "ECX_47": "Conflict",
         "PC_291": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804a8df": {
-        "EAX_38": "Address",
-        "ECX_47": "Address",
+        "EAX_38": "Conflict",
+        "ECX_47": "Conflict",
         "PC_292": "Address"
       },
       "0x0804a8e1": {
@@ -3345,38 +3355,38 @@
         "ZF_14": "Value"
       },
       "0x0804a8ec": {
-        "ECX_44": "Address",
+        "ECX_44": "Conflict",
         "PC_278": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804a8ef": {
-        "EAX_33": "Address",
+        "EAX_33": "Conflict",
         "PC_279": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804a8f2": {
-        "EAX_33": "Address",
-        "ECX_44": "Address",
+        "EAX_33": "Conflict",
+        "ECX_44": "Conflict",
         "PC_280": "Address"
       },
       "0x0804a8f4": {
-        "EAX_34": "Address",
+        "EAX_34": "Conflict",
         "PC_281": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804a8f7": {
-        "EAX_34": "Address",
-        "ECX_45": "Address",
+        "EAX_34": "Conflict",
+        "ECX_45": "Conflict",
         "PC_282": "Address"
       },
       "0x0804a8fa": {
-        "EAX_35": "Address",
+        "EAX_35": "Conflict",
         "PC_283": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804a8fd": {
-        "EAX_35": "Address",
-        "ECX_45": "Address",
+        "EAX_35": "Conflict",
+        "ECX_45": "Conflict",
         "PC_284": "Address"
       },
       "0x0804a900": {
@@ -3401,50 +3411,50 @@
         "ZF_15": "Value"
       },
       "0x0804a90b": {
-        "EAX_32": "Address",
+        "EAX_32": "Conflict",
         "PC_269": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804a90e": {
-        "ECX_42": "Address",
+        "ECX_42": "Conflict",
         "PC_270": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804a911": {
-        "ECX_42": "Address",
-        "EDI_96": "Address",
+        "ECX_42": "Conflict",
+        "EDI_96": "Conflict",
         "PC_271": "Address"
       },
       "0x0804a913": {
         "DF_0": "Value",
-        "EAX_32": "Address",
-        "EDI_96": "Address",
-        "EDI_97": "Address",
+        "EAX_32": "Conflict",
+        "EDI_96": "Conflict",
+        "EDI_97": "Conflict",
         "PC_272": "Address"
       },
       "0x0804a914": {
         "DF_0": "Value",
-        "EAX_32": "Address",
-        "EDI_97": "Address",
-        "EDI_98": "Address",
+        "EAX_32": "Conflict",
+        "EDI_97": "Conflict",
+        "EDI_98": "Conflict",
         "PC_273": "Address"
       },
       "0x0804a916": {
         "DF_0": "Value",
-        "EAX_32": "Address",
-        "EDI_98": "Address",
-        "EDI_99": "Address",
+        "EAX_32": "Conflict",
+        "EDI_98": "Conflict",
+        "EDI_99": "Conflict",
         "PC_274": "Address"
       },
       "0x0804a917": {
-        "ECX_43": "Address",
-        "EDI_99": "Address",
+        "ECX_43": "Conflict",
+        "EDI_99": "Conflict",
         "PC_275": "Address"
       },
       "0x0804a919": {
-        "ECX_43": "Address",
+        "ECX_43": "Conflict",
         "PC_276": "Address",
-        "V_32_18": "Address"
+        "V_32_18": "Conflict"
       },
       "0x0804a91c": {
         "PC_277": "Address"
@@ -3468,38 +3478,38 @@
         "ZF_16": "Value"
       },
       "0x0804a927": {
-        "ECX_40": "Address",
+        "ECX_40": "Conflict",
         "PC_261": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804a92a": {
-        "EAX_29": "Address",
+        "EAX_29": "Conflict",
         "PC_262": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804a92d": {
-        "EAX_29": "Address",
-        "ECX_40": "Address",
+        "EAX_29": "Conflict",
+        "ECX_40": "Conflict",
         "PC_263": "Address"
       },
       "0x0804a92f": {
-        "EAX_30": "Address",
+        "EAX_30": "Conflict",
         "PC_264": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804a932": {
-        "EAX_30": "Address",
-        "ECX_41": "Address",
+        "EAX_30": "Conflict",
+        "ECX_41": "Conflict",
         "PC_265": "Address"
       },
       "0x0804a935": {
-        "EAX_31": "Address",
+        "EAX_31": "Conflict",
         "PC_266": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804a938": {
-        "EAX_31": "Address",
-        "ECX_41": "Address",
+        "EAX_31": "Conflict",
+        "ECX_41": "Conflict",
         "PC_267": "Address"
       },
       "0x0804a93a": {
@@ -3524,50 +3534,50 @@
         "ZF_17": "Value"
       },
       "0x0804a945": {
-        "EAX_28": "Address",
+        "EAX_28": "Conflict",
         "PC_252": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804a948": {
-        "ECX_38": "Address",
+        "ECX_38": "Conflict",
         "PC_253": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804a94b": {
-        "ECX_38": "Address",
-        "EDI_92": "Address",
+        "ECX_38": "Conflict",
+        "EDI_92": "Conflict",
         "PC_254": "Address"
       },
       "0x0804a94d": {
         "DF_0": "Value",
-        "EAX_28": "Address",
-        "EDI_92": "Address",
-        "EDI_93": "Address",
+        "EAX_28": "Conflict",
+        "EDI_92": "Conflict",
+        "EDI_93": "Conflict",
         "PC_255": "Address"
       },
       "0x0804a94e": {
         "DF_0": "Value",
-        "EAX_28": "Address",
-        "EDI_93": "Address",
-        "EDI_94": "Address",
+        "EAX_28": "Conflict",
+        "EDI_93": "Conflict",
+        "EDI_94": "Conflict",
         "PC_256": "Address"
       },
       "0x0804a94f": {
         "DF_0": "Value",
-        "EAX_28": "Address",
-        "EDI_94": "Address",
-        "EDI_95": "Address",
+        "EAX_28": "Conflict",
+        "EDI_94": "Conflict",
+        "EDI_95": "Conflict",
         "PC_257": "Address"
       },
       "0x0804a950": {
-        "ECX_39": "Address",
-        "EDI_95": "Address",
+        "ECX_39": "Conflict",
+        "EDI_95": "Conflict",
         "PC_258": "Address"
       },
       "0x0804a952": {
-        "ECX_39": "Address",
+        "ECX_39": "Conflict",
         "PC_259": "Address",
-        "V_32_17": "Address"
+        "V_32_17": "Conflict"
       },
       "0x0804a955": {
         "PC_260": "Address"
@@ -3591,50 +3601,50 @@
         "ZF_18": "Value"
       },
       "0x0804a960": {
-        "EAX_27": "Address",
+        "EAX_27": "Conflict",
         "PC_243": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804a963": {
-        "ECX_36": "Address",
+        "ECX_36": "Conflict",
         "PC_244": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804a966": {
-        "ECX_36": "Address",
-        "EDI_88": "Address",
+        "ECX_36": "Conflict",
+        "EDI_88": "Conflict",
         "PC_245": "Address"
       },
       "0x0804a968": {
         "DF_0": "Value",
-        "EAX_27": "Address",
-        "EDI_88": "Address",
-        "EDI_89": "Address",
+        "EAX_27": "Conflict",
+        "EDI_88": "Conflict",
+        "EDI_89": "Conflict",
         "PC_246": "Address"
       },
       "0x0804a969": {
         "DF_0": "Value",
-        "EAX_27": "Address",
-        "EDI_89": "Address",
-        "EDI_90": "Address",
+        "EAX_27": "Conflict",
+        "EDI_89": "Conflict",
+        "EDI_90": "Conflict",
         "PC_247": "Address"
       },
       "0x0804a96a": {
         "DF_0": "Value",
-        "EAX_27": "Address",
-        "EDI_90": "Address",
-        "EDI_91": "Address",
+        "EAX_27": "Conflict",
+        "EDI_90": "Conflict",
+        "EDI_91": "Conflict",
         "PC_248": "Address"
       },
       "0x0804a96c": {
-        "ECX_37": "Address",
-        "EDI_91": "Address",
+        "ECX_37": "Conflict",
+        "EDI_91": "Conflict",
         "PC_249": "Address"
       },
       "0x0804a96e": {
-        "ECX_37": "Address",
+        "ECX_37": "Conflict",
         "PC_250": "Address",
-        "V_32_16": "Address"
+        "V_32_16": "Conflict"
       },
       "0x0804a971": {
         "PC_251": "Address"
@@ -3658,57 +3668,57 @@
         "ZF_19": "Value"
       },
       "0x0804a97c": {
-        "EAX_26": "Address",
+        "EAX_26": "Conflict",
         "PC_233": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804a97f": {
-        "ECX_34": "Address",
+        "ECX_34": "Conflict",
         "PC_234": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804a982": {
-        "ECX_34": "Address",
-        "EDI_83": "Address",
+        "ECX_34": "Conflict",
+        "EDI_83": "Conflict",
         "PC_235": "Address"
       },
       "0x0804a984": {
         "DF_0": "Value",
-        "EAX_26": "Address",
-        "EDI_83": "Address",
-        "EDI_84": "Address",
+        "EAX_26": "Conflict",
+        "EDI_83": "Conflict",
+        "EDI_84": "Conflict",
         "PC_236": "Address"
       },
       "0x0804a985": {
         "DF_0": "Value",
-        "EAX_26": "Address",
-        "EDI_84": "Address",
-        "EDI_85": "Address",
+        "EAX_26": "Conflict",
+        "EDI_84": "Conflict",
+        "EDI_85": "Conflict",
         "PC_237": "Address"
       },
       "0x0804a986": {
         "DF_0": "Value",
-        "EAX_26": "Address",
-        "EDI_85": "Address",
-        "EDI_86": "Address",
+        "EAX_26": "Conflict",
+        "EDI_85": "Conflict",
+        "EDI_86": "Conflict",
         "PC_238": "Address"
       },
       "0x0804a988": {
         "DF_0": "Value",
-        "EAX_26": "Address",
-        "EDI_86": "Address",
-        "EDI_87": "Address",
+        "EAX_26": "Conflict",
+        "EDI_86": "Conflict",
+        "EDI_87": "Conflict",
         "PC_239": "Address"
       },
       "0x0804a989": {
-        "ECX_35": "Address",
-        "EDI_87": "Address",
+        "ECX_35": "Conflict",
+        "EDI_87": "Conflict",
         "PC_240": "Address"
       },
       "0x0804a98b": {
-        "ECX_35": "Address",
+        "ECX_35": "Conflict",
         "PC_241": "Address",
-        "V_32_15": "Address"
+        "V_32_15": "Conflict"
       },
       "0x0804a98e": {
         "PC_242": "Address"
@@ -3732,50 +3742,50 @@
         "ZF_20": "Value"
       },
       "0x0804a999": {
-        "EAX_25": "Address",
+        "EAX_25": "Conflict",
         "PC_224": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804a99c": {
-        "ECX_32": "Address",
+        "ECX_32": "Conflict",
         "PC_225": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804a99f": {
-        "ECX_32": "Address",
-        "EDI_79": "Address",
+        "ECX_32": "Conflict",
+        "EDI_79": "Conflict",
         "PC_226": "Address"
       },
       "0x0804a9a1": {
         "DF_0": "Value",
-        "EAX_25": "Address",
-        "EDI_79": "Address",
-        "EDI_80": "Address",
+        "EAX_25": "Conflict",
+        "EDI_79": "Conflict",
+        "EDI_80": "Conflict",
         "PC_227": "Address"
       },
       "0x0804a9a2": {
         "DF_0": "Value",
-        "EAX_25": "Address",
-        "EDI_80": "Address",
-        "EDI_81": "Address",
+        "EAX_25": "Conflict",
+        "EDI_80": "Conflict",
+        "EDI_81": "Conflict",
         "PC_228": "Address"
       },
       "0x0804a9a3": {
         "DF_0": "Value",
-        "EAX_25": "Address",
-        "EDI_81": "Address",
-        "EDI_82": "Address",
+        "EAX_25": "Conflict",
+        "EDI_81": "Conflict",
+        "EDI_82": "Conflict",
         "PC_229": "Address"
       },
       "0x0804a9a4": {
-        "ECX_33": "Address",
-        "EDI_82": "Address",
+        "ECX_33": "Conflict",
+        "EDI_82": "Conflict",
         "PC_230": "Address"
       },
       "0x0804a9a6": {
-        "ECX_33": "Address",
+        "ECX_33": "Conflict",
         "PC_231": "Address",
-        "V_32_14": "Address"
+        "V_32_14": "Conflict"
       },
       "0x0804a9a9": {
         "PC_232": "Address"
@@ -3799,57 +3809,57 @@
         "ZF_21": "Value"
       },
       "0x0804a9b4": {
-        "EAX_24": "Address",
+        "EAX_24": "Conflict",
         "PC_214": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804a9b7": {
-        "ECX_30": "Address",
+        "ECX_30": "Conflict",
         "PC_215": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804a9ba": {
-        "ECX_30": "Address",
-        "EDI_74": "Address",
+        "ECX_30": "Conflict",
+        "EDI_74": "Conflict",
         "PC_216": "Address"
       },
       "0x0804a9bc": {
         "DF_0": "Value",
-        "EAX_24": "Address",
-        "EDI_74": "Address",
-        "EDI_75": "Address",
+        "EAX_24": "Conflict",
+        "EDI_74": "Conflict",
+        "EDI_75": "Conflict",
         "PC_217": "Address"
       },
       "0x0804a9bd": {
         "DF_0": "Value",
-        "EAX_24": "Address",
-        "EDI_75": "Address",
-        "EDI_76": "Address",
+        "EAX_24": "Conflict",
+        "EDI_75": "Conflict",
+        "EDI_76": "Conflict",
         "PC_218": "Address"
       },
       "0x0804a9be": {
         "DF_0": "Value",
-        "EAX_24": "Address",
-        "EDI_76": "Address",
-        "EDI_77": "Address",
+        "EAX_24": "Conflict",
+        "EDI_76": "Conflict",
+        "EDI_77": "Conflict",
         "PC_219": "Address"
       },
       "0x0804a9bf": {
         "DF_0": "Value",
-        "EAX_24": "Address",
-        "EDI_77": "Address",
-        "EDI_78": "Address",
+        "EAX_24": "Conflict",
+        "EDI_77": "Conflict",
+        "EDI_78": "Conflict",
         "PC_220": "Address"
       },
       "0x0804a9c0": {
-        "ECX_31": "Address",
-        "EDI_78": "Address",
+        "ECX_31": "Conflict",
+        "EDI_78": "Conflict",
         "PC_221": "Address"
       },
       "0x0804a9c2": {
-        "ECX_31": "Address",
+        "ECX_31": "Conflict",
         "PC_222": "Address",
-        "V_32_13": "Address"
+        "V_32_13": "Conflict"
       },
       "0x0804a9c5": {
         "PC_223": "Address"
@@ -3873,57 +3883,57 @@
         "ZF_22": "Value"
       },
       "0x0804a9d0": {
-        "EAX_23": "Address",
+        "EAX_23": "Conflict",
         "PC_204": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804a9d3": {
-        "ECX_28": "Address",
+        "ECX_28": "Conflict",
         "PC_205": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804a9d6": {
-        "ECX_28": "Address",
-        "EDI_69": "Address",
+        "ECX_28": "Conflict",
+        "EDI_69": "Conflict",
         "PC_206": "Address"
       },
       "0x0804a9d8": {
         "DF_0": "Value",
-        "EAX_23": "Address",
-        "EDI_69": "Address",
-        "EDI_70": "Address",
+        "EAX_23": "Conflict",
+        "EDI_69": "Conflict",
+        "EDI_70": "Conflict",
         "PC_207": "Address"
       },
       "0x0804a9d9": {
         "DF_0": "Value",
-        "EAX_23": "Address",
-        "EDI_70": "Address",
-        "EDI_71": "Address",
+        "EAX_23": "Conflict",
+        "EDI_70": "Conflict",
+        "EDI_71": "Conflict",
         "PC_208": "Address"
       },
       "0x0804a9da": {
         "DF_0": "Value",
-        "EAX_23": "Address",
-        "EDI_71": "Address",
-        "EDI_72": "Address",
+        "EAX_23": "Conflict",
+        "EDI_71": "Conflict",
+        "EDI_72": "Conflict",
         "PC_209": "Address"
       },
       "0x0804a9db": {
         "DF_0": "Value",
-        "EAX_23": "Address",
-        "EDI_72": "Address",
-        "EDI_73": "Address",
+        "EAX_23": "Conflict",
+        "EDI_72": "Conflict",
+        "EDI_73": "Conflict",
         "PC_210": "Address"
       },
       "0x0804a9dd": {
-        "ECX_29": "Address",
-        "EDI_73": "Address",
+        "ECX_29": "Conflict",
+        "EDI_73": "Conflict",
         "PC_211": "Address"
       },
       "0x0804a9df": {
-        "ECX_29": "Address",
+        "ECX_29": "Conflict",
         "PC_212": "Address",
-        "V_32_12": "Address"
+        "V_32_12": "Conflict"
       },
       "0x0804a9e2": {
         "PC_213": "Address"
@@ -3947,64 +3957,64 @@
         "ZF_23": "Value"
       },
       "0x0804a9ed": {
-        "EAX_22": "Address",
+        "EAX_22": "Conflict",
         "PC_193": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804a9f0": {
-        "ECX_26": "Address",
+        "ECX_26": "Conflict",
         "PC_194": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804a9f3": {
-        "ECX_26": "Address",
-        "EDI_63": "Address",
+        "ECX_26": "Conflict",
+        "EDI_63": "Conflict",
         "PC_195": "Address"
       },
       "0x0804a9f5": {
         "DF_0": "Value",
-        "EAX_22": "Address",
-        "EDI_63": "Address",
-        "EDI_64": "Address",
+        "EAX_22": "Conflict",
+        "EDI_63": "Conflict",
+        "EDI_64": "Conflict",
         "PC_196": "Address"
       },
       "0x0804a9f6": {
         "DF_0": "Value",
-        "EAX_22": "Address",
-        "EDI_64": "Address",
-        "EDI_65": "Address",
+        "EAX_22": "Conflict",
+        "EDI_64": "Conflict",
+        "EDI_65": "Conflict",
         "PC_197": "Address"
       },
       "0x0804a9f7": {
         "DF_0": "Value",
-        "EAX_22": "Address",
-        "EDI_65": "Address",
-        "EDI_66": "Address",
+        "EAX_22": "Conflict",
+        "EDI_65": "Conflict",
+        "EDI_66": "Conflict",
         "PC_198": "Address"
       },
       "0x0804a9f8": {
         "DF_0": "Value",
-        "EAX_22": "Address",
-        "EDI_66": "Address",
-        "EDI_67": "Address",
+        "EAX_22": "Conflict",
+        "EDI_66": "Conflict",
+        "EDI_67": "Conflict",
         "PC_199": "Address"
       },
       "0x0804a9fa": {
         "DF_0": "Value",
-        "EAX_22": "Address",
-        "EDI_67": "Address",
-        "EDI_68": "Address",
+        "EAX_22": "Conflict",
+        "EDI_67": "Conflict",
+        "EDI_68": "Conflict",
         "PC_200": "Address"
       },
       "0x0804a9fb": {
-        "ECX_27": "Address",
-        "EDI_68": "Address",
+        "ECX_27": "Conflict",
+        "EDI_68": "Conflict",
         "PC_201": "Address"
       },
       "0x0804a9fd": {
-        "ECX_27": "Address",
+        "ECX_27": "Conflict",
         "PC_202": "Address",
-        "V_32_11": "Address"
+        "V_32_11": "Conflict"
       },
       "0x0804aa00": {
         "PC_203": "Address"
@@ -4028,57 +4038,57 @@
         "ZF_24": "Value"
       },
       "0x0804aa0b": {
-        "EAX_21": "Address",
+        "EAX_21": "Conflict",
         "PC_183": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804aa0e": {
-        "ECX_24": "Address",
+        "ECX_24": "Conflict",
         "PC_184": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804aa11": {
-        "ECX_24": "Address",
-        "EDI_58": "Address",
+        "ECX_24": "Conflict",
+        "EDI_58": "Conflict",
         "PC_185": "Address"
       },
       "0x0804aa13": {
         "DF_0": "Value",
-        "EAX_21": "Address",
-        "EDI_58": "Address",
-        "EDI_59": "Address",
+        "EAX_21": "Conflict",
+        "EDI_58": "Conflict",
+        "EDI_59": "Conflict",
         "PC_186": "Address"
       },
       "0x0804aa14": {
         "DF_0": "Value",
-        "EAX_21": "Address",
-        "EDI_59": "Address",
-        "EDI_60": "Address",
+        "EAX_21": "Conflict",
+        "EDI_59": "Conflict",
+        "EDI_60": "Conflict",
         "PC_187": "Address"
       },
       "0x0804aa15": {
         "DF_0": "Value",
-        "EAX_21": "Address",
-        "EDI_60": "Address",
-        "EDI_61": "Address",
+        "EAX_21": "Conflict",
+        "EDI_60": "Conflict",
+        "EDI_61": "Conflict",
         "PC_188": "Address"
       },
       "0x0804aa16": {
         "DF_0": "Value",
-        "EAX_21": "Address",
-        "EDI_61": "Address",
-        "EDI_62": "Address",
+        "EAX_21": "Conflict",
+        "EDI_61": "Conflict",
+        "EDI_62": "Conflict",
         "PC_189": "Address"
       },
       "0x0804aa17": {
-        "ECX_25": "Address",
-        "EDI_62": "Address",
+        "ECX_25": "Conflict",
+        "EDI_62": "Conflict",
         "PC_190": "Address"
       },
       "0x0804aa19": {
-        "ECX_25": "Address",
+        "ECX_25": "Conflict",
         "PC_191": "Address",
-        "V_32_10": "Address"
+        "V_32_10": "Conflict"
       },
       "0x0804aa1c": {
         "PC_192": "Address"
@@ -4102,64 +4112,64 @@
         "ZF_25": "Value"
       },
       "0x0804aa27": {
-        "EAX_20": "Address",
+        "EAX_20": "Conflict",
         "PC_172": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804aa2a": {
-        "ECX_22": "Address",
+        "ECX_22": "Conflict",
         "PC_173": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804aa2d": {
-        "ECX_22": "Address",
-        "EDI_52": "Address",
+        "ECX_22": "Conflict",
+        "EDI_52": "Conflict",
         "PC_174": "Address"
       },
       "0x0804aa2f": {
         "DF_0": "Value",
-        "EAX_20": "Address",
-        "EDI_52": "Address",
-        "EDI_53": "Address",
+        "EAX_20": "Conflict",
+        "EDI_52": "Conflict",
+        "EDI_53": "Conflict",
         "PC_175": "Address"
       },
       "0x0804aa30": {
         "DF_0": "Value",
-        "EAX_20": "Address",
-        "EDI_53": "Address",
-        "EDI_54": "Address",
+        "EAX_20": "Conflict",
+        "EDI_53": "Conflict",
+        "EDI_54": "Conflict",
         "PC_176": "Address"
       },
       "0x0804aa31": {
         "DF_0": "Value",
-        "EAX_20": "Address",
-        "EDI_54": "Address",
-        "EDI_55": "Address",
+        "EAX_20": "Conflict",
+        "EDI_54": "Conflict",
+        "EDI_55": "Conflict",
         "PC_177": "Address"
       },
       "0x0804aa32": {
         "DF_0": "Value",
-        "EAX_20": "Address",
-        "EDI_55": "Address",
-        "EDI_56": "Address",
+        "EAX_20": "Conflict",
+        "EDI_55": "Conflict",
+        "EDI_56": "Conflict",
         "PC_178": "Address"
       },
       "0x0804aa33": {
         "DF_0": "Value",
-        "EAX_20": "Address",
-        "EDI_56": "Address",
-        "EDI_57": "Address",
+        "EAX_20": "Conflict",
+        "EDI_56": "Conflict",
+        "EDI_57": "Conflict",
         "PC_179": "Address"
       },
       "0x0804aa34": {
-        "ECX_23": "Address",
-        "EDI_57": "Address",
+        "ECX_23": "Conflict",
+        "EDI_57": "Conflict",
         "PC_180": "Address"
       },
       "0x0804aa36": {
-        "ECX_23": "Address",
+        "ECX_23": "Conflict",
         "PC_181": "Address",
-        "V_32_9": "Address"
+        "V_32_9": "Conflict"
       },
       "0x0804aa39": {
         "PC_182": "Address"
@@ -4183,64 +4193,64 @@
         "ZF_26": "Value"
       },
       "0x0804aa44": {
-        "EAX_19": "Address",
+        "EAX_19": "Conflict",
         "PC_161": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804aa47": {
-        "ECX_20": "Address",
+        "ECX_20": "Conflict",
         "PC_162": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804aa4a": {
-        "ECX_20": "Address",
-        "EDI_46": "Address",
+        "ECX_20": "Conflict",
+        "EDI_46": "Conflict",
         "PC_163": "Address"
       },
       "0x0804aa4c": {
         "DF_0": "Value",
-        "EAX_19": "Address",
-        "EDI_46": "Address",
-        "EDI_47": "Address",
+        "EAX_19": "Conflict",
+        "EDI_46": "Conflict",
+        "EDI_47": "Conflict",
         "PC_164": "Address"
       },
       "0x0804aa4d": {
         "DF_0": "Value",
-        "EAX_19": "Address",
-        "EDI_47": "Address",
-        "EDI_48": "Address",
+        "EAX_19": "Conflict",
+        "EDI_47": "Conflict",
+        "EDI_48": "Conflict",
         "PC_165": "Address"
       },
       "0x0804aa4e": {
         "DF_0": "Value",
-        "EAX_19": "Address",
-        "EDI_48": "Address",
-        "EDI_49": "Address",
+        "EAX_19": "Conflict",
+        "EDI_48": "Conflict",
+        "EDI_49": "Conflict",
         "PC_166": "Address"
       },
       "0x0804aa4f": {
         "DF_0": "Value",
-        "EAX_19": "Address",
-        "EDI_49": "Address",
-        "EDI_50": "Address",
+        "EAX_19": "Conflict",
+        "EDI_49": "Conflict",
+        "EDI_50": "Conflict",
         "PC_167": "Address"
       },
       "0x0804aa50": {
         "DF_0": "Value",
-        "EAX_19": "Address",
-        "EDI_50": "Address",
-        "EDI_51": "Address",
+        "EAX_19": "Conflict",
+        "EDI_50": "Conflict",
+        "EDI_51": "Conflict",
         "PC_168": "Address"
       },
       "0x0804aa52": {
-        "ECX_21": "Address",
-        "EDI_51": "Address",
+        "ECX_21": "Conflict",
+        "EDI_51": "Conflict",
         "PC_169": "Address"
       },
       "0x0804aa54": {
-        "ECX_21": "Address",
+        "ECX_21": "Conflict",
         "PC_170": "Address",
-        "V_32_8": "Address"
+        "V_32_8": "Conflict"
       },
       "0x0804aa57": {
         "PC_171": "Address"
@@ -4264,71 +4274,71 @@
         "ZF_27": "Value"
       },
       "0x0804aa62": {
-        "EAX_18": "Address",
+        "EAX_18": "Conflict",
         "PC_149": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804aa65": {
-        "ECX_18": "Address",
+        "ECX_18": "Conflict",
         "PC_150": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804aa68": {
-        "ECX_18": "Address",
-        "EDI_39": "Address",
+        "ECX_18": "Conflict",
+        "EDI_39": "Conflict",
         "PC_151": "Address"
       },
       "0x0804aa6a": {
         "DF_0": "Value",
-        "EAX_18": "Address",
-        "EDI_39": "Address",
-        "EDI_40": "Address",
+        "EAX_18": "Conflict",
+        "EDI_39": "Conflict",
+        "EDI_40": "Conflict",
         "PC_152": "Address"
       },
       "0x0804aa6b": {
         "DF_0": "Value",
-        "EAX_18": "Address",
-        "EDI_40": "Address",
-        "EDI_41": "Address",
+        "EAX_18": "Conflict",
+        "EDI_40": "Conflict",
+        "EDI_41": "Conflict",
         "PC_153": "Address"
       },
       "0x0804aa6c": {
         "DF_0": "Value",
-        "EAX_18": "Address",
-        "EDI_41": "Address",
-        "EDI_42": "Address",
+        "EAX_18": "Conflict",
+        "EDI_41": "Conflict",
+        "EDI_42": "Conflict",
         "PC_154": "Address"
       },
       "0x0804aa6d": {
         "DF_0": "Value",
-        "EAX_18": "Address",
-        "EDI_42": "Address",
-        "EDI_43": "Address",
+        "EAX_18": "Conflict",
+        "EDI_42": "Conflict",
+        "EDI_43": "Conflict",
         "PC_155": "Address"
       },
       "0x0804aa6e": {
         "DF_0": "Value",
-        "EAX_18": "Address",
-        "EDI_43": "Address",
-        "EDI_44": "Address",
+        "EAX_18": "Conflict",
+        "EDI_43": "Conflict",
+        "EDI_44": "Conflict",
         "PC_156": "Address"
       },
       "0x0804aa70": {
         "DF_0": "Value",
-        "EAX_18": "Address",
-        "EDI_44": "Address",
-        "EDI_45": "Address",
+        "EAX_18": "Conflict",
+        "EDI_44": "Conflict",
+        "EDI_45": "Conflict",
         "PC_157": "Address"
       },
       "0x0804aa71": {
-        "ECX_19": "Address",
-        "EDI_45": "Address",
+        "ECX_19": "Conflict",
+        "EDI_45": "Conflict",
         "PC_158": "Address"
       },
       "0x0804aa73": {
-        "ECX_19": "Address",
+        "ECX_19": "Conflict",
         "PC_159": "Address",
-        "V_32_7": "Address"
+        "V_32_7": "Conflict"
       },
       "0x0804aa76": {
         "PC_160": "Address"
@@ -4352,64 +4362,64 @@
         "ZF_28": "Value"
       },
       "0x0804aa81": {
-        "EAX_17": "Address",
+        "EAX_17": "Conflict",
         "PC_138": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804aa84": {
-        "ECX_16": "Address",
+        "ECX_16": "Conflict",
         "PC_139": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804aa87": {
-        "ECX_16": "Address",
-        "EDI_33": "Address",
+        "ECX_16": "Conflict",
+        "EDI_33": "Conflict",
         "PC_140": "Address"
       },
       "0x0804aa89": {
         "DF_0": "Value",
-        "EAX_17": "Address",
-        "EDI_33": "Address",
-        "EDI_34": "Address",
+        "EAX_17": "Conflict",
+        "EDI_33": "Conflict",
+        "EDI_34": "Conflict",
         "PC_141": "Address"
       },
       "0x0804aa8a": {
         "DF_0": "Value",
-        "EAX_17": "Address",
-        "EDI_34": "Address",
-        "EDI_35": "Address",
+        "EAX_17": "Conflict",
+        "EDI_34": "Conflict",
+        "EDI_35": "Conflict",
         "PC_142": "Address"
       },
       "0x0804aa8b": {
         "DF_0": "Value",
-        "EAX_17": "Address",
-        "EDI_35": "Address",
-        "EDI_36": "Address",
+        "EAX_17": "Conflict",
+        "EDI_35": "Conflict",
+        "EDI_36": "Conflict",
         "PC_143": "Address"
       },
       "0x0804aa8c": {
         "DF_0": "Value",
-        "EAX_17": "Address",
-        "EDI_36": "Address",
-        "EDI_37": "Address",
+        "EAX_17": "Conflict",
+        "EDI_36": "Conflict",
+        "EDI_37": "Conflict",
         "PC_144": "Address"
       },
       "0x0804aa8d": {
         "DF_0": "Value",
-        "EAX_17": "Address",
-        "EDI_37": "Address",
-        "EDI_38": "Address",
+        "EAX_17": "Conflict",
+        "EDI_37": "Conflict",
+        "EDI_38": "Conflict",
         "PC_145": "Address"
       },
       "0x0804aa8e": {
-        "ECX_17": "Address",
-        "EDI_38": "Address",
+        "ECX_17": "Conflict",
+        "EDI_38": "Conflict",
         "PC_146": "Address"
       },
       "0x0804aa90": {
-        "ECX_17": "Address",
+        "ECX_17": "Conflict",
         "PC_147": "Address",
-        "V_32_6": "Address"
+        "V_32_6": "Conflict"
       },
       "0x0804aa93": {
         "PC_148": "Address"
@@ -4433,71 +4443,71 @@
         "ZF_29": "Value"
       },
       "0x0804aa9e": {
-        "EAX_16": "Address",
+        "EAX_16": "Conflict",
         "PC_126": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804aaa1": {
-        "ECX_14": "Address",
+        "ECX_14": "Conflict",
         "PC_127": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804aaa4": {
-        "ECX_14": "Address",
-        "EDI_26": "Address",
+        "ECX_14": "Conflict",
+        "EDI_26": "Conflict",
         "PC_128": "Address"
       },
       "0x0804aaa6": {
         "DF_0": "Value",
-        "EAX_16": "Address",
-        "EDI_26": "Address",
-        "EDI_27": "Address",
+        "EAX_16": "Conflict",
+        "EDI_26": "Conflict",
+        "EDI_27": "Conflict",
         "PC_129": "Address"
       },
       "0x0804aaa7": {
         "DF_0": "Value",
-        "EAX_16": "Address",
-        "EDI_27": "Address",
-        "EDI_28": "Address",
+        "EAX_16": "Conflict",
+        "EDI_27": "Conflict",
+        "EDI_28": "Conflict",
         "PC_130": "Address"
       },
       "0x0804aaa8": {
         "DF_0": "Value",
-        "EAX_16": "Address",
-        "EDI_28": "Address",
-        "EDI_29": "Address",
+        "EAX_16": "Conflict",
+        "EDI_28": "Conflict",
+        "EDI_29": "Conflict",
         "PC_131": "Address"
       },
       "0x0804aaa9": {
         "DF_0": "Value",
-        "EAX_16": "Address",
-        "EDI_29": "Address",
-        "EDI_30": "Address",
+        "EAX_16": "Conflict",
+        "EDI_29": "Conflict",
+        "EDI_30": "Conflict",
         "PC_132": "Address"
       },
       "0x0804aaaa": {
         "DF_0": "Value",
-        "EAX_16": "Address",
-        "EDI_30": "Address",
-        "EDI_31": "Address",
+        "EAX_16": "Conflict",
+        "EDI_30": "Conflict",
+        "EDI_31": "Conflict",
         "PC_133": "Address"
       },
       "0x0804aaab": {
         "DF_0": "Value",
-        "EAX_16": "Address",
-        "EDI_31": "Address",
-        "EDI_32": "Address",
+        "EAX_16": "Conflict",
+        "EDI_31": "Conflict",
+        "EDI_32": "Conflict",
         "PC_134": "Address"
       },
       "0x0804aaac": {
-        "ECX_15": "Address",
-        "EDI_32": "Address",
+        "ECX_15": "Conflict",
+        "EDI_32": "Conflict",
         "PC_135": "Address"
       },
       "0x0804aaae": {
-        "ECX_15": "Address",
+        "ECX_15": "Conflict",
         "PC_136": "Address",
-        "V_32_5": "Address"
+        "V_32_5": "Conflict"
       },
       "0x0804aab1": {
         "PC_137": "Address"
@@ -4521,71 +4531,71 @@
         "ZF_30": "Value"
       },
       "0x0804aab9": {
-        "EAX_15": "Address",
+        "EAX_15": "Conflict",
         "PC_114": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804aabc": {
-        "ECX_12": "Address",
+        "ECX_12": "Conflict",
         "PC_115": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804aabf": {
-        "ECX_12": "Address",
-        "EDI_19": "Address",
+        "ECX_12": "Conflict",
+        "EDI_19": "Conflict",
         "PC_116": "Address"
       },
       "0x0804aac1": {
         "DF_0": "Value",
-        "EAX_15": "Address",
-        "EDI_19": "Address",
-        "EDI_20": "Address",
+        "EAX_15": "Conflict",
+        "EDI_19": "Conflict",
+        "EDI_20": "Conflict",
         "PC_117": "Address"
       },
       "0x0804aac2": {
         "DF_0": "Value",
-        "EAX_15": "Address",
-        "EDI_20": "Address",
-        "EDI_21": "Address",
+        "EAX_15": "Conflict",
+        "EDI_20": "Conflict",
+        "EDI_21": "Conflict",
         "PC_118": "Address"
       },
       "0x0804aac3": {
         "DF_0": "Value",
-        "EAX_15": "Address",
-        "EDI_21": "Address",
-        "EDI_22": "Address",
+        "EAX_15": "Conflict",
+        "EDI_21": "Conflict",
+        "EDI_22": "Conflict",
         "PC_119": "Address"
       },
       "0x0804aac4": {
         "DF_0": "Value",
-        "EAX_15": "Address",
-        "EDI_22": "Address",
-        "EDI_23": "Address",
+        "EAX_15": "Conflict",
+        "EDI_22": "Conflict",
+        "EDI_23": "Conflict",
         "PC_120": "Address"
       },
       "0x0804aac5": {
         "DF_0": "Value",
-        "EAX_15": "Address",
-        "EDI_23": "Address",
-        "EDI_24": "Address",
+        "EAX_15": "Conflict",
+        "EDI_23": "Conflict",
+        "EDI_24": "Conflict",
         "PC_121": "Address"
       },
       "0x0804aac6": {
         "DF_0": "Value",
-        "EAX_15": "Address",
-        "EDI_24": "Address",
-        "EDI_25": "Address",
+        "EAX_15": "Conflict",
+        "EDI_24": "Conflict",
+        "EDI_25": "Conflict",
         "PC_122": "Address"
       },
       "0x0804aac8": {
-        "ECX_13": "Address",
-        "EDI_25": "Address",
+        "ECX_13": "Conflict",
+        "EDI_25": "Conflict",
         "PC_123": "Address"
       },
       "0x0804aaca": {
-        "ECX_13": "Address",
+        "ECX_13": "Conflict",
         "PC_124": "Address",
-        "V_32_4": "Address"
+        "V_32_4": "Conflict"
       },
       "0x0804aacd": {
         "PC_125": "Address"
@@ -4609,78 +4619,78 @@
         "ZF_31": "Value"
       },
       "0x0804aad5": {
-        "EAX_14": "Address",
+        "EAX_14": "Conflict",
         "PC_101": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804aad8": {
-        "ECX_10": "Address",
+        "ECX_10": "Conflict",
         "PC_102": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804aadb": {
-        "ECX_10": "Address",
-        "EDI_11": "Address",
+        "ECX_10": "Conflict",
+        "EDI_11": "Conflict",
         "PC_103": "Address"
       },
       "0x0804aadd": {
         "DF_0": "Value",
-        "EAX_14": "Address",
-        "EDI_11": "Address",
-        "EDI_12": "Address",
+        "EAX_14": "Conflict",
+        "EDI_11": "Conflict",
+        "EDI_12": "Conflict",
         "PC_104": "Address"
       },
       "0x0804aade": {
         "DF_0": "Value",
-        "EAX_14": "Address",
-        "EDI_12": "Address",
-        "EDI_13": "Address",
+        "EAX_14": "Conflict",
+        "EDI_12": "Conflict",
+        "EDI_13": "Conflict",
         "PC_105": "Address"
       },
       "0x0804aadf": {
         "DF_0": "Value",
-        "EAX_14": "Address",
-        "EDI_13": "Address",
-        "EDI_14": "Address",
+        "EAX_14": "Conflict",
+        "EDI_13": "Conflict",
+        "EDI_14": "Conflict",
         "PC_106": "Address"
       },
       "0x0804aae0": {
         "DF_0": "Value",
-        "EAX_14": "Address",
-        "EDI_14": "Address",
-        "EDI_15": "Address",
+        "EAX_14": "Conflict",
+        "EDI_14": "Conflict",
+        "EDI_15": "Conflict",
         "PC_107": "Address"
       },
       "0x0804aae1": {
         "DF_0": "Value",
-        "EAX_14": "Address",
-        "EDI_15": "Address",
-        "EDI_16": "Address",
+        "EAX_14": "Conflict",
+        "EDI_15": "Conflict",
+        "EDI_16": "Conflict",
         "PC_108": "Address"
       },
       "0x0804aae2": {
         "DF_0": "Value",
-        "EAX_14": "Address",
-        "EDI_16": "Address",
-        "EDI_17": "Address",
+        "EAX_14": "Conflict",
+        "EDI_16": "Conflict",
+        "EDI_17": "Conflict",
         "PC_109": "Address"
       },
       "0x0804aae4": {
         "DF_0": "Value",
-        "EAX_14": "Address",
-        "EDI_17": "Address",
-        "EDI_18": "Address",
+        "EAX_14": "Conflict",
+        "EDI_17": "Conflict",
+        "EDI_18": "Conflict",
         "PC_110": "Address"
       },
       "0x0804aae5": {
-        "ECX_11": "Address",
-        "EDI_18": "Address",
+        "ECX_11": "Conflict",
+        "EDI_18": "Conflict",
         "PC_111": "Address"
       },
       "0x0804aae7": {
-        "ECX_11": "Address",
+        "ECX_11": "Conflict",
         "PC_112": "Address",
-        "V_32_3": "Address"
+        "V_32_3": "Conflict"
       },
       "0x0804aaea": {
         "PC_113": "Address"
@@ -4704,71 +4714,71 @@
         "ZF_32": "Value"
       },
       "0x0804aaf2": {
-        "EAX_13": "Address",
+        "EAX_13": "Conflict",
         "PC_89": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804aaf5": {
-        "ECX_8": "Address",
+        "ECX_8": "Conflict",
         "PC_90": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804aaf8": {
-        "ECX_8": "Address",
-        "EDI_4": "Address",
+        "ECX_8": "Conflict",
+        "EDI_4": "Conflict",
         "PC_91": "Address"
       },
       "0x0804aafa": {
         "DF_0": "Value",
-        "EAX_13": "Address",
-        "EDI_4": "Address",
-        "EDI_5": "Address",
+        "EAX_13": "Conflict",
+        "EDI_4": "Conflict",
+        "EDI_5": "Conflict",
         "PC_92": "Address"
       },
       "0x0804aafb": {
         "DF_0": "Value",
-        "EAX_13": "Address",
-        "EDI_5": "Address",
-        "EDI_6": "Address",
+        "EAX_13": "Conflict",
+        "EDI_5": "Conflict",
+        "EDI_6": "Conflict",
         "PC_93": "Address"
       },
       "0x0804aafc": {
         "DF_0": "Value",
-        "EAX_13": "Address",
-        "EDI_6": "Address",
-        "EDI_7": "Address",
+        "EAX_13": "Conflict",
+        "EDI_6": "Conflict",
+        "EDI_7": "Conflict",
         "PC_94": "Address"
       },
       "0x0804aafd": {
         "DF_0": "Value",
-        "EAX_13": "Address",
-        "EDI_7": "Address",
-        "EDI_8": "Address",
+        "EAX_13": "Conflict",
+        "EDI_7": "Conflict",
+        "EDI_8": "Conflict",
         "PC_95": "Address"
       },
       "0x0804aafe": {
         "DF_0": "Value",
-        "EAX_13": "Address",
-        "EDI_8": "Address",
-        "EDI_9": "Address",
+        "EAX_13": "Conflict",
+        "EDI_8": "Conflict",
+        "EDI_9": "Conflict",
         "PC_96": "Address"
       },
       "0x0804aaff": {
         "DF_0": "Value",
-        "EAX_13": "Address",
-        "EDI_10": "Address",
-        "EDI_9": "Address",
+        "EAX_13": "Conflict",
+        "EDI_10": "Conflict",
+        "EDI_9": "Conflict",
         "PC_97": "Address"
       },
       "0x0804ab00": {
-        "ECX_9": "Address",
-        "EDI_10": "Address",
+        "ECX_9": "Conflict",
+        "EDI_10": "Conflict",
         "PC_98": "Address"
       },
       "0x0804ab02": {
-        "ECX_9": "Address",
+        "ECX_9": "Conflict",
         "PC_99": "Address",
-        "V_32_2": "Address"
+        "V_32_2": "Conflict"
       },
       "0x0804ab05": {
         "PC_100": "Address"
@@ -4782,7 +4792,7 @@
         "AF_33": "Value",
         "CF_33": "Value",
         "EAX_10": "Unknown",
-        "EAX_11": "Address",
+        "EAX_11": "Conflict",
         "OF_33": "Value",
         "PC_79": "Address",
         "PF_33": "Value",
@@ -4793,48 +4803,48 @@
         "ZF_33": "Value"
       },
       "0x0804ab0d": {
-        "EAX_11": "Address",
-        "ECX_5": "Address",
+        "EAX_11": "Conflict",
+        "ECX_5": "Conflict",
         "PC_80": "Address"
       },
       "0x0804ab0f": {
-        "EAX_12": "Address",
+        "EAX_12": "Conflict",
         "PC_81": "Address",
-        "V_24_2": "Address"
+        "V_24_2": "Conflict"
       },
       "0x0804ab12": {
-        "EBX_1": "Address",
+        "EBX_1": "Conflict",
         "PC_82": "Address",
-        "V_20_1": "Address"
+        "V_20_1": "Conflict"
       },
       "0x0804ab15": {
-        "EBX_1": "Address",
-        "EDI_1": "Address",
+        "EBX_1": "Conflict",
+        "EDI_1": "Conflict",
         "PC_83": "Address"
       },
       "0x0804ab17": {
         "DF_0": "Value",
-        "EAX_12": "Address",
-        "ECX_6": "Address",
-        "ECX_7": "Address",
-        "EDI_2": "Address",
-        "EDI_3": "Address",
+        "EAX_12": "Conflict",
+        "ECX_6": "Conflict",
+        "ECX_7": "Conflict",
+        "EDI_2": "Conflict",
+        "EDI_3": "Conflict",
         "PC_84": "Address"
       },
       "0x0804ab19": {
-        "EBX_2": "Address",
-        "EDI_2": "Address",
+        "EBX_2": "Conflict",
+        "EDI_2": "Conflict",
         "PC_85": "Address"
       },
       "0x0804ab1b": {
-        "ECX_6": "Address",
+        "ECX_6": "Conflict",
         "PC_86": "Address",
-        "V_36_1": "Address"
+        "V_36_1": "Conflict"
       },
       "0x0804ab1e": {
-        "EBX_2": "Address",
+        "EBX_2": "Conflict",
         "PC_87": "Address",
-        "V_32_1": "Address"
+        "V_32_1": "Conflict"
       },
       "0x0804ab21": {
         "PC_88": "Address"
@@ -4843,33 +4853,33 @@
         "PC_19": "Address"
       },
       "0x0804ab24": {
-        "EAX_46": "Address",
-        "EBX_3": "Address",
-        "ECX_53": "Address",
-        "EDI_100": "Address",
+        "EAX_46": "Conflict",
+        "EBX_3": "Conflict",
+        "ECX_53": "Conflict",
+        "EDI_100": "Conflict",
         "PC_315": "Address",
-        "V_24_3": "Address"
+        "V_24_3": "Conflict"
       },
       "0x0804ab26": {
-        "EAX_50": "Address",
+        "EAX_50": "Conflict",
         "PC_320": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x0804ab29": {
-        "EAX_50": "Address",
-        "EAX_51": "Address",
+        "EAX_50": "Conflict",
+        "EAX_51": "Conflict",
         "PC_321": "Address"
       },
       "0x0804ab2b": {
         "AF_37": "Value",
         "CF_37": "Value",
-        "EAX_51": "Address",
+        "EAX_51": "Conflict",
         "OF_37": "Value",
         "PC_322": "Address",
         "PF_37": "Value",
         "SF_37": "Value",
-        "T_45_1": "Address",
-        "T_46_1": "Unknown",
+        "T_45_1": "Conflict",
+        "T_46_1": "Conflict",
         "T_47_1": "Unknown",
         "T_48_1": "Unknown",
         "ZF_37": "Value"
@@ -4880,80 +4890,80 @@
         "ZF_37": "Value"
       },
       "0x0804ab30": {
-        "EAX_53": "Address",
+        "EAX_53": "Conflict",
         "PC_325": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x0804ab33": {
-        "EAX_53": "Address",
+        "EAX_53": "Conflict",
         "ESI_3": "Address",
         "PC_326": "Address"
       },
       "0x0804ab35": {
-        "EAX_54": "Address",
+        "EAX_54": "Conflict",
         "PC_327": "Address"
       },
       "0x0804ab3b": {
-        "ECX_56": "Address",
+        "ECX_56": "Conflict",
         "PC_328": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x0804ab3e": {
-        "EBX_6": "Address",
-        "ECX_56": "Address",
+        "EBX_6": "Conflict",
+        "ECX_56": "Conflict",
         "PC_329": "Address"
       },
       "0x0804ab41": {
-        "ECX_56": "Address",
-        "ECX_57": "Address",
+        "ECX_56": "Conflict",
+        "ECX_57": "Conflict",
         "PC_330": "Address"
       },
       "0x0804ab43": {
-        "EAX_54": "Address",
-        "ECX_57": "Address",
+        "EAX_54": "Conflict",
+        "ECX_57": "Conflict",
         "ESI_3": "Address",
         "PC_331": "Address"
       },
       "0x0804ab46": {
-        "EAX_54": "Address",
-        "EBX_6": "Address",
+        "EAX_54": "Conflict",
+        "EBX_6": "Conflict",
         "ESI_3": "Address",
         "PC_332": "Address"
       },
       "0x0804ab4a": {
         "AF_38": "Value",
         "CF_38": "Value",
-        "EAX_52": "Address",
+        "EAX_52": "Conflict",
         "EBP_1": "Address",
-        "EBX_5": "Address",
-        "ECX_55": "Address",
+        "EBX_5": "Conflict",
+        "ECX_55": "Conflict",
         "ESI_2": "Address",
         "OF_38": "Value",
         "PC_324": "Address",
         "PF_38": "Value",
         "SF_38": "Value",
         "T_69_1": "Unknown",
-        "T_70_1": "Address",
-        "T_71_1": "Address",
+        "T_70_1": "Conflict",
+        "T_71_1": "Conflict",
         "T_72_1": "Unknown",
         "T_73_1": "Value",
         "T_74_1": "Unknown",
         "T_75_1": "Unknown",
-        "V_40_2": "Address",
-        "V_40_3": "Address",
+        "V_40_2": "Conflict",
+        "V_40_3": "Conflict",
         "ZF_38": "Value"
       },
       "0x0804ab4e": {
-        "EAX_47": "Address",
-        "EAX_48": "Address",
-        "EBX_4": "Address",
-        "ECX_54": "Address",
+        "EAX_47": "Conflict",
+        "EAX_48": "Conflict",
+        "EBX_4": "Conflict",
+        "ECX_54": "Conflict",
         "ESI_1": "Address",
         "PC_316": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x0804ab51": {
-        "EAX_48": "Address",
+        "EAX_48": "Conflict",
         "EAX_49": "Unknown",
         "PC_317": "Address"
       },
@@ -5088,11 +5098,11 @@
         "ZF_40": "Value"
       },
       "0x0804aba4": {
-        "EBX_7": "Address",
+        "EBX_7": "Conflict",
         "ESP_8": "Address",
         "ESP_9": "Address",
         "PC_354": "Address",
-        "V_16_1": "Address"
+        "V_16_1": "Conflict"
       },
       "0x0804aba5": {
         "ESI_4": "Address",
@@ -5102,11 +5112,11 @@
         "V_12_1": "Address"
       },
       "0x0804aba6": {
-        "EDI_101": "Address",
+        "EDI_101": "Conflict",
         "ESP_10": "Address",
         "ESP_11": "Address",
         "PC_356": "Address",
-        "V_8_1": "Address"
+        "V_8_1": "Conflict"
       },
       "0x0804aba7": {
         "EBP_2": "Unknown",
@@ -6766,7 +6776,7 @@
     },
     "DetailType": {
       "0x08049518": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EBX_1": "Address",
         "ESP_4": "Address",
         "ESP_5": "Address",
@@ -8486,7 +8496,7 @@
     },
     "DetailType": {
       "0x08049518": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EBX_1": "Address",
         "ESP_5": "Address",
         "ESP_6": "Address",
@@ -11164,7 +11174,7 @@
     },
     "DetailType": {
       "0x08049514": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EDX_1": "Address",
         "ESP_3": "Address",
         "ESP_4": "Address",
@@ -12993,7 +13003,7 @@
     },
     "DetailType": {
       "0x08049518": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EBX_1": "Address",
         "ESP_6": "Address",
         "ESP_7": "Address",
@@ -17350,7 +17360,7 @@
     },
     "DetailType": {
       "0x08049518": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EBX_1": "Conflict",
         "ESP_5": "Address",
         "ESP_6": "Address",
@@ -18983,7 +18993,7 @@
     },
     "DetailType": {
       "0x08049518": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EBX_1": "Address",
         "ESP_4": "Address",
         "ESP_5": "Address",
@@ -20199,7 +20209,7 @@
         "MEM_60": "Unknown"
       },
       "0x08049518": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EBX_1": "Address",
         "ESP_5": "Address",
         "ESP_6": "Address",
@@ -25342,7 +25352,7 @@
     },
     "DetailType": {
       "0x08049518": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EBX_1": "Address",
         "ESP_4": "Address",
         "ESP_5": "Address",
@@ -28840,7 +28850,7 @@
         "V_0_0": "Address"
       },
       "0x08051674": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Address",
         "EDI_1": "Address",
         "ESP_6": "Address",
         "ESP_7": "Address",
@@ -29684,7 +29694,7 @@
         "V_0_0": "Address"
       },
       "0x08051674": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Address",
         "EDI_1": "Address",
         "ESP_6": "Address",
         "ESP_7": "Address",
@@ -29706,8 +29716,10 @@
       "Args": []
     },
     "Return": {
-      "ReturnNum": 0,
-      "Returns": []
+      "ReturnNum": 1,
+      "Returns": [
+        "Address"
+      ]
     },
     "DetailType": {
       "0x08051674": {
@@ -30187,7 +30199,7 @@
         "MEM_5": "Unknown"
       },
       "0x08049518": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EBX_1": "Address",
         "ESP_5": "Address",
         "ESP_6": "Address",
@@ -30703,7 +30715,7 @@
         "MEM_2": "Unknown"
       },
       "0x08049514": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EDX_1": "Address",
         "ESP_4": "Address",
         "ESP_5": "Address",
@@ -32088,7 +32100,7 @@
         "MEM_2": "Unknown"
       },
       "0x08049518": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EBX_1": "Address",
         "ESP_5": "Address",
         "ESP_6": "Address",
@@ -32393,7 +32405,7 @@
         "MEM_2": "Unknown"
       },
       "0x08049518": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EBX_1": "Address",
         "ESP_5": "Address",
         "ESP_6": "Address",
@@ -32681,7 +32693,7 @@
     },
     "DetailType": {
       "0x08049518": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EBX_1": "Conflict",
         "ESP_4": "Address",
         "ESP_5": "Address",
@@ -37972,8 +37984,8 @@
         "PC_414": "Address",
         "PF_116": "Value",
         "SF_116": "Value",
-        "T_18_2": "Conflict",
-        "T_19_2": "Unknown",
+        "T_18_1": "Conflict",
+        "T_19_1": "Unknown",
         "T_20_1": "Unknown",
         "ZF_116": "Value"
       },
@@ -37991,8 +38003,8 @@
         "PF_117": "Value",
         "SF_117": "Value",
         "T_11_1": "Conflict",
-        "T_12_2": "Conflict",
-        "T_13_2": "Conflict",
+        "T_12_1": "Conflict",
+        "T_13_1": "Conflict",
         "T_14_1": "Unknown",
         "T_15_1": "Value",
         "T_16_1": "Unknown",
@@ -40725,7 +40737,7 @@
         "PF_83": "Value",
         "SF_83": "Value",
         "T_4_2": "Conflict",
-        "T_5_2": "Conflict",
+        "T_5_3": "Conflict",
         "T_6_1": "Unknown",
         "T_7_1": "Value",
         "T_8_1": "Unknown",
@@ -40740,8 +40752,8 @@
         "PC_286": "Address",
         "PF_84": "Value",
         "SF_84": "Value",
-        "T_1_3": "Conflict",
-        "T_2_3": "Unknown",
+        "T_1_4": "Conflict",
+        "T_2_4": "Unknown",
         "T_3_2": "Unknown",
         "ZF_84": "Value"
       },
@@ -40971,12 +40983,12 @@
         "PC_263": "Address",
         "PF_76": "Value",
         "SF_76": "Value",
-        "T_14_1": "Conflict",
-        "T_15_1": "Conflict",
-        "T_16_1": "Unknown",
-        "T_17_1": "Value",
-        "T_18_1": "Unknown",
-        "T_19_1": "Unknown",
+        "T_1_3": "Conflict",
+        "T_2_3": "Conflict",
+        "T_3_2": "Unknown",
+        "T_4_2": "Value",
+        "T_5_2": "Unknown",
+        "T_6_2": "Unknown",
         "ZF_76": "Value"
       },
       "0x08053694": {
@@ -41010,13 +41022,13 @@
         "PC_325": "Address",
         "PF_95": "Value",
         "SF_95": "Value",
-        "T_10_1": "Unknown",
-        "T_11_1": "Value",
-        "T_12_1": "Unknown",
-        "T_13_1": "Unknown",
-        "T_7_1": "Conflict",
-        "T_8_2": "Conflict",
-        "T_9_2": "Conflict",
+        "T_66_2": "Conflict",
+        "T_67_2": "Conflict",
+        "T_68_2": "Conflict",
+        "T_69_2": "Unknown",
+        "T_70_1": "Value",
+        "T_71_2": "Unknown",
+        "T_72_2": "Unknown",
         "ZF_95": "Value"
       },
       "0x0805369e": {
@@ -41048,12 +41060,12 @@
         "PC_330": "Address",
         "PF_96": "Value",
         "SF_96": "Value",
-        "T_1_4": "Unknown",
-        "T_2_4": "Address",
-        "T_3_2": "Unknown",
-        "T_4_2": "Value",
-        "T_5_3": "Unknown",
-        "T_6_2": "Unknown",
+        "T_60_2": "Unknown",
+        "T_61_2": "Address",
+        "T_62_1": "Unknown",
+        "T_63_1": "Value",
+        "T_64_1": "Unknown",
+        "T_65_2": "Unknown",
         "ZF_96": "Value"
       },
       "0x080536ac": {
@@ -41133,7 +41145,7 @@
         "MEM_9": "Unknown"
       },
       "0x08049518": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EBX_1": "Address",
         "ESP_5": "Address",
         "ESP_6": "Address",
@@ -48507,10 +48519,10 @@
         "PC_74": "Address",
         "PF_26": "Value",
         "SF_26": "Value",
-        "T_1_3": "Address",
-        "T_2_3": "Address",
-        "T_3_1": "Unknown",
-        "T_4_1": "Value",
+        "T_1_4": "Address",
+        "T_2_4": "Address",
+        "T_3_2": "Unknown",
+        "T_4_2": "Value",
         "T_5_3": "Unknown",
         "T_6_3": "Unknown",
         "ZF_26": "Value"
@@ -48580,12 +48592,12 @@
         "PC_66": "Address",
         "PF_24": "Value",
         "SF_24": "Value",
-        "T_10_2": "Unknown",
-        "T_5_2": "Address",
-        "T_6_2": "Address",
-        "T_7_2": "Unknown",
-        "T_8_2": "Value",
-        "T_9_2": "Unknown",
+        "T_1_3": "Address",
+        "T_2_3": "Address",
+        "T_3_1": "Unknown",
+        "T_4_1": "Value",
+        "T_5_2": "Unknown",
+        "T_6_2": "Unknown",
         "ZF_24": "Value"
       },
       "0x0805449c": {
@@ -48602,10 +48614,10 @@
         "PC_77": "Address",
         "PF_27": "Value",
         "SF_27": "Value",
-        "T_1_4": "Address",
-        "T_2_4": "Unknown",
-        "T_3_3": "Unknown",
-        "T_4_3": "Unknown",
+        "T_10_2": "Unknown",
+        "T_7_1": "Address",
+        "T_8_1": "Unknown",
+        "T_9_2": "Unknown",
         "V_16_7": "Address",
         "V_28_5": "Address",
         "ZF_27": "Value"
@@ -50207,7 +50219,7 @@
         "MEM_97": "Unknown"
       },
       "0x0804a431": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Address",
         "ECX_1": "Conflict",
         "ESP_6": "Conflict",
         "ESP_7": "Conflict",
@@ -53173,7 +53185,7 @@
     },
     "DetailType": {
       "0x08049518": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EBX_1": "Address",
         "ESP_5": "Address",
         "ESP_6": "Address",
@@ -56037,7 +56049,7 @@
     },
     "DetailType": {
       "0x08049518": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EBX_1": "Conflict",
         "ESP_4": "Address",
         "ESP_5": "Address",
@@ -58077,7 +58089,7 @@
     },
     "DetailType": {
       "0x08049518": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EBX_1": "Conflict",
         "ESP_4": "Address",
         "ESP_5": "Address",
@@ -62118,7 +62130,7 @@
     },
     "DetailType": {
       "0x08049518": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EBX_1": "Conflict",
         "ESP_5": "Address",
         "ESP_6": "Address",
@@ -67599,10 +67611,10 @@
     },
     "DetailType": {
       "0x08049518": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EBX_1": "Address",
-        "ESP_5": "Address",
-        "ESP_6": "Address",
+        "ESP_5": "Conflict",
+        "ESP_6": "Conflict",
         "MEM_1": "Unknown",
         "V_88_1": "Address"
       },
@@ -67610,12 +67622,12 @@
         "EAX_3": "Conflict",
         "EAX_87": "Conflict",
         "EAX_90": "Conflict",
-        "ESP_29": "Address",
-        "ESP_30": "Address",
-        "ESP_37": "Address",
-        "ESP_38": "Address",
-        "ESP_8": "Address",
-        "ESP_9": "Address",
+        "ESP_29": "Conflict",
+        "ESP_30": "Conflict",
+        "ESP_37": "Conflict",
+        "ESP_38": "Conflict",
+        "ESP_8": "Conflict",
+        "ESP_9": "Conflict",
         "MEM_110": "Unknown",
         "MEM_112": "Unknown",
         "MEM_2": "Unknown"
@@ -67623,47 +67635,47 @@
       "0x08056122": {
         "EBP_0": "Unknown",
         "ESP_0": "Address",
-        "ESP_1": "Address",
+        "ESP_1": "Conflict",
         "PC_1": "Address",
         "V_4_1": "Unknown"
       },
       "0x08056123": {
-        "EBP_1": "Address",
-        "ESP_1": "Address",
+        "EBP_1": "Conflict",
+        "ESP_1": "Conflict",
         "PC_2": "Address"
       },
       "0x08056125": {
-        "EDI_0": "Address",
-        "ESP_1": "Address",
-        "ESP_2": "Address",
+        "EDI_0": "Conflict",
+        "ESP_1": "Conflict",
+        "ESP_2": "Conflict",
         "PC_3": "Address",
-        "V_8_1": "Address"
+        "V_8_1": "Conflict"
       },
       "0x08056126": {
         "EBX_0": "Unknown",
-        "ESP_2": "Address",
-        "ESP_3": "Address",
+        "ESP_2": "Conflict",
+        "ESP_3": "Conflict",
         "PC_4": "Address",
         "V_12_1": "Unknown"
       },
       "0x08056127": {
         "AF_1": "Value",
         "CF_1": "Value",
-        "ESP_3": "Address",
-        "ESP_4": "Address",
+        "ESP_3": "Conflict",
+        "ESP_4": "Conflict",
         "OF_1": "Value",
         "PC_5": "Address",
         "PF_1": "Value",
         "SF_1": "Value",
-        "T_1_1": "Address",
-        "T_2_1": "Address",
+        "T_1_1": "Conflict",
+        "T_2_1": "Conflict",
         "T_3_1": "Unknown",
         "T_4_1": "Unknown",
         "ZF_1": "Value"
       },
       "0x0805612a": {
-        "ESP_4": "Address",
-        "ESP_5": "Address",
+        "ESP_4": "Conflict",
+        "ESP_5": "Conflict",
         "PC_6": "Address",
         "V_88_1": "Address"
       },
@@ -67691,28 +67703,28 @@
       },
       "0x0805613b": {
         "EAX_2": "Unknown",
-        "ESP_6": "Address",
-        "ESP_7": "Address",
+        "ESP_6": "Conflict",
+        "ESP_7": "Conflict",
         "PC_9": "Address",
         "V_88_2": "Unknown"
       },
       "0x0805613c": {
-        "ESP_7": "Address",
-        "ESP_8": "Address",
+        "ESP_7": "Conflict",
+        "ESP_8": "Conflict",
         "PC_10": "Address",
         "V_92_1": "Address"
       },
       "0x08056141": {
         "AF_3": "Value",
         "CF_3": "Value",
-        "ESP_10": "Address",
-        "ESP_9": "Address",
+        "ESP_10": "Conflict",
+        "ESP_9": "Conflict",
         "OF_3": "Value",
         "PC_11": "Address",
         "PF_3": "Value",
         "SF_3": "Value",
-        "T_22_1": "Address",
-        "T_23_1": "Address",
+        "T_22_1": "Conflict",
+        "T_23_1": "Conflict",
         "T_24_1": "Unknown",
         "T_25_1": "Value",
         "T_26_1": "Unknown",
@@ -67720,42 +67732,42 @@
         "ZF_3": "Value"
       },
       "0x08056144": {
-        "EAX_4": "Address",
-        "EBP_1": "Address",
+        "EAX_4": "Conflict",
+        "EBP_1": "Conflict",
         "PC_12": "Address"
       },
       "0x08056147": {
-        "EAX_4": "Address",
+        "EAX_4": "Conflict",
         "PC_13": "Address",
-        "V_16_1": "Address"
+        "V_16_1": "Conflict"
       },
       "0x0805614a": {
-        "EAX_5": "Address",
+        "EAX_5": "Conflict",
         "PC_14": "Address",
-        "V_16_1": "Address"
+        "V_16_1": "Conflict"
       },
       "0x0805614d": {
-        "EAX_5": "Address",
+        "EAX_5": "Conflict",
         "PC_15": "Address"
       },
       "0x08056153": {
-        "EAX_6": "Address",
+        "EAX_6": "Conflict",
         "PC_16": "Address",
-        "V_16_1": "Address"
+        "V_16_1": "Conflict"
       },
       "0x08056156": {
-        "EAX_6": "Address",
+        "EAX_6": "Conflict",
         "PC_17": "Address"
       },
       "0x0805615d": {
-        "EAX_7": "Address",
-        "EBP_1": "Address",
+        "EAX_7": "Conflict",
+        "EBP_1": "Conflict",
         "PC_18": "Address"
       },
       "0x08056160": {
-        "EAX_7": "Address",
+        "EAX_7": "Conflict",
         "PC_19": "Address",
-        "V_24_1": "Address"
+        "V_24_1": "Conflict"
       },
       "0x08056163": {
         "PC_20": "Address",
@@ -67859,7 +67871,7 @@
         "AF_8": "Value",
         "CF_6": "Value",
         "EAX_13": "Unknown",
-        "EAX_14": "Address",
+        "EAX_14": "Conflict",
         "OF_8": "Value",
         "PC_31": "Address",
         "PF_8": "Value",
@@ -67870,24 +67882,24 @@
         "ZF_8": "Value"
       },
       "0x08056186": {
-        "EAX_14": "Address",
+        "EAX_14": "Conflict",
         "PC_32": "Address",
-        "V_36_1": "Address"
+        "V_36_1": "Conflict"
       },
       "0x08056189": {
-        "EAX_15": "Address",
+        "EAX_15": "Conflict",
         "PC_33": "Address",
-        "V_24_1": "Address"
+        "V_24_1": "Conflict"
       },
       "0x0805618c": {
-        "EDX_3": "Address",
+        "EDX_3": "Conflict",
         "PC_34": "Address",
-        "V_36_1": "Address"
+        "V_36_1": "Conflict"
       },
       "0x0805618f": {
-        "EAX_15": "Address",
+        "EAX_15": "Conflict",
         "EAX_16": "Unknown",
-        "EDX_3": "Address",
+        "EDX_3": "Conflict",
         "PC_35": "Address"
       },
       "0x08056192": {
@@ -67895,7 +67907,7 @@
         "CF_7": "Value",
         "EAX_16": "Unknown",
         "EAX_17": "Unknown",
-        "EBP_1": "Address",
+        "EBP_1": "Conflict",
         "OF_9": "Value",
         "PC_36": "Address",
         "PF_9": "Value",
@@ -67910,65 +67922,65 @@
         "PC_37": "Address"
       },
       "0x08056197": {
-        "EAX_18": "Address",
+        "EAX_18": "Conflict",
         "PC_38": "Address",
-        "V_24_1": "Address"
+        "V_24_1": "Conflict"
       },
       "0x0805619a": {
-        "EDX_4": "Address",
+        "EDX_4": "Conflict",
         "PC_39": "Address",
-        "V_36_1": "Address"
+        "V_36_1": "Conflict"
       },
       "0x0805619d": {
-        "EAX_18": "Address",
+        "EAX_18": "Conflict",
         "ECX_2": "Unknown",
-        "EDX_4": "Address",
+        "EDX_4": "Conflict",
         "PC_40": "Address"
       },
       "0x080561a0": {
         "PC_41": "Address"
       },
       "0x080561a1": {
-        "ESP_10": "Address",
-        "ESP_11": "Address",
+        "ESP_10": "Conflict",
+        "ESP_11": "Conflict",
         "PC_42": "Address",
         "V_88_3": "Unknown"
       },
       "0x080561a3": {
         "EAX_19": "Unknown",
-        "EBP_1": "Address",
+        "EBP_1": "Conflict",
         "PC_43": "Address"
       },
       "0x080561a6": {
         "EAX_19": "Unknown",
-        "ESP_11": "Address",
-        "ESP_12": "Address",
+        "ESP_11": "Conflict",
+        "ESP_12": "Conflict",
         "PC_44": "Address",
         "V_92_2": "Unknown"
       },
       "0x080561a7": {
-        "ESP_12": "Address",
-        "ESP_13": "Address",
+        "ESP_12": "Conflict",
+        "ESP_13": "Conflict",
         "PC_45": "Address",
         "V_96_1": "Unknown"
       },
       "0x080561a9": {
-        "ESP_13": "Address",
-        "ESP_14": "Address",
+        "ESP_13": "Conflict",
+        "ESP_14": "Conflict",
         "PC_46": "Address",
         "V_100_1": "Address"
       },
       "0x080561ae": {
         "AF_10": "Value",
         "CF_8": "Value",
-        "ESP_15": "Address",
-        "ESP_16": "Address",
+        "ESP_15": "Conflict",
+        "ESP_16": "Conflict",
         "OF_10": "Value",
         "PC_47": "Address",
         "PF_10": "Value",
         "SF_10": "Value",
-        "T_4_3": "Address",
-        "T_5_3": "Address",
+        "T_4_3": "Conflict",
+        "T_5_3": "Conflict",
         "T_6_1": "Unknown",
         "T_7_1": "Value",
         "T_8_2": "Unknown",
@@ -67976,7 +67988,7 @@
         "ZF_10": "Value"
       },
       "0x080561b1": {
-        "EAX_20": "Address",
+        "EAX_20": "Conflict",
         "EAX_21": "Conflict",
         "EBX_2": "Address",
         "PC_48": "Address"
@@ -68031,39 +68043,39 @@
         "EAX_86": "Unknown",
         "EBX_2": "Address",
         "ECX_8": "Unknown",
-        "EDI_102": "Address",
-        "EDX_57": "Address",
-        "ESP_27": "Address",
+        "EDI_102": "Conflict",
+        "EDX_57": "Conflict",
+        "ESP_27": "Conflict",
         "PC_392": "Address",
-        "V_40_3": "Address",
-        "V_44_5": "Address",
+        "V_40_3": "Conflict",
+        "V_44_5": "Conflict",
         "V_48_3": "Unknown",
         "V_88_7": "Unknown"
       },
       "0x080561ce": {
         "EAX_86": "Unknown",
-        "ESP_27": "Address",
-        "ESP_28": "Address",
+        "ESP_27": "Conflict",
+        "ESP_28": "Conflict",
         "PC_393": "Address",
         "V_88_8": "Unknown"
       },
       "0x080561cf": {
-        "ESP_28": "Address",
-        "ESP_29": "Address",
+        "ESP_28": "Conflict",
+        "ESP_29": "Conflict",
         "PC_394": "Address",
         "V_92_5": "Address"
       },
       "0x080561d4": {
         "AF_54": "Value",
         "CF_48": "Value",
-        "ESP_30": "Address",
-        "ESP_31": "Address",
+        "ESP_30": "Conflict",
+        "ESP_31": "Conflict",
         "OF_54": "Value",
         "PC_395": "Address",
         "PF_54": "Value",
         "SF_54": "Value",
-        "T_1_5": "Address",
-        "T_2_5": "Address",
+        "T_1_5": "Conflict",
+        "T_2_5": "Conflict",
         "T_3_3": "Unknown",
         "T_4_3": "Value",
         "T_5_5": "Unknown",
@@ -68071,28 +68083,28 @@
         "ZF_54": "Value"
       },
       "0x080561d7": {
-        "ESP_31": "Address",
-        "ESP_32": "Address",
+        "ESP_31": "Conflict",
+        "ESP_32": "Conflict",
         "PC_396": "Address",
         "V_88_9": "Unknown"
       },
       "0x080561d9": {
-        "ESP_32": "Address",
-        "ESP_33": "Address",
+        "ESP_32": "Conflict",
+        "ESP_33": "Conflict",
         "PC_397": "Address",
         "V_92_6": "Address"
       },
       "0x080561de": {
         "AF_55": "Value",
         "CF_49": "Value",
-        "ESP_34": "Address",
-        "ESP_35": "Address",
+        "ESP_34": "Conflict",
+        "ESP_35": "Conflict",
         "OF_55": "Value",
         "PC_398": "Address",
         "PF_55": "Value",
         "SF_55": "Value",
-        "T_1_6": "Address",
-        "T_2_6": "Address",
+        "T_1_6": "Conflict",
+        "T_2_6": "Conflict",
         "T_3_4": "Unknown",
         "T_4_4": "Value",
         "T_5_6": "Unknown",
@@ -68106,28 +68118,28 @@
       },
       "0x080561e7": {
         "EAX_89": "Unknown",
-        "ESP_35": "Address",
-        "ESP_36": "Address",
+        "ESP_35": "Conflict",
+        "ESP_36": "Conflict",
         "PC_400": "Address",
         "V_88_10": "Unknown"
       },
       "0x080561e8": {
-        "ESP_36": "Address",
-        "ESP_37": "Address",
+        "ESP_36": "Conflict",
+        "ESP_37": "Conflict",
         "PC_401": "Address",
         "V_92_7": "Address"
       },
       "0x080561ed": {
         "AF_56": "Value",
         "CF_50": "Value",
-        "ESP_38": "Address",
-        "ESP_39": "Address",
+        "ESP_38": "Conflict",
+        "ESP_39": "Conflict",
         "OF_56": "Value",
         "PC_402": "Address",
         "PF_56": "Value",
         "SF_56": "Value",
-        "T_1_7": "Address",
-        "T_2_7": "Address",
+        "T_1_7": "Conflict",
+        "T_2_7": "Conflict",
         "T_3_5": "Unknown",
         "T_4_5": "Value",
         "T_5_7": "Unknown",
@@ -68139,12 +68151,12 @@
         "EAX_23": "Unknown",
         "EBX_2": "Address",
         "ECX_3": "Unknown",
-        "EDI_1": "Address",
-        "EDX_5": "Address",
-        "ESP_17": "Address",
+        "EDI_1": "Conflict",
+        "EDX_5": "Conflict",
+        "ESP_17": "Conflict",
         "PC_51": "Address",
-        "V_40_1": "Address",
-        "V_44_1": "Address",
+        "V_40_1": "Conflict",
+        "V_44_1": "Conflict",
         "V_48_1": "Unknown",
         "V_88_4": "Unknown"
       },
@@ -68195,18 +68207,18 @@
         "PC_72": "Address"
       },
       "0x0805620b": {
-        "EAX_33": "Address",
-        "EBP_1": "Address",
+        "EAX_33": "Conflict",
+        "EBP_1": "Conflict",
         "PC_73": "Address"
       },
       "0x0805620e": {
-        "EAX_33": "Address",
+        "EAX_33": "Conflict",
         "PC_74": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x08056211": {
         "PC_75": "Address",
-        "V_44_2": "Address"
+        "V_44_2": "Conflict"
       },
       "0x08056218": {
         "PC_76": "Address",
@@ -68249,39 +68261,39 @@
         "ZF_19": "Value"
       },
       "0x0805622f": {
-        "EAX_74": "Address",
+        "EAX_74": "Conflict",
         "PC_370": "Address",
-        "V_44_2": "Address"
+        "V_44_2": "Conflict"
       },
       "0x08056232": {
-        "EAX_74": "Address",
-        "EDX_5": "Address",
-        "EDX_55": "Address",
+        "EAX_74": "Conflict",
+        "EDX_5": "Conflict",
+        "EDX_55": "Conflict",
         "PC_371": "Address"
       },
       "0x08056234": {
-        "EAX_75": "Address",
+        "EAX_75": "Conflict",
         "PC_372": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x08056237": {
-        "EAX_75": "Address",
-        "EDX_55": "Address",
+        "EAX_75": "Conflict",
+        "EDX_55": "Conflict",
         "PC_373": "Address"
       },
       "0x08056239": {
         "PC_374": "Address"
       },
       "0x0805623e": {
-        "EAX_34": "Address",
+        "EAX_34": "Conflict",
         "PC_82": "Address",
-        "V_44_2": "Address"
+        "V_44_2": "Conflict"
       },
       "0x08056241": {
         "AF_20": "Value",
         "CF_15": "Value",
-        "EAX_34": "Address",
-        "EAX_35": "Unknown",
+        "EAX_34": "Conflict",
+        "EAX_35": "Value",
         "OF_20": "Value",
         "PC_83": "Address",
         "PF_20": "Value",
@@ -68291,25 +68303,25 @@
         "ZF_20": "Value"
       },
       "0x08056246": {
-        "EAX_35": "Unknown",
-        "EDX_6": "Unknown",
+        "EAX_35": "Value",
+        "EDX_6": "Value",
         "PC_84": "Address"
       },
       "0x08056248": {
-        "EAX_36": "Unknown",
-        "EDX_6": "Unknown",
+        "EAX_36": "Value",
+        "EDX_6": "Value",
         "PC_85": "Address"
       },
       "0x0805624a": {
         "AF_21": "Value",
         "CF_16": "Value",
-        "EAX_36": "Unknown",
-        "EAX_37": "Unknown",
+        "EAX_36": "Value",
+        "EAX_37": "Conflict",
         "OF_21": "Value",
         "PC_86": "Address",
         "PF_21": "Value",
         "SF_21": "Value",
-        "T_85_1": "Unknown",
+        "T_85_1": "Value",
         "T_86_1": "Unknown",
         "T_87_1": "Unknown",
         "ZF_21": "Value"
@@ -68317,16 +68329,16 @@
       "0x0805624d": {
         "AF_22": "Value",
         "CF_17": "Value",
-        "EAX_37": "Unknown",
-        "EAX_38": "Unknown",
-        "EDX_6": "Unknown",
+        "EAX_37": "Conflict",
+        "EAX_38": "Conflict",
+        "EDX_6": "Value",
         "OF_22": "Value",
         "PC_87": "Address",
         "PF_22": "Value",
         "SF_22": "Value",
-        "T_78_1": "Unknown",
-        "T_79_1": "Unknown",
-        "T_80_1": "Unknown",
+        "T_78_1": "Conflict",
+        "T_79_1": "Value",
+        "T_80_1": "Conflict",
         "T_81_1": "Unknown",
         "T_82_1": "Value",
         "T_83_1": "Unknown",
@@ -68334,20 +68346,20 @@
         "ZF_22": "Value"
       },
       "0x0805624f": {
-        "EAX_38": "Unknown",
-        "EDX_7": "Unknown",
+        "EAX_38": "Conflict",
+        "EDX_7": "Conflict",
         "PC_88": "Address"
       },
       "0x08056251": {
         "AF_23": "Value",
         "CF_18": "Value",
-        "EDX_7": "Unknown",
-        "EDX_8": "Unknown",
+        "EDX_7": "Conflict",
+        "EDX_8": "Value",
         "OF_23": "Value",
         "PC_89": "Address",
         "PF_23": "Value",
         "SF_23": "Value",
-        "T_75_1": "Unknown",
+        "T_75_1": "Conflict",
         "T_76_1": "Unknown",
         "T_77_1": "Unknown",
         "ZF_23": "Value"
@@ -68355,16 +68367,16 @@
       "0x08056254": {
         "AF_24": "Value",
         "CF_19": "Value",
-        "EAX_38": "Unknown",
-        "EAX_39": "Address",
-        "EDX_8": "Unknown",
+        "EAX_38": "Conflict",
+        "EAX_39": "Conflict",
+        "EDX_8": "Value",
         "OF_24": "Value",
         "PC_90": "Address",
         "PF_24": "Value",
         "SF_24": "Value",
-        "T_68_1": "Unknown",
-        "T_69_1": "Unknown",
-        "T_70_1": "Address",
+        "T_68_1": "Conflict",
+        "T_69_1": "Value",
+        "T_70_1": "Conflict",
         "T_71_1": "Unknown",
         "T_72_1": "Value",
         "T_73_1": "Unknown",
@@ -68372,9 +68384,9 @@
         "ZF_24": "Value"
       },
       "0x08056256": {
-        "EAX_39": "Address",
+        "EAX_39": "Conflict",
         "PC_91": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x08056259": {
         "AF_25": "Value",
@@ -68395,18 +68407,18 @@
         "ZF_25": "Value"
       },
       "0x0805625f": {
-        "EAX_73": "Address",
+        "EAX_73": "Conflict",
         "PC_366": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x08056262": {
-        "EDX_54": "Address",
+        "EDX_54": "Conflict",
         "PC_367": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x08056265": {
-        "EAX_73": "Address",
-        "EDX_54": "Address",
+        "EAX_73": "Conflict",
+        "EDX_54": "Conflict",
         "PC_368": "Address"
       },
       "0x08056268": {
@@ -68431,36 +68443,36 @@
         "ZF_26": "Value"
       },
       "0x08056273": {
-        "EAX_70": "Address",
+        "EAX_70": "Conflict",
         "PC_358": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x08056276": {
-        "EDX_52": "Address",
+        "EDX_52": "Conflict",
         "PC_359": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x08056279": {
-        "EAX_70": "Address",
-        "EDX_52": "Address",
+        "EAX_70": "Conflict",
+        "EDX_52": "Conflict",
         "PC_360": "Address"
       },
       "0x0805627c": {
-        "EAX_71": "Address",
+        "EAX_71": "Conflict",
         "PC_361": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x0805627f": {
         "AF_50": "Value",
         "CF_45": "Value",
-        "EAX_71": "Address",
-        "EAX_72": "Address",
+        "EAX_71": "Conflict",
+        "EAX_72": "Conflict",
         "OF_50": "Value",
         "PC_362": "Address",
         "PF_50": "Value",
         "SF_50": "Value",
-        "T_105_1": "Address",
-        "T_106_1": "Address",
+        "T_105_1": "Conflict",
+        "T_106_1": "Conflict",
         "T_107_1": "Unknown",
         "T_108_1": "Value",
         "T_109_1": "Unknown",
@@ -68468,13 +68480,13 @@
         "ZF_50": "Value"
       },
       "0x08056282": {
-        "EDX_53": "Address",
+        "EDX_53": "Conflict",
         "PC_363": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x08056285": {
-        "EAX_72": "Address",
-        "EDX_53": "Address",
+        "EAX_72": "Conflict",
+        "EDX_53": "Conflict",
         "PC_364": "Address"
       },
       "0x08056287": {
@@ -68499,18 +68511,18 @@
         "ZF_27": "Value"
       },
       "0x08056292": {
-        "EDX_51": "Address",
+        "EDX_51": "Conflict",
         "PC_354": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x08056295": {
-        "EAX_69": "Address",
+        "EAX_69": "Conflict",
         "PC_355": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x08056298": {
-        "EAX_69": "Address",
-        "EDX_51": "Address",
+        "EAX_69": "Conflict",
+        "EDX_51": "Conflict",
         "PC_356": "Address"
       },
       "0x0805629a": {
@@ -68535,36 +68547,36 @@
         "ZF_28": "Value"
       },
       "0x080562a5": {
-        "EDX_49": "Address",
+        "EDX_49": "Conflict",
         "PC_346": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x080562a8": {
-        "EAX_66": "Address",
+        "EAX_66": "Conflict",
         "PC_347": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x080562ab": {
-        "EAX_66": "Address",
-        "EDX_49": "Address",
+        "EAX_66": "Conflict",
+        "EDX_49": "Conflict",
         "PC_348": "Address"
       },
       "0x080562ad": {
-        "EAX_67": "Address",
+        "EAX_67": "Conflict",
         "PC_349": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x080562b0": {
         "AF_49": "Value",
         "CF_44": "Value",
-        "EAX_67": "Address",
-        "EAX_68": "Address",
+        "EAX_67": "Conflict",
+        "EAX_68": "Conflict",
         "OF_49": "Value",
         "PC_350": "Address",
         "PF_49": "Value",
         "SF_49": "Value",
-        "T_119_1": "Address",
-        "T_120_1": "Address",
+        "T_119_1": "Conflict",
+        "T_120_1": "Conflict",
         "T_121_1": "Unknown",
         "T_122_1": "Value",
         "T_123_1": "Unknown",
@@ -68572,13 +68584,13 @@
         "ZF_49": "Value"
       },
       "0x080562b3": {
-        "EDX_50": "Address",
+        "EDX_50": "Conflict",
         "PC_351": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x080562b6": {
-        "EAX_68": "Address",
-        "EDX_50": "Address",
+        "EAX_68": "Conflict",
+        "EDX_50": "Conflict",
         "PC_352": "Address"
       },
       "0x080562b8": {
@@ -68603,38 +68615,38 @@
         "ZF_29": "Value"
       },
       "0x080562c3": {
-        "EDX_47": "Address",
+        "EDX_47": "Conflict",
         "PC_338": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x080562c6": {
-        "EAX_63": "Address",
+        "EAX_63": "Conflict",
         "PC_339": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x080562c9": {
-        "EAX_63": "Address",
-        "EDX_47": "Address",
+        "EAX_63": "Conflict",
+        "EDX_47": "Conflict",
         "PC_340": "Address"
       },
       "0x080562cb": {
-        "EAX_64": "Address",
+        "EAX_64": "Conflict",
         "PC_341": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x080562ce": {
-        "EAX_64": "Address",
-        "EDX_48": "Address",
+        "EAX_64": "Conflict",
+        "EDX_48": "Conflict",
         "PC_342": "Address"
       },
       "0x080562d1": {
-        "EAX_65": "Address",
+        "EAX_65": "Conflict",
         "PC_343": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x080562d4": {
-        "EAX_65": "Address",
-        "EDX_48": "Address",
+        "EAX_65": "Conflict",
+        "EDX_48": "Conflict",
         "PC_344": "Address"
       },
       "0x080562d7": {
@@ -68659,50 +68671,50 @@
         "ZF_30": "Value"
       },
       "0x080562e2": {
-        "EAX_62": "Address",
+        "EAX_62": "Conflict",
         "PC_329": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x080562e5": {
-        "EDX_45": "Address",
+        "EDX_45": "Conflict",
         "PC_330": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x080562e8": {
-        "EDI_97": "Address",
-        "EDX_45": "Address",
+        "EDI_97": "Conflict",
+        "EDX_45": "Conflict",
         "PC_331": "Address"
       },
       "0x080562ea": {
         "DF_0": "Value",
-        "EAX_62": "Address",
-        "EDI_97": "Address",
-        "EDI_98": "Address",
+        "EAX_62": "Conflict",
+        "EDI_97": "Conflict",
+        "EDI_98": "Conflict",
         "PC_332": "Address"
       },
       "0x080562eb": {
         "DF_0": "Value",
-        "EAX_62": "Address",
-        "EDI_98": "Address",
-        "EDI_99": "Address",
+        "EAX_62": "Conflict",
+        "EDI_98": "Conflict",
+        "EDI_99": "Conflict",
         "PC_333": "Address"
       },
       "0x080562ed": {
         "DF_0": "Value",
-        "EAX_62": "Address",
-        "EDI_100": "Address",
-        "EDI_99": "Address",
+        "EAX_62": "Conflict",
+        "EDI_100": "Conflict",
+        "EDI_99": "Conflict",
         "PC_334": "Address"
       },
       "0x080562ee": {
-        "EDI_100": "Address",
-        "EDX_46": "Address",
+        "EDI_100": "Conflict",
+        "EDX_46": "Conflict",
         "PC_335": "Address"
       },
       "0x080562f0": {
-        "EDX_46": "Address",
+        "EDX_46": "Conflict",
         "PC_336": "Address",
-        "V_52_18": "Address"
+        "V_52_18": "Conflict"
       },
       "0x080562f3": {
         "PC_337": "Address"
@@ -68726,38 +68738,38 @@
         "ZF_31": "Value"
       },
       "0x080562fe": {
-        "EDX_43": "Address",
+        "EDX_43": "Conflict",
         "PC_321": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x08056301": {
-        "EAX_59": "Address",
+        "EAX_59": "Conflict",
         "PC_322": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x08056304": {
-        "EAX_59": "Address",
-        "EDX_43": "Address",
+        "EAX_59": "Conflict",
+        "EDX_43": "Conflict",
         "PC_323": "Address"
       },
       "0x08056306": {
-        "EAX_60": "Address",
+        "EAX_60": "Conflict",
         "PC_324": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x08056309": {
-        "EAX_60": "Address",
-        "EDX_44": "Address",
+        "EAX_60": "Conflict",
+        "EDX_44": "Conflict",
         "PC_325": "Address"
       },
       "0x0805630c": {
-        "EAX_61": "Address",
+        "EAX_61": "Conflict",
         "PC_326": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x0805630f": {
-        "EAX_61": "Address",
-        "EDX_44": "Address",
+        "EAX_61": "Conflict",
+        "EDX_44": "Conflict",
         "PC_327": "Address"
       },
       "0x08056311": {
@@ -68782,50 +68794,50 @@
         "ZF_32": "Value"
       },
       "0x0805631c": {
-        "EAX_58": "Address",
+        "EAX_58": "Conflict",
         "PC_312": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x0805631f": {
-        "EDX_41": "Address",
+        "EDX_41": "Conflict",
         "PC_313": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x08056322": {
-        "EDI_93": "Address",
-        "EDX_41": "Address",
+        "EDI_93": "Conflict",
+        "EDX_41": "Conflict",
         "PC_314": "Address"
       },
       "0x08056324": {
         "DF_0": "Value",
-        "EAX_58": "Address",
-        "EDI_93": "Address",
-        "EDI_94": "Address",
+        "EAX_58": "Conflict",
+        "EDI_93": "Conflict",
+        "EDI_94": "Conflict",
         "PC_315": "Address"
       },
       "0x08056325": {
         "DF_0": "Value",
-        "EAX_58": "Address",
-        "EDI_94": "Address",
-        "EDI_95": "Address",
+        "EAX_58": "Conflict",
+        "EDI_94": "Conflict",
+        "EDI_95": "Conflict",
         "PC_316": "Address"
       },
       "0x08056326": {
         "DF_0": "Value",
-        "EAX_58": "Address",
-        "EDI_95": "Address",
-        "EDI_96": "Address",
+        "EAX_58": "Conflict",
+        "EDI_95": "Conflict",
+        "EDI_96": "Conflict",
         "PC_317": "Address"
       },
       "0x08056327": {
-        "EDI_96": "Address",
-        "EDX_42": "Address",
+        "EDI_96": "Conflict",
+        "EDX_42": "Conflict",
         "PC_318": "Address"
       },
       "0x08056329": {
-        "EDX_42": "Address",
+        "EDX_42": "Conflict",
         "PC_319": "Address",
-        "V_52_17": "Address"
+        "V_52_17": "Conflict"
       },
       "0x0805632c": {
         "PC_320": "Address"
@@ -68849,50 +68861,50 @@
         "ZF_33": "Value"
       },
       "0x08056337": {
-        "EAX_57": "Address",
+        "EAX_57": "Conflict",
         "PC_303": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x0805633a": {
-        "EDX_39": "Address",
+        "EDX_39": "Conflict",
         "PC_304": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x0805633d": {
-        "EDI_89": "Address",
-        "EDX_39": "Address",
+        "EDI_89": "Conflict",
+        "EDX_39": "Conflict",
         "PC_305": "Address"
       },
       "0x0805633f": {
         "DF_0": "Value",
-        "EAX_57": "Address",
-        "EDI_89": "Address",
-        "EDI_90": "Address",
+        "EAX_57": "Conflict",
+        "EDI_89": "Conflict",
+        "EDI_90": "Conflict",
         "PC_306": "Address"
       },
       "0x08056340": {
         "DF_0": "Value",
-        "EAX_57": "Address",
-        "EDI_90": "Address",
-        "EDI_91": "Address",
+        "EAX_57": "Conflict",
+        "EDI_90": "Conflict",
+        "EDI_91": "Conflict",
         "PC_307": "Address"
       },
       "0x08056341": {
         "DF_0": "Value",
-        "EAX_57": "Address",
-        "EDI_91": "Address",
-        "EDI_92": "Address",
+        "EAX_57": "Conflict",
+        "EDI_91": "Conflict",
+        "EDI_92": "Conflict",
         "PC_308": "Address"
       },
       "0x08056343": {
-        "EDI_92": "Address",
-        "EDX_40": "Address",
+        "EDI_92": "Conflict",
+        "EDX_40": "Conflict",
         "PC_309": "Address"
       },
       "0x08056345": {
-        "EDX_40": "Address",
+        "EDX_40": "Conflict",
         "PC_310": "Address",
-        "V_52_16": "Address"
+        "V_52_16": "Conflict"
       },
       "0x08056348": {
         "PC_311": "Address"
@@ -68916,57 +68928,57 @@
         "ZF_34": "Value"
       },
       "0x08056353": {
-        "EAX_56": "Address",
+        "EAX_56": "Conflict",
         "PC_293": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x08056356": {
-        "EDX_37": "Address",
+        "EDX_37": "Conflict",
         "PC_294": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x08056359": {
-        "EDI_84": "Address",
-        "EDX_37": "Address",
+        "EDI_84": "Conflict",
+        "EDX_37": "Conflict",
         "PC_295": "Address"
       },
       "0x0805635b": {
         "DF_0": "Value",
-        "EAX_56": "Address",
-        "EDI_84": "Address",
-        "EDI_85": "Address",
+        "EAX_56": "Conflict",
+        "EDI_84": "Conflict",
+        "EDI_85": "Conflict",
         "PC_296": "Address"
       },
       "0x0805635c": {
         "DF_0": "Value",
-        "EAX_56": "Address",
-        "EDI_85": "Address",
-        "EDI_86": "Address",
+        "EAX_56": "Conflict",
+        "EDI_85": "Conflict",
+        "EDI_86": "Conflict",
         "PC_297": "Address"
       },
       "0x0805635d": {
         "DF_0": "Value",
-        "EAX_56": "Address",
-        "EDI_86": "Address",
-        "EDI_87": "Address",
+        "EAX_56": "Conflict",
+        "EDI_86": "Conflict",
+        "EDI_87": "Conflict",
         "PC_298": "Address"
       },
       "0x0805635f": {
         "DF_0": "Value",
-        "EAX_56": "Address",
-        "EDI_87": "Address",
-        "EDI_88": "Address",
+        "EAX_56": "Conflict",
+        "EDI_87": "Conflict",
+        "EDI_88": "Conflict",
         "PC_299": "Address"
       },
       "0x08056360": {
-        "EDI_88": "Address",
-        "EDX_38": "Address",
+        "EDI_88": "Conflict",
+        "EDX_38": "Conflict",
         "PC_300": "Address"
       },
       "0x08056362": {
-        "EDX_38": "Address",
+        "EDX_38": "Conflict",
         "PC_301": "Address",
-        "V_52_15": "Address"
+        "V_52_15": "Conflict"
       },
       "0x08056365": {
         "PC_302": "Address"
@@ -68990,50 +69002,50 @@
         "ZF_35": "Value"
       },
       "0x08056370": {
-        "EAX_55": "Address",
+        "EAX_55": "Conflict",
         "PC_284": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x08056373": {
-        "EDX_35": "Address",
+        "EDX_35": "Conflict",
         "PC_285": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x08056376": {
-        "EDI_80": "Address",
-        "EDX_35": "Address",
+        "EDI_80": "Conflict",
+        "EDX_35": "Conflict",
         "PC_286": "Address"
       },
       "0x08056378": {
         "DF_0": "Value",
-        "EAX_55": "Address",
-        "EDI_80": "Address",
-        "EDI_81": "Address",
+        "EAX_55": "Conflict",
+        "EDI_80": "Conflict",
+        "EDI_81": "Conflict",
         "PC_287": "Address"
       },
       "0x08056379": {
         "DF_0": "Value",
-        "EAX_55": "Address",
-        "EDI_81": "Address",
-        "EDI_82": "Address",
+        "EAX_55": "Conflict",
+        "EDI_81": "Conflict",
+        "EDI_82": "Conflict",
         "PC_288": "Address"
       },
       "0x0805637a": {
         "DF_0": "Value",
-        "EAX_55": "Address",
-        "EDI_82": "Address",
-        "EDI_83": "Address",
+        "EAX_55": "Conflict",
+        "EDI_82": "Conflict",
+        "EDI_83": "Conflict",
         "PC_289": "Address"
       },
       "0x0805637b": {
-        "EDI_83": "Address",
-        "EDX_36": "Address",
+        "EDI_83": "Conflict",
+        "EDX_36": "Conflict",
         "PC_290": "Address"
       },
       "0x0805637d": {
-        "EDX_36": "Address",
+        "EDX_36": "Conflict",
         "PC_291": "Address",
-        "V_52_14": "Address"
+        "V_52_14": "Conflict"
       },
       "0x08056380": {
         "PC_292": "Address"
@@ -69057,57 +69069,57 @@
         "ZF_36": "Value"
       },
       "0x0805638b": {
-        "EAX_54": "Address",
+        "EAX_54": "Conflict",
         "PC_274": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x0805638e": {
-        "EDX_33": "Address",
+        "EDX_33": "Conflict",
         "PC_275": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x08056391": {
-        "EDI_75": "Address",
-        "EDX_33": "Address",
+        "EDI_75": "Conflict",
+        "EDX_33": "Conflict",
         "PC_276": "Address"
       },
       "0x08056393": {
         "DF_0": "Value",
-        "EAX_54": "Address",
-        "EDI_75": "Address",
-        "EDI_76": "Address",
+        "EAX_54": "Conflict",
+        "EDI_75": "Conflict",
+        "EDI_76": "Conflict",
         "PC_277": "Address"
       },
       "0x08056394": {
         "DF_0": "Value",
-        "EAX_54": "Address",
-        "EDI_76": "Address",
-        "EDI_77": "Address",
+        "EAX_54": "Conflict",
+        "EDI_76": "Conflict",
+        "EDI_77": "Conflict",
         "PC_278": "Address"
       },
       "0x08056395": {
         "DF_0": "Value",
-        "EAX_54": "Address",
-        "EDI_77": "Address",
-        "EDI_78": "Address",
+        "EAX_54": "Conflict",
+        "EDI_77": "Conflict",
+        "EDI_78": "Conflict",
         "PC_279": "Address"
       },
       "0x08056396": {
         "DF_0": "Value",
-        "EAX_54": "Address",
-        "EDI_78": "Address",
-        "EDI_79": "Address",
+        "EAX_54": "Conflict",
+        "EDI_78": "Conflict",
+        "EDI_79": "Conflict",
         "PC_280": "Address"
       },
       "0x08056397": {
-        "EDI_79": "Address",
-        "EDX_34": "Address",
+        "EDI_79": "Conflict",
+        "EDX_34": "Conflict",
         "PC_281": "Address"
       },
       "0x08056399": {
-        "EDX_34": "Address",
+        "EDX_34": "Conflict",
         "PC_282": "Address",
-        "V_52_13": "Address"
+        "V_52_13": "Conflict"
       },
       "0x0805639c": {
         "PC_283": "Address"
@@ -69131,57 +69143,57 @@
         "ZF_37": "Value"
       },
       "0x080563a7": {
-        "EAX_53": "Address",
+        "EAX_53": "Conflict",
         "PC_264": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x080563aa": {
-        "EDX_31": "Address",
+        "EDX_31": "Conflict",
         "PC_265": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x080563ad": {
-        "EDI_70": "Address",
-        "EDX_31": "Address",
+        "EDI_70": "Conflict",
+        "EDX_31": "Conflict",
         "PC_266": "Address"
       },
       "0x080563af": {
         "DF_0": "Value",
-        "EAX_53": "Address",
-        "EDI_70": "Address",
-        "EDI_71": "Address",
+        "EAX_53": "Conflict",
+        "EDI_70": "Conflict",
+        "EDI_71": "Conflict",
         "PC_267": "Address"
       },
       "0x080563b0": {
         "DF_0": "Value",
-        "EAX_53": "Address",
-        "EDI_71": "Address",
-        "EDI_72": "Address",
+        "EAX_53": "Conflict",
+        "EDI_71": "Conflict",
+        "EDI_72": "Conflict",
         "PC_268": "Address"
       },
       "0x080563b1": {
         "DF_0": "Value",
-        "EAX_53": "Address",
-        "EDI_72": "Address",
-        "EDI_73": "Address",
+        "EAX_53": "Conflict",
+        "EDI_72": "Conflict",
+        "EDI_73": "Conflict",
         "PC_269": "Address"
       },
       "0x080563b2": {
         "DF_0": "Value",
-        "EAX_53": "Address",
-        "EDI_73": "Address",
-        "EDI_74": "Address",
+        "EAX_53": "Conflict",
+        "EDI_73": "Conflict",
+        "EDI_74": "Conflict",
         "PC_270": "Address"
       },
       "0x080563b4": {
-        "EDI_74": "Address",
-        "EDX_32": "Address",
+        "EDI_74": "Conflict",
+        "EDX_32": "Conflict",
         "PC_271": "Address"
       },
       "0x080563b6": {
-        "EDX_32": "Address",
+        "EDX_32": "Conflict",
         "PC_272": "Address",
-        "V_52_12": "Address"
+        "V_52_12": "Conflict"
       },
       "0x080563b9": {
         "PC_273": "Address"
@@ -69205,64 +69217,64 @@
         "ZF_38": "Value"
       },
       "0x080563c4": {
-        "EAX_52": "Address",
+        "EAX_52": "Conflict",
         "PC_253": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x080563c7": {
-        "EDX_29": "Address",
+        "EDX_29": "Conflict",
         "PC_254": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x080563ca": {
-        "EDI_64": "Address",
-        "EDX_29": "Address",
+        "EDI_64": "Conflict",
+        "EDX_29": "Conflict",
         "PC_255": "Address"
       },
       "0x080563cc": {
         "DF_0": "Value",
-        "EAX_52": "Address",
-        "EDI_64": "Address",
-        "EDI_65": "Address",
+        "EAX_52": "Conflict",
+        "EDI_64": "Conflict",
+        "EDI_65": "Conflict",
         "PC_256": "Address"
       },
       "0x080563cd": {
         "DF_0": "Value",
-        "EAX_52": "Address",
-        "EDI_65": "Address",
-        "EDI_66": "Address",
+        "EAX_52": "Conflict",
+        "EDI_65": "Conflict",
+        "EDI_66": "Conflict",
         "PC_257": "Address"
       },
       "0x080563ce": {
         "DF_0": "Value",
-        "EAX_52": "Address",
-        "EDI_66": "Address",
-        "EDI_67": "Address",
+        "EAX_52": "Conflict",
+        "EDI_66": "Conflict",
+        "EDI_67": "Conflict",
         "PC_258": "Address"
       },
       "0x080563cf": {
         "DF_0": "Value",
-        "EAX_52": "Address",
-        "EDI_67": "Address",
-        "EDI_68": "Address",
+        "EAX_52": "Conflict",
+        "EDI_67": "Conflict",
+        "EDI_68": "Conflict",
         "PC_259": "Address"
       },
       "0x080563d1": {
         "DF_0": "Value",
-        "EAX_52": "Address",
-        "EDI_68": "Address",
-        "EDI_69": "Address",
+        "EAX_52": "Conflict",
+        "EDI_68": "Conflict",
+        "EDI_69": "Conflict",
         "PC_260": "Address"
       },
       "0x080563d2": {
-        "EDI_69": "Address",
-        "EDX_30": "Address",
+        "EDI_69": "Conflict",
+        "EDX_30": "Conflict",
         "PC_261": "Address"
       },
       "0x080563d4": {
-        "EDX_30": "Address",
+        "EDX_30": "Conflict",
         "PC_262": "Address",
-        "V_52_11": "Address"
+        "V_52_11": "Conflict"
       },
       "0x080563d7": {
         "PC_263": "Address"
@@ -69286,57 +69298,57 @@
         "ZF_39": "Value"
       },
       "0x080563e2": {
-        "EAX_51": "Address",
+        "EAX_51": "Conflict",
         "PC_243": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x080563e5": {
-        "EDX_27": "Address",
+        "EDX_27": "Conflict",
         "PC_244": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x080563e8": {
-        "EDI_59": "Address",
-        "EDX_27": "Address",
+        "EDI_59": "Conflict",
+        "EDX_27": "Conflict",
         "PC_245": "Address"
       },
       "0x080563ea": {
         "DF_0": "Value",
-        "EAX_51": "Address",
-        "EDI_59": "Address",
-        "EDI_60": "Address",
+        "EAX_51": "Conflict",
+        "EDI_59": "Conflict",
+        "EDI_60": "Conflict",
         "PC_246": "Address"
       },
       "0x080563eb": {
         "DF_0": "Value",
-        "EAX_51": "Address",
-        "EDI_60": "Address",
-        "EDI_61": "Address",
+        "EAX_51": "Conflict",
+        "EDI_60": "Conflict",
+        "EDI_61": "Conflict",
         "PC_247": "Address"
       },
       "0x080563ec": {
         "DF_0": "Value",
-        "EAX_51": "Address",
-        "EDI_61": "Address",
-        "EDI_62": "Address",
+        "EAX_51": "Conflict",
+        "EDI_61": "Conflict",
+        "EDI_62": "Conflict",
         "PC_248": "Address"
       },
       "0x080563ed": {
         "DF_0": "Value",
-        "EAX_51": "Address",
-        "EDI_62": "Address",
-        "EDI_63": "Address",
+        "EAX_51": "Conflict",
+        "EDI_62": "Conflict",
+        "EDI_63": "Conflict",
         "PC_249": "Address"
       },
       "0x080563ee": {
-        "EDI_63": "Address",
-        "EDX_28": "Address",
+        "EDI_63": "Conflict",
+        "EDX_28": "Conflict",
         "PC_250": "Address"
       },
       "0x080563f0": {
-        "EDX_28": "Address",
+        "EDX_28": "Conflict",
         "PC_251": "Address",
-        "V_52_10": "Address"
+        "V_52_10": "Conflict"
       },
       "0x080563f3": {
         "PC_252": "Address"
@@ -69360,64 +69372,64 @@
         "ZF_40": "Value"
       },
       "0x080563fe": {
-        "EAX_50": "Address",
+        "EAX_50": "Conflict",
         "PC_232": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x08056401": {
-        "EDX_25": "Address",
+        "EDX_25": "Conflict",
         "PC_233": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x08056404": {
-        "EDI_53": "Address",
-        "EDX_25": "Address",
+        "EDI_53": "Conflict",
+        "EDX_25": "Conflict",
         "PC_234": "Address"
       },
       "0x08056406": {
         "DF_0": "Value",
-        "EAX_50": "Address",
-        "EDI_53": "Address",
-        "EDI_54": "Address",
+        "EAX_50": "Conflict",
+        "EDI_53": "Conflict",
+        "EDI_54": "Conflict",
         "PC_235": "Address"
       },
       "0x08056407": {
         "DF_0": "Value",
-        "EAX_50": "Address",
-        "EDI_54": "Address",
-        "EDI_55": "Address",
+        "EAX_50": "Conflict",
+        "EDI_54": "Conflict",
+        "EDI_55": "Conflict",
         "PC_236": "Address"
       },
       "0x08056408": {
         "DF_0": "Value",
-        "EAX_50": "Address",
-        "EDI_55": "Address",
-        "EDI_56": "Address",
+        "EAX_50": "Conflict",
+        "EDI_55": "Conflict",
+        "EDI_56": "Conflict",
         "PC_237": "Address"
       },
       "0x08056409": {
         "DF_0": "Value",
-        "EAX_50": "Address",
-        "EDI_56": "Address",
-        "EDI_57": "Address",
+        "EAX_50": "Conflict",
+        "EDI_56": "Conflict",
+        "EDI_57": "Conflict",
         "PC_238": "Address"
       },
       "0x0805640a": {
         "DF_0": "Value",
-        "EAX_50": "Address",
-        "EDI_57": "Address",
-        "EDI_58": "Address",
+        "EAX_50": "Conflict",
+        "EDI_57": "Conflict",
+        "EDI_58": "Conflict",
         "PC_239": "Address"
       },
       "0x0805640b": {
-        "EDI_58": "Address",
-        "EDX_26": "Address",
+        "EDI_58": "Conflict",
+        "EDX_26": "Conflict",
         "PC_240": "Address"
       },
       "0x0805640d": {
-        "EDX_26": "Address",
+        "EDX_26": "Conflict",
         "PC_241": "Address",
-        "V_52_9": "Address"
+        "V_52_9": "Conflict"
       },
       "0x08056410": {
         "PC_242": "Address"
@@ -69441,64 +69453,64 @@
         "ZF_41": "Value"
       },
       "0x0805641b": {
-        "EAX_49": "Address",
+        "EAX_49": "Conflict",
         "PC_221": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x0805641e": {
-        "EDX_23": "Address",
+        "EDX_23": "Conflict",
         "PC_222": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x08056421": {
-        "EDI_47": "Address",
-        "EDX_23": "Address",
+        "EDI_47": "Conflict",
+        "EDX_23": "Conflict",
         "PC_223": "Address"
       },
       "0x08056423": {
         "DF_0": "Value",
-        "EAX_49": "Address",
-        "EDI_47": "Address",
-        "EDI_48": "Address",
+        "EAX_49": "Conflict",
+        "EDI_47": "Conflict",
+        "EDI_48": "Conflict",
         "PC_224": "Address"
       },
       "0x08056424": {
         "DF_0": "Value",
-        "EAX_49": "Address",
-        "EDI_48": "Address",
-        "EDI_49": "Address",
+        "EAX_49": "Conflict",
+        "EDI_48": "Conflict",
+        "EDI_49": "Conflict",
         "PC_225": "Address"
       },
       "0x08056425": {
         "DF_0": "Value",
-        "EAX_49": "Address",
-        "EDI_49": "Address",
-        "EDI_50": "Address",
+        "EAX_49": "Conflict",
+        "EDI_49": "Conflict",
+        "EDI_50": "Conflict",
         "PC_226": "Address"
       },
       "0x08056426": {
         "DF_0": "Value",
-        "EAX_49": "Address",
-        "EDI_50": "Address",
-        "EDI_51": "Address",
+        "EAX_49": "Conflict",
+        "EDI_50": "Conflict",
+        "EDI_51": "Conflict",
         "PC_227": "Address"
       },
       "0x08056427": {
         "DF_0": "Value",
-        "EAX_49": "Address",
-        "EDI_51": "Address",
-        "EDI_52": "Address",
+        "EAX_49": "Conflict",
+        "EDI_51": "Conflict",
+        "EDI_52": "Conflict",
         "PC_228": "Address"
       },
       "0x08056429": {
-        "EDI_52": "Address",
-        "EDX_24": "Address",
+        "EDI_52": "Conflict",
+        "EDX_24": "Conflict",
         "PC_229": "Address"
       },
       "0x0805642b": {
-        "EDX_24": "Address",
+        "EDX_24": "Conflict",
         "PC_230": "Address",
-        "V_52_8": "Address"
+        "V_52_8": "Conflict"
       },
       "0x0805642e": {
         "PC_231": "Address"
@@ -69522,71 +69534,71 @@
         "ZF_42": "Value"
       },
       "0x08056439": {
-        "EAX_48": "Address",
+        "EAX_48": "Conflict",
         "PC_209": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x0805643c": {
-        "EDX_21": "Address",
+        "EDX_21": "Conflict",
         "PC_210": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x0805643f": {
-        "EDI_40": "Address",
-        "EDX_21": "Address",
+        "EDI_40": "Conflict",
+        "EDX_21": "Conflict",
         "PC_211": "Address"
       },
       "0x08056441": {
         "DF_0": "Value",
-        "EAX_48": "Address",
-        "EDI_40": "Address",
-        "EDI_41": "Address",
+        "EAX_48": "Conflict",
+        "EDI_40": "Conflict",
+        "EDI_41": "Conflict",
         "PC_212": "Address"
       },
       "0x08056442": {
         "DF_0": "Value",
-        "EAX_48": "Address",
-        "EDI_41": "Address",
-        "EDI_42": "Address",
+        "EAX_48": "Conflict",
+        "EDI_41": "Conflict",
+        "EDI_42": "Conflict",
         "PC_213": "Address"
       },
       "0x08056443": {
         "DF_0": "Value",
-        "EAX_48": "Address",
-        "EDI_42": "Address",
-        "EDI_43": "Address",
+        "EAX_48": "Conflict",
+        "EDI_42": "Conflict",
+        "EDI_43": "Conflict",
         "PC_214": "Address"
       },
       "0x08056444": {
         "DF_0": "Value",
-        "EAX_48": "Address",
-        "EDI_43": "Address",
-        "EDI_44": "Address",
+        "EAX_48": "Conflict",
+        "EDI_43": "Conflict",
+        "EDI_44": "Conflict",
         "PC_215": "Address"
       },
       "0x08056445": {
         "DF_0": "Value",
-        "EAX_48": "Address",
-        "EDI_44": "Address",
-        "EDI_45": "Address",
+        "EAX_48": "Conflict",
+        "EDI_44": "Conflict",
+        "EDI_45": "Conflict",
         "PC_216": "Address"
       },
       "0x08056447": {
         "DF_0": "Value",
-        "EAX_48": "Address",
-        "EDI_45": "Address",
-        "EDI_46": "Address",
+        "EAX_48": "Conflict",
+        "EDI_45": "Conflict",
+        "EDI_46": "Conflict",
         "PC_217": "Address"
       },
       "0x08056448": {
-        "EDI_46": "Address",
-        "EDX_22": "Address",
+        "EDI_46": "Conflict",
+        "EDX_22": "Conflict",
         "PC_218": "Address"
       },
       "0x0805644a": {
-        "EDX_22": "Address",
+        "EDX_22": "Conflict",
         "PC_219": "Address",
-        "V_52_7": "Address"
+        "V_52_7": "Conflict"
       },
       "0x0805644d": {
         "PC_220": "Address"
@@ -69610,64 +69622,64 @@
         "ZF_43": "Value"
       },
       "0x08056458": {
-        "EAX_47": "Address",
+        "EAX_47": "Conflict",
         "PC_198": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x0805645b": {
-        "EDX_19": "Address",
+        "EDX_19": "Conflict",
         "PC_199": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x0805645e": {
-        "EDI_34": "Address",
-        "EDX_19": "Address",
+        "EDI_34": "Conflict",
+        "EDX_19": "Conflict",
         "PC_200": "Address"
       },
       "0x08056460": {
         "DF_0": "Value",
-        "EAX_47": "Address",
-        "EDI_34": "Address",
-        "EDI_35": "Address",
+        "EAX_47": "Conflict",
+        "EDI_34": "Conflict",
+        "EDI_35": "Conflict",
         "PC_201": "Address"
       },
       "0x08056461": {
         "DF_0": "Value",
-        "EAX_47": "Address",
-        "EDI_35": "Address",
-        "EDI_36": "Address",
+        "EAX_47": "Conflict",
+        "EDI_35": "Conflict",
+        "EDI_36": "Conflict",
         "PC_202": "Address"
       },
       "0x08056462": {
         "DF_0": "Value",
-        "EAX_47": "Address",
-        "EDI_36": "Address",
-        "EDI_37": "Address",
+        "EAX_47": "Conflict",
+        "EDI_36": "Conflict",
+        "EDI_37": "Conflict",
         "PC_203": "Address"
       },
       "0x08056463": {
         "DF_0": "Value",
-        "EAX_47": "Address",
-        "EDI_37": "Address",
-        "EDI_38": "Address",
+        "EAX_47": "Conflict",
+        "EDI_37": "Conflict",
+        "EDI_38": "Conflict",
         "PC_204": "Address"
       },
       "0x08056464": {
         "DF_0": "Value",
-        "EAX_47": "Address",
-        "EDI_38": "Address",
-        "EDI_39": "Address",
+        "EAX_47": "Conflict",
+        "EDI_38": "Conflict",
+        "EDI_39": "Conflict",
         "PC_205": "Address"
       },
       "0x08056465": {
-        "EDI_39": "Address",
-        "EDX_20": "Address",
+        "EDI_39": "Conflict",
+        "EDX_20": "Conflict",
         "PC_206": "Address"
       },
       "0x08056467": {
-        "EDX_20": "Address",
+        "EDX_20": "Conflict",
         "PC_207": "Address",
-        "V_52_6": "Address"
+        "V_52_6": "Conflict"
       },
       "0x0805646a": {
         "PC_208": "Address"
@@ -69691,71 +69703,71 @@
         "ZF_44": "Value"
       },
       "0x08056475": {
-        "EAX_46": "Address",
+        "EAX_46": "Conflict",
         "PC_186": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x08056478": {
-        "EDX_17": "Address",
+        "EDX_17": "Conflict",
         "PC_187": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x0805647b": {
-        "EDI_27": "Address",
-        "EDX_17": "Address",
+        "EDI_27": "Conflict",
+        "EDX_17": "Conflict",
         "PC_188": "Address"
       },
       "0x0805647d": {
         "DF_0": "Value",
-        "EAX_46": "Address",
-        "EDI_27": "Address",
-        "EDI_28": "Address",
+        "EAX_46": "Conflict",
+        "EDI_27": "Conflict",
+        "EDI_28": "Conflict",
         "PC_189": "Address"
       },
       "0x0805647e": {
         "DF_0": "Value",
-        "EAX_46": "Address",
-        "EDI_28": "Address",
-        "EDI_29": "Address",
+        "EAX_46": "Conflict",
+        "EDI_28": "Conflict",
+        "EDI_29": "Conflict",
         "PC_190": "Address"
       },
       "0x0805647f": {
         "DF_0": "Value",
-        "EAX_46": "Address",
-        "EDI_29": "Address",
-        "EDI_30": "Address",
+        "EAX_46": "Conflict",
+        "EDI_29": "Conflict",
+        "EDI_30": "Conflict",
         "PC_191": "Address"
       },
       "0x08056480": {
         "DF_0": "Value",
-        "EAX_46": "Address",
-        "EDI_30": "Address",
-        "EDI_31": "Address",
+        "EAX_46": "Conflict",
+        "EDI_30": "Conflict",
+        "EDI_31": "Conflict",
         "PC_192": "Address"
       },
       "0x08056481": {
         "DF_0": "Value",
-        "EAX_46": "Address",
-        "EDI_31": "Address",
-        "EDI_32": "Address",
+        "EAX_46": "Conflict",
+        "EDI_31": "Conflict",
+        "EDI_32": "Conflict",
         "PC_193": "Address"
       },
       "0x08056482": {
         "DF_0": "Value",
-        "EAX_46": "Address",
-        "EDI_32": "Address",
-        "EDI_33": "Address",
+        "EAX_46": "Conflict",
+        "EDI_32": "Conflict",
+        "EDI_33": "Conflict",
         "PC_194": "Address"
       },
       "0x08056483": {
-        "EDI_33": "Address",
-        "EDX_18": "Address",
+        "EDI_33": "Conflict",
+        "EDX_18": "Conflict",
         "PC_195": "Address"
       },
       "0x08056485": {
-        "EDX_18": "Address",
+        "EDX_18": "Conflict",
         "PC_196": "Address",
-        "V_52_5": "Address"
+        "V_52_5": "Conflict"
       },
       "0x08056488": {
         "PC_197": "Address"
@@ -69779,71 +69791,71 @@
         "ZF_45": "Value"
       },
       "0x08056490": {
-        "EAX_45": "Address",
+        "EAX_45": "Conflict",
         "PC_174": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x08056493": {
-        "EDX_15": "Address",
+        "EDX_15": "Conflict",
         "PC_175": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x08056496": {
-        "EDI_20": "Address",
-        "EDX_15": "Address",
+        "EDI_20": "Conflict",
+        "EDX_15": "Conflict",
         "PC_176": "Address"
       },
       "0x08056498": {
         "DF_0": "Value",
-        "EAX_45": "Address",
-        "EDI_20": "Address",
-        "EDI_21": "Address",
+        "EAX_45": "Conflict",
+        "EDI_20": "Conflict",
+        "EDI_21": "Conflict",
         "PC_177": "Address"
       },
       "0x08056499": {
         "DF_0": "Value",
-        "EAX_45": "Address",
-        "EDI_21": "Address",
-        "EDI_22": "Address",
+        "EAX_45": "Conflict",
+        "EDI_21": "Conflict",
+        "EDI_22": "Conflict",
         "PC_178": "Address"
       },
       "0x0805649a": {
         "DF_0": "Value",
-        "EAX_45": "Address",
-        "EDI_22": "Address",
-        "EDI_23": "Address",
+        "EAX_45": "Conflict",
+        "EDI_22": "Conflict",
+        "EDI_23": "Conflict",
         "PC_179": "Address"
       },
       "0x0805649b": {
         "DF_0": "Value",
-        "EAX_45": "Address",
-        "EDI_23": "Address",
-        "EDI_24": "Address",
+        "EAX_45": "Conflict",
+        "EDI_23": "Conflict",
+        "EDI_24": "Conflict",
         "PC_180": "Address"
       },
       "0x0805649c": {
         "DF_0": "Value",
-        "EAX_45": "Address",
-        "EDI_24": "Address",
-        "EDI_25": "Address",
+        "EAX_45": "Conflict",
+        "EDI_24": "Conflict",
+        "EDI_25": "Conflict",
         "PC_181": "Address"
       },
       "0x0805649d": {
         "DF_0": "Value",
-        "EAX_45": "Address",
-        "EDI_25": "Address",
-        "EDI_26": "Address",
+        "EAX_45": "Conflict",
+        "EDI_25": "Conflict",
+        "EDI_26": "Conflict",
         "PC_182": "Address"
       },
       "0x0805649f": {
-        "EDI_26": "Address",
-        "EDX_16": "Address",
+        "EDI_26": "Conflict",
+        "EDX_16": "Conflict",
         "PC_183": "Address"
       },
       "0x080564a1": {
-        "EDX_16": "Address",
+        "EDX_16": "Conflict",
         "PC_184": "Address",
-        "V_52_4": "Address"
+        "V_52_4": "Conflict"
       },
       "0x080564a4": {
         "PC_185": "Address"
@@ -69867,78 +69879,78 @@
         "ZF_46": "Value"
       },
       "0x080564ac": {
-        "EAX_44": "Address",
+        "EAX_44": "Conflict",
         "PC_161": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x080564af": {
-        "EDX_13": "Address",
+        "EDX_13": "Conflict",
         "PC_162": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x080564b2": {
-        "EDI_12": "Address",
-        "EDX_13": "Address",
+        "EDI_12": "Conflict",
+        "EDX_13": "Conflict",
         "PC_163": "Address"
       },
       "0x080564b4": {
         "DF_0": "Value",
-        "EAX_44": "Address",
-        "EDI_12": "Address",
-        "EDI_13": "Address",
+        "EAX_44": "Conflict",
+        "EDI_12": "Conflict",
+        "EDI_13": "Conflict",
         "PC_164": "Address"
       },
       "0x080564b5": {
         "DF_0": "Value",
-        "EAX_44": "Address",
-        "EDI_13": "Address",
-        "EDI_14": "Address",
+        "EAX_44": "Conflict",
+        "EDI_13": "Conflict",
+        "EDI_14": "Conflict",
         "PC_165": "Address"
       },
       "0x080564b6": {
         "DF_0": "Value",
-        "EAX_44": "Address",
-        "EDI_14": "Address",
-        "EDI_15": "Address",
+        "EAX_44": "Conflict",
+        "EDI_14": "Conflict",
+        "EDI_15": "Conflict",
         "PC_166": "Address"
       },
       "0x080564b7": {
         "DF_0": "Value",
-        "EAX_44": "Address",
-        "EDI_15": "Address",
-        "EDI_16": "Address",
+        "EAX_44": "Conflict",
+        "EDI_15": "Conflict",
+        "EDI_16": "Conflict",
         "PC_167": "Address"
       },
       "0x080564b8": {
         "DF_0": "Value",
-        "EAX_44": "Address",
-        "EDI_16": "Address",
-        "EDI_17": "Address",
+        "EAX_44": "Conflict",
+        "EDI_16": "Conflict",
+        "EDI_17": "Conflict",
         "PC_168": "Address"
       },
       "0x080564b9": {
         "DF_0": "Value",
-        "EAX_44": "Address",
-        "EDI_17": "Address",
-        "EDI_18": "Address",
+        "EAX_44": "Conflict",
+        "EDI_17": "Conflict",
+        "EDI_18": "Conflict",
         "PC_169": "Address"
       },
       "0x080564bb": {
         "DF_0": "Value",
-        "EAX_44": "Address",
-        "EDI_18": "Address",
-        "EDI_19": "Address",
+        "EAX_44": "Conflict",
+        "EDI_18": "Conflict",
+        "EDI_19": "Conflict",
         "PC_170": "Address"
       },
       "0x080564bc": {
-        "EDI_19": "Address",
-        "EDX_14": "Address",
+        "EDI_19": "Conflict",
+        "EDX_14": "Conflict",
         "PC_171": "Address"
       },
       "0x080564be": {
-        "EDX_14": "Address",
+        "EDX_14": "Conflict",
         "PC_172": "Address",
-        "V_52_3": "Address"
+        "V_52_3": "Conflict"
       },
       "0x080564c1": {
         "PC_173": "Address"
@@ -69962,71 +69974,71 @@
         "ZF_47": "Value"
       },
       "0x080564c9": {
-        "EAX_43": "Address",
+        "EAX_43": "Conflict",
         "PC_149": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x080564cc": {
-        "EDX_11": "Address",
+        "EDX_11": "Conflict",
         "PC_150": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x080564cf": {
-        "EDI_5": "Address",
-        "EDX_11": "Address",
+        "EDI_5": "Conflict",
+        "EDX_11": "Conflict",
         "PC_151": "Address"
       },
       "0x080564d1": {
         "DF_0": "Value",
-        "EAX_43": "Address",
-        "EDI_5": "Address",
-        "EDI_6": "Address",
+        "EAX_43": "Conflict",
+        "EDI_5": "Conflict",
+        "EDI_6": "Conflict",
         "PC_152": "Address"
       },
       "0x080564d2": {
         "DF_0": "Value",
-        "EAX_43": "Address",
-        "EDI_6": "Address",
-        "EDI_7": "Address",
+        "EAX_43": "Conflict",
+        "EDI_6": "Conflict",
+        "EDI_7": "Conflict",
         "PC_153": "Address"
       },
       "0x080564d3": {
         "DF_0": "Value",
-        "EAX_43": "Address",
-        "EDI_7": "Address",
-        "EDI_8": "Address",
+        "EAX_43": "Conflict",
+        "EDI_7": "Conflict",
+        "EDI_8": "Conflict",
         "PC_154": "Address"
       },
       "0x080564d4": {
         "DF_0": "Value",
-        "EAX_43": "Address",
-        "EDI_8": "Address",
-        "EDI_9": "Address",
+        "EAX_43": "Conflict",
+        "EDI_8": "Conflict",
+        "EDI_9": "Conflict",
         "PC_155": "Address"
       },
       "0x080564d5": {
         "DF_0": "Value",
-        "EAX_43": "Address",
-        "EDI_10": "Address",
-        "EDI_9": "Address",
+        "EAX_43": "Conflict",
+        "EDI_10": "Conflict",
+        "EDI_9": "Conflict",
         "PC_156": "Address"
       },
       "0x080564d6": {
         "DF_0": "Value",
-        "EAX_43": "Address",
-        "EDI_10": "Address",
-        "EDI_11": "Address",
+        "EAX_43": "Conflict",
+        "EDI_10": "Conflict",
+        "EDI_11": "Conflict",
         "PC_157": "Address"
       },
       "0x080564d7": {
-        "EDI_11": "Address",
-        "EDX_12": "Address",
+        "EDI_11": "Conflict",
+        "EDX_12": "Conflict",
         "PC_158": "Address"
       },
       "0x080564d9": {
-        "EDX_12": "Address",
+        "EDX_12": "Conflict",
         "PC_159": "Address",
-        "V_52_2": "Address"
+        "V_52_2": "Conflict"
       },
       "0x080564dc": {
         "PC_160": "Address"
@@ -70056,32 +70068,32 @@
         "PC_140": "Address"
       },
       "0x080564e6": {
-        "EAX_42": "Address",
+        "EAX_42": "Conflict",
         "PC_141": "Address",
-        "V_44_3": "Address"
+        "V_44_3": "Conflict"
       },
       "0x080564e9": {
-        "EDX_9": "Address",
+        "EDX_9": "Conflict",
         "PC_142": "Address",
-        "V_40_2": "Address"
+        "V_40_2": "Conflict"
       },
       "0x080564ec": {
-        "EDI_2": "Address",
-        "EDX_9": "Address",
+        "EDI_2": "Conflict",
+        "EDX_9": "Conflict",
         "PC_143": "Address"
       },
       "0x080564ee": {
         "DF_0": "Value",
-        "EAX_42": "Address",
+        "EAX_42": "Conflict",
         "ECX_5": "Unknown",
         "ECX_6": "Unknown",
-        "EDI_3": "Address",
-        "EDI_4": "Address",
+        "EDI_3": "Conflict",
+        "EDI_4": "Conflict",
         "PC_144": "Address"
       },
       "0x080564f0": {
-        "EDI_3": "Address",
-        "EDX_10": "Address",
+        "EDI_3": "Conflict",
+        "EDX_10": "Conflict",
         "PC_145": "Address"
       },
       "0x080564f2": {
@@ -70090,9 +70102,9 @@
         "V_56_1": "Unknown"
       },
       "0x080564f5": {
-        "EDX_10": "Address",
+        "EDX_10": "Conflict",
         "PC_147": "Address",
-        "V_52_1": "Address"
+        "V_52_1": "Conflict"
       },
       "0x080564f8": {
         "PC_148": "Address"
@@ -70101,14 +70113,14 @@
         "PC_79": "Address"
       },
       "0x080564fb": {
-        "EAX_76": "Address",
+        "EAX_76": "Conflict",
         "EAX_77": "Unknown",
-        "EBP_1": "Address",
+        "EBP_1": "Conflict",
         "ECX_7": "Unknown",
-        "EDI_101": "Address",
-        "EDX_56": "Address",
+        "EDI_101": "Conflict",
+        "EDX_56": "Conflict",
         "PC_375": "Address",
-        "V_44_4": "Address"
+        "V_44_4": "Conflict"
       },
       "0x080564fe": {
         "AF_51": "Value",
@@ -70151,46 +70163,46 @@
         "PC_381": "Address"
       },
       "0x08056517": {
-        "ESP_17": "Address",
-        "ESP_21": "Address",
+        "ESP_17": "Conflict",
+        "ESP_21": "Conflict",
         "PC_382": "Address",
         "V_88_6": "Unknown"
       },
       "0x08056519": {
         "EAX_81": "Unknown",
-        "EBP_1": "Address",
+        "EBP_1": "Conflict",
         "PC_383": "Address"
       },
       "0x0805651c": {
         "EAX_81": "Unknown",
-        "ESP_21": "Address",
-        "ESP_22": "Address",
+        "ESP_21": "Conflict",
+        "ESP_22": "Conflict",
         "PC_384": "Address",
         "V_92_4": "Unknown"
       },
       "0x0805651d": {
-        "ESP_22": "Address",
-        "ESP_23": "Address",
+        "ESP_22": "Conflict",
+        "ESP_23": "Conflict",
         "PC_385": "Address",
         "V_96_2": "Unknown"
       },
       "0x0805651f": {
-        "ESP_23": "Address",
-        "ESP_24": "Address",
+        "ESP_23": "Conflict",
+        "ESP_24": "Conflict",
         "PC_386": "Address",
         "V_100_2": "Address"
       },
       "0x08056524": {
         "AF_52": "Value",
         "CF_47": "Value",
-        "ESP_25": "Address",
-        "ESP_26": "Address",
+        "ESP_25": "Conflict",
+        "ESP_26": "Conflict",
         "OF_52": "Value",
         "PC_387": "Address",
         "PF_52": "Value",
         "SF_52": "Value",
-        "T_1_4": "Address",
-        "T_2_4": "Address",
+        "T_1_4": "Conflict",
+        "T_2_4": "Conflict",
         "T_3_2": "Unknown",
         "T_4_2": "Value",
         "T_5_4": "Unknown",
@@ -70308,14 +70320,14 @@
         "PC_63": "Address"
       },
       "0x0805655b": {
-        "ESP_17": "Address",
-        "ESP_18": "Address",
+        "ESP_17": "Conflict",
+        "ESP_18": "Conflict",
         "PC_64": "Address",
         "V_88_5": "Unknown"
       },
       "0x0805655d": {
-        "ESP_18": "Address",
-        "ESP_19": "Address",
+        "ESP_18": "Conflict",
+        "ESP_19": "Conflict",
         "PC_65": "Address",
         "V_92_3": "Address"
       },
@@ -70324,26 +70336,26 @@
       },
       "0x0805681a": {
         "EAX_88": "Address",
-        "ESP_33": "Address",
-        "ESP_34": "Address",
+        "ESP_33": "Conflict",
+        "ESP_34": "Conflict",
         "MEM_111": "Unknown"
       },
       "0x080578cd": {
         "EAX_82": "Address",
-        "ESP_24": "Address",
-        "ESP_25": "Address",
+        "ESP_24": "Conflict",
+        "ESP_25": "Conflict",
         "MEM_107": "Unknown"
       },
       "0x08057d3c": {
         "EAX_28": "Unknown",
-        "ESP_19": "Address",
-        "ESP_20": "Address",
+        "ESP_19": "Conflict",
+        "ESP_20": "Conflict",
         "MEM_9": "Unknown"
       },
       "0x08057e0a": {
-        "EAX_20": "Address",
-        "ESP_14": "Address",
-        "ESP_15": "Address",
+        "EAX_20": "Conflict",
+        "ESP_14": "Conflict",
+        "ESP_15": "Conflict",
         "MEM_6": "Unknown"
       }
     }
@@ -71869,7 +71881,7 @@
         "MEM_5": "Unknown"
       },
       "0x08049518": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EBX_1": "Address",
         "ESP_5": "Address",
         "ESP_6": "Address",
@@ -72285,7 +72297,7 @@
         "MEM_6": "Unknown"
       },
       "0x08049514": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EDX_1": "Address",
         "ESP_5": "Address",
         "ESP_6": "Address",
@@ -72357,19 +72369,19 @@
         "ZF_2": "Value"
       },
       "0x08056994": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "PC_8": "Address",
-        "V_72_1": "Unknown"
+        "V_72_1": "Conflict"
       },
       "0x08056997": {
-        "EAX_2": "Unknown",
+        "EAX_2": "Conflict",
         "PC_9": "Address",
-        "V_72_1": "Unknown"
+        "V_72_1": "Conflict"
       },
       "0x0805699a": {
         "AF_3": "Value",
         "CF_3": "Value",
-        "EAX_2": "Unknown",
+        "EAX_2": "Conflict",
         "EAX_3": "Unknown",
         "OF_3": "Value",
         "PC_10": "Address",
@@ -74090,7 +74102,7 @@
     },
     "DetailType": {
       "0x08049518": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EBX_1": "Address",
         "ESP_5": "Address",
         "ESP_6": "Address",
@@ -76380,12 +76392,12 @@
     "Return": {
       "ReturnNum": 1,
       "Returns": [
-        "Address"
+        "Conflict"
       ]
     },
     "DetailType": {
       "0x08049518": {
-        "EAX_1": "Address",
+        "EAX_1": "Conflict",
         "EBX_1": "Conflict",
         "ESP_5": "Address",
         "ESP_6": "Address",
@@ -76469,9 +76481,9 @@
         "ZF_2": "Value"
       },
       "0x0805709e": {
-        "EAX_1": "Address",
+        "EAX_1": "Conflict",
         "PC_8": "Address",
-        "V_44_1": "Address"
+        "V_44_1": "Conflict"
       },
       "0x080570a1": {
         "AF_3": "Value",
@@ -76480,11 +76492,11 @@
         "PC_9": "Address",
         "PF_3": "Value",
         "SF_3": "Value",
-        "T_1_2": "Address",
-        "T_2_2": "Unknown",
+        "T_1_2": "Conflict",
+        "T_2_2": "Conflict",
         "T_3_2": "Unknown",
         "T_4_2": "Unknown",
-        "V_44_1": "Address",
+        "V_44_1": "Conflict",
         "ZF_3": "Value"
       },
       "0x080570a5": {
@@ -76492,19 +76504,19 @@
         "ZF_3": "Value"
       },
       "0x080570a7": {
-        "EAX_71": "Address",
+        "EAX_71": "Conflict",
         "PC_138": "Address"
       },
       "0x080570ac": {
         "PC_139": "Address"
       },
       "0x080570b1": {
-        "EAX_2": "Address",
+        "EAX_2": "Conflict",
         "PC_11": "Address",
-        "V_44_1": "Address"
+        "V_44_1": "Conflict"
       },
       "0x080570b4": {
-        "EAX_2": "Address",
+        "EAX_2": "Conflict",
         "EAX_3": "Conflict",
         "PC_12": "Address"
       },
@@ -77057,21 +77069,21 @@
         "PC_69": "Address"
       },
       "0x08057188": {
-        "EAX_35": "Address",
+        "EAX_35": "Conflict",
         "PC_70": "Address",
-        "V_44_1": "Address"
+        "V_44_1": "Conflict"
       },
       "0x0805718b": {
         "AF_23": "Value",
         "CF_23": "Value",
-        "EAX_35": "Address",
+        "EAX_35": "Conflict",
         "EAX_36": "Unknown",
         "EDX_8": "Unknown",
         "OF_23": "Value",
         "PC_71": "Address",
         "PF_23": "Value",
         "SF_23": "Value",
-        "T_174_1": "Address",
+        "T_174_1": "Conflict",
         "T_175_1": "Unknown",
         "T_176_1": "Unknown",
         "T_177_1": "Unknown",
@@ -77496,12 +77508,12 @@
         "PC_132": "Address"
       },
       "0x08057233": {
-        "EAX_68": "Address",
+        "EAX_68": "Conflict",
         "PC_133": "Address",
-        "V_44_1": "Address"
+        "V_44_1": "Conflict"
       },
       "0x08057236": {
-        "EAX_72": "Address",
+        "EAX_72": "Conflict",
         "EBP_1": "Address",
         "EDX_19": "Conflict",
         "ESI_6": "Conflict",
@@ -77555,12 +77567,12 @@
     "Return": {
       "ReturnNum": 1,
       "Returns": [
-        "Address"
+        "Conflict"
       ]
     },
     "DetailType": {
       "0x08049518": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EBX_1": "Address",
         "ESP_4": "Address",
         "ESP_5": "Address",
@@ -77580,7 +77592,7 @@
         "MEM_3": "Unknown"
       },
       "0x0805708b": {
-        "EAX_6": "Address",
+        "EAX_6": "Conflict",
         "ESP_11": "Address",
         "ESP_12": "Address",
         "MEM_5": "Unknown"
@@ -77643,9 +77655,9 @@
         "ZF_2": "Value"
       },
       "0x0805724f": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "PC_7": "Address",
-        "V_12_1": "Unknown"
+        "V_12_1": "Conflict"
       },
       "0x08057252": {
         "AF_3": "Value",
@@ -77654,11 +77666,11 @@
         "PC_8": "Address",
         "PF_3": "Value",
         "SF_3": "Value",
-        "T_1_2": "Unknown",
-        "T_2_2": "Unknown",
+        "T_1_2": "Conflict",
+        "T_2_2": "Conflict",
         "T_3_2": "Unknown",
         "T_4_2": "Unknown",
-        "V_12_1": "Unknown",
+        "V_12_1": "Conflict",
         "ZF_3": "Value"
       },
       "0x08057256": {
@@ -77675,9 +77687,9 @@
         "PC_13": "Address"
       },
       "0x0805725f": {
-        "EAX_2": "Unknown",
+        "EAX_2": "Conflict",
         "PC_10": "Address",
-        "V_12_1": "Unknown"
+        "V_12_1": "Conflict"
       },
       "0x08057262": {
         "ESP_5": "Address",
@@ -78425,7 +78437,7 @@
         "MEM_9": "Unknown"
       },
       "0x08049518": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EBX_1": "Address",
         "ESP_5": "Address",
         "ESP_6": "Address",
@@ -79206,7 +79218,7 @@
         "MEM_2": "Unknown"
       },
       "0x0804a431": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Address",
         "ECX_1": "Address",
         "ESP_3": "Address",
         "ESP_4": "Address",
@@ -82085,7 +82097,7 @@
         "MEM_2": "Unknown"
       },
       "0x08049518": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EBX_1": "Address",
         "ESP_5": "Address",
         "ESP_6": "Address",
@@ -82384,7 +82396,7 @@
         "MEM_2": "Unknown"
       },
       "0x08049514": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EDX_1": "Address",
         "ESP_4": "Address",
         "ESP_5": "Address",
@@ -82573,7 +82585,7 @@
         "MEM_2": "Unknown"
       },
       "0x08049518": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EBX_1": "Address",
         "ESP_5": "Address",
         "ESP_6": "Address",
@@ -82851,14 +82863,14 @@
       "ArgNum": 3,
       "Args": [
         "Unknown",
-        "Address",
+        "Conflict",
         "Unknown"
       ]
     },
     "Return": {
       "ReturnNum": 1,
       "Returns": [
-        "Address"
+        "Conflict"
       ]
     },
     "DetailType": {
@@ -82867,57 +82879,57 @@
         "MEM_3": "Unknown"
       },
       "0x08049518": {
-        "EAX_1": "Address",
+        "EAX_1": "Conflict",
         "EBX_1": "Address",
-        "ESP_5": "Address",
-        "ESP_6": "Address",
+        "ESP_5": "Conflict",
+        "ESP_6": "Conflict",
         "MEM_1": "Unknown",
         "V_108_1": "Address"
       },
       "0x08057e0a": {
         "EBP_0": "Unknown",
         "ESP_0": "Address",
-        "ESP_1": "Address",
+        "ESP_1": "Conflict",
         "PC_1": "Address",
         "V_4_1": "Unknown"
       },
       "0x08057e0b": {
-        "EBP_1": "Address",
-        "ESP_1": "Address",
+        "EBP_1": "Conflict",
+        "ESP_1": "Conflict",
         "PC_2": "Address"
       },
       "0x08057e0d": {
         "ESI_0": "Unknown",
-        "ESP_1": "Address",
-        "ESP_2": "Address",
+        "ESP_1": "Conflict",
+        "ESP_2": "Conflict",
         "PC_3": "Address",
         "V_8_1": "Unknown"
       },
       "0x08057e0e": {
         "EBX_0": "Unknown",
-        "ESP_2": "Address",
-        "ESP_3": "Address",
+        "ESP_2": "Conflict",
+        "ESP_3": "Conflict",
         "PC_4": "Address",
         "V_12_1": "Unknown"
       },
       "0x08057e0f": {
         "AF_1": "Value",
         "CF_1": "Value",
-        "ESP_3": "Address",
-        "ESP_4": "Address",
+        "ESP_3": "Conflict",
+        "ESP_4": "Conflict",
         "OF_1": "Value",
         "PC_5": "Address",
         "PF_1": "Value",
         "SF_1": "Value",
-        "T_1_1": "Address",
-        "T_2_1": "Address",
+        "T_1_1": "Conflict",
+        "T_2_1": "Conflict",
         "T_3_1": "Unknown",
         "T_4_1": "Unknown",
         "ZF_1": "Value"
       },
       "0x08057e12": {
-        "ESP_4": "Address",
-        "ESP_5": "Address",
+        "ESP_4": "Conflict",
+        "ESP_5": "Conflict",
         "PC_6": "Address",
         "V_108_1": "Address"
       },
@@ -82945,11 +82957,11 @@
         "PC_8": "Address",
         "PF_3": "Value",
         "SF_3": "Value",
-        "T_1_2": "Address",
-        "T_2_2": "Unknown",
+        "T_1_2": "Conflict",
+        "T_2_2": "Conflict",
         "T_3_2": "Unknown",
         "T_4_2": "Unknown",
-        "V_-8_0": "Address",
+        "V_-8_0": "Conflict",
         "ZF_3": "Value"
       },
       "0x08057e21": {
@@ -82957,14 +82969,14 @@
         "ZF_3": "Value"
       },
       "0x08057e27": {
-        "EAX_18": "Address",
+        "EAX_18": "Conflict",
         "PC_48": "Address",
-        "V_-8_0": "Address"
+        "V_-8_0": "Conflict"
       },
       "0x08057e2a": {
-        "EAX_18": "Address",
+        "EAX_18": "Conflict",
         "PC_49": "Address",
-        "V_16_1": "Address"
+        "V_16_1": "Conflict"
       },
       "0x08057e2d": {
         "PC_50": "Address",
@@ -83084,9 +83096,9 @@
         "V_28_1": "Address"
       },
       "0x08057e53": {
-        "EAX_26": "Address",
+        "EAX_26": "Conflict",
         "PC_63": "Address",
-        "V_16_1": "Address"
+        "V_16_1": "Conflict"
       },
       "0x08057e56": {
         "EDX_5": "Address",
@@ -83094,7 +83106,7 @@
         "V_28_1": "Address"
       },
       "0x08057e59": {
-        "EAX_26": "Address",
+        "EAX_26": "Conflict",
         "EAX_27": "Unknown",
         "EDX_5": "Address",
         "PC_65": "Address"
@@ -83104,7 +83116,7 @@
         "CF_12": "Value",
         "EAX_27": "Unknown",
         "EAX_28": "Unknown",
-        "EBP_1": "Address",
+        "EBP_1": "Conflict",
         "OF_14": "Value",
         "PC_66": "Address",
         "PF_14": "Value",
@@ -83136,7 +83148,7 @@
         "AF_16": "Value",
         "CF_14": "Value",
         "EAX_29": "Unknown",
-        "EAX_30": "Address",
+        "EAX_30": "Conflict",
         "OF_16": "Value",
         "PC_69": "Address",
         "PF_16": "Value",
@@ -83148,12 +83160,12 @@
       "0x08057e69": {
         "AF_17": "Value",
         "CF_15": "Value",
-        "EAX_30": "Address",
+        "EAX_30": "Conflict",
         "OF_17": "Value",
         "PC_70": "Address",
         "PF_17": "Value",
         "SF_17": "Value",
-        "T_11_1": "Address",
+        "T_11_1": "Conflict",
         "T_12_1": "Unknown",
         "T_13_1": "Unknown",
         "ZF_17": "Value"
@@ -83163,14 +83175,14 @@
         "ZF_17": "Value"
       },
       "0x08057e6d": {
-        "EAX_59": "Address",
+        "EAX_59": "Conflict",
         "PC_131": "Address",
-        "V_-8_0": "Address"
+        "V_-8_0": "Conflict"
       },
       "0x08057e70": {
-        "EAX_59": "Address",
+        "EAX_59": "Conflict",
         "PC_132": "Address",
-        "V_32_1": "Address"
+        "V_32_1": "Conflict"
       },
       "0x08057e73": {
         "PC_133": "Address",
@@ -83290,9 +83302,9 @@
         "V_44_1": "Address"
       },
       "0x08057e99": {
-        "EAX_67": "Address",
+        "EAX_67": "Conflict",
         "PC_146": "Address",
-        "V_32_1": "Address"
+        "V_32_1": "Conflict"
       },
       "0x08057e9c": {
         "EDX_21": "Address",
@@ -83300,7 +83312,7 @@
         "V_44_1": "Address"
       },
       "0x08057e9f": {
-        "EAX_67": "Address",
+        "EAX_67": "Conflict",
         "EAX_68": "Unknown",
         "EDX_21": "Address",
         "PC_148": "Address"
@@ -83310,7 +83322,7 @@
         "CF_27": "Value",
         "EAX_68": "Unknown",
         "EAX_69": "Unknown",
-        "EBP_1": "Address",
+        "EBP_1": "Conflict",
         "OF_35": "Value",
         "PC_149": "Address",
         "PF_35": "Value",
@@ -83342,7 +83354,7 @@
         "AF_37": "Value",
         "CF_29": "Value",
         "EAX_70": "Unknown",
-        "EAX_71": "Address",
+        "EAX_71": "Conflict",
         "OF_37": "Value",
         "PC_152": "Address",
         "PF_37": "Value",
@@ -83354,12 +83366,12 @@
       "0x08057eaf": {
         "AF_38": "Value",
         "CF_30": "Value",
-        "EAX_71": "Address",
+        "EAX_71": "Conflict",
         "OF_38": "Value",
         "PC_153": "Address",
         "PF_38": "Value",
         "SF_38": "Value",
-        "T_96_1": "Address",
+        "T_96_1": "Conflict",
         "T_97_1": "Unknown",
         "T_98_1": "Unknown",
         "ZF_38": "Value"
@@ -83369,19 +83381,19 @@
         "ZF_38": "Value"
       },
       "0x08057eb7": {
-        "EAX_31": "Address",
-        "EAX_32": "Address",
+        "EAX_31": "Conflict",
+        "EAX_32": "Conflict",
         "ECX_4": "Unknown",
         "PC_72": "Address",
-        "V_-8_0": "Address"
+        "V_-8_0": "Conflict"
       },
       "0x08057eba": {
-        "EAX_32": "Address",
+        "EAX_32": "Conflict",
         "EDX_6": "Unknown",
         "PC_73": "Address"
       },
       "0x08057ebd": {
-        "EAX_32": "Address",
+        "EAX_32": "Conflict",
         "EAX_33": "Unknown",
         "PC_74": "Address"
       },
@@ -83396,14 +83408,14 @@
         "V_100_1": "Unknown"
       },
       "0x08057ec5": {
-        "EAX_34": "Address",
-        "EBP_1": "Address",
+        "EAX_34": "Conflict",
+        "EBP_1": "Conflict",
         "PC_77": "Address"
       },
       "0x08057ec8": {
-        "EAX_34": "Address",
+        "EAX_34": "Conflict",
         "PC_78": "Address",
-        "V_64_1": "Address"
+        "V_64_1": "Conflict"
       },
       "0x08057ecb": {
         "PC_79": "Address",
@@ -83523,9 +83535,9 @@
         "V_76_1": "Address"
       },
       "0x08057ef1": {
-        "EAX_42": "Address",
+        "EAX_42": "Conflict",
         "PC_92": "Address",
-        "V_64_1": "Address"
+        "V_64_1": "Conflict"
       },
       "0x08057ef4": {
         "EDX_9": "Address",
@@ -83533,7 +83545,7 @@
         "V_76_1": "Address"
       },
       "0x08057ef7": {
-        "EAX_42": "Address",
+        "EAX_42": "Conflict",
         "EAX_43": "Unknown",
         "EDX_9": "Address",
         "PC_94": "Address"
@@ -83568,9 +83580,9 @@
         "PC_98": "Address"
       },
       "0x08057f03": {
-        "EAX_45": "Address",
+        "EAX_45": "Conflict",
         "PC_99": "Address",
-        "V_64_1": "Address"
+        "V_64_1": "Conflict"
       },
       "0x08057f06": {
         "EDX_12": "Address",
@@ -83578,7 +83590,7 @@
         "V_76_1": "Address"
       },
       "0x08057f09": {
-        "EAX_45": "Address",
+        "EAX_45": "Conflict",
         "ECX_6": "Unknown",
         "EDX_12": "Address",
         "PC_101": "Address"
@@ -83587,14 +83599,14 @@
         "PC_102": "Address"
       },
       "0x08057f0d": {
-        "EAX_46": "Address",
-        "EBP_1": "Address",
+        "EAX_46": "Conflict",
+        "EBP_1": "Conflict",
         "PC_103": "Address"
       },
       "0x08057f10": {
-        "EAX_46": "Address",
+        "EAX_46": "Conflict",
         "PC_104": "Address",
-        "V_48_1": "Address"
+        "V_48_1": "Conflict"
       },
       "0x08057f13": {
         "PC_105": "Address",
@@ -83714,9 +83726,9 @@
         "V_60_1": "Address"
       },
       "0x08057f39": {
-        "EAX_54": "Address",
+        "EAX_54": "Conflict",
         "PC_118": "Address",
-        "V_48_1": "Address"
+        "V_48_1": "Conflict"
       },
       "0x08057f3c": {
         "EDX_15": "Address",
@@ -83724,7 +83736,7 @@
         "V_60_1": "Address"
       },
       "0x08057f3f": {
-        "EAX_54": "Address",
+        "EAX_54": "Conflict",
         "EAX_55": "Unknown",
         "EDX_15": "Address",
         "PC_120": "Address"
@@ -83759,9 +83771,9 @@
         "PC_124": "Address"
       },
       "0x08057f4b": {
-        "EAX_57": "Address",
+        "EAX_57": "Conflict",
         "PC_125": "Address",
-        "V_48_1": "Address"
+        "V_48_1": "Conflict"
       },
       "0x08057f4e": {
         "EDX_18": "Address",
@@ -83769,7 +83781,7 @@
         "V_60_1": "Address"
       },
       "0x08057f51": {
-        "EAX_57": "Address",
+        "EAX_57": "Conflict",
         "ECX_8": "Unknown",
         "EDX_18": "Address",
         "PC_127": "Address"
@@ -83778,22 +83790,22 @@
         "PC_128": "Address"
       },
       "0x08057f55": {
-        "EAX_58": "Address",
-        "EBP_1": "Address",
+        "EAX_58": "Conflict",
+        "EBP_1": "Conflict",
         "PC_129": "Address"
       },
       "0x08057f58": {
-        "EAX_58": "Address",
+        "EAX_58": "Conflict",
         "PC_130": "Address",
-        "V_-8_2": "Address"
+        "V_-8_2": "Conflict"
       },
       "0x08057f5b": {
-        "EAX_2": "Address",
+        "EAX_2": "Conflict",
         "EAX_3": "Unknown",
         "ECX_1": "Unknown",
         "PC_10": "Address",
         "V_-4_0": "Unknown",
-        "V_-8_1": "Address"
+        "V_-8_1": "Conflict"
       },
       "0x08057f5e": {
         "EAX_3": "Unknown",
@@ -83801,14 +83813,14 @@
         "V_80_1": "Unknown"
       },
       "0x08057f61": {
-        "EAX_4": "Address",
+        "EAX_4": "Conflict",
         "PC_12": "Address",
-        "V_-8_1": "Address"
+        "V_-8_1": "Conflict"
       },
       "0x08057f64": {
-        "EAX_4": "Address",
+        "EAX_4": "Conflict",
         "PC_13": "Address",
-        "V_84_1": "Address"
+        "V_84_1": "Conflict"
       },
       "0x08057f67": {
         "EAX_5": "Unknown",
@@ -83830,9 +83842,9 @@
         "V_80_1": "Unknown"
       },
       "0x08057f77": {
-        "ECX_2": "Address",
+        "ECX_2": "Conflict",
         "PC_18": "Address",
-        "V_84_1": "Address"
+        "V_84_1": "Conflict"
       },
       "0x08057f7a": {
         "EDX_1": "Unknown",
@@ -83846,8 +83858,8 @@
       },
       "0x08057f80": {
         "EBX_2": "Unknown",
-        "ESP_6": "Address",
-        "ESP_7": "Address",
+        "ESP_6": "Conflict",
+        "ESP_7": "Conflict",
         "PC_21": "Address",
         "V_108_2": "Unknown"
       },
@@ -83865,8 +83877,8 @@
       },
       "0x08057f8a": {
         "EBX_4": "Unknown",
-        "ESP_7": "Address",
-        "ESP_8": "Address",
+        "ESP_7": "Conflict",
+        "ESP_8": "Conflict",
         "PC_25": "Address",
         "V_108_2": "Unknown"
       },
@@ -83991,14 +84003,14 @@
       "0x08057fc1": {
         "AF_7": "Value",
         "CF_7": "Value",
-        "ESP_8": "Address",
-        "ESP_9": "Address",
+        "ESP_8": "Conflict",
+        "ESP_9": "Conflict",
         "OF_7": "Value",
         "PC_37": "Address",
         "PF_7": "Value",
         "SF_7": "Value",
-        "T_135_1": "Address",
-        "T_136_1": "Address",
+        "T_135_1": "Conflict",
+        "T_136_1": "Conflict",
         "T_137_1": "Unknown",
         "T_138_1": "Value",
         "T_139_1": "Unknown",
@@ -84007,28 +84019,28 @@
       },
       "0x08057fc4": {
         "EBX_5": "Unknown",
-        "ESP_10": "Address",
-        "ESP_9": "Address",
+        "ESP_10": "Conflict",
+        "ESP_9": "Conflict",
         "PC_38": "Address",
         "V_12_1": "Unknown"
       },
       "0x08057fc5": {
         "ESI_3": "Unknown",
-        "ESP_10": "Address",
-        "ESP_11": "Address",
+        "ESP_10": "Conflict",
+        "ESP_11": "Conflict",
         "PC_39": "Address",
         "V_8_1": "Unknown"
       },
       "0x08057fc6": {
         "EBP_2": "Unknown",
-        "ESP_11": "Address",
-        "ESP_12": "Address",
+        "ESP_11": "Conflict",
+        "ESP_12": "Conflict",
         "PC_40": "Address",
         "V_4_1": "Unknown"
       },
       "0x08057fc7": {
-        "ESP_12": "Address",
-        "ESP_13": "Address",
+        "ESP_12": "Conflict",
+        "ESP_13": "Conflict",
         "PC_41": "Address",
         "T_134_1": "Address",
         "V_0_0": "Address"
@@ -84057,7 +84069,7 @@
         "MEM_2": "Unknown"
       },
       "0x08049518": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EBX_1": "Address",
         "ESP_5": "Address",
         "ESP_6": "Address",
@@ -84348,7 +84360,7 @@
     },
     "DetailType": {
       "0x08051674": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Address",
         "EDI_1": "Address",
         "ESP_6": "Address",
         "ESP_7": "Address",
@@ -85830,7 +85842,7 @@
         "ESP_16": "Conflict"
       },
       "0x08049739": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Address",
         "ESI_1": "Conflict",
         "ESP_10": "Conflict",
         "ESP_9": "Conflict",
@@ -91923,7 +91935,7 @@
     },
     "DetailType": {
       "0x08049518": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EBX_1": "Address",
         "ESP_4": "Address",
         "ESP_5": "Address",
@@ -92864,7 +92876,7 @@
     },
     "DetailType": {
       "0x08049514": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EDX_1": "Address",
         "ESP_3": "Address",
         "ESP_4": "Address",
@@ -92924,13 +92936,13 @@
       "0x0805988b": {
         "AF_3": "Value",
         "CF_3": "Value",
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EAX_2": "Unknown",
         "OF_3": "Value",
         "PC_6": "Address",
         "PF_3": "Value",
         "SF_3": "Value",
-        "T_2_2": "Unknown",
+        "T_2_2": "Conflict",
         "T_3_2": "Unknown",
         "T_4_2": "Unknown",
         "ZF_3": "Value"
@@ -93003,7 +93015,7 @@
         "MEM_2": "Unknown"
       },
       "0x08049518": {
-        "EAX_1": "Unknown",
+        "EAX_1": "Conflict",
         "EBX_1": "Address",
         "ESP_6": "Address",
         "ESP_7": "Address",

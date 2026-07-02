@@ -1,9 +1,13 @@
 module PointerAnalyzer.Summary.FunctionSummaryBuilder
 
+open B2R2
+open B2R2.FrontEnd
 open B2R2.BinIR.SSA
+
 open PointerAnalyzer.Platform.PlatformTypes
 open PointerAnalyzer.Analysis.Analyzer
 open PointerAnalyzer.Summary
+open PointerAnalyzer.AbsDom.TypeConstraint
 
 module FunctionSummaryBuilder =
   /// Select type Id which the corresdonding variable satisfies given
@@ -27,7 +31,13 @@ module FunctionSummaryBuilder =
     sameParamIdxSeq |> Seq.map chooseReg |> Map.ofSeq
 
   /// Construct function summary for analyzing caller
-  let build address name (platform: Platform) (result: AnalysisResult) =
+  let build
+    address
+    name
+    (handle: BinHandle)
+    (platform: Platform)
+    (result: AnalysisResult)
+    =
     let filterParams (reg, tid: PointerAnalyzer.AbsDom.TypeIdMap.TypeId) =
       match platform.TryParameterIndex reg with
       | Some paramIdx -> Some (paramIdx, reg, tid)
@@ -38,17 +48,50 @@ module FunctionSummaryBuilder =
       | Some paramIdx -> Some (paramIdx, reg, tid)
       | None -> None
 
+    let tryRegId (varaible: Variable) =
+      match varaible.Kind with
+      | RegVar (_, regId, _) -> Some regId
+      | _ -> None
+
+    let filterGetPcThunk outputRegId (reg, tid) =
+      match tryRegId reg with
+      | Some regId when regId = outputRegId -> Some (0, reg, tid)
+      | _ -> None
+
     let typeIndSeq = result.FinalState.Types.TypeIndicators |> Map.toSeq
 
     let paramIdxTidMap =
       typeIndSeq |> Seq.choose filterParams |> selectByIdentifier Seq.minBy
 
     let returnTidMap =
-      typeIndSeq |> Seq.choose filterReturns |> selectByIdentifier Seq.maxBy
+      match platform.CheckIntrinsic PCThunk handle address with
+      | Some outputRegId ->
+        (*
+          If current function is get_pc_thunk,
+          then set the return register as corresponding register.
+        *)
+        typeIndSeq
+        |> Seq.choose (filterGetPcThunk outputRegId)
+        |> selectByIdentifier Seq.maxBy
+      | None ->
+        typeIndSeq |> Seq.choose filterReturns |> selectByIdentifier Seq.maxBy
+
+    let typeConstraints =
+      match platform.CheckIntrinsic PCThunk handle address with
+      | Some _ ->
+        (*
+          If current function is get_pc_thunk,
+          then set the Address type constraint to return register.
+        *)
+        Map.fold
+          (fun acc _idx tid -> Set.add (Address tid) acc)
+          result.TypeConstraints
+          returnTidMap
+      | None -> result.TypeConstraints
 
     { Address = address
       Name = name
       Parameters = paramIdxTidMap
       Returns = returnTidMap
-      Constraints = result.TypeConstraints
+      Constraints = typeConstraints
       NextTypeId = result.FinalState.Types.NextTypeId }

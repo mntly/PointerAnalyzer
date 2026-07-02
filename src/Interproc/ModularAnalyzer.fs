@@ -161,7 +161,15 @@ module ModularAnalyzer =
         | Some callee ->
           match Map.tryFind callee summaries with
           | Some calleeSum ->
-            Some (applicator.apply calleeSum inputs outputs state)
+            Some (
+              applicator.apply
+                program.Binary.Handle
+                callee
+                calleeSum
+                inputs
+                outputs
+                state
+            )
           | None -> None
         | None -> None
 
@@ -179,7 +187,12 @@ module ModularAnalyzer =
 
       (* Store analysis result *)
       let summary =
-        FunctionSummaryBuilder.build func.Address func.Name platform result
+        FunctionSummaryBuilder.build
+          func.Address
+          func.Name
+          program.Binary.Handle
+          platform
+          result
 
       let analysis =
         { Function = func
