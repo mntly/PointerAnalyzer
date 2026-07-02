@@ -35,6 +35,7 @@ let private tryUInt64 bv =
   with _ ->
     None
 
+/// Read the constant value of given variable
 let private constantValueFrom handle (ssaCFG: SSACFG) =
   let dfa =
     SSAConstantPropagation handle
@@ -63,6 +64,7 @@ let private isZeroExpr constValue =
     | None -> false
   | _ -> false
 
+/// Check jump taret is 0
 let private isJumpTargetZero constValue =
   function
   | Jmp (InterJmp target) -> isZeroExpr constValue target
@@ -70,6 +72,7 @@ let private isJumpTargetZero constValue =
     isZeroExpr constValue trueTarget || isZeroExpr constValue falseTarget
   | _ -> false
 
+/// Find all statements that try to jump to 0 in given function
 let private collectJumpZeroSites
   (hdl: BinHandle)
   (lifter: ISSALiftable)
@@ -78,24 +81,28 @@ let private collectJumpZeroSites
   let ssaCfg = lifter.Lift builder.Context.CFG
   let constValue = constantValueFrom hdl ssaCfg
 
-  ssaCfg.Vertices
-  |> Seq.collect (fun vertex -> vertex.VData.Internals.Statements)
-  |> Seq.choose (fun (pp, stmt) ->
+  let filterTarget0Jump (pp, stmt) =
     if isJumpTargetZero constValue stmt then
       Some
-        { FunctionAddress = builder.EntryPoint
-          FunctionState = builder.BuilderState
+        { FunctionAddress = symbol.Address
+          FunctionName = symbol.Name
           ProgramPoint = pp
           Statement = stmt }
     else
-      None)
-  |> Seq.toList
+      None
+
+  let ppStatements =
+    ssaCfg.Vertices
+    |> Seq.collect (fun vertex -> vertex.VData.Internals.Statements)
+
+  ppStatements |> Seq.choose filterTarget0Jump |> Seq.toList
 
 let private builderFunction (builder: ICFGBuildable<_, _>) =
   { Address = builder.EntryPoint
     Name = Some builder.Context.FunctionName
     State = builder.BuilderState }
 
+/// Check given function is valid from B2R2
 let private isValidBuilder
   (builder: ICFGBuildable<DummyContext, DummyContext>)
   =
@@ -104,18 +111,21 @@ let private isValidBuilder
   | ForceFinished -> true
   | _ -> false
 
+/// Find all statements that try to jump to 0 in given binary
 let run (binaryPath: string) =
   let hdl = BinHandle binaryPath
   let brew = BinaryBrew hdl
   let lifter = SSALifterFactory.Create hdl
   let builders = brew.Builders.Values |> Array.sortBy (fun b -> b.EntryPoint)
 
+  (* Valid from B2R2 Function Recovery *)
   let validFunctions =
     builders
     |> Array.filter isValidBuilder
     |> Array.map builderFunction
     |> Array.toList
 
+  (* Invalid from B2R2 Function Recovery *)
   let invalidBuilders =
     builders |> Array.filter (fun builder -> builder.BuilderState = Invalid)
 
@@ -124,6 +134,7 @@ let run (binaryPath: string) =
 
     try
       let newSites = collectJumpZeroSites hdl lifter builder
+
       failures, List.rev newSites @ sites
     with ex ->
       (fn, ex.Message) :: failures, sites
@@ -149,6 +160,7 @@ let toText result =
   let builderFunctionToString fn =
     sprintf "  0x%08x  %s" fn.Address (functionNameToString fn.Name)
 
+  (* Valid function list to String *)
   let validFunctions =
     if List.isEmpty result.ValidFunctions then
       [ "  <none>" ]
@@ -157,6 +169,7 @@ let toText result =
       |> List.sortBy (fun fn -> fn.Address)
       |> List.map builderFunctionToString
 
+  (* Invalid function list to String *)
   let invalidFunctions =
     if List.isEmpty result.InvalidFunctions then
       [ "  <none>" ]
@@ -165,17 +178,20 @@ let toText result =
       |> List.sortBy (fun fn -> fn.Address)
       |> List.map builderFunctionToString
 
+  (* Make string of jmp 0 statements *)
   let groupedSites =
     result.Sites
     |> List.groupBy (fun site -> site.FunctionAddress)
     |> List.sortBy fst
 
+  (* Check among all functions (regardless valid/invalid) *)
   let functionName address =
     result.ValidFunctions @ result.InvalidFunctions
     |> List.tryFind (fun fn -> fn.Address = address)
     |> Option.bind (fun fn -> fn.Name)
     |> functionNameToString
 
+  (* Jump Target 0 to String*)
   let siteGroupToString (address, sites) =
     let state = sites |> List.head |> (fun site -> site.FunctionState)
 
@@ -196,6 +212,7 @@ let toText result =
     else
       groupedSites |> List.collect siteGroupToString
 
+  (* Failure Cases to String*)
   let liftFailures =
     if List.isEmpty result.LiftFailures then
       [ "  <none>" ]

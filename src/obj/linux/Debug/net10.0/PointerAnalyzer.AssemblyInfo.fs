@@ -10,7 +10,7 @@ open System.Reflection
 [<assembly: System.Reflection.AssemblyCompanyAttribute("PointerAnalyzer")>]
 [<assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")>]
 [<assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")>]
-[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5bd5198e7fbc21bc7d146efbd4520b3a7da7116f")>]
+[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0243b50b52b9db99fb76a2121bb90c0568cbbc01")>]
 [<assembly: System.Reflection.AssemblyProductAttribute("PointerAnalyzer")>]
 [<assembly: System.Reflection.AssemblyTitleAttribute("PointerAnalyzer")>]
 [<assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")>]

@@ -91,7 +91,7 @@ let private runFindCall0Invalid options =
   let binPath = options.BinaryPath
 
   let result = FindCall0Invalid.run binPath |> FindCall0Invalid.toText
-  emitOutput options "FindCall0Result" result
+  emitOutput options "FindCall0InvalidResult" result
 
 let private runEvalAnalyzer options = eprintf "Not implemented"
 
