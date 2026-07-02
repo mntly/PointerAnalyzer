@@ -89,7 +89,12 @@ type ExprEvalModule (platform: Platform, config: ExprEvalConfig) =
         | ValueConstant -> TypeIds.value, state
         | UnknownConstant -> stateDom.freshTypeId state
 
-      absVal.ofBitVector bv, Some typeId, state
+      (* absVal.ofBitVector bv, Some typeId, state *)
+      (*
+        Do not add constraint for constant integer:
+        it can be used both address and Value
+      *)
+      absVal.ofBitVector bv, None, state
 
     | Var variable ->
       let typeId, state = stateDom.getOrFreshTypeId variable state

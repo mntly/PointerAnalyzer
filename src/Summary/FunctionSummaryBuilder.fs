@@ -76,22 +76,9 @@ module FunctionSummaryBuilder =
       | None ->
         typeIndSeq |> Seq.choose filterReturns |> selectByIdentifier Seq.maxBy
 
-    let typeConstraints =
-      match platform.CheckIntrinsic PCThunk handle address with
-      | Some _ ->
-        (*
-          If current function is get_pc_thunk,
-          then set the Address type constraint to return register.
-        *)
-        Map.fold
-          (fun acc _idx tid -> Set.add (Address tid) acc)
-          result.TypeConstraints
-          returnTidMap
-      | None -> result.TypeConstraints
-
     { Address = address
       Name = name
       Parameters = paramIdxTidMap
       Returns = returnTidMap
-      Constraints = typeConstraints
+      Constraints = result.TypeConstraints
       NextTypeId = result.FinalState.Types.NextTypeId }

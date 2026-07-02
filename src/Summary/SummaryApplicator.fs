@@ -95,13 +95,13 @@ type SummaryApplicatorModule (platform: Platform) =
 
     (* Connect type or set pending returns between return registers *)
     (* If target address is get_pc_thunk, handle heuristically *)
-    (* match getPcThunkHandle handle calleeAddr state with
+    match getPcThunkHandle handle calleeAddr state with
     | Some state -> state
-    | None -> *)
-    if List.isEmpty outputs then
-      setPendingReturns summary state
-    else
-      connectVariables outVarType outputs state
+    | None ->
+      if List.isEmpty outputs then
+        setPendingReturns summary state
+      else
+        connectVariables outVarType outputs state
 
 module SummaryApplicator =
   let create platform = SummaryApplicatorModule platform
