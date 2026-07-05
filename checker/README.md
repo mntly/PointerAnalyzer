@@ -46,4 +46,27 @@ dotnet run --project Checker.fsproj \
 
 This directory contains the codes related to evaluate [PointerAnalyzer](../README.md).
 
-### ToDo
+### [GroundTruthExtractor](./EvaluateAnalyzer/GroundTruthExtractor)
+
+This directory contains the codes related to extract type of parameters and return value of each function in given library code.
+
+Ground Truth Extraction Mode 0 indicates it only extract the functions appeared in given binary.
+
+```
+dotnet run --project Checker.fsproj \
+  -m 2 \
+  -gm 0 \
+  -b ../datas/binaries/helloword-x86_32-i586-uclibc-O0 \
+  -o output
+```
+
+Ground Truth Extraction Mode 1 indicates it extracts the all functions in library.
+
+```
+dotnet run --project Checker.fsproj \
+  -m 2 \
+  -gm 1 \
+  -o output
+```
+
+Use `--libroot` to override the default library source path.

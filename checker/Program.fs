@@ -2,22 +2,28 @@ module Checker.Program
 
 open Argu
 open System.IO
+open EvaluateAnalyzer.GroundTruthExtractor.Types.GroundTruthTypes
 
 type CheckerMode =
   | FindCall0
   | FindCall0Invalid
+  | BuildGroundTruth
   | EvalAnalyzer
 
 type MainOptions =
   { Mode: CheckerMode
-    BinaryPath: string
+    BinaryPath: string option
     OutputDirPath: string
-    IsStore: bool }
+    IsStore: bool
+    GTExtractMode: GroundTruthExtractMode
+    LibRoot: string }
 
 type CLIArg =
   | [<AltCommandLine("-m")>] Mode of int
   | [<AltCommandLine("-b")>] Binary of string
   | [<AltCommandLine("-o")>] Output of string
+  | [<AltCommandLine("-gm")>] GTExtractMode of int
+  | LibRoot of string
 
   interface IArgParserTemplate with
     member this.Usage =
@@ -27,9 +33,14 @@ type CLIArg =
           This checks the functions in symbol table.
         Mode 1 prints out the SSA jump/call instructions whose target is 1.
           This checks the invalid functions of B2R2.
-        Mode 2 prints out the evaluation result of PointerAnalyzer"
+        Mode 2 extracts ground-truth signatures from uClibc.
+        Mode 3 prints out the evaluation result of PointerAnalyzer"
       | Binary _ -> "Binary file to inspect."
       | Output _ -> "Optional output file path. If omitted, print to stdout."
+      | GTExtractMode _ ->
+        "Ground-truth extraction mode. 0 extracts functions in target binary.
+          1 extracts all functions parsed from uClibc."
+      | LibRoot _ -> "Optional uClibc source root path."
 
 let private storeOutput options fileName (content: string) =
   let dirPath = options.OutputDirPath
@@ -67,31 +78,75 @@ let private parseArg (args: string array) =
     else if modeInt = 1 then
       FindCall0Invalid
     else if modeInt = 2 then
+      BuildGroundTruth
+    else if modeInt = 3 then
       EvalAnalyzer
     else
       eprintf "Unsupported mode %d" modeInt
       exit 1
 
-  let bin = r.GetResult <@ Binary @>
+  let bin =
+    if r.Contains Binary then
+      Some (r.GetResult <@ Binary @>)
+    else
+      None
+
   let isStore = r.Contains Output
   let outDir = if isStore then r.GetResult <@ Output @> else "output"
+
+  let gtMode =
+    if r.Contains GTExtractMode then
+      r.GetResult <@ GTExtractMode @> |> GroundTruthExtractMode.ofInt
+    else
+      TargetBinary
+
+  let libRoot =
+    if r.Contains LibRoot then
+      r.GetResult <@ LibRoot @>
+    else
+      EvaluateAnalyzer.GroundTruthExtractor.UClibc.UClibcProfile.defaultLibRoot
 
   { Mode = mode
     BinaryPath = bin
     OutputDirPath = outDir
-    IsStore = isStore }
+    IsStore = isStore
+    GTExtractMode = gtMode
+    LibRoot = libRoot }
+
+let private requireBinary options =
+  match options.BinaryPath with
+  | Some path -> path
+  | None ->
+    eprintfn "Binary path is required for this mode."
+    exit 1
 
 let private runFindCall0 options =
-  let binPath = options.BinaryPath
+  let binPath = requireBinary options
 
   let result = FindCall0.run binPath |> FindCall0.toText
   emitOutput options "FindCall0Result" result
 
 let private runFindCall0Invalid options =
-  let binPath = options.BinaryPath
+  let binPath = requireBinary options
 
   let result = FindCall0Invalid.run binPath |> FindCall0Invalid.toText
   emitOutput options "FindCall0InvalidResult" result
+
+let private runBuildGroundTruth options =
+  let buildOptions: EvaluateAnalyzer.GroundTruthExtractor.Builder.BuildOptions =
+    { LibRoot = options.LibRoot
+      ExtractMode = options.GTExtractMode
+      TargetBinary = options.BinaryPath
+      SourceProfile =
+        EvaluateAnalyzer.GroundTruthExtractor.UClibc.UClibcProfile.profile
+      TargetBinaryProfile =
+        EvaluateAnalyzer.GroundTruthExtractor.ELF.ELFSymbolReader.profile }
+
+  let result =
+    EvaluateAnalyzer.GroundTruthExtractor.Builder.build buildOptions
+    |> EvaluateAnalyzer.GroundTruthExtractor.Builder.toJson
+
+  emitOutput options "groundTruth.json" result
 
 let private runEvalAnalyzer options = eprintf "Not implemented"
 
@@ -102,6 +157,7 @@ let main argv =
   match options.Mode with
   | FindCall0 -> runFindCall0 options
   | FindCall0Invalid -> runFindCall0Invalid options
+  | BuildGroundTruth -> runBuildGroundTruth options
   | EvalAnalyzer -> runEvalAnalyzer options
 
   0
