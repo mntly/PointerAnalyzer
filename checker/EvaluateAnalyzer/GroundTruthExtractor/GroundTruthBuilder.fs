@@ -37,7 +37,7 @@ type BuildOptions =
 /// 4. be alphabetic low name
 let private representativeOf
   (signatureMap: Map<string, ParsedSignature list>)
-  names
+  (names: Set<string>)
   =
   names
   |> Set.toList
@@ -127,11 +127,12 @@ let private buildRepresentativeMap (groups: AliasGroupTruth list) =
     group.Names |> List.map (fun name -> name, group.Representative))
   |> Map.ofList
 
-/// Given type signature, construct FunctionTruth
+/// Given type signature, construct
+/// <see cref="EvaluateAnalyzer.GroundTruthExtractor.Types.GroundTruthTypes.FunctionTruth" />
 let private toFunctionTruth
   (profile: SourceExtractionProfile)
   canonicalName
-  signature
+  (signature: ParsedSignature)
   =
   let returnCType = profile.NormalizeCType signature.ReturnCType
   let returnKind = profile.ClassifyCType returnCType
@@ -155,7 +156,13 @@ let private toFunctionTruth
         Kind = returnKind }
     Parameters = parameters }
 
-let private toSignatureTruth profile canonicalName signature =
+/// Given type signature, construct
+/// <see cref="EvaluateAnalyzer.GroundTruthExtractor.Types.GroundTruthTypes.SignatureTruth" />
+let private toSignatureTruth
+  profile
+  canonicalName
+  (signature: ParsedSignature)
+  =
   let fn = toFunctionTruth profile canonicalName signature
 
   { Name = fn.Name
@@ -165,7 +172,7 @@ let private toSignatureTruth profile canonicalName signature =
     Parameters = fn.Parameters }
 
 /// Extract normalized return/parameter type shape from a parsed signature.
-let private signatureShape profile signature =
+let private signatureShape profile (signature: ParsedSignature) =
   let returnCType = profile.NormalizeCType signature.ReturnCType
 
   let paramsShape =
@@ -176,7 +183,7 @@ let private signatureShape profile signature =
 
   returnCType, profile.ClassifyCType returnCType, paramsShape
 
-let private hasTypeMismatch profile signatures =
+let private hasTypeMismatch profile (signatures: ParsedSignature list) =
   signatures
   |> List.map (signatureShape profile)
   |> List.distinct
@@ -188,7 +195,7 @@ let private hasTypeMismatch profile signatures =
 let private buildTypeMismatches
   profile
   (groups: AliasGroupTruth list)
-  signatureMap
+  (signatureMap: Map<string, ParsedSignature list>)
   =
   groups
   |> List.filter (fun group -> group.Names.Length > 1)
@@ -232,23 +239,30 @@ let build options =
 
   (* Read given source code and extract GT *)
   let parseFile path =
-    (*
-      To track the path information, covert path as relative path from library
-      root
-    *)
-    let relative = options.SourceProfile.RelativePath options.LibRoot path
     (* Read file (get source codes) and normalize it *)
     let text = File.ReadAllText path
     let normalized = options.SourceProfile.NormalizeSourceText text
-    (* Check there exist alias of function name and store it *)
-    let aliases = options.SourceProfile.ExtractAliases normalized
-    (*
-      Extract Ground Truth type. Target filtering will be applied after alias
-      group construction
-    *)
-    let signatures = parseSignatures relative None normalized
 
-    aliases, signatures
+    (*
+      Check given source code has declaration or definition of target function
+    *)
+    let shouldExtractSignatures =
+      match funcNames with
+      | None ->
+        (* Extract ground truth from all libraries *)
+        true
+      | Some targets ->
+        (* Extract ground truth only targeted functions in given binary *)
+        targets |> Set.exists (fun name -> normalized.Contains name)
+
+    (* Extract ground truth facts with source-profile-specific parser. *)
+    let facts =
+      if shouldExtractSignatures then
+        options.SourceProfile.ExtractFacts options.LibRoot path
+      else
+        { Signatures = []; Aliases = [] }
+
+    facts.Aliases, facts.Signatures
 
   (* Extract GT from all target files *)
   let aliases, signatures =

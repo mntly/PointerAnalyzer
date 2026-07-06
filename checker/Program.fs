@@ -142,11 +142,15 @@ let private runBuildGroundTruth options =
       TargetBinaryProfile =
         EvaluateAnalyzer.GroundTruthExtractor.ELF.ELFSymbolReader.profile }
 
-  let result =
-    EvaluateAnalyzer.GroundTruthExtractor.Builder.build buildOptions
-    |> EvaluateAnalyzer.GroundTruthExtractor.Builder.toJson
+  try
+    let result =
+      EvaluateAnalyzer.GroundTruthExtractor.Builder.build buildOptions
+      |> EvaluateAnalyzer.GroundTruthExtractor.Builder.toJson
 
-  emitOutput options "groundTruth.json" result
+    emitOutput options "groundTruth.json" result
+  with ex ->
+    eprintfn "%s" ex.Message
+    exit 1
 
 let private runEvalAnalyzer options = eprintf "Not implemented"
 

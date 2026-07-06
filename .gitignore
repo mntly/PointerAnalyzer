@@ -1,0 +1,19 @@
+# Python virtualenv
+.venv/
+checker/.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# .NET build outputs
+bin/
+obj/
+checker/bin/
+checker/obj/
+src/bin/
+src/obj/
+
+# Analyzer/checker generated outputs
+# output/
+# checker/output/

@@ -4,7 +4,7 @@ open System.IO
 open System.Text.RegularExpressions
 open EvaluateAnalyzer.GroundTruthExtractor.C
 open EvaluateAnalyzer.GroundTruthExtractor.Profile.ExtractionProfile
-open EvaluateAnalyzer.GroundTruthExtractor.Types.GroundTruthTypes
+open EvaluateAnalyzer.GroundTruthExtractor.TreeSitter
 
 /// Default path of uClibc directory
 let defaultLibRoot =
@@ -21,21 +21,26 @@ let shouldSkipPath (path: string) =
   skippedDirectoryNames
   |> Seq.exists (fun dir -> normalized.Contains ("/" + dir + "/"))
 
-/// Extract possible .c and .h files to extract type information under given
-/// path
+/// Extract implementation files to extract type information under given path.
+/// Parsing every header as a standalone unit is noisy, so the first Tree-sitter
+/// path focuses on implementation files.
 let sourceFiles root =
-  let filterCH (path: string) =
+  let filterC (path: string) =
     let ext = Path.GetExtension(path).ToLowerInvariant ()
-    (ext = ".c" || ext = ".h") && not (shouldSkipPath path)
+    ext = ".c" && not (shouldSkipPath path)
 
   Directory.EnumerateFiles (root, "*.*", SearchOption.AllDirectories)
-  |> Seq.filter filterCH
+  |> Seq.filter filterC
   |> Seq.toList
 
-/// Covert absolute path to relative path based on root
-/// The root becomes the path of library directory
+/// Covert absolute path to relative path based on root.
+/// The root becomes the path of library directory.
 let relativePath root path =
   Path.GetRelativePath(root, path).Replace ('\\', '/')
+
+/// Extract ground truth type using Tree-Sitter with python
+let extractFacts libRoot path =
+  TreeSitterCommand.extractFacts libRoot path
 
 /// Remove unrelated keywards for type ground truth extraction
 let normalizeSourceText (text: string) =
@@ -62,21 +67,6 @@ let normalizeSourceText (text: string) =
       |> fun s -> Regex.Replace (s, @"\bweak_function\b", "")
       |> fun s -> Regex.Replace (s, @"\bwarn_unused_result\b", "")
 
-/// Extract aliases of each function and construct alias name list
-let extractAliasesFromText (text: string) =
-  let aliasRegex =
-    Regex (
-      @"\b(?<kind>weak_alias|strong_alias)\s*\(\s*(?<real>[A-Za-z_]\w*)\s*,\s*(?<alias>[A-Za-z_]\w*)\s*\)",
-      RegexOptions.Compiled
-    )
-
-  aliasRegex.Matches text
-  |> Seq.cast<Match>
-  |> Seq.map (fun m ->
-    { Alias = m.Groups["alias"].Value
-      CanonicalName = m.Groups["real"].Value })
-  |> Seq.toList
-
 /// uClibc profile to extract GT
 let profile: SourceExtractionProfile =
   { Name = "uClibc-ng"
@@ -84,6 +74,6 @@ let profile: SourceExtractionProfile =
     GetSourceFiles = sourceFiles
     RelativePath = relativePath
     NormalizeSourceText = normalizeSourceText
-    ExtractAliases = extractAliasesFromText
+    ExtractFacts = extractFacts
     ClassifyCType = CTypeClassifier.classify >> CTypeClassifier.toString
     NormalizeCType = CTypeClassifier.normalizeCType }

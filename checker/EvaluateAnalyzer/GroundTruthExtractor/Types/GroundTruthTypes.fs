@@ -30,6 +30,7 @@ type ParameterTruth =
 
 /// <summary>
 /// Represent the type of parameters and return value of each function.
+/// This used for storing the result as JSON format.
 /// </summary>
 type FunctionTruth =
   { Name: string
@@ -56,6 +57,7 @@ type AliasGroupTruth =
 
 /// <summary>
 /// Represent extracted ground truth type information.
+/// This used for storing the mismatched result as JSON format.
 /// </summary>
 type SignatureTruth =
   { Name: string

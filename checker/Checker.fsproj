@@ -13,6 +13,7 @@
     <Compile Include="EvaluateAnalyzer/GroundTruthExtractor/C/CTypeClassifier.fs" />
     <Compile Include="EvaluateAnalyzer/GroundTruthExtractor/C/CSignatureParser.fs" />
     <Compile Include="EvaluateAnalyzer/GroundTruthExtractor/Profile/ExtractionProfile.fs" />
+    <Compile Include="EvaluateAnalyzer/GroundTruthExtractor/TreeSitter/TreeSitterCommand.fs" />
     <Compile Include="EvaluateAnalyzer/GroundTruthExtractor/UClibc/UClibcProfile.fs" />
     <Compile Include="EvaluateAnalyzer/GroundTruthExtractor/ELF/ELFSymbolReader.fs" />
     <Compile Include="EvaluateAnalyzer/GroundTruthExtractor/GroundTruthBuilder.fs" />
