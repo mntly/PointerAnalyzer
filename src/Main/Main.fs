@@ -326,7 +326,9 @@ let main argv =
 
       timed options.TrackTime "Print analysis result" (fun () ->
         selectedResults
-        |> Result2Json.AnalysisResultJson.fromAnalysisResultToJsonString result
+        |> Result2Json.AnalysisResultJson.fromAnalysisResultToJsonString
+          program.Binary.Platform
+          result
         |> storeOutput options "inferredTypes.json")
 
       (* Dump type constraints collected during entire analysis process *)

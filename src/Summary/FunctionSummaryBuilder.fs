@@ -1,26 +1,22 @@
 module PointerAnalyzer.Summary.FunctionSummaryBuilder
 
 open B2R2
-open B2R2.FrontEnd
 open B2R2.BinIR.SSA
 
 open PointerAnalyzer.Platform.PlatformTypes
 open PointerAnalyzer.Analysis.Analyzer
 open PointerAnalyzer.Summary
 open PointerAnalyzer.AbsDom.TypeConstraint
+open PointerAnalyzer.AbsDom.TypeIdMap
 
 module FunctionSummaryBuilder =
-  /// Select type Id which the corresdonding variable satisfies given
-  /// condition, and return as mapping from index to type Id. This is used for
-  /// extracting the type Id of parameters and return values of each index.
+  /// Select the type id of the SSA variable satisfying given condition in each
+  /// group. This is used for extracting the type id of parameters.
   let private selectByIdentifier
     identifierCond
-    (entries: (int * Variable * PointerAnalyzer.AbsDom.TypeIdMap.TypeId) seq)
-    : Map<int, PointerAnalyzer.AbsDom.TypeIdMap.TypeId> =
-    let extractRegId
-      (_paramIdx: int, reg, _tid: PointerAnalyzer.AbsDom.TypeIdMap.TypeId)
-      =
-      reg.Identifier
+    (entries: (int * Variable * TypeId) seq)
+    : Map<int, TypeId> =
+    let extractRegId (_paramIdx: int, reg, _tid: TypeId) = reg.Identifier
 
     let chooseReg (paramIdx: int, regSeq) =
       let _, _, typeId = identifierCond extractRegId regSeq
@@ -30,51 +26,65 @@ module FunctionSummaryBuilder =
 
     sameParamIdxSeq |> Seq.map chooseReg |> Map.ofSeq
 
+  /// Select the final SSA register version for each physical register.
+  let private selectRegisterOutputs entries : Map<RegisterID, TypeId> =
+    let chooseReg
+      (regId: RegisterID, regSeq: (RegisterID * Variable * TypeId) seq)
+      =
+      let _, _, typeId =
+        regSeq |> Seq.maxBy (fun (_, reg: Variable, _) -> reg.Identifier)
+
+      regId, typeId
+
+    entries
+    |> Seq.groupBy (fun (regId, _, _) -> regId)
+    |> Seq.map chooseReg
+    |> Map.ofSeq
+
   /// Construct function summary for analyzing caller
-  let build
-    address
-    name
-    (handle: BinHandle)
-    (platform: Platform)
-    (result: AnalysisResult)
-    =
-    let filterParams (reg, tid: PointerAnalyzer.AbsDom.TypeIdMap.TypeId) =
+  let build address name platform (result: AnalysisResult) =
+    (* If given variable is parameter, then retrieve its parameter index *)
+    let filterParams (reg, tid: TypeId) =
       match platform.TryParameterIndex reg with
       | Some paramIdx -> Some (paramIdx, reg, tid)
       | None -> None
 
-    let filterReturns (reg, tid: PointerAnalyzer.AbsDom.TypeIdMap.TypeId) =
-      match platform.TryReturnIndex reg with
-      | Some paramIdx -> Some (paramIdx, reg, tid)
-      | None -> None
+    (* If given modified variable is register, then retrieve its register id *)
+    let filterRegisterOutput (reg: Variable, tid: TypeId) =
+      let trivialTypes =
+        Set.union
+          platform.TrivialValueRegisters
+          platform.TrivialAddressRegisters
 
-    let tryRegId (varaible: Variable) =
-      match varaible.Kind with
-      | RegVar (_, regId, _) -> Some regId
-      | _ -> None
-
-    let filterGetPcThunk outputRegId (reg, tid) =
-      match tryRegId reg with
-      | Some regId when regId = outputRegId -> Some (0, reg, tid)
+      match reg.Kind with
+      | VariableKind.RegVar (_, regId, _) when
+        not (Set.contains regId trivialTypes)
+        ->
+        (*
+          The register with trivial type does not need to trakc between
+          caller-callee
+        *)
+        Some (regId, reg, tid)
       | _ -> None
 
     let typeIndSeq = result.FinalState.Types.TypeIndicators |> Map.toSeq
 
+    (* Extract type Id of all variables *)
+    let outputRegSeq =
+      result.FinalState.RegMap
+      |> Map.toSeq
+      |> Seq.choose (fun (reg, _value) ->
+        result.FinalState.Types.TypeIndicators
+        |> Map.tryFind reg
+        |> Option.map (fun typeId -> reg, typeId))
+
+    (* Summarize parameter type information *)
     let paramIdxTidMap =
       typeIndSeq |> Seq.choose filterParams |> selectByIdentifier Seq.minBy
 
+    (* Summarize modified register information *)
     let returnTidMap =
-      match platform.CheckIntrinsic PCThunk handle address with
-      | Some outputRegId ->
-        (*
-          If current function is get_pc_thunk,
-          then set the return register as corresponding register.
-        *)
-        typeIndSeq
-        |> Seq.choose (filterGetPcThunk outputRegId)
-        |> selectByIdentifier Seq.maxBy
-      | None ->
-        typeIndSeq |> Seq.choose filterReturns |> selectByIdentifier Seq.maxBy
+      outputRegSeq |> Seq.choose filterRegisterOutput |> selectRegisterOutputs
 
     { Address = address
       Name = name

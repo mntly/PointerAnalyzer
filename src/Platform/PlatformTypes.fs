@@ -22,13 +22,14 @@ type Platform =
     StackPointer: RegisterID
     ArgumentRegisters: RegisterID list
     ReturnRegisters: RegisterID list
+    RegisterName: RegisterID -> string
 
     TrivialAddressRegisters: Set<RegisterID>
     TrivialValueRegisters: Set<RegisterID>
     IsTrivialAddress: Variable -> bool
     IsTrivialValue: Variable -> bool
 
-    CheckIntrinsic: IntrinsicKind -> BinHandle -> Addr -> RegisterID option
+    TryCallReturnAddress: BinHandle -> Addr -> Addr option
 
     TryParameterIndex: Variable -> int option
     TryCallArgumentIndex: CallSiteStackContext -> Variable -> int option

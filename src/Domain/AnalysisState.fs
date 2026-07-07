@@ -19,8 +19,8 @@ open PointerAnalyzer.AbsDom.TypeState
 /// <see cref="PointerAnalyzer.AbsDom.AbsMem.AbsMem" />.
 /// <c>Types</c> is PointerAnalyzer's
 /// <see cref="PointerAnalyzer.AbsDom.TypeState.TypeState" />.
-/// <c>PendingReturns</c> tracks the type of return registers after applying
-/// callee. The stored register is eliminated when it is used.
+/// <c>PendingReturns</c> tracks callee output register types after applying
+/// callee. The stored register is eliminated when it is used or redefined.
 /// <c>StackDelta</c> tracks offset of current stack pointer to find out the
 /// arguments passed by stack.
 /// </remarks>
@@ -153,7 +153,7 @@ type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
     { state with
         Types = types.addSubResult result left right state.Types }
 
-  /// Set the type of return register as given type Id
+  /// Set the type of output register as given type Id
   member _.setPendingReturn retRegId calleeRetTypId state =
     { state with
         PendingReturns = Map.add retRegId calleeRetTypId state.PendingReturns }
@@ -165,7 +165,7 @@ type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
 
     { state with StackDelta = stackDelta }
 
-  /// If return register is used, remove it from pending return
+  /// If output register is used, remove it from pending return.
   member _.consumePendingReturn (variable: Variable) state =
     match variable.Kind with
     | RegVar (_, registerId, _) ->

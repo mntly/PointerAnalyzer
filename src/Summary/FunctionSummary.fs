@@ -8,7 +8,7 @@ type FunctionSummary =
   { Address: Addr
     Name: string
     Parameters: Map<int, TypeId>
-    Returns: Map<int, TypeId>
+    Returns: Map<RegisterID, TypeId>
     Constraints: ConstraintSet
     NextTypeId: TypeId }
 
@@ -28,7 +28,7 @@ type FunctionSummary =
     header + content
 
   member this.ReturnToString =
-    let header = "  Returns:\n"
+    let header = "  Output registers:\n"
 
     let content =
       if Map.isEmpty this.Returns then
@@ -36,8 +36,8 @@ type FunctionSummary =
       else
         this.Returns
         |> Map.toSeq
-        |> Seq.map (fun (index, typeId) ->
-          sprintf "    ret%d -> t%d\n" index typeId)
+        |> Seq.map (fun (regId, typeId) ->
+          sprintf "    reg%A -> t%d\n" regId typeId)
         |> String.concat ""
 
     header + content

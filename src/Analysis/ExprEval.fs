@@ -97,7 +97,24 @@ type ExprEvalModule (platform: Platform, config: ExprEvalConfig) =
       absVal.ofBitVector bv, None, state
 
     | Var variable ->
+      (* If new variable comes, assign new type Id *)
+      (*
+        If corresponding variable is modified due to callee,
+        add Same type constraint with type of callee and asigned one
+      *)
+      (* Assign new type Id if new vaiable comes *)
       let typeId, state = stateDom.getOrFreshTypeId variable state
+      (*
+        Check if corresponding variable is modified from Callee,
+        and add Same type constraint
+      *)
+      let pendingReturn, state = stateDom.consumePendingReturn variable state
+
+      let state =
+        match pendingReturn with
+        | Some returnTypeId -> stateDom.addSame [ typeId; returnTypeId ] state
+        | None -> state
+
       let value = stateDom.findRegister variable state
       value, Some typeId, state
 

@@ -4,6 +4,7 @@ open System.Text.Encodings.Web
 open System.Text.Json
 open System.Text.Json.Serialization
 open B2R2
+open PointerAnalyzer.Platform.PlatformTypes
 open PointerAnalyzer.Interproc.ModularAnalyzer
 open PointerAnalyzer.Summary
 open PointerAnalyzer.TypeInference.ResolvedType
@@ -16,11 +17,11 @@ type ArgumentsJson =
     Args: string list }
 
 type ReturnJson =
-  { [<JsonPropertyName("ReturnNum")>]
-    ReturnNum: int
+  { [<JsonPropertyName("ReturnReg")>]
+    ReturnReg: Map<string, string>
 
-    [<JsonPropertyName("Returns")>]
-    Returns: string list }
+    [<JsonPropertyName("ModifiedReg")>]
+    ModifiedReg: Map<string, string> }
 
 type PP = string
 type SSARegName = string
@@ -51,22 +52,70 @@ module FunctionJson =
     let sortedIndexedTypes = indexedTypes |> Map.toSeq |> Seq.sortBy fst
     sortedIndexedTypes |> Seq.map resolveTypeId2Str |> Seq.toList
 
+  /// Convert type Id into resolved Type String (Address|Value|Conflict|Unknown)
+  let private typeIdToTypeString constraints conflicts typeId =
+    let resolvedType = ResolvedTypeInfo.ofTypeId constraints conflicts typeId
+    resolvedType.Type.ToOutputString
+
+  /// Convert type Id of each variable into resolved Type String
+  let private registerTypesToStringMap constraints conflicts platform regTypes =
+    regTypes
+    |> Map.toSeq
+    |> Seq.sortBy fst
+    |> Seq.map (fun (regId, typeId) ->
+      platform.RegisterName regId,
+      typeIdToTypeString constraints conflicts typeId)
+    |> Map.ofSeq
+
+  /// Covert type Id of each return registers into resolved Type String
+  let private returnRegTypesToStringMap
+    constraints
+    conflicts
+    platform
+    regTypes
+    =
+    let returnRegTypeStr regId =
+      match Map.tryFind regId regTypes with
+      | Some tid ->
+        let regName = platform.RegisterName regId
+        let typeStr = typeIdToTypeString constraints conflicts tid
+        Some ((regName, typeStr))
+      | None -> None
+
+    platform.ReturnRegisters |> List.choose returnRegTypeStr |> Map.ofList
+
   let fromAnalysisResult
+    (platform: Platform)
     (resultAnalysisResult: ModularAnalysisResult)
     (funAnalysis: FunctionAnalysisResult)
     =
     let constraints = resultAnalysisResult.TypeConstraints
     let conflicts = resultAnalysisResult.TypeConflicts
 
+    (* Resolved type of argumentes *)
     let args =
       indexedTypesToStringList
         constraints
         conflicts
         funAnalysis.Summary.Parameters
 
-    let returns =
-      indexedTypesToStringList constraints conflicts funAnalysis.Summary.Returns
+    (* Resolved type of return register *)
+    let returnRegs =
+      returnRegTypesToStringMap
+        constraints
+        conflicts
+        platform
+        funAnalysis.Summary.Returns
 
+    (* Resolved type of all modified registers *)
+    let modifiedRegs =
+      registerTypesToStringMap
+        constraints
+        conflicts
+        platform
+        funAnalysis.Summary.Returns
+
+    (* Resolved type per instruction(SSA) *)
     let detailType =
       let resolvedTypes =
         ResolvedTypeMap.build
@@ -81,8 +130,8 @@ module FunctionJson =
         { ArgNum = List.length args
           Args = args }
       Return =
-        { ReturnNum = List.length returns
-          Returns = returns }
+        { ReturnReg = returnRegs
+          ModifiedReg = modifiedRegs }
       DetailType = detailType }
 
 module AnalysisResultJson =
@@ -95,6 +144,7 @@ module AnalysisResultJson =
   let private addressToHexString (address: Addr) = sprintf "0x%08x" address
 
   let fromAnalysisResult
+    platform
     resultAnalysisResult
     targetFunctions
     : AnalysisResultJson =
@@ -103,7 +153,10 @@ module AnalysisResultJson =
       let addrStr = addressToHexString address
 
       let funJson =
-        FunctionJson.fromAnalysisResult resultAnalysisResult funAnalysis
+        FunctionJson.fromAnalysisResult
+          platform
+          resultAnalysisResult
+          funAnalysis
 
       addrStr, funJson
 
@@ -112,5 +165,10 @@ module AnalysisResultJson =
   let toJsonString (analysisResultJson: AnalysisResultJson) =
     JsonSerializer.Serialize (analysisResultJson, jsonOptions) + "\n"
 
-  let fromAnalysisResultToJsonString resultAnalysisResult targetFunctions =
-    fromAnalysisResult resultAnalysisResult targetFunctions |> toJsonString
+  let fromAnalysisResultToJsonString
+    platform
+    resultAnalysisResult
+    targetFunctions
+    =
+    fromAnalysisResult platform resultAnalysisResult targetFunctions
+    |> toJsonString

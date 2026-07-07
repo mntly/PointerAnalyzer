@@ -16,11 +16,13 @@ open PointerAnalyzer.Frontend.FunctionDFA
 /// <c>Next</c> indicates normal next instruction.
 /// <c>LabelTarget</c> indicates jump target with Label.
 /// <c>InterTarget</c> indicates jump target with address, not function call.
+/// <c>ReturnTarget</c> indicates the instruction after a function call.
 /// </remarks>
 type TransferTarget =
   | Next
   | LabelTarget of Label
   | InterTarget of AbsVal
+  | ReturnTarget of Addr
 
 /// <summary>
 /// The transfer result of each statement.
@@ -33,16 +35,30 @@ type TransferResult =
   { Target: TransferTarget
     State: AnalysisState }
 
+/// <summary>
+/// Type definition of function to detect whether given variable will be used
+/// as pointer or not.
+/// </summary>
 type PointerUse = Variable -> bool
 
+/// <summary>
+/// Type definition of function to extract saturated constant value from B2R2
+/// DFA.
+/// </summary>
 type ConstValue = Variable -> BitVector option
 
+/// <summary>
+/// Type definition of function for applying function summary to caller.
+/// This function also returns return address to handle inlined function by
+/// B2R2.
+/// </summary>
 type ApplyCallSummary =
   ProgramPoint
+    -> Addr option
     -> Variable list
     -> Variable list
     -> AnalysisState
-    -> AnalysisState option
+    -> (AnalysisState * Addr option) option
 
 /// <summary>
 /// Some information used by evaluation, passed from
@@ -62,7 +78,7 @@ module StmtEvalConfig =
       ConstValue = fun _ -> None
       ClassifyConstant = fun _ -> UnknownConstant
       StackPointer = None
-      ApplyCallSummary = fun _ _ _ _ -> None
+      ApplyCallSummary = fun _ _ _ _ _ -> None
       Debug = false }
 
   /// Construct config used for analyzing.
@@ -164,12 +180,7 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
       | Some exprTypeId -> stateDom.addSame [ typeId; exprTypeId ] state
       | None -> state
 
-    let pendingReturn, state = stateDom.consumePendingReturn variable state
-
-    let state =
-      match pendingReturn with
-      | Some returnTypeId -> stateDom.addSame [ typeId; returnTypeId ] state
-      | None -> state
+    let _, state = stateDom.consumePendingReturn variable state
 
     let state = stateDom.setRegister variable value typeId state
     state |> this.applyPointerHint variable typeId
@@ -291,14 +302,21 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
 
       | Jmp (InterJmp targetExpr) ->
         let target, targetTypeId, state = exprEval.Eval state targetExpr
+        let targetAddr = absVal.tryGetUInt64 target
 
         let state =
           match targetTypeId with
           | Some typeId -> stateDom.addAddress typeId state
           | None -> state
 
-        match config.ApplyCallSummary programPoint [] [] state with
-        | Some state -> [ { Target = Next; State = state } ]
+        match config.ApplyCallSummary programPoint targetAddr [] [] state with
+        | Some (state, returnAddr) ->
+          let target =
+            match returnAddr with
+            | Some address -> ReturnTarget address
+            | None -> Next
+
+          [ { Target = target; State = state } ]
         | None ->
           [ { Target = InterTarget target
               State = state } ]
@@ -334,7 +352,8 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
           the information of it
       *)
       | ExternalCall (calleeExpr, inputs, outputs) ->
-        let _, calleeTypeId, state = exprEval.Eval state calleeExpr
+        let calleeValue, calleeTypeId, state = exprEval.Eval state calleeExpr
+        let targetAddr = absVal.tryGetUInt64 calleeValue
 
         let state =
           match calleeTypeId with
@@ -342,8 +361,10 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
           | None -> state
 
         let state =
-          match config.ApplyCallSummary programPoint inputs outputs state with
-          | Some appliedState -> appliedState
+          match
+            config.ApplyCallSummary programPoint targetAddr inputs outputs state
+          with
+          | Some (appliedState, _) -> appliedState
           | None -> state
 
         [ { Target = Next; State = state } ]

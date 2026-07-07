@@ -104,3 +104,21 @@ dotnet run --project src/PointerAnalyzer.fsproj \
     -o output \
     -dc
 ```
+
+### Print out one the result of specific function
+
+* Below scripts both print out the inferred type result of `_dl_aux_init` function at 0x0804a80f.
+
+```bash
+dotnet run --project src/PointerAnalyzer.fsproj \
+    -b datas/binaries/helloword-x86_32-i586-uclibc-O0 \
+    -o output \
+    --function 0x0804a80f
+```
+
+```bash
+dotnet run --project src/PointerAnalyzer.fsproj \
+    -b datas/binaries/helloword-x86_32-i586-uclibc-O0 \
+    -o output \
+    --function _dl_aux_init
+```

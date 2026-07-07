@@ -1,7 +1,6 @@
 module PointerAnalyzer.Summary.SummaryApplicator
 
 open B2R2
-open B2R2.FrontEnd
 open B2R2.BinIR.SSA
 
 open PointerAnalyzer.Platform.PlatformTypes
@@ -27,7 +26,7 @@ type SummaryApplicatorModule (platform: Platform) =
       match
         getCalleeParamTid variable, stateDom.tryFindTypeId variable state
       with
-      | Some calleeTypeId, Some callerTypeId ->
+      | Some (calleeTypeId: TypeId), Some callerTypeId ->
         stateDom.addSame [ calleeTypeId; callerTypeId ] state
       | _, _ -> state
 
@@ -51,28 +50,16 @@ type SummaryApplicatorModule (platform: Platform) =
 
     groupedByArgIdx |> Seq.map getLastReg |> Seq.toList
 
-  /// Based on calling convetion, map the return register and corrsponding
-  /// register of caller. Some intrinsic functions are handled with specific
-  /// register as return register.
+  /// Store the modified register types due to callee until the caller uses or
+  /// redefines corresponding registers.
   let setPendingReturns summary state =
-    let setPendingReturnsInner state retIdx calleeRetTypId =
-      match List.tryItem retIdx platform.ReturnRegisters with
-      | Some retRegId -> stateDom.setPendingReturn retRegId calleeRetTypId state
-      | None -> state
+    let setPendingReturnsInner state regId calleeRetTypId =
+      stateDom.setPendingReturn regId calleeRetTypId state
 
     summary.Returns |> Map.fold setPendingReturnsInner state
 
-  /// Check given callee is get_pc_thunk function.
-  /// If it is get_pc_thunk, set corresponding return register and type
-  /// constraint
-  let getPcThunkHandle handle calleeAddr state =
-    match platform.CheckIntrinsic PCThunk handle calleeAddr with
-    | Some outputRegId ->
-      Some (stateDom.setPendingReturn outputRegId TypeIds.address state)
-    | None -> None
-
   /// Applying the analysis result of callee to caller's analysis state
-  member _.apply handle calleeAddr summary inputs outputs state =
+  member _.apply summary inputs outputs state =
     let context = callSiteContext summary state
 
     (* According to calling convention, get argument index of given variable *)
@@ -80,10 +67,11 @@ type SummaryApplicatorModule (platform: Platform) =
       platform.TryCallArgumentIndex context variable
       |> Option.bind (fun index -> Map.tryFind index summary.Parameters)
 
-    (* According to calling convention, get return index of given variable *)
-    let outVarType variable =
-      platform.TryReturnIndex variable
-      |> Option.bind (fun index -> Map.tryFind index summary.Returns)
+    (* Get callee output register type using register id of given variable. *)
+    let outVarType (variable: Variable) =
+      match variable.Kind with
+      | VariableKind.RegVar (_, regId, _) -> Map.tryFind regId summary.Returns
+      | _ -> None
 
     (* Connect type between arguments and parameters *)
     let state =
@@ -93,15 +81,14 @@ type SummaryApplicatorModule (platform: Platform) =
       else
         connectVariables inVarType inputs state
 
-    (* Connect type or set pending returns between return registers *)
-    (* If target address is get_pc_thunk, handle heuristically *)
-    match getPcThunkHandle handle calleeAddr state with
-    | Some state -> state
-    | None ->
-      if List.isEmpty outputs then
-        setPendingReturns summary state
-      else
-        connectVariables outVarType outputs state
+    (*
+      Explicitly connect modified variable due to callee or store them as
+      pending register outputs.
+    *)
+    if List.isEmpty outputs then
+      setPendingReturns summary state
+    else
+      connectVariables outVarType outputs state
 
 module SummaryApplicator =
   let create platform = SummaryApplicatorModule platform

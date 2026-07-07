@@ -148,27 +148,35 @@ module ModularAnalyzer =
       (* Recover function to analyze *)
       let func = Map.find targetAddr program.Functions
 
-      /// If callee is valid, then apply callee summary
+      /// If callee is valid, then apply callee summary.
+      /// `targetAddr` is used for checking jump target is inlined function by
+      /// B2R2.
       let applyCallSummary
         (programPoint: ProgramPoint)
+        (targetAddr: Addr option)
         (inputs: Variable list)
         (outputs: Variable list)
         state
         =
-        let calleeOpt = trySingleCallee func programPoint.Address
+        let calleeOpt =
+          match trySingleCallee func programPoint.Address with
+          | Some callee -> Some callee
+          | None ->
+            (* Check target address is function inlined by B2R2 *)
+            targetAddr
+            |> Option.filter (fun address -> Map.containsKey address summaries)
 
         match calleeOpt with
         | Some callee ->
           match Map.tryFind callee summaries with
           | Some calleeSum ->
+            let state = applicator.apply calleeSum inputs outputs state
+
             Some (
-              applicator.apply
+              state,
+              platform.TryCallReturnAddress
                 program.Binary.Handle
-                callee
-                calleeSum
-                inputs
-                outputs
-                state
+                programPoint.Address
             )
           | None -> None
         | None -> None
@@ -187,12 +195,7 @@ module ModularAnalyzer =
 
       (* Store analysis result *)
       let summary =
-        FunctionSummaryBuilder.build
-          func.Address
-          func.Name
-          program.Binary.Handle
-          platform
-          result
+        FunctionSummaryBuilder.build func.Address func.Name platform result
 
       let analysis =
         { Function = func

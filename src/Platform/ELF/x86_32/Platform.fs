@@ -26,6 +26,9 @@ let private argumentRegisters = []
 
 let private returnRegisters = [ eax ]
 
+let private registerName registerId =
+  Intel.Register.ofRegID registerId |> Intel.Register.toString
+
 let private stackPointer = esp
 
 let private trivialAddressRegisters = Set.ofList [ stackPointer ]
@@ -93,20 +96,13 @@ let private tryReturnIndex (variable: Variable) =
   | Some registerId -> returnRegisters |> List.tryFindIndex ((=) registerId)
   | None -> None
 
-/// Heuristic handling of get pcthunk instrinsic functions
-let private tryPCThunk (handle: BinHandle) (address: Addr) =
-  match handle.TryReadBytes (address, 4) with
-  | Ok [| 0x8Buy; 0x04uy; 0x24uy; 0xC3uy |] -> Some eax
-  | Ok [| 0x8Buy; 0x0Cuy; 0x24uy; 0xC3uy |] -> Some ecx
-  | Ok [| 0x8Buy; 0x14uy; 0x24uy; 0xC3uy |] -> Some edx
-  | Ok [| 0x8Buy; 0x1Cuy; 0x24uy; 0xC3uy |] -> Some ebx
-  | Ok [| 0x8Buy; 0x34uy; 0x24uy; 0xC3uy |] -> Some esi
-  | Ok [| 0x8Buy; 0x3Cuy; 0x24uy; 0xC3uy |] -> Some edi
-  | _ -> None
+/// After call instruction, right next instruction of callsite is executed
+let private tryCallReturnAddress (handle: BinHandle) (callSite: Addr) =
+  let liftingUnit = handle.NewLiftingUnit ()
 
-let private CheckIntrinsic kind handle address =
-  match kind with
-  | PCThunk -> tryPCThunk handle address
+  match liftingUnit.TryParseInstruction callSite with
+  | Ok instruction -> Some (callSite + uint64 instruction.Length)
+  | Error _ -> None
 
 let create () =
   { Kind = ElfX86_32
@@ -118,13 +114,14 @@ let create () =
     StackPointer = stackPointer
     ArgumentRegisters = argumentRegisters
     ReturnRegisters = returnRegisters
+    RegisterName = registerName
 
     TrivialAddressRegisters = trivialAddressRegisters
     TrivialValueRegisters = trivialValueRegisters
     IsTrivialAddress = isTrivialAddress
     IsTrivialValue = isTrivialValue
 
-    CheckIntrinsic = CheckIntrinsic
+    TryCallReturnAddress = tryCallReturnAddress
 
     TryParameterIndex =
       fun variable ->
