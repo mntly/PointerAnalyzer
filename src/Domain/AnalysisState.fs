@@ -21,15 +21,14 @@ open PointerAnalyzer.AbsDom.TypeState
 /// <see cref="PointerAnalyzer.AbsDom.TypeState.TypeState" />.
 /// <c>PendingReturns</c> tracks callee output register types after applying
 /// callee. The stored register is eliminated when it is used or redefined.
-/// <c>StackDelta</c> tracks offset of current stack pointer to find out the
-/// arguments passed by stack.
+/// <c>StackPointer</c> tracks initial and current stack pointer values.
 /// </remarks>
 type AnalysisState =
   { RegMap: RegMap
     Memory: AbsMem
     Types: TypeState
     PendingReturns: Map<RegisterID, TypeId>
-    StackDelta: int option }
+    StackPointer: StackPointerState }
 
 /// <summary>
 /// Updates Analysis State.
@@ -50,7 +49,7 @@ type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
       Memory = memory.bot
       Types = types.bot
       PendingReturns = Map.empty
-      StackDelta = None }
+      StackPointer = StackPointerState.empty }
 
   /// Return new type Id
   member _.freshTypeId state =
@@ -158,12 +157,20 @@ type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
     { state with
         PendingReturns = Map.add retRegId calleeRetTypId state.PendingReturns }
 
-  /// Update offset of stack pointer
-  member _.adjustStackDelta delta state =
-    let stackDelta =
-      state.StackDelta |> Option.defaultValue 0 |> (+) delta |> Some
+  /// Initialize both initial SP and current SP to given value
+  member _.initializeStackPointer value (state: AnalysisState) =
+    { state with
+        StackPointer = StackPointerState.initialize value }
 
-    { state with StackDelta = stackDelta }
+  /// Set current SP to given value
+  member _.setCurrentStackPointer value (state: AnalysisState) =
+    { state with
+        StackPointer = state.StackPointer.SetCurrent value }
+
+  /// Set current SP to None
+  member _.forgetCurrentStackPointer (state: AnalysisState) =
+    { state with
+        StackPointer = state.StackPointer.ForgetCurrent }
 
   /// If output register is used, remove it from pending return.
   member _.consumePendingReturn (variable: Variable) state =
@@ -236,12 +243,7 @@ type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
         |> Map.fold
           (fun result registerId typeId -> Map.add registerId typeId result)
           left.PendingReturns
-      StackDelta =
-        match left.StackDelta, right.StackDelta with
-        | Some left, Some right when left = right -> Some left
-        | Some delta, None
-        | None, Some delta -> Some delta
-        | _ -> None }
+      StackPointer = StackPointerState.join left.StackPointer right.StackPointer }
 
 module AnalysisStateDomain =
   /// Create analysis state handler starting with given type id

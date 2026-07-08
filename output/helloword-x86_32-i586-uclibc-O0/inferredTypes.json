@@ -25,7 +25,7 @@
         "EDX_1": "Address",
         "ESP_6": "Address",
         "ESP_7": "Address",
-        "V_44_1": "Unknown"
+        "V_44_1": "Address"
       },
       "0x0804a80f": {
         "EBP_0": "Unknown",
@@ -79,7 +79,7 @@
         "ESP_5": "Address",
         "ESP_6": "Address",
         "PC_7": "Address",
-        "V_44_1": "Unknown"
+        "V_44_1": "Address"
       },
       "0x0804a81d": {
         "AF_2": "Value",

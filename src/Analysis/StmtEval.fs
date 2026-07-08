@@ -3,6 +3,7 @@ module PointerAnalyzer.Analysis.StmtEval
 open B2R2
 open B2R2.BinIR
 open B2R2.BinIR.SSA
+open B2R2.FrontEnd
 open PointerAnalyzer.Platform.PlatformTypes
 open PointerAnalyzer.AbsDom.AbsVal
 open PointerAnalyzer.AbsDom.AnalysisState
@@ -69,6 +70,7 @@ type StmtEvalConfig =
     ConstValue: ConstValue
     ClassifyConstant: BitVector -> ConstantType
     StackPointer: RegisterID option
+    InitialStackPointer: Addr option
     ApplyCallSummary: ApplyCallSummary
     Debug: bool }
 
@@ -78,21 +80,49 @@ module StmtEvalConfig =
       ConstValue = fun _ -> None
       ClassifyConstant = fun _ -> UnknownConstant
       StackPointer = None
+      InitialStackPointer = None
       ApplyCallSummary = fun _ _ _ _ _ -> None
       Debug = false }
 
+  /// Get UInt64 value of given BitVector
+  let private tryUInt64 (value: BitVector) =
+    try
+      Some (value.ToUInt64 ())
+    with _ ->
+      None
+
+  /// Get initial stack pointer value from B2R2 constant propagation.
+  let private tryInitialStackPointer
+    (handle: BinHandle)
+    stackPointer
+    constValue
+    =
+    let regType = handle.RegisterFactory.GetRegType stackPointer
+    let regName = handle.RegisterFactory.GetRegisterName stackPointer
+
+    let stackPointerZero =
+      { Kind = RegVar (regType, stackPointer, regName)
+        Identifier = 0 }
+
+    constValue stackPointerZero |> Option.bind tryUInt64
+
   /// Construct config used for analyzing.
   let construct
+    handle
     (funDFAResult: FunctionDFA)
     classifyConst
     sp
     applyCallee
     isDebug
     =
+    let initialStackPointer =
+      tryInitialStackPointer handle sp funDFAResult.ConstValue
+
     { PointerUse = funDFAResult.PointerUse
       ConstValue = funDFAResult.ConstValue
       ClassifyConstant = classifyConst
       StackPointer = Some sp
+      InitialStackPointer = initialStackPointer
       ApplyCallSummary = applyCallee
       Debug = isDebug }
 
@@ -123,49 +153,18 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
     | Some stackPointer, RegVar (_, registerId, _) -> registerId = stackPointer
     | _ -> false
 
-  /// Get integer value of given bitvector
-  member private _.tryInt (value: BitVector) =
-    try
-      let value = value.ToUInt64 ()
-
-      if value <= uint64 System.Int32.MaxValue then
-        Some (int value)
-      else
-        None
-    with _ ->
-      None
-
-  /// Update stack pointer offset according to given expression.
-  member private this.tryStackDeltaChange (expr: Expr) =
-    let isStackPointerExpr =
-      function
-      | Var variable when this.isStackPointer variable -> true
-      | _ -> false
-
-    let tryNum =
-      function
-      | Num value -> this.tryInt value
-      | _ -> None
-
-    match expr with
-    | BinOp (BinOpType.SUB, _, left, right) when isStackPointerExpr left ->
-      tryNum right
-    | BinOp (BinOpType.ADD, _, left, right) when isStackPointerExpr left ->
-      match tryNum right with
-      | Some del -> Some -del
-      | None -> None
-    | BinOp (BinOpType.ADD, _, left, right) when isStackPointerExpr right ->
-      match tryNum left with
-      | Some del -> Some -del
-      | None -> None
-    | _ -> None
-
-  /// If the definition target is stack pointer then update stack pointer offset
-  member private this.updateStackDelta (variable: Variable) expr state =
+  /// If the definition target is stack pointer, update it from B2R2 constProp.
+  member private this.updateStackPointerFromConst (variable: Variable) state =
     if this.isStackPointer variable then
-      match this.tryStackDeltaChange expr with
-      | Some delta -> stateDom.adjustStackDelta delta state
-      | None -> { state with StackDelta = None }
+      (* Only set constant value if it can be recovered from B2R2 constProp *)
+      (* If not, set None by default *)
+      match config.ConstValue variable with
+      | Some constant ->
+        try
+          stateDom.setCurrentStackPointer (constant.ToUInt64 ()) state
+        with _ ->
+          stateDom.forgetCurrentStackPointer state
+      | None -> stateDom.forgetCurrentStackPointer state
     else
       state
 
@@ -197,7 +196,7 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
 
     state
     |> this.defReg variable value typeId
-    |> this.updateStackDelta variable expr
+    |> this.updateStackPointerFromConst variable
 
   /// Handle memory definition by evaluating the expression. Memory definition
   /// occurs only when store expression, this evaluate store expression and

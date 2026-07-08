@@ -16,7 +16,7 @@ type SummaryApplicatorModule (platform: Platform) =
 
   /// Represent the information got by caller right before moving to callee.
   let callSiteContext summary state =
-    { ReturnAddressOffset = state.StackDelta
+    { StackPointer = state.StackPointer
       ParameterCount = Map.count summary.Parameters }
 
   /// Connect the same type relationship between arguments and parameters of
@@ -82,13 +82,44 @@ type SummaryApplicatorModule (platform: Platform) =
         connectVariables inVarType inputs state
 
     (*
+      Connect type between stack var 0 of callee and callee if stack var 0
+      used for return address slot
+    *)
+    let state =
+      match context.StackPointer.TryDelta, platform.IsStack0Return with
+      | Some offset, true ->
+        let checkOffset (reg: Variable, tid) =
+          match reg.Kind with
+          | StackVar (_, offset') when offset' = offset -> Some (reg, tid)
+          | _ -> None
+
+        let caller0Candi =
+          state.Types.TypeIndicators |> Map.toSeq |> Seq.choose checkOffset
+
+        if Seq.isEmpty caller0Candi then
+          state
+        else
+          let tidCaller =
+            caller0Candi |> Seq.maxBy (fun (reg, _) -> reg.Identifier) |> snd
+
+          stateDom.addAddress tidCaller state
+
+      | Some _, false
+      | None, _ -> state
+
+    (*
       Explicitly connect modified variable due to callee or store them as
       pending register outputs.
     *)
-    if List.isEmpty outputs then
-      setPendingReturns summary state
-    else
-      connectVariables outVarType outputs state
+    let state =
+      if List.isEmpty outputs then
+        setPendingReturns summary state
+      else
+        connectVariables outVarType outputs state
+
+    (* Due to stack prologue, set current SP to None *)
+    (* After before call, SP will reset *)
+    stateDom.forgetCurrentStackPointer state
 
 module SummaryApplicator =
   let create platform = SummaryApplicatorModule platform

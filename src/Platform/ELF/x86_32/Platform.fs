@@ -11,11 +11,11 @@ let private regId register = Intel.Register.toRegID register
 
 let private esp = regId Intel.Register.ESP
 let private eax = regId Intel.Register.EAX
-let private ecx = regId Intel.Register.ECX
-let private edx = regId Intel.Register.EDX
-let private ebx = regId Intel.Register.EBX
-let private esi = regId Intel.Register.ESI
-let private edi = regId Intel.Register.EDI
+// let private ecx = regId Intel.Register.ECX
+// let private edx = regId Intel.Register.EDX
+// let private ebx = regId Intel.Register.EBX
+// let private esi = regId Intel.Register.ESI
+// let private edi = regId Intel.Register.EDI
 
 let private tryRegisterId (variable: Variable) =
   match variable.Kind with
@@ -76,7 +76,7 @@ let private tryCallStackIndex
   (context: CallSiteStackContext)
   (variable: Variable)
   =
-  match context.ReturnAddressOffset, variable.Kind with
+  match context.StackPointer.TryDelta, variable.Kind with
   | Some returnAddressOffset, StackVar (_, offset) when
     offset < returnAddressOffset
     ->
@@ -110,6 +110,8 @@ let create () =
 
     WordSize = wordSize
     IsAndMask = fun value -> value >= 0xFFFF0000UL
+
+    IsStack0Return = true
 
     StackPointer = stackPointer
     ArgumentRegisters = argumentRegisters

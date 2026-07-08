@@ -183,6 +183,7 @@ module ModularAnalyzer =
 
       let config =
         StmtEvalConfig.construct
+          program.Binary.Handle
           func.DFAResult
           classifyConstant
           platform.StackPointer

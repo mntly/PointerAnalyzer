@@ -17,7 +17,7 @@ addOffset:
   mov ebp, esp
 
   mov eax, [ebp+8]
-  add eax, [ebp+12]
+  mov ebx, [ebp+12]
 
   pop ebp
   ret
@@ -34,8 +34,7 @@ compute:
   call addOffset
   add esp, 8
 
-  add eax, 1
-  mov DWORD PTR [result], eax
+  mov DWORD PTR [eax], eax
 
   leave
   ret

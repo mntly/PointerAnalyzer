@@ -39,7 +39,10 @@ type AnalyzerModule
   new (platform: Platform, config: StmtEvalConfig) =
     AnalyzerModule (platform, 0, config)
 
-  member __.InitialState = stateDom.bot
+  member __.InitialState =
+    match config.InitialStackPointer with
+    | Some stackPointer -> stateDom.initializeStackPointer stackPointer stateDom.bot
+    | None -> stateDom.bot
 
   /// Analyze one block. Transfer the statements in given block and collect
   /// type constraints.
@@ -98,12 +101,8 @@ type AnalyzerModule
         |> Map.fold
           (fun acc regId typeId -> Map.add regId typeId acc)
           left.PendingReturns
-      StackDelta =
-        match left.StackDelta, right.StackDelta with
-        | Some left, Some right when left = right -> Some left
-        | Some delta, None
-        | None, Some delta -> Some delta
-        | _ -> None }
+      StackPointer =
+        StackPointerState.join left.StackPointer right.StackPointer }
 
   /// Analyze given CFG (entire binary) and return AnalysisState
   /// collected TypeConstraint
