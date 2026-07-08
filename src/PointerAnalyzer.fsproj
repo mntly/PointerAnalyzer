@@ -52,30 +52,13 @@
 
   <ItemGroup>
     <PackageReference Include="FSharp.Core" Version="10.1.300" />
-    <PackageReference Include="B2R2.Assembly.API" Version="0.10.0" />
-    <PackageReference Include="B2R2.FrontEnd.API" Version="0.10.0" />
-    <PackageReference Include="B2R2.MiddleEnd.API" Version="0.10.0" />
-    <PackageReference
-      Include="Microsoft.Z3"
-      Version="4.12.2"
-      Condition="'$(BuildHostOS)' == 'windows'" />
-    <PackageReference
-      Include="Microsoft.Z3.x64"
-      Version="4.8.10"
-      GeneratePathProperty="true"
-      Condition="'$(BuildHostOS)' == 'linux'" />
+    <ProjectReference Include="../external/B2R2/src/Assembly/API/B2R2.Assembly.API.fsproj" />
+    <ProjectReference Include="../external/B2R2/src/FrontEnd/API/B2R2.FrontEnd.API.fsproj" />
+    <ProjectReference Include="../external/B2R2/src/MiddleEnd/API/B2R2.MiddleEnd.API.fsproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Argu" Version="6.2.5" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(BuildHostOS)' == 'linux'">
-    <None
-      Include="$(PkgMicrosoft_Z3_x64)/runtimes/ubuntu-x64/native/libz3.so"
-      Link="libz3.so"
-      CopyToOutputDirectory="PreserveNewest"
-      CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

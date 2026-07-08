@@ -124,9 +124,9 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
     | _ -> false
 
   /// Get integer value of given bitvector
-  member private _.tryInt value =
+  member private _.tryInt (value: BitVector) =
     try
-      let value = BitVector.ToUInt64 value
+      let value = value.ToUInt64 ()
 
       if value <= uint64 System.Int32.MaxValue then
         Some (int value)

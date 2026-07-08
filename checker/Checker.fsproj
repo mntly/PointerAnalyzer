@@ -23,8 +23,8 @@
   <ItemGroup>
     <PackageReference Include="FSharp.Core" Version="10.1.300" />
     <PackageReference Include="Argu" Version="6.2.5" />
-    <PackageReference Include="B2R2.FrontEnd.API" Version="0.10.0" />
-    <PackageReference Include="B2R2.MiddleEnd.API" Version="0.10.0" />
+    <ProjectReference Include="../external/B2R2/src/FrontEnd/API/B2R2.FrontEnd.API.fsproj" />
+    <ProjectReference Include="../external/B2R2/src/MiddleEnd/API/B2R2.MiddleEnd.API.fsproj" />
   </ItemGroup>
 
 </Project>

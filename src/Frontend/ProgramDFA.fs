@@ -80,11 +80,6 @@ module ProgramDFA =
         Callees = callees func }
 
     let functionMap =
-      (*
-        ToDo
-          Functions.Sequence misses some functions.
-          Check rechability, and modify B2R2 as submodule.
-      *)
       brew.Functions.Sequence
       |> Seq.filter (fun function_ -> not function_.IsExternal)
       |> Seq.map constrFunDFA

@@ -29,9 +29,9 @@ type FindCall0InvalidResult =
     LiftFailures: (BuilderFunction * string) list
     Sites: JumpZeroSite list }
 
-let private tryUInt64 bv =
+let private tryUInt64 (bv: BitVector) =
   try
-    Some (BitVector.ToUInt64 bv)
+    Some (bv.ToUInt64 ())
   with _ ->
     None
 

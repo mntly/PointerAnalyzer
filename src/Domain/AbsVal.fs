@@ -85,7 +85,7 @@ type AbsValModule (_platform: Platform) =
     match value with
     | Const bv ->
       try
-        Some (BitVector.ToUInt64 bv)
+        Some (bv.ToUInt64 ())
       with _ ->
         None
     | Bot

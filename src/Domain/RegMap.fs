@@ -35,7 +35,7 @@ type RegMapModule (platform: Platform) =
 
   member _.toString (registers: RegMap) =
     let printElem (variable, value) =
-      sprintf "%s |-> %s" (Variable.ToString variable) (absVal.toString value)
+      sprintf "%s |-> %s" (variable.ToString ()) (absVal.toString value)
 
     registers |> Map.toList |> List.map printElem |> String.concat "\n"
 

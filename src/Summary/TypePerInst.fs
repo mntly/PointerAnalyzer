@@ -86,7 +86,7 @@ module TypePerInst =
       let filterInTypeIndicator variable =
         match Map.tryFind variable resolvedTypes with
         | Some typeInfo ->
-          let variableStr = Variable.ToString variable
+          let variableStr = variable.ToString ()
           let typeStr = typeInfo.Type.ToOutputString
           Some (variableStr, typeStr)
         | None -> None

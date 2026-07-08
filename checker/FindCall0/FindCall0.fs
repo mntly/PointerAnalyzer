@@ -113,9 +113,9 @@ let private symbolFunctions binaryPath =
   |> Seq.sortBy (fun symbol -> symbol.Address, symbol.Name)
   |> Seq.toList
 
-let private tryUInt64 bv =
+let private tryUInt64 (bv: BitVector) =
   try
-    Some (BitVector.ToUInt64 bv)
+    Some (bv.ToUInt64 ())
   with _ ->
     None
 

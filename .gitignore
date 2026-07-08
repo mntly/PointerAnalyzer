@@ -17,3 +17,5 @@ src/obj/
 # Analyzer/checker generated outputs
 # output/
 # checker/output/
+
+.fake

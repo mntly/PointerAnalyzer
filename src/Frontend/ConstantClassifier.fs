@@ -12,7 +12,7 @@ module ConstantClassifier =
   /// If constant value is trivial address or value, use its type
   let forBinary (handle: BinHandle) (value: BitVector) =
     try
-      let address = BitVector.ToUInt64 value
+      let address = value.ToUInt64 ()
 
       if handle.File.IsValidAddr address then
         AddressConstant

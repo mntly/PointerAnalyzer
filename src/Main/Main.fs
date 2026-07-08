@@ -182,16 +182,80 @@ let private funcSSAStr targetFunctions =
   let ppStr (programPoint: ProgramPoint) =
     sprintf "0x%08x+%d" programPoint.Address programPoint.Position
 
+  let varsInExpr expr =
+    let rec collect (acc: Set<Variable>) (expr: Expr) =
+      match expr with
+      | Num _
+      | FuncName _
+      | Undefined _ -> acc
+      | Var variable -> Set.add variable acc
+      | ExprList expressions -> List.fold collect acc expressions
+      | Load (_, _, address) -> collect acc address
+      | Expr.Store (_, _, address, value) -> collect (collect acc address) value
+      | UnOp (_, _, expr)
+      | Cast (_, _, expr)
+      | Extract (expr, _, _) -> collect acc expr
+      | BinOp (_, _, left, right)
+      | RelOp (_, _, left, right) -> collect (collect acc left) right
+      | Ite (condition, _, trueExpr, falseExpr) ->
+        collect (collect (collect acc condition) trueExpr) falseExpr
+
+    collect Set.empty expr
+
+  let varsInJmp jmpType =
+    match jmpType with
+    | IntraJmp _ -> Set.empty
+    | IntraCJmp (condition, _, _) -> varsInExpr condition
+    | InterJmp target -> varsInExpr target
+    | InterCJmp (condition, trueTarget, falseTarget) ->
+      Set.unionMany
+        [ varsInExpr condition; varsInExpr trueTarget; varsInExpr falseTarget ]
+
+  let varsInStmt stmt =
+    match stmt with
+    | LMark _
+    | SideEffect _ -> Set.empty
+    | Def (variable, expression) -> Set.add variable (varsInExpr expression)
+    | Phi (variable, _) -> Set.singleton variable
+    | Jmp jmpType -> varsInJmp jmpType
+    | ExternalCall (callee, inputVariables, outputVariables) ->
+      Set.unionMany
+        [ varsInExpr callee
+          Set.ofList inputVariables
+          Set.ofList outputVariables ]
+
   let stmtStr (pp, stmt: Stmt) =
     sprintf
       "  %-20s %s"
       (ppStr pp)
       ((PrettyPrinter.ToString [| stmt |]).Trim ())
 
+  let constPropStr func =
+    let constantVariables =
+      func.DFAResult.Statements
+      |> Seq.collect (snd >> varsInStmt)
+      |> Set.ofSeq
+      |> Set.toList
+      |> List.sortBy (fun variable -> variable.ToString ())
+      |> List.choose (fun variable ->
+        match func.DFAResult.ConstValue variable with
+        | Some value -> Some (variable.ToString (), value)
+        | None -> None)
+
+    let header = "ConstantPropagation"
+
+    if List.isEmpty constantVariables then
+      [ header; "  <empty>" ]
+    else
+      header
+      :: (constantVariables
+          |> List.map (fun (variable, value) ->
+            sprintf "  %-20s %O" variable value))
+
   let funcSSA2Str (addr, func) =
     let header = sprintf "Function 0x%x (%s)" addr func.Name
     let statements = func.DFAResult.Statements |> List.map stmtStr
-    header :: statements @ [ "" ]
+    header :: statements @ [ "" ] @ constPropStr func @ [ "" ]
 
   let ssaStr =
     targetFunctions

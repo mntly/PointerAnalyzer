@@ -70,7 +70,7 @@ module ModularAnalyzer =
       |> Seq.map (fun (variable, typeInfo) ->
         sprintf
           "    %s -> %s"
-          (Variable.ToString variable)
+          (variable.ToString ())
           (ResolvedTypeInfo.toDebugString typeInfo))
       |> String.concat "\n"
 
