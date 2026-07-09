@@ -2,7 +2,6 @@ module Checker.Program
 
 open Argu
 open System.IO
-open EvaluateAnalyzer.GroundTruthExtractor.Types.GroundTruthTypes
 
 type CheckerMode =
   | FindCall0
@@ -13,17 +12,15 @@ type CheckerMode =
 type MainOptions =
   { Mode: CheckerMode
     BinaryPath: string option
+    OutFileName: string
     OutputDirPath: string
-    IsStore: bool
-    GTExtractMode: GroundTruthExtractMode
-    LibRoot: string }
+    IsStore: bool }
 
 type CLIArg =
   | [<AltCommandLine("-m")>] Mode of int
   | [<AltCommandLine("-b")>] Binary of string
   | [<AltCommandLine("-o")>] Output of string
-  | [<AltCommandLine("-gm")>] GTExtractMode of int
-  | LibRoot of string
+  | [<AltCommandLine("-on")>] OutputName of string
 
   interface IArgParserTemplate with
     member this.Usage =
@@ -33,14 +30,15 @@ type CLIArg =
           This checks the functions in symbol table.
         Mode 1 prints out the SSA jump/call instructions whose target is 1.
           This checks the invalid functions of B2R2.
-        Mode 2 extracts ground-truth signatures from uClibc.
+        Mode 2 extracts ground-truth signatures from DWARF debug info.
         Mode 3 prints out the evaluation result of PointerAnalyzer"
-      | Binary _ -> "Binary file to inspect."
-      | Output _ -> "Optional output file path. If omitted, print to stdout."
-      | GTExtractMode _ ->
-        "Ground-truth extraction mode. 0 extracts functions in target binary.
-          1 extracts all functions parsed from uClibc."
-      | LibRoot _ -> "Optional uClibc source root path."
+      | Binary _ ->
+        "Binary file to inspect. For mode 2, this should bethe ground-truth binary with DWARF debug info."
+      | Output _ ->
+        "Optional output directory path. If omitted, print to stdout."
+
+      | OutputName _ ->
+        "Optional output file name. It is only used for storing. If omitted, file name is determined based on binary name."
 
 let private storeOutput options fileName (content: string) =
   let dirPath = options.OutputDirPath
@@ -91,27 +89,22 @@ let private parseArg (args: string array) =
     else
       None
 
+  let outFileName =
+    if r.Contains OutputName then
+      r.GetResult <@ OutputName @>
+    else
+      match bin with
+      | Some binName -> Path.GetFileName binName
+      | None -> ""
+
   let isStore = r.Contains Output
   let outDir = if isStore then r.GetResult <@ Output @> else "output"
 
-  let gtMode =
-    if r.Contains GTExtractMode then
-      r.GetResult <@ GTExtractMode @> |> GroundTruthExtractMode.ofInt
-    else
-      TargetBinary
-
-  let libRoot =
-    if r.Contains LibRoot then
-      r.GetResult <@ LibRoot @>
-    else
-      EvaluateAnalyzer.GroundTruthExtractor.UClibc.UClibcProfile.defaultLibRoot
-
   { Mode = mode
     BinaryPath = bin
+    OutFileName = outFileName
     OutputDirPath = outDir
-    IsStore = isStore
-    GTExtractMode = gtMode
-    LibRoot = libRoot }
+    IsStore = isStore }
 
 let private requireBinary options =
   match options.BinaryPath with
@@ -133,21 +126,39 @@ let private runFindCall0Invalid options =
   emitOutput options "FindCall0InvalidResult" result
 
 let private runBuildGroundTruth options =
+  let binPath = requireBinary options
+
+  if options.IsStore then
+    Directory.CreateDirectory options.OutputDirPath |> ignore
+
+  let logFilePath =
+    if options.IsStore then
+      let logOptions: EvaluateAnalyzer.GroundTruthExtractor.Builder.BuildOptions =
+        { GroundTruthBinary = binPath
+          OutputSuffix = options.OutFileName
+          LogFilePath = None }
+
+      let logFileName =
+        EvaluateAnalyzer.GroundTruthExtractor.Builder.logFileName logOptions
+
+      Some (Path.Combine (options.OutputDirPath, logFileName))
+    else
+      None
+
   let buildOptions: EvaluateAnalyzer.GroundTruthExtractor.Builder.BuildOptions =
-    { LibRoot = options.LibRoot
-      ExtractMode = options.GTExtractMode
-      TargetBinary = options.BinaryPath
-      SourceProfile =
-        EvaluateAnalyzer.GroundTruthExtractor.UClibc.UClibcProfile.profile
-      TargetBinaryProfile =
-        EvaluateAnalyzer.GroundTruthExtractor.ELF.ELFSymbolReader.profile }
+    { GroundTruthBinary = binPath
+      OutputSuffix = options.OutFileName
+      LogFilePath = logFilePath }
 
   try
     let result =
       EvaluateAnalyzer.GroundTruthExtractor.Builder.build buildOptions
       |> EvaluateAnalyzer.GroundTruthExtractor.Builder.toJson
 
-    emitOutput options "groundTruth.json" result
+    let fileName =
+      EvaluateAnalyzer.GroundTruthExtractor.Builder.outputFileName buildOptions
+
+    emitOutput options fileName result
   with ex ->
     eprintfn "%s" ex.Message
     exit 1

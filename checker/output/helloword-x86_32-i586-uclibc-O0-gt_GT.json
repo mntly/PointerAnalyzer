@@ -1,0 +1,1634 @@
+{
+  "0x08049020": {
+    "Name": "_start",
+    "Args": [],
+    "Return": [
+      "Unknown"
+    ]
+  },
+  "0x080491c6": {
+    "Name": "main",
+    "Args": [],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080491f6": {
+    "Name": "puts",
+    "Args": [
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08049322": {
+    "Name": "__CLOSE",
+    "Args": [
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x0804937b": {
+    "Name": "_stdio_term",
+    "Args": [],
+    "Return": []
+  },
+  "0x080494cf": {
+    "Name": "_stdio_init",
+    "Args": [],
+    "Return": []
+  },
+  "0x08049545": {
+    "Name": "__stdio_wcommit",
+    "Args": [
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08049591": {
+    "Name": "__GI___fputc_unlocked",
+    "Args": [
+      "Value",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08049690": {
+    "Name": "__GI_fputs_unlocked",
+    "Args": [
+      "Address",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080496d7": {
+    "Name": "__GI_fwrite_unlocked",
+    "Args": [
+      "Address",
+      "Value",
+      "Value",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08049766": {
+    "Name": "__GI_strlen",
+    "Args": [
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080497a9": {
+    "Name": "__GI_isatty",
+    "Args": [
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080497d6": {
+    "Name": "__GI_tcgetattr",
+    "Args": [
+      "Value",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08049ef5": {
+    "Name": "__pthread_return_0",
+    "Args": [
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08049f09": {
+    "Name": "__pthread_mutex_init",
+    "Args": [
+      "Address",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08049f1d": {
+    "Name": "_pthread_cleanup_push_defer",
+    "Args": [
+      "Address",
+      "Address",
+      "Address"
+    ],
+    "Return": []
+  },
+  "0x08049f3e": {
+    "Name": "_pthread_cleanup_pop_restore",
+    "Args": [
+      "Address",
+      "Value"
+    ],
+    "Return": []
+  },
+  "0x08049f67": {
+    "Name": "__check_one_fd",
+    "Args": [
+      "Value",
+      "Value"
+    ],
+    "Return": []
+  },
+  "0x08049fb5": {
+    "Name": "__check_suid",
+    "Args": [],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x0804a00c": {
+    "Name": "__uClibc_init",
+    "Args": [],
+    "Return": []
+  },
+  "0x0804a07e": {
+    "Name": "__uClibc_fini",
+    "Args": [],
+    "Return": []
+  },
+  "0x0804a0ec": {
+    "Name": "__uClibc_main",
+    "Args": [
+      "Address",
+      "Value",
+      "Address",
+      "Address",
+      "Address",
+      "Address",
+      "Address"
+    ],
+    "Return": []
+  },
+  "0x0804a45e": {
+    "Name": "init_slotinfo",
+    "Args": [],
+    "Return": []
+  },
+  "0x0804a492": {
+    "Name": "init_static_tls",
+    "Args": [
+      "Value",
+      "Value"
+    ],
+    "Return": []
+  },
+  "0x0804a4e5": {
+    "Name": "__libc_setup_tls",
+    "Args": [
+      "Value",
+      "Value"
+    ],
+    "Return": []
+  },
+  "0x0804a7e7": {
+    "Name": "_dl_tls_setup",
+    "Args": [],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x0804a811": {
+    "Name": "__pthread_initialize_minimal",
+    "Args": [],
+    "Return": []
+  },
+  "0x0804a838": {
+    "Name": "_dl_aux_init",
+    "Args": [
+      "Address"
+    ],
+    "Return": []
+  },
+  "0x0804abd2": {
+    "Name": "_dl_nothread_init_static_tls",
+    "Args": [
+      "Address"
+    ],
+    "Return": []
+  },
+  "0x0804ac75": {
+    "Name": "_dl_map_cache",
+    "Args": [],
+    "Return": []
+  },
+  "0x0804ac85": {
+    "Name": "_dl_unmap_cache",
+    "Args": [],
+    "Return": []
+  },
+  "0x0804ac95": {
+    "Name": "_dl_run_array_forward",
+    "Args": [
+      "Value",
+      "Value",
+      "Value"
+    ],
+    "Return": []
+  },
+  "0x0804acf1": {
+    "Name": "_dl_run_init_array",
+    "Args": [
+      "Address"
+    ],
+    "Return": []
+  },
+  "0x0804ad25": {
+    "Name": "_dl_app_init_array",
+    "Args": [],
+    "Return": []
+  },
+  "0x0804ad4e": {
+    "Name": "_dl_run_fini_array",
+    "Args": [
+      "Address"
+    ],
+    "Return": []
+  },
+  "0x0804adba": {
+    "Name": "_dl_app_fini_array",
+    "Args": [],
+    "Return": []
+  },
+  "0x0804ade3": {
+    "Name": "_dl_linux_resolver",
+    "Args": [
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x0804af09": {
+    "Name": "_dl_parse",
+    "Args": [
+      "Address",
+      "Address",
+      "Value",
+      "Value",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x0804b04e": {
+    "Name": "_dl_do_reloc",
+    "Args": [
+      "Address",
+      "Address",
+      "Address",
+      "Address",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x0804b2e9": {
+    "Name": "_dl_do_lazy_reloc",
+    "Args": [
+      "Address",
+      "Address",
+      "Address",
+      "Address",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x0804b346": {
+    "Name": "_dl_parse_lazy_relocation_information",
+    "Args": [
+      "Address",
+      "Value",
+      "Value"
+    ],
+    "Return": []
+  },
+  "0x0804b376": {
+    "Name": "_dl_parse_relocation_information",
+    "Args": [
+      "Address",
+      "Address",
+      "Value",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x0804b3a6": {
+    "Name": "_dl_elf_hash",
+    "Args": [
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x0804b406": {
+    "Name": "_dl_add_elf_hash_table",
+    "Args": [
+      "Address",
+      "Value",
+      "Address",
+      "Value",
+      "Value"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x0804b842": {
+    "Name": "check_match",
+    "Args": [
+      "Address",
+      "Address",
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x0804b8fb": {
+    "Name": "_dl_find_hash",
+    "Args": [
+      "Address",
+      "Address",
+      "Address",
+      "Value",
+      "Address"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x0804bb6f": {
+    "Name": "_dl_protect_relro",
+    "Args": [
+      "Address"
+    ],
+    "Return": []
+  },
+  "0x0804bc93": {
+    "Name": "search_for_named_library",
+    "Args": [
+      "Address",
+      "Value",
+      "Address",
+      "Address",
+      "Address"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x0804bea6": {
+    "Name": "_dl_load_shared_library",
+    "Args": [
+      "Value",
+      "Address",
+      "Address",
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x0804c171": {
+    "Name": "map_writeable",
+    "Args": [
+      "Value",
+      "Address",
+      "Value",
+      "Value",
+      "Value"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x0804c589": {
+    "Name": "_dl_load_elf_shared_library",
+    "Args": [
+      "Value",
+      "Address",
+      "Address"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x0804eb09": {
+    "Name": "_dl_fixup",
+    "Args": [
+      "Address",
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x0804ee0f": {
+    "Name": "_dl_parse_dynamic_info",
+    "Args": [
+      "Address",
+      "Address",
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x0804f050": {
+    "Name": "remove_slotinfo",
+    "Args": [
+      "Value",
+      "Address",
+      "Value",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x0804f1a6": {
+    "Name": "_dl_build_local_scope",
+    "Args": [
+      "Address",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x0804f239": {
+    "Name": "do_dlopen",
+    "Args": [
+      "Address",
+      "Value",
+      "Value"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x080504be": {
+    "Name": "dlopen",
+    "Args": [
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x08050539": {
+    "Name": "do_dlsym",
+    "Args": [
+      "Address",
+      "Address",
+      "Address"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x080506c5": {
+    "Name": "dlsym",
+    "Args": [
+      "Address",
+      "Address"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x08050740": {
+    "Name": "do_dlclose",
+    "Args": [
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08050f8e": {
+    "Name": "dlclose",
+    "Args": [
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08051004": {
+    "Name": "dlerror",
+    "Args": [],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x0805104c": {
+    "Name": "do_dladdr",
+    "Args": [
+      "Address",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08051281": {
+    "Name": "dladdr",
+    "Args": [
+      "Address",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080512f8": {
+    "Name": "_dl_linux_resolve",
+    "Args": [],
+    "Return": [
+      "Unknown"
+    ]
+  },
+  "0x08051321": {
+    "Name": "__lll_lock_wait_private",
+    "Args": [
+      "Address"
+    ],
+    "Return": []
+  },
+  "0x080513ab": {
+    "Name": "__lll_lock_wait",
+    "Args": [
+      "Address",
+      "Value"
+    ],
+    "Return": []
+  },
+  "0x08051439": {
+    "Name": "__lll_timedlock_wait",
+    "Args": [
+      "Address",
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x0805156a": {
+    "Name": "__lll_timedwait_tid",
+    "Args": [
+      "Address",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080516a1": {
+    "Name": "__errno_location",
+    "Args": [],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x080516bf": {
+    "Name": "__h_errno_location",
+    "Args": [],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x080516e5": {
+    "Name": "_setjmp",
+    "Args": [],
+    "Return": [
+      "Unknown"
+    ]
+  },
+  "0x08051710": {
+    "Name": "__libc_i386_syscall6",
+    "Args": [],
+    "Return": [
+      "Unknown"
+    ]
+  },
+  "0x08051737": {
+    "Name": "__fcntl_nocancel",
+    "Args": [
+      "Value",
+      "Value",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080517f8": {
+    "Name": "__GI_fcntl",
+    "Args": [
+      "Value",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08051880": {
+    "Name": "__close_nocancel",
+    "Args": [
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080518dd": {
+    "Name": "__close_nocancel_no_status",
+    "Args": [
+      "Value"
+    ],
+    "Return": []
+  },
+  "0x0805190c": {
+    "Name": "__GI_close",
+    "Args": [
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08051968": {
+    "Name": "__GI_getegid",
+    "Args": [],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08051990": {
+    "Name": "__GI_geteuid",
+    "Args": [],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080519b8": {
+    "Name": "__GI_getgid",
+    "Args": [],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080519e0": {
+    "Name": "__GI_gettimeofday",
+    "Args": [
+      "Address",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08051a4f": {
+    "Name": "__GI_getuid",
+    "Args": [],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08051a77": {
+    "Name": "__GI_ioctl",
+    "Args": [
+      "Value",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08051bf9": {
+    "Name": "__open2_nocancel",
+    "Args": [
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08051c5b": {
+    "Name": "__GI_open",
+    "Args": [
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08051d8a": {
+    "Name": "__GI_sbrk",
+    "Args": [
+      "Value"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x08051df8": {
+    "Name": "dprintf",
+    "Args": [
+      "Value",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08051e2a": {
+    "Name": "__GI_vdprintf",
+    "Args": [
+      "Value",
+      "Address",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08051ecc": {
+    "Name": "__WRITE",
+    "Args": [
+      "Address",
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08051f5e": {
+    "Name": "__stdio_WRITE",
+    "Args": [
+      "Address",
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x0805206f": {
+    "Name": "__stdio_fwrite",
+    "Args": [
+      "Address",
+      "Value",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08052205": {
+    "Name": "__stdio_trans2w",
+    "Args": [
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08052330": {
+    "Name": "_fp_out_narrow",
+    "Args": [
+      "Address",
+      "Value",
+      "Value",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080523c3": {
+    "Name": "_charpad",
+    "Args": [
+      "Address",
+      "Value",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x0805240a": {
+    "Name": "_do_one_spec",
+    "Args": [
+      "Address",
+      "Address",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080529d2": {
+    "Name": "_vfprintf_internal",
+    "Args": [
+      "Address",
+      "Address",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08052b41": {
+    "Name": "_ppfs_init",
+    "Args": [
+      "Address",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08052edd": {
+    "Name": "_ppfs_prepargs",
+    "Args": [
+      "Address",
+      "Address"
+    ],
+    "Return": []
+  },
+  "0x08052f35": {
+    "Name": "_ppfs_setargs",
+    "Args": [
+      "Address"
+    ],
+    "Return": []
+  },
+  "0x0805313e": {
+    "Name": "_promoted_size",
+    "Args": [
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x0805318a": {
+    "Name": "_is_equal_or_bigger_arg",
+    "Args": [
+      "Value",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080531e3": {
+    "Name": "_ppfs_parsespec",
+    "Args": [
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080536e3": {
+    "Name": "_stdio_openlist_dec_use",
+    "Args": [],
+    "Return": []
+  },
+  "0x080539a3": {
+    "Name": "__GI_fflush_unlocked",
+    "Args": [
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08053d6e": {
+    "Name": "__GI_memcpy",
+    "Args": [
+      "Address",
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x08053db5": {
+    "Name": "__GI_memset",
+    "Args": [
+      "Address",
+      "Value",
+      "Value"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x08053e03": {
+    "Name": "__GI_strcat",
+    "Args": [
+      "Address",
+      "Address"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x08053e56": {
+    "Name": "__GI_strchr",
+    "Args": [
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x08053e93": {
+    "Name": "__GI_strcmp",
+    "Args": [
+      "Address",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08053eda": {
+    "Name": "__GI_strcpy",
+    "Args": [
+      "Address",
+      "Address"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x08053f17": {
+    "Name": "__GI_strnlen",
+    "Args": [
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08053f4d": {
+    "Name": "__GI_strrchr",
+    "Args": [
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x08053f90": {
+    "Name": "memcmp_bytes",
+    "Args": [
+      "Value",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08053fde": {
+    "Name": "memcmp_common_alignment",
+    "Args": [
+      "Value",
+      "Value",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08054190": {
+    "Name": "memcmp_not_common_alignment",
+    "Args": [
+      "Value",
+      "Value",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08054427": {
+    "Name": "__GI_memcmp",
+    "Args": [
+      "Address",
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08054546": {
+    "Name": "__GI_mempcpy",
+    "Args": [
+      "Address",
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x08054570": {
+    "Name": "__GI_memrchr",
+    "Args": [
+      "Address",
+      "Value",
+      "Value"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x08054690": {
+    "Name": "__GI___glibc_strerror_r",
+    "Args": [
+      "Value",
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x080546b5": {
+    "Name": "__GI___xpg_strerror_r",
+    "Args": [
+      "Value",
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08054b1a": {
+    "Name": "__GI_strdup",
+    "Args": [
+      "Address"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x08054b5e": {
+    "Name": "__malloc_trim",
+    "Args": [
+      "Value",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08054c37": {
+    "Name": "malloc_trim",
+    "Args": [
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08054cc2": {
+    "Name": "malloc_init_state",
+    "Args": [
+      "Address"
+    ],
+    "Return": []
+  },
+  "0x08054d97": {
+    "Name": "__malloc_consolidate",
+    "Args": [
+      "Address"
+    ],
+    "Return": []
+  },
+  "0x08054fc9": {
+    "Name": "free",
+    "Args": [
+      "Address"
+    ],
+    "Return": []
+  },
+  "0x080552df": {
+    "Name": "__malloc_alloc",
+    "Args": [
+      "Value",
+      "Address"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x080558e9": {
+    "Name": "__malloc_largebin_index",
+    "Args": [
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08055941": {
+    "Name": "malloc",
+    "Args": [
+      "Value"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x08056152": {
+    "Name": "__GI_abort",
+    "Args": [],
+    "Return": []
+  },
+  "0x08056595": {
+    "Name": "__GI_getenv",
+    "Args": [
+      "Address"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x08056619": {
+    "Name": "__GI_exit",
+    "Args": [
+      "Value"
+    ],
+    "Return": []
+  },
+  "0x080566d3": {
+    "Name": "__clear_internal_signals",
+    "Args": [
+      "Address"
+    ],
+    "Return": []
+  },
+  "0x080567c0": {
+    "Name": "__libc_signal_block_app",
+    "Args": [
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08056814": {
+    "Name": "__libc_signal_restore_set",
+    "Args": [
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x0805684a": {
+    "Name": "__GI_raise",
+    "Args": [
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080568e7": {
+    "Name": "__libc_enable_asynccancel",
+    "Args": [],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080569b1": {
+    "Name": "__libc_disable_asynccancel",
+    "Args": [
+      "Value"
+    ],
+    "Return": []
+  },
+  "0x08056a8c": {
+    "Name": "_dl_memalign",
+    "Args": [
+      "Value",
+      "Value"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x08056aae": {
+    "Name": "_dl_allocate_static_tls",
+    "Args": [
+      "Address"
+    ],
+    "Return": []
+  },
+  "0x08056bba": {
+    "Name": "_dl_next_tls_modid",
+    "Args": [],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08056caf": {
+    "Name": "allocate_dtv",
+    "Args": [
+      "Address"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x08056d15": {
+    "Name": "_dl_get_tls_static_info",
+    "Args": [
+      "Address",
+      "Address"
+    ],
+    "Return": []
+  },
+  "0x08056d4b": {
+    "Name": "_dl_allocate_tls_storage",
+    "Args": [],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x080570bb": {
+    "Name": "_dl_allocate_tls_init",
+    "Args": [
+      "Address"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x0805726d": {
+    "Name": "_dl_allocate_tls",
+    "Args": [
+      "Address"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x080572a2": {
+    "Name": "_dl_deallocate_tls",
+    "Args": [
+      "Address",
+      "Value"
+    ],
+    "Return": []
+  },
+  "0x08057374": {
+    "Name": "_dl_add_to_slotinfo",
+    "Args": [
+      "Address"
+    ],
+    "Return": []
+  },
+  "0x08057774": {
+    "Name": "__libc_clock_gettime",
+    "Args": [
+      "Value",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08057878": {
+    "Name": "clock_gettime",
+    "Args": [
+      "Value",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x0805789d": {
+    "Name": "__GI_brk",
+    "Args": [
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080578fd": {
+    "Name": "__libc_sigaction",
+    "Args": [
+      "Value",
+      "Address",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08057ceb": {
+    "Name": "__GI_mmap",
+    "Args": [],
+    "Return": [
+      "Unknown"
+    ]
+  },
+  "0x08057d06": {
+    "Name": "__syscall_rt_sigaction",
+    "Args": [
+      "Value",
+      "Address",
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08057d6c": {
+    "Name": "__GI__exit",
+    "Args": [
+      "Value"
+    ],
+    "Return": []
+  },
+  "0x08057dc3": {
+    "Name": "__getpagesize",
+    "Args": [],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08057dd8": {
+    "Name": "__GI_munmap",
+    "Args": [
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08057e3a": {
+    "Name": "__GI_sigprocmask",
+    "Args": [
+      "Value",
+      "Address",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08057ff8": {
+    "Name": "__write_nocancel",
+    "Args": [
+      "Value",
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x0805805b": {
+    "Name": "__GI_write",
+    "Args": [
+      "Value",
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080580c3": {
+    "Name": "__GI_fseek",
+    "Args": [
+      "Address",
+      "Value",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080580ed": {
+    "Name": "__GI_fprintf",
+    "Args": [
+      "Address",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x0805811f": {
+    "Name": "__SEEK",
+    "Args": [
+      "Address",
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x0805817f": {
+    "Name": "__GI_fseeko64",
+    "Args": [
+      "Address",
+      "Value",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x0805830b": {
+    "Name": "__stdio_adjust_position",
+    "Args": [
+      "Address",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080583ac": {
+    "Name": "__stdio_seek",
+    "Args": [
+      "Address",
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08058401": {
+    "Name": "_load_inttype",
+    "Args": [
+      "Value",
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080584b5": {
+    "Name": "_store_inttype",
+    "Args": [
+      "Address",
+      "Value",
+      "Value"
+    ],
+    "Return": []
+  },
+  "0x08058503": {
+    "Name": "_uintmaxtostr",
+    "Args": [
+      "Address",
+      "Value",
+      "Value",
+      "Value"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x08058674": {
+    "Name": "_fpmaxtostr",
+    "Args": [
+      "Address",
+      "Value",
+      "Address",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08059585": {
+    "Name": "__GI_vfprintf",
+    "Args": [
+      "Address",
+      "Address",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080596d5": {
+    "Name": "__GI_strncmp",
+    "Args": [
+      "Address",
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x0805972a": {
+    "Name": "calloc",
+    "Args": [
+      "Value",
+      "Value"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x080598aa": {
+    "Name": "__syscall_error",
+    "Args": [],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080598d5": {
+    "Name": "__lseek64_nocancel",
+    "Args": [
+      "Value",
+      "Value",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08059962": {
+    "Name": "__GI_lseek64",
+    "Args": [
+      "Value",
+      "Value",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  }
+}

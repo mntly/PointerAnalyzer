@@ -1,6 +1,5 @@
 # Python virtualenv
-.venv/
-checker/.venv/
+checker/EvaluateAnalyzer/GroundTruthExtractor/.venv/
 
 # Python cache
 __pycache__/
