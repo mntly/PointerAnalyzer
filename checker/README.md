@@ -50,23 +50,21 @@ This directory contains the codes related to evaluate [PointerAnalyzer](../READM
 
 This directory contains the codes related to extract type of parameters and return value of each function in given library code.
 
-Ground Truth Extraction Mode 0 indicates it only extract the functions appeared in given binary.
+The ground truth type signature is only appeared in binary compiled with debug option that includes DWARF information. If given binary does not have DWARF information, the [GroundTruthExtractor](./EvaluateAnalyzer/GroundTruthExtractor) may occur error.
 
 ```
 dotnet run --project Checker.fsproj \
   -m 2 \
-  -gm 0 \
-  -b ../datas/binaries/helloword-x86_32-i586-uclibc-O0 \
+  -b ../datas/binaries/helloword-x86_32-i586-uclibc-O0-gt \
   -o output
 ```
 
-Ground Truth Extraction Mode 1 indicates it extracts the all functions in library.
+With `-on` option, you can assign the suffix name of output file. As default, it will be basename of given binary. The extracted ground truth is stroed with `SUFFIX_GT.json`. During extraction, if there happens some strange behavior, the extractor will logs as `SUFFIX_GTExtract.log`
 
 ```
 dotnet run --project Checker.fsproj \
   -m 2 \
-  -gm 1 \
-  -o output
+  -b ../datas/binaries/helloword-x86_32-i586-uclibc-O0-gt \
+  -o output \
+  -on testSimple
 ```
-
-Use `--libroot` to override the default library source path.

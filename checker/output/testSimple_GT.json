@@ -6,13 +6,6 @@
       "Unknown"
     ]
   },
-  "0x080491c6": {
-    "Name": "main",
-    "Args": [],
-    "Return": [
-      "Value"
-    ]
-  },
   "0x080491f6": {
     "Name": "puts",
     "Args": [
@@ -184,12 +177,12 @@
     ],
     "Return": []
   },
-  "0x0804a45e": {
+  "0x0804a454": {
     "Name": "init_slotinfo",
     "Args": [],
     "Return": []
   },
-  "0x0804a492": {
+  "0x0804a488": {
     "Name": "init_static_tls",
     "Args": [
       "Value",
@@ -197,7 +190,7 @@
     ],
     "Return": []
   },
-  "0x0804a4e5": {
+  "0x0804a4db": {
     "Name": "__libc_setup_tls",
     "Args": [
       "Value",
@@ -205,43 +198,43 @@
     ],
     "Return": []
   },
-  "0x0804a7e7": {
+  "0x0804a7dd": {
     "Name": "_dl_tls_setup",
     "Args": [],
     "Return": [
       "Value"
     ]
   },
-  "0x0804a811": {
+  "0x0804a807": {
     "Name": "__pthread_initialize_minimal",
     "Args": [],
     "Return": []
   },
-  "0x0804a838": {
+  "0x0804a82e": {
     "Name": "_dl_aux_init",
     "Args": [
       "Address"
     ],
     "Return": []
   },
-  "0x0804abd2": {
+  "0x0804a8bf": {
     "Name": "_dl_nothread_init_static_tls",
     "Args": [
       "Address"
     ],
     "Return": []
   },
-  "0x0804ac75": {
+  "0x0804a962": {
     "Name": "_dl_map_cache",
     "Args": [],
     "Return": []
   },
-  "0x0804ac85": {
+  "0x0804a972": {
     "Name": "_dl_unmap_cache",
     "Args": [],
     "Return": []
   },
-  "0x0804ac95": {
+  "0x0804a982": {
     "Name": "_dl_run_array_forward",
     "Args": [
       "Value",
@@ -250,31 +243,31 @@
     ],
     "Return": []
   },
-  "0x0804acf1": {
+  "0x0804a9de": {
     "Name": "_dl_run_init_array",
     "Args": [
       "Address"
     ],
     "Return": []
   },
-  "0x0804ad25": {
+  "0x0804aa12": {
     "Name": "_dl_app_init_array",
     "Args": [],
     "Return": []
   },
-  "0x0804ad4e": {
+  "0x0804aa3b": {
     "Name": "_dl_run_fini_array",
     "Args": [
       "Address"
     ],
     "Return": []
   },
-  "0x0804adba": {
+  "0x0804aaa7": {
     "Name": "_dl_app_fini_array",
     "Args": [],
     "Return": []
   },
-  "0x0804ade3": {
+  "0x0804aad0": {
     "Name": "_dl_linux_resolver",
     "Args": [
       "Address",
@@ -284,7 +277,7 @@
       "Value"
     ]
   },
-  "0x0804af09": {
+  "0x0804abf6": {
     "Name": "_dl_parse",
     "Args": [
       "Address",
@@ -297,7 +290,7 @@
       "Value"
     ]
   },
-  "0x0804b04e": {
+  "0x0804ad36": {
     "Name": "_dl_do_reloc",
     "Args": [
       "Address",
@@ -310,7 +303,7 @@
       "Value"
     ]
   },
-  "0x0804b2e9": {
+  "0x0804b05e": {
     "Name": "_dl_do_lazy_reloc",
     "Args": [
       "Address",
@@ -323,7 +316,7 @@
       "Value"
     ]
   },
-  "0x0804b346": {
+  "0x0804b0bb": {
     "Name": "_dl_parse_lazy_relocation_information",
     "Args": [
       "Address",
@@ -332,7 +325,7 @@
     ],
     "Return": []
   },
-  "0x0804b376": {
+  "0x0804b0eb": {
     "Name": "_dl_parse_relocation_information",
     "Args": [
       "Address",
@@ -344,7 +337,7 @@
       "Value"
     ]
   },
-  "0x0804b3a6": {
+  "0x0804b11b": {
     "Name": "_dl_elf_hash",
     "Args": [
       "Address"
@@ -353,7 +346,7 @@
       "Value"
     ]
   },
-  "0x0804b406": {
+  "0x0804b17b": {
     "Name": "_dl_add_elf_hash_table",
     "Args": [
       "Address",
@@ -366,7 +359,7 @@
       "Address"
     ]
   },
-  "0x0804b842": {
+  "0x0804b5d3": {
     "Name": "check_match",
     "Args": [
       "Address",
@@ -378,7 +371,7 @@
       "Address"
     ]
   },
-  "0x0804b8fb": {
+  "0x0804b68c": {
     "Name": "_dl_find_hash",
     "Args": [
       "Address",
@@ -391,14 +384,14 @@
       "Address"
     ]
   },
-  "0x0804bb6f": {
+  "0x0804b900": {
     "Name": "_dl_protect_relro",
     "Args": [
       "Address"
     ],
     "Return": []
   },
-  "0x0804bc93": {
+  "0x0804ba24": {
     "Name": "search_for_named_library",
     "Args": [
       "Address",
@@ -411,7 +404,7 @@
       "Address"
     ]
   },
-  "0x0804bea6": {
+  "0x0804bc37": {
     "Name": "_dl_load_shared_library",
     "Args": [
       "Value",
@@ -424,7 +417,7 @@
       "Address"
     ]
   },
-  "0x0804c171": {
+  "0x0804bf06": {
     "Name": "map_writeable",
     "Args": [
       "Value",
@@ -437,7 +430,7 @@
       "Address"
     ]
   },
-  "0x0804c589": {
+  "0x0804c321": {
     "Name": "_dl_load_elf_shared_library",
     "Args": [
       "Value",
@@ -448,7 +441,7 @@
       "Address"
     ]
   },
-  "0x0804eb09": {
+  "0x0804e8a3": {
     "Name": "_dl_fixup",
     "Args": [
       "Address",
@@ -459,7 +452,7 @@
       "Value"
     ]
   },
-  "0x0804ee0f": {
+  "0x0804eba9": {
     "Name": "_dl_parse_dynamic_info",
     "Args": [
       "Address",
@@ -471,7 +464,7 @@
       "Value"
     ]
   },
-  "0x0804f050": {
+  "0x0804edea": {
     "Name": "remove_slotinfo",
     "Args": [
       "Value",
@@ -483,7 +476,7 @@
       "Value"
     ]
   },
-  "0x0804f1a6": {
+  "0x0804ef40": {
     "Name": "_dl_build_local_scope",
     "Args": [
       "Address",
@@ -493,7 +486,7 @@
       "Value"
     ]
   },
-  "0x0804f239": {
+  "0x0804efd3": {
     "Name": "do_dlopen",
     "Args": [
       "Address",
@@ -504,7 +497,7 @@
       "Address"
     ]
   },
-  "0x080504be": {
+  "0x08050258": {
     "Name": "dlopen",
     "Args": [
       "Address",
@@ -514,7 +507,7 @@
       "Address"
     ]
   },
-  "0x08050539": {
+  "0x080502d3": {
     "Name": "do_dlsym",
     "Args": [
       "Address",
@@ -525,7 +518,7 @@
       "Address"
     ]
   },
-  "0x080506c5": {
+  "0x0805045f": {
     "Name": "dlsym",
     "Args": [
       "Address",
@@ -535,7 +528,7 @@
       "Address"
     ]
   },
-  "0x08050740": {
+  "0x080504da": {
     "Name": "do_dlclose",
     "Args": [
       "Address",
@@ -545,7 +538,7 @@
       "Value"
     ]
   },
-  "0x08050f8e": {
+  "0x08050d45": {
     "Name": "dlclose",
     "Args": [
       "Address"
@@ -554,14 +547,14 @@
       "Value"
     ]
   },
-  "0x08051004": {
+  "0x08050dbb": {
     "Name": "dlerror",
     "Args": [],
     "Return": [
       "Address"
     ]
   },
-  "0x0805104c": {
+  "0x08050e03": {
     "Name": "do_dladdr",
     "Args": [
       "Address",
@@ -571,7 +564,7 @@
       "Value"
     ]
   },
-  "0x08051281": {
+  "0x08051038": {
     "Name": "dladdr",
     "Args": [
       "Address",
@@ -581,21 +574,21 @@
       "Value"
     ]
   },
-  "0x080512f8": {
+  "0x080510af": {
     "Name": "_dl_linux_resolve",
     "Args": [],
     "Return": [
       "Unknown"
     ]
   },
-  "0x08051321": {
+  "0x080510d8": {
     "Name": "__lll_lock_wait_private",
     "Args": [
       "Address"
     ],
     "Return": []
   },
-  "0x080513ab": {
+  "0x08051162": {
     "Name": "__lll_lock_wait",
     "Args": [
       "Address",
@@ -603,7 +596,7 @@
     ],
     "Return": []
   },
-  "0x08051439": {
+  "0x080511f0": {
     "Name": "__lll_timedlock_wait",
     "Args": [
       "Address",
@@ -614,7 +607,7 @@
       "Value"
     ]
   },
-  "0x0805156a": {
+  "0x08051321": {
     "Name": "__lll_timedwait_tid",
     "Args": [
       "Address",
@@ -624,35 +617,137 @@
       "Value"
     ]
   },
-  "0x080516a1": {
+  "0x08051458": {
     "Name": "__errno_location",
     "Args": [],
     "Return": [
       "Address"
     ]
   },
-  "0x080516bf": {
+  "0x08051476": {
     "Name": "__h_errno_location",
     "Args": [],
     "Return": [
       "Address"
     ]
   },
-  "0x080516e5": {
+  "0x0805149c": {
     "Name": "_setjmp",
     "Args": [],
     "Return": [
       "Unknown"
     ]
   },
-  "0x08051710": {
+  "0x080514c0": {
     "Name": "__libc_i386_syscall6",
     "Args": [],
     "Return": [
       "Unknown"
     ]
   },
-  "0x08051737": {
+  "0x080514e7": {
+    "Name": "__close_nocancel",
+    "Args": [
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08051544": {
+    "Name": "__close_nocancel_no_status",
+    "Args": [
+      "Value"
+    ],
+    "Return": []
+  },
+  "0x08051573": {
+    "Name": "__GI_close",
+    "Args": [
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080515cf": {
+    "Name": "__GI_getegid",
+    "Args": [],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080515f7": {
+    "Name": "__GI_geteuid",
+    "Args": [],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x0805161f": {
+    "Name": "__GI_getgid",
+    "Args": [],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08051647": {
+    "Name": "__GI_gettimeofday",
+    "Args": [
+      "Address",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080516b6": {
+    "Name": "__GI_getuid",
+    "Args": [],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080516de": {
+    "Name": "__GI_ioctl",
+    "Args": [
+      "Value",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08051860": {
+    "Name": "__open2_nocancel",
+    "Args": [
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080518c2": {
+    "Name": "__GI_open",
+    "Args": [
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x080519f1": {
+    "Name": "__GI_sbrk",
+    "Args": [
+      "Value"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x08051a5f": {
     "Name": "__fcntl_nocancel",
     "Args": [
       "Value",
@@ -663,7 +758,7 @@
       "Value"
     ]
   },
-  "0x080517f8": {
+  "0x08051b20": {
     "Name": "__GI_fcntl",
     "Args": [
       "Value",
@@ -673,109 +768,7 @@
       "Value"
     ]
   },
-  "0x08051880": {
-    "Name": "__close_nocancel",
-    "Args": [
-      "Value"
-    ],
-    "Return": [
-      "Value"
-    ]
-  },
-  "0x080518dd": {
-    "Name": "__close_nocancel_no_status",
-    "Args": [
-      "Value"
-    ],
-    "Return": []
-  },
-  "0x0805190c": {
-    "Name": "__GI_close",
-    "Args": [
-      "Value"
-    ],
-    "Return": [
-      "Value"
-    ]
-  },
-  "0x08051968": {
-    "Name": "__GI_getegid",
-    "Args": [],
-    "Return": [
-      "Value"
-    ]
-  },
-  "0x08051990": {
-    "Name": "__GI_geteuid",
-    "Args": [],
-    "Return": [
-      "Value"
-    ]
-  },
-  "0x080519b8": {
-    "Name": "__GI_getgid",
-    "Args": [],
-    "Return": [
-      "Value"
-    ]
-  },
-  "0x080519e0": {
-    "Name": "__GI_gettimeofday",
-    "Args": [
-      "Address",
-      "Address"
-    ],
-    "Return": [
-      "Value"
-    ]
-  },
-  "0x08051a4f": {
-    "Name": "__GI_getuid",
-    "Args": [],
-    "Return": [
-      "Value"
-    ]
-  },
-  "0x08051a77": {
-    "Name": "__GI_ioctl",
-    "Args": [
-      "Value",
-      "Value"
-    ],
-    "Return": [
-      "Value"
-    ]
-  },
-  "0x08051bf9": {
-    "Name": "__open2_nocancel",
-    "Args": [
-      "Address",
-      "Value"
-    ],
-    "Return": [
-      "Value"
-    ]
-  },
-  "0x08051c5b": {
-    "Name": "__GI_open",
-    "Args": [
-      "Address",
-      "Value"
-    ],
-    "Return": [
-      "Value"
-    ]
-  },
-  "0x08051d8a": {
-    "Name": "__GI_sbrk",
-    "Args": [
-      "Value"
-    ],
-    "Return": [
-      "Address"
-    ]
-  },
-  "0x08051df8": {
+  "0x08051ba8": {
     "Name": "dprintf",
     "Args": [
       "Value",
@@ -785,7 +778,7 @@
       "Value"
     ]
   },
-  "0x08051e2a": {
+  "0x08051bda": {
     "Name": "__GI_vdprintf",
     "Args": [
       "Value",
@@ -796,7 +789,7 @@
       "Value"
     ]
   },
-  "0x08051ecc": {
+  "0x08051c7c": {
     "Name": "__WRITE",
     "Args": [
       "Address",
@@ -807,7 +800,7 @@
       "Value"
     ]
   },
-  "0x08051f5e": {
+  "0x08051d0e": {
     "Name": "__stdio_WRITE",
     "Args": [
       "Address",
@@ -818,7 +811,7 @@
       "Value"
     ]
   },
-  "0x0805206f": {
+  "0x08051e21": {
     "Name": "__stdio_fwrite",
     "Args": [
       "Address",
@@ -829,7 +822,7 @@
       "Value"
     ]
   },
-  "0x08052205": {
+  "0x08051fb7": {
     "Name": "__stdio_trans2w",
     "Args": [
       "Address"
@@ -838,7 +831,7 @@
       "Value"
     ]
   },
-  "0x08052330": {
+  "0x080520e2": {
     "Name": "_fp_out_narrow",
     "Args": [
       "Address",
@@ -850,7 +843,7 @@
       "Value"
     ]
   },
-  "0x080523c3": {
+  "0x08052175": {
     "Name": "_charpad",
     "Args": [
       "Address",
@@ -861,7 +854,7 @@
       "Value"
     ]
   },
-  "0x0805240a": {
+  "0x080521bc": {
     "Name": "_do_one_spec",
     "Args": [
       "Address",
@@ -872,7 +865,7 @@
       "Value"
     ]
   },
-  "0x080529d2": {
+  "0x0805278f": {
     "Name": "_vfprintf_internal",
     "Args": [
       "Address",
@@ -883,7 +876,7 @@
       "Value"
     ]
   },
-  "0x08052b41": {
+  "0x08052900": {
     "Name": "_ppfs_init",
     "Args": [
       "Address",
@@ -893,7 +886,7 @@
       "Value"
     ]
   },
-  "0x08052edd": {
+  "0x08052c9c": {
     "Name": "_ppfs_prepargs",
     "Args": [
       "Address",
@@ -901,14 +894,14 @@
     ],
     "Return": []
   },
-  "0x08052f35": {
+  "0x08052cf4": {
     "Name": "_ppfs_setargs",
     "Args": [
       "Address"
     ],
     "Return": []
   },
-  "0x0805313e": {
+  "0x08052efd": {
     "Name": "_promoted_size",
     "Args": [
       "Value"
@@ -917,7 +910,7 @@
       "Value"
     ]
   },
-  "0x0805318a": {
+  "0x08052f49": {
     "Name": "_is_equal_or_bigger_arg",
     "Args": [
       "Value",
@@ -927,7 +920,7 @@
       "Value"
     ]
   },
-  "0x080531e3": {
+  "0x08052fa2": {
     "Name": "_ppfs_parsespec",
     "Args": [
       "Address"
@@ -936,12 +929,12 @@
       "Value"
     ]
   },
-  "0x080536e3": {
+  "0x080534a5": {
     "Name": "_stdio_openlist_dec_use",
     "Args": [],
     "Return": []
   },
-  "0x080539a3": {
+  "0x08053765": {
     "Name": "__GI_fflush_unlocked",
     "Args": [
       "Address"
@@ -950,7 +943,7 @@
       "Value"
     ]
   },
-  "0x08053d6e": {
+  "0x08053b30": {
     "Name": "__GI_memcpy",
     "Args": [
       "Address",
@@ -961,7 +954,7 @@
       "Address"
     ]
   },
-  "0x08053db5": {
+  "0x08053b77": {
     "Name": "__GI_memset",
     "Args": [
       "Address",
@@ -972,7 +965,7 @@
       "Address"
     ]
   },
-  "0x08053e03": {
+  "0x08053bc5": {
     "Name": "__GI_strcat",
     "Args": [
       "Address",
@@ -982,7 +975,7 @@
       "Address"
     ]
   },
-  "0x08053e56": {
+  "0x08053c18": {
     "Name": "__GI_strchr",
     "Args": [
       "Address",
@@ -992,7 +985,7 @@
       "Address"
     ]
   },
-  "0x08053e93": {
+  "0x08053c55": {
     "Name": "__GI_strcmp",
     "Args": [
       "Address",
@@ -1002,7 +995,7 @@
       "Value"
     ]
   },
-  "0x08053eda": {
+  "0x08053c9c": {
     "Name": "__GI_strcpy",
     "Args": [
       "Address",
@@ -1012,7 +1005,7 @@
       "Address"
     ]
   },
-  "0x08053f17": {
+  "0x08053cd9": {
     "Name": "__GI_strnlen",
     "Args": [
       "Address",
@@ -1022,7 +1015,7 @@
       "Value"
     ]
   },
-  "0x08053f4d": {
+  "0x08053d0f": {
     "Name": "__GI_strrchr",
     "Args": [
       "Address",
@@ -1032,7 +1025,7 @@
       "Address"
     ]
   },
-  "0x08053f90": {
+  "0x08053d52": {
     "Name": "memcmp_bytes",
     "Args": [
       "Value",
@@ -1042,7 +1035,7 @@
       "Value"
     ]
   },
-  "0x08053fde": {
+  "0x08053da0": {
     "Name": "memcmp_common_alignment",
     "Args": [
       "Value",
@@ -1053,7 +1046,7 @@
       "Value"
     ]
   },
-  "0x08054190": {
+  "0x08053f52": {
     "Name": "memcmp_not_common_alignment",
     "Args": [
       "Value",
@@ -1064,7 +1057,7 @@
       "Value"
     ]
   },
-  "0x08054427": {
+  "0x080541e9": {
     "Name": "__GI_memcmp",
     "Args": [
       "Address",
@@ -1075,7 +1068,7 @@
       "Value"
     ]
   },
-  "0x08054546": {
+  "0x08054308": {
     "Name": "__GI_mempcpy",
     "Args": [
       "Address",
@@ -1086,7 +1079,7 @@
       "Address"
     ]
   },
-  "0x08054570": {
+  "0x08054332": {
     "Name": "__GI_memrchr",
     "Args": [
       "Address",
@@ -1097,7 +1090,7 @@
       "Address"
     ]
   },
-  "0x08054690": {
+  "0x08054452": {
     "Name": "__GI___glibc_strerror_r",
     "Args": [
       "Value",
@@ -1108,7 +1101,16 @@
       "Address"
     ]
   },
-  "0x080546b5": {
+  "0x08054477": {
+    "Name": "__GI_strdup",
+    "Args": [
+      "Address"
+    ],
+    "Return": [
+      "Address"
+    ]
+  },
+  "0x080544bb": {
     "Name": "__GI___xpg_strerror_r",
     "Args": [
       "Value",
@@ -1119,16 +1121,7 @@
       "Value"
     ]
   },
-  "0x08054b1a": {
-    "Name": "__GI_strdup",
-    "Args": [
-      "Address"
-    ],
-    "Return": [
-      "Address"
-    ]
-  },
-  "0x08054b5e": {
+  "0x08054920": {
     "Name": "__malloc_trim",
     "Args": [
       "Value",
@@ -1138,7 +1131,7 @@
       "Value"
     ]
   },
-  "0x08054c37": {
+  "0x080549f9": {
     "Name": "malloc_trim",
     "Args": [
       "Value"
@@ -1147,28 +1140,28 @@
       "Value"
     ]
   },
-  "0x08054cc2": {
+  "0x08054a84": {
     "Name": "malloc_init_state",
     "Args": [
       "Address"
     ],
     "Return": []
   },
-  "0x08054d97": {
+  "0x08054b59": {
     "Name": "__malloc_consolidate",
     "Args": [
       "Address"
     ],
     "Return": []
   },
-  "0x08054fc9": {
+  "0x08054d8b": {
     "Name": "free",
     "Args": [
       "Address"
     ],
     "Return": []
   },
-  "0x080552df": {
+  "0x080550a1": {
     "Name": "__malloc_alloc",
     "Args": [
       "Value",
@@ -1178,7 +1171,7 @@
       "Address"
     ]
   },
-  "0x080558e9": {
+  "0x080556ab": {
     "Name": "__malloc_largebin_index",
     "Args": [
       "Value"
@@ -1187,7 +1180,7 @@
       "Value"
     ]
   },
-  "0x08055941": {
+  "0x08055703": {
     "Name": "malloc",
     "Args": [
       "Value"
@@ -1196,12 +1189,12 @@
       "Address"
     ]
   },
-  "0x08056152": {
+  "0x08055f16": {
     "Name": "__GI_abort",
     "Args": [],
     "Return": []
   },
-  "0x08056595": {
+  "0x08056359": {
     "Name": "__GI_getenv",
     "Args": [
       "Address"
@@ -1210,21 +1203,21 @@
       "Address"
     ]
   },
-  "0x08056619": {
+  "0x080563dd": {
     "Name": "__GI_exit",
     "Args": [
       "Value"
     ],
     "Return": []
   },
-  "0x080566d3": {
+  "0x08056497": {
     "Name": "__clear_internal_signals",
     "Args": [
       "Address"
     ],
     "Return": []
   },
-  "0x080567c0": {
+  "0x08056584": {
     "Name": "__libc_signal_block_app",
     "Args": [
       "Address"
@@ -1233,7 +1226,7 @@
       "Value"
     ]
   },
-  "0x08056814": {
+  "0x080565d8": {
     "Name": "__libc_signal_restore_set",
     "Args": [
       "Address"
@@ -1242,7 +1235,7 @@
       "Value"
     ]
   },
-  "0x0805684a": {
+  "0x0805660e": {
     "Name": "__GI_raise",
     "Args": [
       "Value"
@@ -1251,21 +1244,21 @@
       "Value"
     ]
   },
-  "0x080568e7": {
+  "0x080566ab": {
     "Name": "__libc_enable_asynccancel",
     "Args": [],
     "Return": [
       "Value"
     ]
   },
-  "0x080569b1": {
+  "0x08056775": {
     "Name": "__libc_disable_asynccancel",
     "Args": [
       "Value"
     ],
     "Return": []
   },
-  "0x08056a8c": {
+  "0x08056850": {
     "Name": "_dl_memalign",
     "Args": [
       "Value",
@@ -1275,21 +1268,21 @@
       "Address"
     ]
   },
-  "0x08056aae": {
+  "0x08056872": {
     "Name": "_dl_allocate_static_tls",
     "Args": [
       "Address"
     ],
     "Return": []
   },
-  "0x08056bba": {
+  "0x0805697e": {
     "Name": "_dl_next_tls_modid",
     "Args": [],
     "Return": [
       "Value"
     ]
   },
-  "0x08056caf": {
+  "0x08056a73": {
     "Name": "allocate_dtv",
     "Args": [
       "Address"
@@ -1298,7 +1291,7 @@
       "Address"
     ]
   },
-  "0x08056d15": {
+  "0x08056ad9": {
     "Name": "_dl_get_tls_static_info",
     "Args": [
       "Address",
@@ -1306,14 +1299,14 @@
     ],
     "Return": []
   },
-  "0x08056d4b": {
+  "0x08056b0f": {
     "Name": "_dl_allocate_tls_storage",
     "Args": [],
     "Return": [
       "Address"
     ]
   },
-  "0x080570bb": {
+  "0x08056e7f": {
     "Name": "_dl_allocate_tls_init",
     "Args": [
       "Address"
@@ -1322,7 +1315,7 @@
       "Address"
     ]
   },
-  "0x0805726d": {
+  "0x08057031": {
     "Name": "_dl_allocate_tls",
     "Args": [
       "Address"
@@ -1331,7 +1324,7 @@
       "Address"
     ]
   },
-  "0x080572a2": {
+  "0x08057066": {
     "Name": "_dl_deallocate_tls",
     "Args": [
       "Address",
@@ -1339,14 +1332,14 @@
     ],
     "Return": []
   },
-  "0x08057374": {
+  "0x08057138": {
     "Name": "_dl_add_to_slotinfo",
     "Args": [
       "Address"
     ],
     "Return": []
   },
-  "0x08057774": {
+  "0x08057538": {
     "Name": "__libc_clock_gettime",
     "Args": [
       "Value",
@@ -1356,7 +1349,7 @@
       "Value"
     ]
   },
-  "0x08057878": {
+  "0x0805763c": {
     "Name": "clock_gettime",
     "Args": [
       "Value",
@@ -1366,7 +1359,7 @@
       "Value"
     ]
   },
-  "0x0805789d": {
+  "0x08057661": {
     "Name": "__GI_brk",
     "Args": [
       "Address"
@@ -1375,7 +1368,7 @@
       "Value"
     ]
   },
-  "0x080578fd": {
+  "0x080576c1": {
     "Name": "__libc_sigaction",
     "Args": [
       "Value",
@@ -1386,14 +1379,49 @@
       "Value"
     ]
   },
-  "0x08057ceb": {
+  "0x08057aaf": {
     "Name": "__GI_mmap",
     "Args": [],
     "Return": [
       "Unknown"
     ]
   },
-  "0x08057d06": {
+  "0x08057aca": {
+    "Name": "__GI__exit",
+    "Args": [
+      "Value"
+    ],
+    "Return": []
+  },
+  "0x08057b21": {
+    "Name": "__getpagesize",
+    "Args": [],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08057b38": {
+    "Name": "__GI_munmap",
+    "Args": [
+      "Address",
+      "Value"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08057b9a": {
+    "Name": "__GI_sigprocmask",
+    "Args": [
+      "Value",
+      "Address",
+      "Address"
+    ],
+    "Return": [
+      "Value"
+    ]
+  },
+  "0x08057d58": {
     "Name": "__syscall_rt_sigaction",
     "Args": [
       "Value",
@@ -1405,42 +1433,7 @@
       "Value"
     ]
   },
-  "0x08057d6c": {
-    "Name": "__GI__exit",
-    "Args": [
-      "Value"
-    ],
-    "Return": []
-  },
-  "0x08057dc3": {
-    "Name": "__getpagesize",
-    "Args": [],
-    "Return": [
-      "Value"
-    ]
-  },
-  "0x08057dd8": {
-    "Name": "__GI_munmap",
-    "Args": [
-      "Address",
-      "Value"
-    ],
-    "Return": [
-      "Value"
-    ]
-  },
-  "0x08057e3a": {
-    "Name": "__GI_sigprocmask",
-    "Args": [
-      "Value",
-      "Address",
-      "Address"
-    ],
-    "Return": [
-      "Value"
-    ]
-  },
-  "0x08057ff8": {
+  "0x08057dbe": {
     "Name": "__write_nocancel",
     "Args": [
       "Value",
@@ -1451,7 +1444,7 @@
       "Value"
     ]
   },
-  "0x0805805b": {
+  "0x08057e21": {
     "Name": "__GI_write",
     "Args": [
       "Value",
@@ -1462,7 +1455,7 @@
       "Value"
     ]
   },
-  "0x080580c3": {
+  "0x08057e89": {
     "Name": "__GI_fseek",
     "Args": [
       "Address",
@@ -1473,7 +1466,7 @@
       "Value"
     ]
   },
-  "0x080580ed": {
+  "0x08057eb3": {
     "Name": "__GI_fprintf",
     "Args": [
       "Address",
@@ -1483,7 +1476,7 @@
       "Value"
     ]
   },
-  "0x0805811f": {
+  "0x08057ee5": {
     "Name": "__SEEK",
     "Args": [
       "Address",
@@ -1494,7 +1487,7 @@
       "Value"
     ]
   },
-  "0x0805817f": {
+  "0x08057f45": {
     "Name": "__GI_fseeko64",
     "Args": [
       "Address",
@@ -1505,7 +1498,7 @@
       "Value"
     ]
   },
-  "0x0805830b": {
+  "0x080580d1": {
     "Name": "__stdio_adjust_position",
     "Args": [
       "Address",
@@ -1515,7 +1508,7 @@
       "Value"
     ]
   },
-  "0x080583ac": {
+  "0x08058172": {
     "Name": "__stdio_seek",
     "Args": [
       "Address",
@@ -1526,7 +1519,7 @@
       "Value"
     ]
   },
-  "0x08058401": {
+  "0x080581c7": {
     "Name": "_load_inttype",
     "Args": [
       "Value",
@@ -1537,7 +1530,7 @@
       "Value"
     ]
   },
-  "0x080584b5": {
+  "0x0805827b": {
     "Name": "_store_inttype",
     "Args": [
       "Address",
@@ -1546,7 +1539,7 @@
     ],
     "Return": []
   },
-  "0x08058503": {
+  "0x080582c9": {
     "Name": "_uintmaxtostr",
     "Args": [
       "Address",
@@ -1558,7 +1551,7 @@
       "Address"
     ]
   },
-  "0x08058674": {
+  "0x0805843a": {
     "Name": "_fpmaxtostr",
     "Args": [
       "Address",
@@ -1570,7 +1563,7 @@
       "Value"
     ]
   },
-  "0x08059585": {
+  "0x0805934f": {
     "Name": "__GI_vfprintf",
     "Args": [
       "Address",
@@ -1581,7 +1574,7 @@
       "Value"
     ]
   },
-  "0x080596d5": {
+  "0x0805949f": {
     "Name": "__GI_strncmp",
     "Args": [
       "Address",
@@ -1592,7 +1585,7 @@
       "Value"
     ]
   },
-  "0x0805972a": {
+  "0x080594f4": {
     "Name": "calloc",
     "Args": [
       "Value",
@@ -1602,14 +1595,14 @@
       "Address"
     ]
   },
-  "0x080598aa": {
+  "0x08059674": {
     "Name": "__syscall_error",
     "Args": [],
     "Return": [
       "Value"
     ]
   },
-  "0x080598d5": {
+  "0x0805969f": {
     "Name": "__lseek64_nocancel",
     "Args": [
       "Value",
@@ -1620,7 +1613,7 @@
       "Value"
     ]
   },
-  "0x08059962": {
+  "0x0805972c": {
     "Name": "__GI_lseek64",
     "Args": [
       "Value",

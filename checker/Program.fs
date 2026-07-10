@@ -3,15 +3,33 @@ module Checker.Program
 open Argu
 open System.IO
 
+/// <summary>
+/// Checker mode for evaluating <see cref="PointerAnalyzer" />.
+/// </summary>
+/// <remarks>
+/// <c>FindCall0</c> mode checks call 0 instructions from lifted
+/// <see cref="B2R2.BinIR.SSA" /> of the functions in given binary.
+/// <c>FindCall0Invalid</c> mode checks call 0 instructions from lifted
+/// <see cref="B2R2.BinIR.SSA" /> of the functions detected by
+/// <see cref="B2R2" />. In addition, it prints out which function is marked as
+/// Valid or Invalid by <see cref="B2R2" />.
+/// <c>BuildGroundTruth</c> mode extracts type signature of given binary by
+/// parsing DWARF information. If given binary was not compiled with debug
+/// option, it will fail.
+/// <c>EvalAnalyzer</c> mode ToDo.
+/// </remarks>
 type CheckerMode =
   | FindCall0
   | FindCall0Invalid
   | BuildGroundTruth
   | EvalAnalyzer
 
+/// <summary>
+/// Options used for propagating given input to each mode.
+/// </summary>
 type MainOptions =
   { Mode: CheckerMode
-    BinaryPath: string option
+    BinaryPath: string
     OutFileName: string
     OutputDirPath: string
     IsStore: bool }
@@ -33,13 +51,13 @@ type CLIArg =
         Mode 2 extracts ground-truth signatures from DWARF debug info.
         Mode 3 prints out the evaluation result of PointerAnalyzer"
       | Binary _ ->
-        "Binary file to inspect. For mode 2, this should bethe ground-truth binary with DWARF debug info."
+        "Binary file to inspect. For mode 2, this should be the ground-truth binary with DWARF debug info."
       | Output _ ->
         "Optional output directory path. If omitted, print to stdout."
-
       | OutputName _ ->
         "Optional output file name. It is only used for storing. If omitted, file name is determined based on binary name."
 
+/// Store given content to file with given file name
 let private storeOutput options fileName (content: string) =
   let dirPath = options.OutputDirPath
   Directory.CreateDirectory dirPath |> ignore
@@ -49,18 +67,21 @@ let private storeOutput options fileName (content: string) =
 
   printfn "Result stored at %s" outFilePath
 
+/// Based on option, print or store given content
 let private emitOutput options fileName (content: string) =
   if options.IsStore then
     storeOutput options fileName content
   else
     printf "%s" content
 
+/// Parse given arguments and construct ManiOptions
 let private parseArg (args: string array) =
   let parser =
     ArgumentParser.Create<CLIArg> (
       programName = "dotnet run --project Checker.fsproj --"
     )
 
+  (* Check whether valid options come *)
   let r =
     try
       parser.Parse args
@@ -68,8 +89,10 @@ let private parseArg (args: string array) =
       printfn "%s" (parser.PrintUsage ())
       exit 1
 
+  (* Extract mode *)
   let modeInt = r.GetResult <@ Mode @>
 
+  (* Normalize mode *)
   let mode =
     if modeInt = 0 then
       FindCall0
@@ -83,21 +106,20 @@ let private parseArg (args: string array) =
       eprintf "Unsupported mode %d" modeInt
       exit 1
 
-  let bin =
-    if r.Contains Binary then
-      Some (r.GetResult <@ Binary @>)
-    else
-      None
+  (* Extract binary path *)
+  let bin = r.GetResult <@ Binary @>
 
+  (* Extract name of output file *)
   let outFileName =
     if r.Contains OutputName then
       r.GetResult <@ OutputName @>
     else
-      match bin with
-      | Some binName -> Path.GetFileName binName
-      | None -> ""
+      Path.GetFileName bin
 
+  (* Extract how to emit output; print or store *)
   let isStore = r.Contains Output
+
+  (* Extract the path of output directory. Default as `output` *)
   let outDir = if isStore then r.GetResult <@ Output @> else "output"
 
   { Mode = mode
@@ -106,57 +128,49 @@ let private parseArg (args: string array) =
     OutputDirPath = outDir
     IsStore = isStore }
 
-let private requireBinary options =
-  match options.BinaryPath with
-  | Some path -> path
-  | None ->
-    eprintfn "Binary path is required for this mode."
-    exit 1
-
+/// Execute FindCall0 mode
 let private runFindCall0 options =
-  let binPath = requireBinary options
-
-  let result = FindCall0.run binPath |> FindCall0.toText
+  let result = FindCall0.run options.BinaryPath |> FindCall0.toText
   emitOutput options "FindCall0Result" result
 
+/// Execute FindCall0Invalid mode
 let private runFindCall0Invalid options =
-  let binPath = requireBinary options
+  let result =
+    FindCall0Invalid.run options.BinaryPath |> FindCall0Invalid.toText
 
-  let result = FindCall0Invalid.run binPath |> FindCall0Invalid.toText
   emitOutput options "FindCall0InvalidResult" result
 
+/// Execute GroundTruth Extractor
 let private runBuildGroundTruth options =
-  let binPath = requireBinary options
-
+  (* Generate output directory for storing log file *)
   if options.IsStore then
     Directory.CreateDirectory options.OutputDirPath |> ignore
 
+  (* Combine path of log file *)
   let logFilePath =
     if options.IsStore then
-      let logOptions: EvaluateAnalyzer.GroundTruthExtractor.Builder.BuildOptions =
-        { GroundTruthBinary = binPath
-          OutputSuffix = options.OutFileName
-          LogFilePath = None }
-
       let logFileName =
-        EvaluateAnalyzer.GroundTruthExtractor.Builder.logFileName logOptions
+        EvaluateAnalyzer.GroundTruthExtractor.Builder.logFileName
+          options.OutFileName
 
       Some (Path.Combine (options.OutputDirPath, logFileName))
     else
       None
 
   let buildOptions: EvaluateAnalyzer.GroundTruthExtractor.Builder.BuildOptions =
-    { GroundTruthBinary = binPath
+    { GroundTruthBinary = options.BinaryPath
       OutputSuffix = options.OutFileName
       LogFilePath = logFilePath }
 
+  (* Execute GroundTruthExtractor*)
   try
     let result =
       EvaluateAnalyzer.GroundTruthExtractor.Builder.build buildOptions
       |> EvaluateAnalyzer.GroundTruthExtractor.Builder.toJson
 
     let fileName =
-      EvaluateAnalyzer.GroundTruthExtractor.Builder.outputFileName buildOptions
+      EvaluateAnalyzer.GroundTruthExtractor.Builder.outputFileName
+        options.OutFileName
 
     emitOutput options fileName result
   with ex ->

@@ -9,7 +9,6 @@
   <ItemGroup>
     <Compile Include="FindCall0/FindCall0.fs" />
     <Compile Include="FindCall0/FindCall0Invalid.fs" />
-    <Compile Include="EvaluateAnalyzer/GroundTruthExtractor/Types/GroundTruthTypes.fs" />
     <Compile Include="EvaluateAnalyzer/GroundTruthExtractor/Dwarf/PyDwarfCommand.fs" />
     <Compile Include="EvaluateAnalyzer/GroundTruthExtractor/GroundTruthBuilder.fs" />
     <Compile Include="Program.fs" />
