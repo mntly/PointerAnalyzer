@@ -65,6 +65,13 @@ def attr_string(die, name):
 def function_name(die):
     return attr_string(die, "DW_AT_linkage_name") or attr_string(die, "DW_AT_name")
 
+def function_names(die):
+    names = []
+    for name in [attr_string(die, "DW_AT_linkage_name"), attr_string(die, "DW_AT_name")]:
+        if name and name not in names:
+            names.append(name)
+    return names
+
 # Access DIE that represents the type of given DIE
 def get_ref_die(die, attr_name):
     try:
@@ -253,10 +260,24 @@ def is_function_definition(die):
     low_pc = attr(die, "DW_AT_low_pc")
     return low_pc is not None and int(low_pc.value) != 0
 
+# Check current DIE is function declaration or not
+def is_function_declaration(die):
+    return die.tag == "DW_TAG_subprogram" and attr_bool(die, "DW_AT_declaration")
+
+# Extract function signature from DIE
+# containing parameter and return value information
+def extract_signature(die, name, address):
+    args, arg_logs = parameter_types(die, name, address)
+    returns, return_logs = return_types(die, name, address)
+
+    return {
+        "Name": name,
+        "Args": args,
+        "Return": returns,
+    }, arg_logs + return_logs
 
 def unknown_count(signature):
     return signature["Args"].count(UNKNOWN) + signature["Return"].count(UNKNOWN)
-
 
 def choose_duplicate(signatures):
     return sorted(
@@ -264,6 +285,7 @@ def choose_duplicate(signatures):
         key=lambda item: (unknown_count(item), -len(item["Args"]), item["Name"]),
     )[0]
 
+# Transform function signature to string
 def signature_to_text(signature):
     args = ", ".join(signature["Args"])
     returns = ", ".join(signature["Return"])
@@ -310,7 +332,92 @@ def merge_signature(left, right):
         "Return": returns,
     }
 
+# Filter only unique signatures
+def unique_signatures(signatures):
+    seen = set()
+    result = []
 
+    for signature in signatures:
+        key = (
+            signature["Name"],
+            tuple(signature["Args"]),
+            tuple(signature["Return"]),
+        )
+        if key in seen:
+            continue
+        seen.add(key)
+        result.append(signature)
+
+    return result
+
+def merge_return_types(definition, prototype):
+    if not definition["Return"]:
+        return prototype["Return"]
+    if not prototype["Return"]:
+        return definition["Return"]
+    return merge_type_list(definition["Return"], prototype["Return"])
+
+def merge_definition_with_prototype(definition, prototype):
+    # Merge parameters
+    if (not definition["Args"]) and prototype["Args"]:
+        # Signature only exist from declaration
+        args = prototype["Args"]
+    elif len(definition["Args"]) == len(prototype["Args"]):
+        # Merge only when same number of parameters
+        args = merge_type_list(definition["Args"], prototype["Args"])
+    else:
+        return None
+
+    # Merge return value
+    returns = merge_return_types(definition, prototype)
+    if args is None or returns is None:
+        return None
+
+    return {
+        "Name": definition["Name"],
+        "Args": args,
+        "Return": returns,
+    }
+
+# Merge function signature from definition and declaration
+def incorporate_prototypes(address, definition, prototypes):
+    # Filter only unique signatures
+    prototypes = unique_signatures(prototypes)
+    
+    # Signatures from only function defintion
+    if not prototypes:
+        return definition, []
+    
+    result = definition
+    log_lines = [
+        f"Function {definition['Name']} @ {address} has declaration signature candidates:",
+        f"  Definition: {signature_to_text(definition)}",
+    ]
+
+    # Merge function signatures from function definition and declaration
+    # Majority on function definition,
+    # merging sigantures by iterating signatures from function declaration
+    # Log only when at least one signature was rejected
+    rejected = False
+    for prototype in prototypes:
+        log_lines.append(f"  Declaration: {signature_to_text(prototype)}")
+        merged = merge_definition_with_prototype(result, prototype)
+        if merged is None:
+            rejected = True
+            log_lines.append("  Decision: rejected declaration signature")
+        else:
+            result = merged
+            log_lines.append("  Decision: incorporated declaration signature")
+
+    log_lines.append(f"  Final: {signature_to_text(result)}")
+    log_lines.append("")
+
+    if rejected:
+        return result, log_lines
+    else:
+        return result, log_lines
+
+# Merge extracted signature among functions with same address
 def merge_duplicate_signatures(address, signatures):
     # Not exist multiple functions in same address
     if len(signatures) == 1:
@@ -350,6 +457,113 @@ def merge_duplicate_signatures(address, signatures):
     log_lines.append("Decision: accepted")
     return result, log_lines
 
+# Extract function signature from referenced function declaration
+def parsing_refer_declaration(die, definition_name, address):
+    signatures = []
+    logs = []
+
+    for attr_name in ["DW_AT_specification", "DW_AT_abstract_origin"]:
+        ref_die = get_ref_die(die, attr_name)
+        # Only parse referenced function DIE exists
+        if ref_die is None or ref_die.tag != "DW_TAG_subprogram":
+            continue
+        
+        # If exist, extract function signature
+        names = function_names(ref_die)
+        ref_name = names[0] if names else definition_name
+        signature, signature_logs = extract_signature(ref_die, ref_name, address)
+        signatures.append(signature)
+        logs.extend(signature_logs)
+
+    return signatures, logs
+
+# Extract function signature from function declaration
+def parsing_declaration(dwarf):
+    prototypes = {}
+    logs = []
+
+    # Iterate all debug information of each Compile Unit
+    for cu in dwarf.iter_CUs():
+        for die in cu.iter_DIEs():
+            # Only need the DIE of function declaration
+            if not is_function_declaration(die):
+                continue
+
+            # Extract function name
+            names = function_names(die)
+            if not names:
+                continue
+
+            # Extract function signature from function declaration
+            signature, signature_logs = extract_signature(
+                die,
+                names[0],
+                "<declaration>",
+            )
+            logs.extend(signature_logs)
+
+            # Merge all type signatures with same address
+            for name in names:
+                copied = signature.copy()
+                copied["Name"] = name
+                prototypes.setdefault(name, []).append(copied)
+
+    return prototypes, logs
+
+# Extract function signature from function definition
+def parsing_definition(dwarf, prototypes, unknown_logs):
+    by_addr = {}
+    declaration_logs = []
+
+    # Iterate all debug information of each Compile Unit
+    for cu in dwarf.iter_CUs():
+        # Iterate all Debuggin Information Entries in each Compile Unit
+        for die in cu.iter_DIEs():
+            # Only need the DIE of function definition
+            if not is_function_definition(die):
+                continue
+
+            # Extract function name
+            name = function_name(die)
+            if not name:
+                continue
+
+            # Extract function address
+            address = normalize_addr(attr(die, "DW_AT_low_pc").value)
+            names = function_names(die)
+
+            # Extract function signature
+            signature, signature_logs = extract_signature(die, name, address)
+            unknown_logs.extend(signature_logs)
+
+            # Extract function signature from referenced function DIE
+            ref_signatures, ref_logs = parsing_refer_declaration(
+                die,
+                name,
+                address,
+            )
+            unknown_logs.extend(ref_logs)
+
+            # Merge all signatures from
+            # 1) function declaration and
+            # 2) referenced function declaration
+            prototype_signatures = ref_signatures[:]
+            for candidate_name in names:
+                prototype_signatures.extend(prototypes.get(candidate_name, []))
+
+            # If there exist multiple functions with same address,
+            # incorporates types
+            incorporated_signature, incorporate_logs = incorporate_prototypes(
+                address,
+                signature,
+                prototype_signatures,
+            )
+            declaration_logs.extend(incorporate_logs)
+
+            # Insert the GR information of current function
+            by_addr.setdefault(address, []).append(incorporated_signature)
+
+    return by_addr, unknown_logs, declaration_logs
 
 # Extract GT information from given GT binary
 def extract(binary_path):
@@ -363,38 +577,11 @@ def extract(binary_path):
         # Get DWARFInfo context object
         dwarf = elf.get_dwarf_info()
 
-        by_addr = {}
-        unknown_logs = []
+        # 1. Extract type signature from function declaration
+        prototypes, unknown_logs = parsing_declaration(dwarf)
 
-        # Iterate all debug information of each Compile Unit
-        for cu in dwarf.iter_CUs():
-            # Iterate all Debuggin Information Entries in each Compile Unit
-            for die in cu.iter_DIEs():
-                # Only need the DIE of function definition
-                if not is_function_definition(die):
-                    continue
-
-                # Extract function name
-                name = function_name(die)
-                if not name:
-                    continue
-
-                # Extract function address
-                address = normalize_addr(attr(die, "DW_AT_low_pc").value)
-                args, arg_logs = parameter_types(die, name, address)
-                returns, return_logs = return_types(die, name, address)
-                unknown_logs.extend(arg_logs)
-                unknown_logs.extend(return_logs)
-
-                # Extract types of Function parameters and return value
-                signature = {
-                    "Name": name,
-                    "Args": args,
-                    "Return": returns,
-                }
-
-                # Insert the GR information of current function
-                by_addr.setdefault(address, []).append(signature)
+        # 2. Extract type signature from function definition
+        by_addr, unknown_logs, declaration_logs = parsing_definition(dwarf, prototypes, unknown_logs)
 
         if not by_addr:
             # Can not detect any functions
@@ -402,6 +589,8 @@ def extract(binary_path):
                 "No DWARF function definitions found. Compile the ground-truth binary with debug information."
             )
         
+        # 3. Final merging to handle the multiple functions with same address
+        # was found during parsing function definition
         db = {}
         duplicate_logs = []
 
@@ -422,12 +611,15 @@ def extract(binary_path):
             logs.append("== Unknown Type Classification ==")
             logs.extend(unknown_logs)
 
+        if declaration_logs:
+            logs.append("== Declaration Signature Incorporation ==")
+            logs.extend(declaration_logs)
+
         if duplicate_logs:
             logs.append("== Duplicate Address Signature Merge ==")
             logs.extend(duplicate_logs)
 
         return db, logs
-
 
 def main(argv):
     # Argument parsing
@@ -474,7 +666,6 @@ def main(argv):
     # Propagate GT result to F# handler
     print(json.dumps(db, indent=2))
     return 0
-
 
 if __name__ == "__main__":
     sys.exit(main(sys.argv))

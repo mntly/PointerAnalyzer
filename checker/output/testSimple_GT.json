@@ -578,7 +578,7 @@
     "Name": "_dl_linux_resolve",
     "Args": [],
     "Return": [
-      "Unknown"
+      "Value"
     ]
   },
   "0x080510d8": {
@@ -633,16 +633,20 @@
   },
   "0x0805149c": {
     "Name": "_setjmp",
-    "Args": [],
+    "Args": [
+      "Address"
+    ],
     "Return": [
-      "Unknown"
+      "Value"
     ]
   },
   "0x080514c0": {
     "Name": "__libc_i386_syscall6",
-    "Args": [],
+    "Args": [
+      "Value"
+    ],
     "Return": [
-      "Unknown"
+      "Value"
     ]
   },
   "0x080514e7": {
@@ -1381,9 +1385,16 @@
   },
   "0x08057aaf": {
     "Name": "__GI_mmap",
-    "Args": [],
+    "Args": [
+      "Address",
+      "Value",
+      "Value",
+      "Value",
+      "Value",
+      "Value"
+    ],
     "Return": [
-      "Unknown"
+      "Address"
     ]
   },
   "0x08057aca": {
@@ -1545,7 +1556,7 @@
       "Address",
       "Value",
       "Value",
-      "Unknown"
+      "Value"
     ],
     "Return": [
       "Address"

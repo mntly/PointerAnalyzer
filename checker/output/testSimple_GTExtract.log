@@ -41,17 +41,629 @@ Tag: DW_TAG_unspecified_type
 Type path: DW_TAG_unspecified_type
 DIE: cu=0x14c1a, die=0x14c54
 
-Function: _uintmaxtostr @ 0x080582c9
-Target: Argument 3 (alphacase)
-Reason: Unsupported DWARF type tag
-Tag: DW_TAG_enumeration_type
-Type path: DW_TAG_typedef -> DW_TAG_enumeration_type
-DIE: cu=0x174a5, die=0x1753a
+== Declaration Signature Incorporation ==
+Function _stdio_init @ 0x080494cf has declaration signature candidates:
+  Definition: _stdio_init: () -> ()
+  Declaration: _stdio_init: () -> ()
+  Decision: incorporated declaration signature
+  Final: _stdio_init: () -> ()
+
+Function _stdio_term @ 0x0804937b has declaration signature candidates:
+  Definition: _stdio_term: () -> ()
+  Declaration: _stdio_term: () -> ()
+  Decision: incorporated declaration signature
+  Final: _stdio_term: () -> ()
+
+Function __stdio_wcommit @ 0x08049545 has declaration signature candidates:
+  Definition: __stdio_wcommit: (Address) -> (Value)
+  Declaration: __stdio_wcommit: (Address) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __stdio_wcommit: (Address) -> (Value)
+
+Function __GI___fputc_unlocked @ 0x08049591 has declaration signature candidates:
+  Definition: __GI___fputc_unlocked: (Value, Address) -> (Value)
+  Declaration: __GI___fputc_unlocked: (Value, Address) -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: __fputc_unlocked: (Value, Address) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI___fputc_unlocked: (Value, Address) -> (Value)
+
+Function __GI_fputs_unlocked @ 0x08049690 has declaration signature candidates:
+  Definition: __GI_fputs_unlocked: (Address, Address) -> (Value)
+  Declaration: __GI_fputs_unlocked: (Address, Address) -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: fputs_unlocked: (Address, Address) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_fputs_unlocked: (Address, Address) -> (Value)
+
+Function __GI_fwrite_unlocked @ 0x080496d7 has declaration signature candidates:
+  Definition: __GI_fwrite_unlocked: (Address, Value, Value, Address) -> (Value)
+  Declaration: __GI_fwrite_unlocked: (Address, Value, Value, Address) -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: fwrite_unlocked: (Address, Value, Value, Address) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_fwrite_unlocked: (Address, Value, Value, Address) -> (Value)
+
+Function __GI_strlen @ 0x08049766 has declaration signature candidates:
+  Definition: __GI_strlen: (Address) -> (Value)
+  Declaration: __GI_strlen: (Address) -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: strlen: (Address) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_strlen: (Address) -> (Value)
+
+Function __GI_isatty @ 0x080497a9 has declaration signature candidates:
+  Definition: __GI_isatty: (Value) -> (Value)
+  Declaration: __GI_isatty: (Value) -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: isatty: (Value) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_isatty: (Value) -> (Value)
+
+Function __GI_tcgetattr @ 0x080497d6 has declaration signature candidates:
+  Definition: __GI_tcgetattr: (Value, Address) -> (Value)
+  Declaration: __GI_tcgetattr: (Value, Address) -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: tcgetattr: (Value, Address) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_tcgetattr: (Value, Address) -> (Value)
+
+Function __uClibc_fini @ 0x0804a07e has declaration signature candidates:
+  Definition: __uClibc_fini: () -> ()
+  Declaration: __uClibc_fini: () -> ()
+  Decision: incorporated declaration signature
+  Final: __uClibc_fini: () -> ()
+
+Function _pthread_cleanup_pop_restore @ 0x08049f3e has declaration signature candidates:
+  Definition: _pthread_cleanup_pop_restore: (Address, Value) -> ()
+  Declaration: _pthread_cleanup_pop_restore: (Address, Value) -> ()
+  Decision: incorporated declaration signature
+  Final: _pthread_cleanup_pop_restore: (Address, Value) -> ()
+
+Function _pthread_cleanup_push_defer @ 0x08049f1d has declaration signature candidates:
+  Definition: _pthread_cleanup_push_defer: (Address, Address, Address) -> ()
+  Declaration: _pthread_cleanup_push_defer: (Address, Address, Address) -> ()
+  Decision: incorporated declaration signature
+  Final: _pthread_cleanup_push_defer: (Address, Address, Address) -> ()
+
+Function __pthread_initialize_minimal @ 0x0804a807 has declaration signature candidates:
+  Definition: __pthread_initialize_minimal: () -> ()
+  Declaration: __pthread_initialize_minimal: () -> ()
+  Decision: incorporated declaration signature
+  Final: __pthread_initialize_minimal: () -> ()
+
+Function __libc_setup_tls @ 0x0804a4db has declaration signature candidates:
+  Definition: __libc_setup_tls: (Value, Value) -> ()
+  Declaration: __libc_setup_tls: (Value, Value) -> ()
+  Decision: incorporated declaration signature
+  Final: __libc_setup_tls: (Value, Value) -> ()
+
+Function _dl_aux_init @ 0x0804a82e has declaration signature candidates:
+  Definition: _dl_aux_init: (Address) -> ()
+  Declaration: _dl_aux_init: (Address) -> ()
+  Decision: incorporated declaration signature
+  Final: _dl_aux_init: (Address) -> ()
+
+Function _dl_linux_resolve @ 0x080510af has declaration signature candidates:
+  Definition: _dl_linux_resolve: () -> (Unknown)
+  Declaration: _dl_linux_resolve: () -> (Value)
+  Decision: incorporated declaration signature
+  Final: _dl_linux_resolve: () -> (Value)
+
+Function __lll_lock_wait_private @ 0x080510d8 has declaration signature candidates:
+  Definition: __lll_lock_wait_private: (Address) -> ()
+  Declaration: __lll_lock_wait_private: (Address) -> ()
+  Decision: incorporated declaration signature
+  Final: __lll_lock_wait_private: (Address) -> ()
+
+Function __errno_location @ 0x08051458 has declaration signature candidates:
+  Definition: __errno_location: () -> (Address)
+  Declaration: __errno_location: () -> (Address)
+  Decision: incorporated declaration signature
+  Final: __errno_location: () -> (Address)
+
+Function __h_errno_location @ 0x08051476 has declaration signature candidates:
+  Definition: __h_errno_location: () -> (Address)
+  Declaration: __h_errno_location: () -> (Address)
+  Decision: incorporated declaration signature
+  Final: __h_errno_location: () -> (Address)
+
+Function _setjmp @ 0x0805149c has declaration signature candidates:
+  Definition: _setjmp: () -> (Unknown)
+  Declaration: _setjmp: (Address) -> (Value)
+  Decision: incorporated declaration signature
+  Final: _setjmp: (Address) -> (Value)
+
+Function __libc_i386_syscall6 @ 0x080514c0 has declaration signature candidates:
+  Definition: __libc_i386_syscall6: () -> (Unknown)
+  Declaration: __libc_i386_syscall6: (Value) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __libc_i386_syscall6: (Value) -> (Value)
+
+Function __GI_close @ 0x08051573 has declaration signature candidates:
+  Definition: __GI_close: (Value) -> (Value)
+  Declaration: __GI_close: (Value) -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: close: (Value) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_close: (Value) -> (Value)
+
+Function __GI_getegid @ 0x080515cf has declaration signature candidates:
+  Definition: __GI_getegid: () -> (Value)
+  Declaration: __GI_getegid: () -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: getegid: () -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_getegid: () -> (Value)
+
+Function __GI_geteuid @ 0x080515f7 has declaration signature candidates:
+  Definition: __GI_geteuid: () -> (Value)
+  Declaration: __GI_geteuid: () -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: geteuid: () -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_geteuid: () -> (Value)
+
+Function __GI_getgid @ 0x0805161f has declaration signature candidates:
+  Definition: __GI_getgid: () -> (Value)
+  Declaration: __GI_getgid: () -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: getgid: () -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_getgid: () -> (Value)
+
+Function __GI_gettimeofday @ 0x08051647 has declaration signature candidates:
+  Definition: __GI_gettimeofday: (Address, Address) -> (Value)
+  Declaration: gettimeofday: (Address, Address) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_gettimeofday: (Address, Address) -> (Value)
+
+Function __GI_getuid @ 0x080516b6 has declaration signature candidates:
+  Definition: __GI_getuid: () -> (Value)
+  Declaration: __GI_getuid: () -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: getuid: () -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_getuid: () -> (Value)
+
+Function __GI_ioctl @ 0x080516de has declaration signature candidates:
+  Definition: __GI_ioctl: (Value, Value) -> (Value)
+  Declaration: __GI_ioctl: (Value, Value) -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: ioctl: (Value, Value) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_ioctl: (Value, Value) -> (Value)
+
+Function __GI_open @ 0x080518c2 has declaration signature candidates:
+  Definition: __GI_open: (Address, Value) -> (Value)
+  Declaration: __GI_open: (Address, Value) -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: open: (Address, Value) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_open: (Address, Value) -> (Value)
+
+Function __GI_sbrk @ 0x080519f1 has declaration signature candidates:
+  Definition: __GI_sbrk: (Value) -> (Address)
+  Declaration: __GI_sbrk: (Value) -> (Address)
+  Decision: incorporated declaration signature
+  Declaration: sbrk: (Value) -> (Address)
+  Decision: incorporated declaration signature
+  Final: __GI_sbrk: (Value) -> (Address)
+
+Function __GI_fcntl @ 0x08051b20 has declaration signature candidates:
+  Definition: __GI_fcntl: (Value, Value) -> (Value)
+  Declaration: __GI_fcntl: (Value, Value) -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: fcntl: (Value, Value) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_fcntl: (Value, Value) -> (Value)
+
+Function dprintf @ 0x08051ba8 has declaration signature candidates:
+  Definition: dprintf: (Value, Address) -> (Value)
+  Declaration: dprintf: (Value, Address) -> (Value)
+  Decision: incorporated declaration signature
+  Final: dprintf: (Value, Address) -> (Value)
+
+Function __GI_vdprintf @ 0x08051bda has declaration signature candidates:
+  Definition: __GI_vdprintf: (Value, Address, Address) -> (Value)
+  Declaration: __GI_vdprintf: (Value, Address, Address) -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: vdprintf: (Value, Address, Address) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_vdprintf: (Value, Address, Address) -> (Value)
+
+Function __stdio_WRITE @ 0x08051d0e has declaration signature candidates:
+  Definition: __stdio_WRITE: (Address, Address, Value) -> (Value)
+  Declaration: __stdio_WRITE: (Address, Address, Value) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __stdio_WRITE: (Address, Address, Value) -> (Value)
+
+Function __stdio_fwrite @ 0x08051e21 has declaration signature candidates:
+  Definition: __stdio_fwrite: (Address, Value, Address) -> (Value)
+  Declaration: __stdio_fwrite: (Address, Value, Address) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __stdio_fwrite: (Address, Value, Address) -> (Value)
+
+Function __stdio_trans2w @ 0x08051fb7 has declaration signature candidates:
+  Definition: __stdio_trans2w: (Address) -> (Value)
+  Declaration: __stdio_trans2w: (Address) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __stdio_trans2w: (Address) -> (Value)
+
+Function _vfprintf_internal @ 0x0805278f has declaration signature candidates:
+  Definition: _vfprintf_internal: (Address, Address, Address) -> (Value)
+  Declaration: _vfprintf_internal: (Address, Address, Address) -> (Value)
+  Decision: incorporated declaration signature
+  Final: _vfprintf_internal: (Address, Address, Address) -> (Value)
+
+Function _ppfs_init @ 0x08052900 has declaration signature candidates:
+  Definition: _ppfs_init: (Address, Address) -> (Value)
+  Declaration: _ppfs_init: (Address, Address) -> (Value)
+  Decision: incorporated declaration signature
+  Final: _ppfs_init: (Address, Address) -> (Value)
+
+Function _ppfs_prepargs @ 0x08052c9c has declaration signature candidates:
+  Definition: _ppfs_prepargs: (Address, Address) -> ()
+  Declaration: _ppfs_prepargs: (Address, Address) -> ()
+  Decision: incorporated declaration signature
+  Final: _ppfs_prepargs: (Address, Address) -> ()
+
+Function _ppfs_setargs @ 0x08052cf4 has declaration signature candidates:
+  Definition: _ppfs_setargs: (Address) -> ()
+  Declaration: _ppfs_setargs: (Address) -> ()
+  Decision: incorporated declaration signature
+  Final: _ppfs_setargs: (Address) -> ()
+
+Function _ppfs_parsespec @ 0x08052fa2 has declaration signature candidates:
+  Definition: _ppfs_parsespec: (Address) -> (Value)
+  Declaration: _ppfs_parsespec: (Address) -> (Value)
+  Decision: incorporated declaration signature
+  Final: _ppfs_parsespec: (Address) -> (Value)
+
+Function __GI_fflush_unlocked @ 0x08053765 has declaration signature candidates:
+  Definition: __GI_fflush_unlocked: (Address) -> (Value)
+  Declaration: __GI_fflush_unlocked: (Address) -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: fflush_unlocked: (Address) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_fflush_unlocked: (Address) -> (Value)
+
+Function __GI_memcpy @ 0x08053b30 has declaration signature candidates:
+  Definition: __GI_memcpy: (Address, Address, Value) -> (Address)
+  Declaration: __GI_memcpy: (Address, Address, Value) -> (Address)
+  Decision: incorporated declaration signature
+  Declaration: memcpy: (Address, Address, Value) -> (Address)
+  Decision: incorporated declaration signature
+  Final: __GI_memcpy: (Address, Address, Value) -> (Address)
+
+Function __GI_memset @ 0x08053b77 has declaration signature candidates:
+  Definition: __GI_memset: (Address, Value, Value) -> (Address)
+  Declaration: __GI_memset: (Address, Value, Value) -> (Address)
+  Decision: incorporated declaration signature
+  Declaration: memset: (Address, Value, Value) -> (Address)
+  Decision: incorporated declaration signature
+  Final: __GI_memset: (Address, Value, Value) -> (Address)
+
+Function __GI_strcat @ 0x08053bc5 has declaration signature candidates:
+  Definition: __GI_strcat: (Address, Address) -> (Address)
+  Declaration: strcat: (Address, Address) -> (Address)
+  Decision: incorporated declaration signature
+  Final: __GI_strcat: (Address, Address) -> (Address)
+
+Function __GI_strchr @ 0x08053c18 has declaration signature candidates:
+  Definition: __GI_strchr: (Address, Value) -> (Address)
+  Declaration: strchr: (Address, Value) -> (Address)
+  Decision: incorporated declaration signature
+  Final: __GI_strchr: (Address, Value) -> (Address)
+
+Function __GI_strcmp @ 0x08053c55 has declaration signature candidates:
+  Definition: __GI_strcmp: (Address, Address) -> (Value)
+  Declaration: strcmp: (Address, Address) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_strcmp: (Address, Address) -> (Value)
+
+Function __GI_strcpy @ 0x08053c9c has declaration signature candidates:
+  Definition: __GI_strcpy: (Address, Address) -> (Address)
+  Declaration: strcpy: (Address, Address) -> (Address)
+  Decision: incorporated declaration signature
+  Final: __GI_strcpy: (Address, Address) -> (Address)
+
+Function __GI_strnlen @ 0x08053cd9 has declaration signature candidates:
+  Definition: __GI_strnlen: (Address, Value) -> (Value)
+  Declaration: __GI_strnlen: (Address, Value) -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: strnlen: (Address, Value) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_strnlen: (Address, Value) -> (Value)
+
+Function __GI_strrchr @ 0x08053d0f has declaration signature candidates:
+  Definition: __GI_strrchr: (Address, Value) -> (Address)
+  Declaration: __GI_strrchr: (Address, Value) -> (Address)
+  Decision: incorporated declaration signature
+  Declaration: strrchr: (Address, Value) -> (Address)
+  Decision: incorporated declaration signature
+  Final: __GI_strrchr: (Address, Value) -> (Address)
+
+Function __GI_memcmp @ 0x080541e9 has declaration signature candidates:
+  Definition: __GI_memcmp: (Address, Address, Value) -> (Value)
+  Declaration: memcmp: (Address, Address, Value) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_memcmp: (Address, Address, Value) -> (Value)
+
+Function __GI_mempcpy @ 0x08054308 has declaration signature candidates:
+  Definition: __GI_mempcpy: (Address, Address, Value) -> (Address)
+  Declaration: __GI_mempcpy: (Address, Address, Value) -> (Address)
+  Decision: incorporated declaration signature
+  Declaration: mempcpy: (Address, Address, Value) -> (Address)
+  Decision: incorporated declaration signature
+  Final: __GI_mempcpy: (Address, Address, Value) -> (Address)
+
+Function __GI_memrchr @ 0x08054332 has declaration signature candidates:
+  Definition: __GI_memrchr: (Address, Value, Value) -> (Address)
+  Declaration: __GI_memrchr: (Address, Value, Value) -> (Address)
+  Decision: incorporated declaration signature
+  Declaration: memrchr: (Address, Value, Value) -> (Address)
+  Decision: incorporated declaration signature
+  Final: __GI_memrchr: (Address, Value, Value) -> (Address)
+
+Function __GI___glibc_strerror_r @ 0x08054452 has declaration signature candidates:
+  Definition: __GI___glibc_strerror_r: (Value, Address, Value) -> (Address)
+  Declaration: __GI___glibc_strerror_r: (Value, Address, Value) -> (Address)
+  Decision: incorporated declaration signature
+  Declaration: __glibc_strerror_r: (Value, Address, Value) -> (Address)
+  Decision: incorporated declaration signature
+  Final: __GI___glibc_strerror_r: (Value, Address, Value) -> (Address)
+
+Function __GI_strdup @ 0x08054477 has declaration signature candidates:
+  Definition: __GI_strdup: (Address) -> (Address)
+  Declaration: strdup: (Address) -> (Address)
+  Decision: incorporated declaration signature
+  Final: __GI_strdup: (Address) -> (Address)
+
+Function __GI___xpg_strerror_r @ 0x080544bb has declaration signature candidates:
+  Definition: __GI___xpg_strerror_r: (Value, Address, Value) -> (Value)
+  Declaration: __GI___xpg_strerror_r: (Value, Address, Value) -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: __xpg_strerror_r: (Value, Address, Value) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI___xpg_strerror_r: (Value, Address, Value) -> (Value)
+
+Function free @ 0x08054d8b has declaration signature candidates:
+  Definition: free: (Address) -> ()
+  Declaration: free: (Address) -> ()
+  Decision: incorporated declaration signature
+  Final: free: (Address) -> ()
+
+Function __malloc_consolidate @ 0x08054b59 has declaration signature candidates:
+  Definition: __malloc_consolidate: (Address) -> ()
+  Declaration: __malloc_consolidate: (Address) -> ()
+  Decision: incorporated declaration signature
+  Final: __malloc_consolidate: (Address) -> ()
+
+Function malloc @ 0x08055703 has declaration signature candidates:
+  Definition: malloc: (Value) -> (Address)
+  Declaration: malloc: (Value) -> (Address)
+  Decision: incorporated declaration signature
+  Final: malloc: (Value) -> (Address)
+
+Function __GI_abort @ 0x08055f16 has declaration signature candidates:
+  Definition: __GI_abort: () -> ()
+  Declaration: __GI_abort: () -> ()
+  Decision: incorporated declaration signature
+  Declaration: abort: () -> ()
+  Decision: incorporated declaration signature
+  Final: __GI_abort: () -> ()
+
+Function __GI_getenv @ 0x08056359 has declaration signature candidates:
+  Definition: __GI_getenv: (Address) -> (Address)
+  Declaration: getenv: (Address) -> (Address)
+  Decision: incorporated declaration signature
+  Final: __GI_getenv: (Address) -> (Address)
+
+Function __GI_exit @ 0x080563dd has declaration signature candidates:
+  Definition: __GI_exit: (Value) -> ()
+  Declaration: __GI_exit: (Value) -> ()
+  Decision: incorporated declaration signature
+  Declaration: exit: (Value) -> ()
+  Decision: incorporated declaration signature
+  Final: __GI_exit: (Value) -> ()
+
+Function __GI_raise @ 0x0805660e has declaration signature candidates:
+  Definition: __GI_raise: (Value) -> (Value)
+  Declaration: __GI_raise: (Value) -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: raise: (Value) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_raise: (Value) -> (Value)
+
+Function __libc_disable_asynccancel @ 0x08056775 has declaration signature candidates:
+  Definition: __libc_disable_asynccancel: (Value) -> ()
+  Declaration: __libc_disable_asynccancel: (Value) -> ()
+  Decision: incorporated declaration signature
+  Final: __libc_disable_asynccancel: (Value) -> ()
+
+Function __libc_enable_asynccancel @ 0x080566ab has declaration signature candidates:
+  Definition: __libc_enable_asynccancel: () -> (Value)
+  Declaration: __libc_enable_asynccancel: () -> (Value)
+  Decision: incorporated declaration signature
+  Final: __libc_enable_asynccancel: () -> (Value)
+
+Function _dl_add_to_slotinfo @ 0x08057138 has declaration signature candidates:
+  Definition: _dl_add_to_slotinfo: (Address) -> ()
+  Declaration: _dl_add_to_slotinfo: (Address) -> ()
+  Decision: incorporated declaration signature
+  Final: _dl_add_to_slotinfo: (Address) -> ()
+
+Function _dl_next_tls_modid @ 0x0805697e has declaration signature candidates:
+  Definition: _dl_next_tls_modid: () -> (Value)
+  Declaration: _dl_next_tls_modid: () -> (Value)
+  Decision: incorporated declaration signature
+  Final: _dl_next_tls_modid: () -> (Value)
+
+Function _dl_allocate_static_tls @ 0x08056872 has declaration signature candidates:
+  Definition: _dl_allocate_static_tls: (Address) -> ()
+  Declaration: _dl_allocate_static_tls: (Address) -> ()
+  Decision: incorporated declaration signature
+  Final: _dl_allocate_static_tls: (Address) -> ()
+
+Function clock_gettime @ 0x0805763c has declaration signature candidates:
+  Definition: clock_gettime: (Value, Address) -> (Value)
+  Declaration: clock_gettime: (Value, Address) -> (Value)
+  Decision: incorporated declaration signature
+  Final: clock_gettime: (Value, Address) -> (Value)
+
+Function __GI_brk @ 0x08057661 has declaration signature candidates:
+  Definition: __GI_brk: (Address) -> (Value)
+  Declaration: __GI_brk: (Address) -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: brk: (Address) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_brk: (Address) -> (Value)
+
+Function mmap @ 0x08057aaf has declaration signature candidates:
+  Definition: mmap: () -> (Unknown)
+  Declaration: mmap: (Address, Value, Value, Value, Value, Value) -> (Address)
+  Decision: incorporated declaration signature
+  Final: mmap: (Address, Value, Value, Value, Value, Value) -> (Address)
+
+Function __GI_mmap @ 0x08057aaf has declaration signature candidates:
+  Definition: __GI_mmap: () -> (Unknown)
+  Declaration: __GI_mmap: (Address, Value, Value, Value, Value, Value) -> (Address)
+  Decision: incorporated declaration signature
+  Final: __GI_mmap: (Address, Value, Value, Value, Value, Value) -> (Address)
+
+Function __GI__exit @ 0x08057aca has declaration signature candidates:
+  Definition: __GI__exit: (Value) -> ()
+  Declaration: __GI__exit: (Value) -> ()
+  Decision: incorporated declaration signature
+  Declaration: _exit: (Value) -> ()
+  Decision: incorporated declaration signature
+  Final: __GI__exit: (Value) -> ()
+
+Function __GI_munmap @ 0x08057b38 has declaration signature candidates:
+  Definition: __GI_munmap: (Address, Value) -> (Value)
+  Declaration: __GI_munmap: (Address, Value) -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: munmap: (Address, Value) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_munmap: (Address, Value) -> (Value)
+
+Function __GI_sigprocmask @ 0x08057b9a has declaration signature candidates:
+  Definition: __GI_sigprocmask: (Value, Address, Address) -> (Value)
+  Declaration: __GI_sigprocmask: (Value, Address, Address) -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: sigprocmask: (Value, Address, Address) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_sigprocmask: (Value, Address, Address) -> (Value)
+
+Function __syscall_rt_sigaction @ 0x08057d58 has declaration signature candidates:
+  Definition: __syscall_rt_sigaction: (Value, Address, Address, Value) -> (Value)
+  Declaration: __syscall_rt_sigaction: (Value, Address, Address, Value) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __syscall_rt_sigaction: (Value, Address, Address, Value) -> (Value)
+
+Function __GI_write @ 0x08057e21 has declaration signature candidates:
+  Definition: __GI_write: (Value, Address, Value) -> (Value)
+  Declaration: __GI_write: (Value, Address, Value) -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: write: (Value, Address, Value) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_write: (Value, Address, Value) -> (Value)
+
+Function __GI_fseek @ 0x08057e89 has declaration signature candidates:
+  Definition: __GI_fseek: (Address, Value, Value) -> (Value)
+  Declaration: __GI_fseek: (Address, Value, Value) -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: fseek: (Address, Value, Value) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_fseek: (Address, Value, Value) -> (Value)
+
+Function __GI_fprintf @ 0x08057eb3 has declaration signature candidates:
+  Definition: __GI_fprintf: (Address, Address) -> (Value)
+  Declaration: __GI_fprintf: (Address, Address) -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: fprintf: (Address, Address) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_fprintf: (Address, Address) -> (Value)
+
+Function __GI_fseeko64 @ 0x08057f45 has declaration signature candidates:
+  Definition: __GI_fseeko64: (Address, Value, Value) -> (Value)
+  Declaration: __GI_fseeko64: (Address, Value, Value) -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: fseeko64: (Address, Value, Value) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_fseeko64: (Address, Value, Value) -> (Value)
+
+Function __stdio_adjust_position @ 0x080580d1 has declaration signature candidates:
+  Definition: __stdio_adjust_position: (Address, Address) -> (Value)
+  Declaration: __stdio_adjust_position: (Address, Address) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __stdio_adjust_position: (Address, Address) -> (Value)
+
+Function __stdio_seek @ 0x08058172 has declaration signature candidates:
+  Definition: __stdio_seek: (Address, Address, Value) -> (Value)
+  Declaration: __stdio_seek: (Address, Address, Value) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __stdio_seek: (Address, Address, Value) -> (Value)
+
+Function _load_inttype @ 0x080581c7 has declaration signature candidates:
+  Definition: _load_inttype: (Value, Address, Value) -> (Value)
+  Declaration: _load_inttype: (Value, Address, Value) -> (Value)
+  Decision: incorporated declaration signature
+  Final: _load_inttype: (Value, Address, Value) -> (Value)
+
+Function _store_inttype @ 0x0805827b has declaration signature candidates:
+  Definition: _store_inttype: (Address, Value, Value) -> ()
+  Declaration: _store_inttype: (Address, Value, Value) -> ()
+  Decision: incorporated declaration signature
+  Final: _store_inttype: (Address, Value, Value) -> ()
+
+Function _uintmaxtostr @ 0x080582c9 has declaration signature candidates:
+  Definition: _uintmaxtostr: (Address, Value, Value, Value) -> (Address)
+  Declaration: _uintmaxtostr: (Address, Value, Value, Value) -> (Address)
+  Decision: incorporated declaration signature
+  Final: _uintmaxtostr: (Address, Value, Value, Value) -> (Address)
+
+Function _fpmaxtostr @ 0x0805843a has declaration signature candidates:
+  Definition: _fpmaxtostr: (Address, Value, Address, Address) -> (Value)
+  Declaration: _fpmaxtostr: (Address, Value, Address, Address) -> (Value)
+  Decision: incorporated declaration signature
+  Final: _fpmaxtostr: (Address, Value, Address, Address) -> (Value)
+
+Function __GI_vfprintf @ 0x0805934f has declaration signature candidates:
+  Definition: __GI_vfprintf: (Address, Address, Address) -> (Value)
+  Declaration: __GI_vfprintf: (Address, Address, Address) -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: vfprintf: (Address, Address, Address) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_vfprintf: (Address, Address, Address) -> (Value)
+
+Function __GI_strncmp @ 0x0805949f has declaration signature candidates:
+  Definition: __GI_strncmp: (Address, Address, Value) -> (Value)
+  Declaration: __GI_strncmp: (Address, Address, Value) -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: strncmp: (Address, Address, Value) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_strncmp: (Address, Address, Value) -> (Value)
+
+Function calloc @ 0x080594f4 has declaration signature candidates:
+  Definition: calloc: (Value, Value) -> (Address)
+  Declaration: calloc: (Value, Value) -> (Address)
+  Decision: incorporated declaration signature
+  Final: calloc: (Value, Value) -> (Address)
+
+Function __GI_lseek64 @ 0x0805972c has declaration signature candidates:
+  Definition: __GI_lseek64: (Value, Value, Value) -> (Value)
+  Declaration: __GI_lseek64: (Value, Value, Value) -> (Value)
+  Decision: incorporated declaration signature
+  Declaration: lseek64: (Value, Value, Value) -> (Value)
+  Decision: incorporated declaration signature
+  Final: __GI_lseek64: (Value, Value, Value) -> (Value)
 
 == Duplicate Address Signature Merge ==
 Address 0x08057aaf has multiple DWARF function signatures:
-  - mmap: () -> (Unknown)
-  - __GI_mmap: () -> (Unknown)
-Merged: __GI_mmap: () -> (Unknown)
+  - mmap: (Address, Value, Value, Value, Value, Value) -> (Address)
+  - __GI_mmap: (Address, Value, Value, Value, Value, Value) -> (Address)
+Merged: __GI_mmap: (Address, Value, Value, Value, Value, Value) -> (Address)
 Decision: accepted
 
