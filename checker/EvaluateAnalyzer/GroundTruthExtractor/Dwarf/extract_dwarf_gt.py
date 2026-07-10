@@ -18,6 +18,30 @@ ADDRESS = "Address"
 VALUE = "Value"
 UNKNOWN = "Unknown"
 
+# Type tags of DWARF
+ADDR_TAGS = [
+    "DW_TAG_pointer_type",
+    "DW_TAG_array_type",
+    # "DW_TAG_subroutine_type",
+    # "DW_TAG_reference_type",
+    # "DW_TAG_rvalue_reference_type",
+]
+VALUE_TAGS = [
+    "DW_TAG_base_type",
+    "DW_TAG_enumeration_type",
+    # "DW_TAG_structure_type",
+    # "DW_TAG_union_type",
+    # "DW_TAG_class_type",
+]
+RECURSIVE_TAGS = [
+    "DW_TAG_typedef",
+    # "DW_TAG_const_type",
+    # "DW_TAG_volatile_type",
+    "DW_TAG_restrict_type",
+    # "DW_TAG_atomic_type",
+    # "DW_TAG_packed_type",
+]
+
 # Get attribute of given DIE
 def attr(die, name):
     return die.attributes.get(name)
@@ -48,70 +72,135 @@ def get_ref_die(die, attr_name):
     except Exception:
         return None
 
-# Given type DIE, resolve its type
-# seen prevents cycle when the type is defined using itself
-def resolve_type(die, seen=None):
+# Transform DIE info to string
+def die_location(die):
+    if die is None:
+        return "<none>"
+    return f"cu=0x{die.cu.cu_offset:x}, die=0x{die.offset:x}"
+
+# Transform TypeTag history into string
+def type_path_to_text(path):
+    if not path:
+        return "<empty>"
+    return " -> ".join(path)
+
+"""
+Construct log when type is classified as Unknown
+
+Input
+    contexnt stores the information of object corresponding current type
+    reason explains why this type classified as Unknown
+    tag indicates the TypeTag classified as Unknown
+    die indicates the DIE classified its type as Unknown
+    path tracks history for traversing recursive TypeTag
+
+Output
+    Log
+"""
+def unknown_type_log(context, reason, tag=None, die=None, path=None):
+    # If no object information, do not add log
+    if context is None:
+        return []
+
+    return [
+        f"Function: {context['FunctionName']} @ {context['FunctionAddress']}",
+        f"Target: {context['Target']}",
+        f"Reason: {reason}",
+        f"Tag: {tag if tag is not None else '<none>'}",
+        f"Type path: {type_path_to_text(path)}",
+        f"DIE: {die_location(die)}",
+        "",
+    ]
+
+"""
+Given type DIE, resolve its type
+Input
+   seen prevents cycle when the type is defined using itself
+   context stores the object corresponding current type for logging
+   path tracks history for traversing recursive TypeTag
+
+Output
+    Classified type
+    Addition log indicating log when type is classified as Unknown
+"""
+def resolve_type(die, seen=None, context=None, path=None):
     # Type DIE not exist -> Mark as Unknown
     if die is None:
-        return UNKNOWN
+        return UNKNOWN, unknown_type_log(
+            context,
+            "Missing DW_AT_type reference",
+            path=path,
+        )
 
-    # If resolve_type is first call, initialize seen
+    # If resolve_type is first call, initialize seen and path
     if seen is None:
         seen = set()
 
-    # If type is defined by the discovered type,
-    # assume can not determine its type.
-    # In this cycle case, Mark as Unknown
+    if path is None:
+        path = []
+
+    # If type is defined by the discovered type, assume can not determine its
+    # type. In this cycle case, Mark as Unknown
     die_key = (die.cu.cu_offset, die.offset)
+    tag = die.tag
+    next_path = path + [tag]
+
     if die_key in seen:
-        return UNKNOWN
+        return UNKNOWN, unknown_type_log(
+            context,
+            "Recursive type resolution",
+            tag=tag,
+            die=die,
+            path=next_path,
+        )
 
     seen.add(die_key)
 
     # Classify Type
-    tag = die.tag
+    if tag in ADDR_TAGS:
+        return ADDRESS, []
 
-    if tag in (
-        "DW_TAG_pointer_type",
-        "DW_TAG_array_type",
-        "DW_TAG_subroutine_type",
-        "DW_TAG_reference_type",
-        "DW_TAG_rvalue_reference_type",
-    ):
-        return ADDRESS
+    if tag in VALUE_TAGS:
+        return VALUE, []
 
-    if tag in (
-        "DW_TAG_base_type",
-        "DW_TAG_enumeration_type",
-        "DW_TAG_structure_type",
-        "DW_TAG_union_type",
-        "DW_TAG_class_type",
-    ):
-        return VALUE
+    if tag in RECURSIVE_TAGS:
+        return resolve_type(
+            get_ref_die(die, "DW_AT_type"),
+            seen,
+            context,
+            next_path,
+        )
 
-    if tag in (
-        "DW_TAG_typedef",
-        "DW_TAG_const_type",
-        "DW_TAG_volatile_type",
-        "DW_TAG_restrict_type",
-        "DW_TAG_atomic_type",
-        "DW_TAG_packed_type",
-    ):
-        return resolve_type(get_ref_die(die, "DW_AT_type"), seen)
-
-    return UNKNOWN
+    return UNKNOWN, unknown_type_log(
+        context,
+        "Unsupported DWARF type tag",
+        tag=tag,
+        die=die,
+        path=next_path,
+    )
 
 # Extract type of return value
-def return_types(die):
+def return_types(die, function, address):
     # Type of return value of function is represented as type of itself.
     type_die = get_ref_die(die, "DW_AT_type")
     if type_die is None:
-        return []
-    return [resolve_type(type_die)]
+        return [], []
+
+    # Context is used for logging when type is classified to Unknown
+    context = {
+        "FunctionName": function,
+        "FunctionAddress": address,
+        "Target": "Return Value",
+    }
+
+    resolved_type, log_lines = resolve_type(type_die, context=context)
+    return [resolved_type], log_lines
 
 # Extract type of parameters of given function DIE
-def parameter_types(die):
+def parameter_types(die, function, address):
     result = []
+    logs = []
+    index = 0
     for child in die.iter_children():
         # Child DIE of Subprogram DIE with DW_TAG_formal_parameter
         # represents the parameters of corresponding function
@@ -122,10 +211,30 @@ def parameter_types(die):
         # that are not actually declared in the source code
         if attr_bool(child, "DW_AT_artificial"):
             continue
+
+        # Extract parameter name for loggin
+        param_name = attr_string(child, "DW_AT_name")
+        if param_name:
+            target = f"Argument {index} ({param_name})"
+        else:
+            target = f"Argument {index}"
         
+        # Context is used for logging when type is classified to Unknown
+        context = {
+            "FunctionName": function,
+            "FunctionAddress": address,
+            "Target": target,
+        }
+
         # Recursivly access DW_AT_type to extract concrete type
-        result.append(resolve_type(get_ref_die(child, "DW_AT_type")))
-    return result
+        resolved_type, log_lines = resolve_type(
+            get_ref_die(child, "DW_AT_type"),
+            context=context,
+        )
+        result.append(resolved_type)
+        logs.extend(log_lines)
+        index += 1
+    return result, logs
 
 # Normalize to Hex string
 def normalize_addr(value):
@@ -255,6 +364,7 @@ def extract(binary_path):
         dwarf = elf.get_dwarf_info()
 
         by_addr = {}
+        unknown_logs = []
 
         # Iterate all debug information of each Compile Unit
         for cu in dwarf.iter_CUs():
@@ -271,11 +381,16 @@ def extract(binary_path):
 
                 # Extract function address
                 address = normalize_addr(attr(die, "DW_AT_low_pc").value)
+                args, arg_logs = parameter_types(die, name, address)
+                returns, return_logs = return_types(die, name, address)
+                unknown_logs.extend(arg_logs)
+                unknown_logs.extend(return_logs)
+
                 # Extract types of Function parameters and return value
                 signature = {
                     "Name": name,
-                    "Args": parameter_types(die),
-                    "Return": return_types(die),
+                    "Args": args,
+                    "Return": returns,
                 }
 
                 # Insert the GR information of current function
@@ -288,18 +403,28 @@ def extract(binary_path):
             )
         
         db = {}
-        logs = []
+        duplicate_logs = []
 
         # Handle GT multiple function signature at same address
         for address, signatures in sorted(by_addr.items()):
             signature, log_lines = merge_duplicate_signatures(address, signatures)
-            logs.extend(log_lines)
+            duplicate_logs.extend(log_lines)
             # Update log
             if log_lines:
-                logs.append("")
+                duplicate_logs.append("")
             # Update GT DB
             if signature is not None:
                 db[address] = signature
+
+        # Merge all logs
+        logs = []
+        if unknown_logs:
+            logs.append("== Unknown Type Classification ==")
+            logs.extend(unknown_logs)
+
+        if duplicate_logs:
+            logs.append("== Duplicate Address Signature Merge ==")
+            logs.extend(duplicate_logs)
 
         return db, logs
 

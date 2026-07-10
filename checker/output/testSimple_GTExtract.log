@@ -1,3 +1,54 @@
+== Unknown Type Classification ==
+Function: _start @ 0x08049020
+Target: Return Value
+Reason: Unsupported DWARF type tag
+Tag: DW_TAG_unspecified_type
+Type path: DW_TAG_unspecified_type
+DIE: cu=0x0, die=0x2f
+
+Function: _dl_linux_resolve @ 0x080510af
+Target: Return Value
+Reason: Unsupported DWARF type tag
+Tag: DW_TAG_unspecified_type
+Type path: DW_TAG_unspecified_type
+DIE: cu=0xa15b, die=0xa18a
+
+Function: _setjmp @ 0x0805149c
+Target: Return Value
+Reason: Unsupported DWARF type tag
+Tag: DW_TAG_unspecified_type
+Type path: DW_TAG_unspecified_type
+DIE: cu=0xa6b5, die=0xa6e4
+
+Function: __libc_i386_syscall6 @ 0x080514c0
+Target: Return Value
+Reason: Unsupported DWARF type tag
+Tag: DW_TAG_unspecified_type
+Type path: DW_TAG_unspecified_type
+DIE: cu=0xa6e6, die=0xa715
+
+Function: mmap @ 0x08057aaf
+Target: Return Value
+Reason: Unsupported DWARF type tag
+Tag: DW_TAG_unspecified_type
+Type path: DW_TAG_unspecified_type
+DIE: cu=0x14c1a, die=0x14c54
+
+Function: __GI_mmap @ 0x08057aaf
+Target: Return Value
+Reason: Unsupported DWARF type tag
+Tag: DW_TAG_unspecified_type
+Type path: DW_TAG_unspecified_type
+DIE: cu=0x14c1a, die=0x14c54
+
+Function: _uintmaxtostr @ 0x080582c9
+Target: Argument 3 (alphacase)
+Reason: Unsupported DWARF type tag
+Tag: DW_TAG_enumeration_type
+Type path: DW_TAG_typedef -> DW_TAG_enumeration_type
+DIE: cu=0x174a5, die=0x1753a
+
+== Duplicate Address Signature Merge ==
 Address 0x08057aaf has multiple DWARF function signatures:
   - mmap: () -> (Unknown)
   - __GI_mmap: () -> (Unknown)
