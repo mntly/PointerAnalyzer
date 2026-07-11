@@ -6,7 +6,9 @@
       "Args": []
     },
     "Return": {
-      "ReturnReg": {},
+      "ReturnReg": {
+        "EAX": "Unknown"
+      },
       "ModifiedReg": {
         "EBP": "Unknown",
         "EBX": "Unknown"
@@ -111,7 +113,9 @@
       "Args": []
     },
     "Return": {
-      "ReturnReg": {},
+      "ReturnReg": {
+        "EAX": "Unknown"
+      },
       "ModifiedReg": {
         "EBP": "Unknown",
         "EBX": "Unknown",
@@ -256,7 +260,9 @@
       "Args": []
     },
     "Return": {
-      "ReturnReg": {},
+      "ReturnReg": {
+        "EAX": "Unknown"
+      },
       "ModifiedReg": {
         "EBX": "Address"
       }
@@ -3495,7 +3501,9 @@
       "Args": []
     },
     "Return": {
-      "ReturnReg": {},
+      "ReturnReg": {
+        "EAX": "Unknown"
+      },
       "ModifiedReg": {
         "EDX": "Address"
       }
@@ -3522,7 +3530,9 @@
       "Args": []
     },
     "Return": {
-      "ReturnReg": {},
+      "ReturnReg": {
+        "EAX": "Unknown"
+      },
       "ModifiedReg": {
         "EBX": "Address"
       }
@@ -5137,7 +5147,9 @@
       "Args": []
     },
     "Return": {
-      "ReturnReg": {},
+      "ReturnReg": {
+        "EAX": "Unknown"
+      },
       "ModifiedReg": {
         "ESI": "Address"
       }
@@ -13561,7 +13573,9 @@
       "Args": []
     },
     "Return": {
-      "ReturnReg": {},
+      "ReturnReg": {
+        "EAX": "Unknown"
+      },
       "ModifiedReg": {
         "ECX": "Address"
       }
@@ -68593,7 +68607,9 @@
       "Args": []
     },
     "Return": {
-      "ReturnReg": {},
+      "ReturnReg": {
+        "EAX": "Unknown"
+      },
       "ModifiedReg": {
         "EDI": "Address"
       }
@@ -140655,7 +140671,7 @@
         "ESP_23": "Address",
         "ESP_24": "Address",
         "PC_33": "Address",
-        "T_7_2": "Address",
+        "T_1_6": "Address",
         "V_0_0": "Address"
       }
     }
@@ -152869,7 +152885,7 @@
         "ESP_29": "Address",
         "ESP_30": "Address",
         "PC_43": "Address",
-        "T_7_2": "Address",
+        "T_1_6": "Address",
         "V_0_0": "Address"
       }
     }
@@ -153013,7 +153029,9 @@
       "Args": []
     },
     "Return": {
-      "ReturnReg": {},
+      "ReturnReg": {
+        "EAX": "Unknown"
+      },
       "ModifiedReg": {
         "EBP": "Unknown",
         "EBX": "Unknown"

@@ -68,3 +68,26 @@ dotnet run --project Checker.fsproj \
   -o output \
   -on testSimple
 ```
+
+### [Evaluator](./EvaluateAnalyzer/Evaluator/)
+
+This directory contains the codes related to evaluate the performance of PointerAnalyzer using given ground truth type(`-gt`) and inferred type(`-i`).
+
+```
+dotnet run --project Checker.fsproj \
+  -m 3 \
+  -gt output/testSimple_GT.json \
+  -i ../output/helloword-x86_32-i586-uclibc-O0/inferredTypes.json \
+  -o output
+```
+
+With `-on` option, you can assign the suffix name of output file. As default, it will be basename of given binary. The extracted ground truth is stroed with `SUFFIX_GT.json`. During extraction, if there happens some strange behavior, the extractor will logs as `SUFFIX_GTExtract.log`
+
+```
+dotnet run --project Checker.fsproj \
+  -m 3 \
+  -gt output/testSimple_GT.json \
+  -i ../output/helloword-x86_32-i586-uclibc-O0/inferredTypes.json \
+  -o output \
+  -on testSimple
+```

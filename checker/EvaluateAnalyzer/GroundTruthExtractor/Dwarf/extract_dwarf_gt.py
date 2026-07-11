@@ -415,7 +415,7 @@ def incorporate_prototypes(address, definition, prototypes):
     if rejected:
         return result, log_lines
     else:
-        return result, log_lines
+        return result, []
 
 # Merge extracted signature among functions with same address
 def merge_duplicate_signatures(address, signatures):

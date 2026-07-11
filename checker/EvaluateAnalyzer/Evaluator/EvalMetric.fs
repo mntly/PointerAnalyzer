@@ -1,0 +1,212 @@
+module EvaluateAnalyzer.Evaluator.Metric
+
+open System.Text.Json
+open EvaluateAnalyzer.Evaluator.Types
+
+/// <summary>
+/// Used for track the number of each case.
+/// </summary>
+/// <remarks>
+/// <c>Total</c> indicates the total number of elements belong to
+/// corrsesponding case.
+/// <c>GTAddress</c> indicates the total number of elements belong to
+/// corrsesponding case whose ground truth type is Address.
+/// <c>GTValue</c> indicates the total number of elements belong to
+/// corrsesponding case whose ground truth type is Value.
+/// </remarks>
+type CountBucket =
+  { Total: int
+    GTAddress: int
+    GTValue: int }
+
+/// <summary>
+/// Track the metric of all cases.
+/// </summary>
+/// <remarks>
+/// <c>All</c> indicates the total number of elements.
+/// <c>Correct</c> tracks the correctly inferred elements.
+/// <c>MisInferred</c> tracks the misinferred elements.
+/// <c>Conflict</c> tracks the elements inferred as both Address and Value.
+/// <c>Correct</c> tracks the elemtnes not be inferred.
+/// </remarks>
+type CountResult =
+  { All: int
+    Correct: CountBucket
+    MisInferred: CountBucket
+    Conflict: CountBucket
+    Fail: CountBucket }
+
+/// <summary>
+/// Used for representing the ratio of each case.
+/// </summary>
+/// <remarks>
+/// <c>Total</c> represents the ratio of the elements belong to corresponding
+/// case among entire elements
+/// <c>GTAddress</c> represents the ratio of the elements whose ground truth
+/// type is Address among corresponding elements.
+/// <c>GTValue</c> represents the ratio of the elements whose ground truth
+/// type is Value among corresponding elements.
+/// </remarks>
+type RatioBucket =
+  { Total: float
+    GTAddress: float
+    GTValue: float }
+
+/// <summary>
+/// Track the metric of all cases.
+/// </summary>
+/// <remarks>
+/// <c>Correct</c> tracks the correctly inferred elements.
+/// <c>MisInferred</c> tracks the misinferred elements.
+/// <c>Conflict</c> tracks the elements inferred as both Address and Value.
+/// <c>Correct</c> tracks the elemtnes not be inferred.
+/// </remarks>
+type RatioResult =
+  { Correct: RatioBucket
+    MisInferred: RatioBucket
+    Conflict: RatioBucket
+    Fail: RatioBucket }
+
+/// <summary>
+/// Represent the ratio per GT Type.
+/// </summary>
+/// <remarks>
+/// <c>Correct</c> tracks the correctly inferred elements among corresponding
+/// GT type.
+/// <c>MisInferred</c> tracks the misinferred elements among corresponding
+/// GT type.
+/// <c>Conflict</c> tracks the elements inferred as both Address and Value
+/// among corresponding GT type.
+/// <c>Correct</c> tracks the elemtnes not be inferred among corresponding
+/// GT type.
+/// </remarks>
+type GTTypeRatioBucket =
+  { Correct: float
+    MisInferred: float
+    Conflict: float
+    Fail: float }
+
+/// <summary>
+/// Represent the ratio per GT Type.
+/// </summary>
+type GTTypeRatioResult =
+  { GTAddress: GTTypeRatioBucket
+    GTValue: GTTypeRatioBucket }
+
+/// <summary>
+/// Represent entire metrics that will be stored as JSON.
+/// </summary>
+type EvalMetric =
+  { Count: CountResult
+    Ratio: RatioResult
+    GTTypeRatio: GTTypeRatioResult }
+
+let private emptyBucket: CountBucket =
+  { Total = 0
+    GTAddress = 0
+    GTValue = 0 }
+
+/// According to GT type, adjust the number of GT type of given CountBucket
+let private incrementBucket gt (bucket: CountBucket) : CountBucket =
+  match gt with
+  | Address ->
+    { bucket with
+        Total = bucket.Total + 1
+        GTAddress = bucket.GTAddress + 1 }
+  | Value ->
+    { bucket with
+        Total = bucket.Total + 1
+        GTValue = bucket.GTValue + 1 }
+  | _ -> bucket
+
+/// Count the # of elements in each case
+let buildCount results =
+  let folder (count: CountResult) (result: ElementResult) =
+    match result.Category with
+    | Correct ->
+      { count with
+          Correct = incrementBucket result.GT count.Correct }
+    | MisInferred ->
+      { count with
+          MisInferred = incrementBucket result.GT count.MisInferred }
+    | ConflictResult ->
+      { count with
+          Conflict = incrementBucket result.GT count.Conflict }
+    | Fail ->
+      { count with
+          Fail = incrementBucket result.GT count.Fail }
+
+  let initial: CountResult =
+    { All = List.length results
+      Correct = emptyBucket
+      MisInferred = emptyBucket
+      Conflict = emptyBucket
+      Fail = emptyBucket }
+
+  List.fold folder initial results
+
+let private div numerator denominator =
+  if denominator = 0 then
+    0.0
+  else
+    float numerator / float denominator
+
+/// Calculate ratio of given CountBucket.
+/// `Total` ratio is calculated using given the # of all elements.
+let private ratioBucket all (bucket: CountBucket) : RatioBucket =
+  { Total = div bucket.Total all
+    GTAddress = div bucket.GTAddress bucket.Total
+    GTValue = div bucket.GTValue bucket.Total }
+
+/// Calculate evaluation metrix using the result of evaluation classification
+let build results =
+  (* Count the # of elements in each case *)
+  let count: CountResult = buildCount results
+
+  (* Calculate ratio of each case *)
+  let ratio: RatioResult =
+    { Correct = ratioBucket count.All count.Correct
+      MisInferred = ratioBucket count.All count.MisInferred
+      Conflict = ratioBucket count.All count.Conflict
+      Fail = ratioBucket count.All count.Fail }
+
+  (* Count the # of elements whose GT type is Address *)
+  (* This will be used when calculating metric per GT Type *)
+  let addressTotal =
+    count.Correct.GTAddress
+    + count.MisInferred.GTAddress
+    + count.Conflict.GTAddress
+    + count.Fail.GTAddress
+
+  (* Count the # of elements whose GT type is Value *)
+  (* This will be used when calculating metric per GT Type *)
+  let valueTotal =
+    count.Correct.GTValue
+    + count.MisInferred.GTValue
+    + count.Conflict.GTValue
+    + count.Fail.GTValue
+
+  (* Calculate metric per GT Address *)
+  let addressRatio: GTTypeRatioBucket =
+    { Correct = div count.Correct.GTAddress addressTotal
+      MisInferred = div count.MisInferred.GTAddress addressTotal
+      Conflict = div count.Conflict.GTAddress addressTotal
+      Fail = div count.Fail.GTAddress addressTotal }
+
+  (* Calculate metric per GT Value *)
+  let valueRatio: GTTypeRatioBucket =
+    { Correct = div count.Correct.GTValue valueTotal
+      MisInferred = div count.MisInferred.GTValue valueTotal
+      Conflict = div count.Conflict.GTValue valueTotal
+      Fail = div count.Fail.GTValue valueTotal }
+
+  { Count = count
+    Ratio = ratio
+    GTTypeRatio =
+      { GTAddress = addressRatio
+        GTValue = valueRatio } }
+
+/// Transform given metric DS to JSON
+let toJson metric =
+  let options = JsonSerializerOptions (WriteIndented = true)
+  JsonSerializer.Serialize (metric, options)

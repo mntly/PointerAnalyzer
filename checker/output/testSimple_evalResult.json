@@ -1,0 +1,61 @@
+{
+  "Count": {
+    "All": 223,
+    "Correct": {
+      "Total": 29,
+      "GTAddress": 28,
+      "GTValue": 1
+    },
+    "MisInferred": {
+      "Total": 25,
+      "GTAddress": 0,
+      "GTValue": 25
+    },
+    "Conflict": {
+      "Total": 94,
+      "GTAddress": 54,
+      "GTValue": 40
+    },
+    "Fail": {
+      "Total": 75,
+      "GTAddress": 17,
+      "GTValue": 58
+    }
+  },
+  "Ratio": {
+    "Correct": {
+      "Total": 0.13004484304932734,
+      "GTAddress": 0.9655172413793104,
+      "GTValue": 0.034482758620689655
+    },
+    "MisInferred": {
+      "Total": 0.11210762331838565,
+      "GTAddress": 0,
+      "GTValue": 1
+    },
+    "Conflict": {
+      "Total": 0.42152466367713004,
+      "GTAddress": 0.574468085106383,
+      "GTValue": 0.425531914893617
+    },
+    "Fail": {
+      "Total": 0.336322869955157,
+      "GTAddress": 0.22666666666666666,
+      "GTValue": 0.7733333333333333
+    }
+  },
+  "GTTypeRatio": {
+    "GTAddress": {
+      "Correct": 0.2828282828282828,
+      "MisInferred": 0,
+      "Conflict": 0.5454545454545454,
+      "Fail": 0.1717171717171717
+    },
+    "GTValue": {
+      "Correct": 0.008064516129032258,
+      "MisInferred": 0.20161290322580644,
+      "Conflict": 0.3225806451612903,
+      "Fail": 0.46774193548387094
+    }
+  }
+}

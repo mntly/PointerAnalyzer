@@ -74,13 +74,14 @@ module FunctionJson =
     platform
     regTypes
     =
-    let returnRegTypeStr regId =
+    let returnRegTypeStr (regId: RegisterID) =
+      let regName = platform.RegisterName regId
+
       match Map.tryFind regId regTypes with
       | Some tid ->
-        let regName = platform.RegisterName regId
         let typeStr = typeIdToTypeString constraints conflicts tid
         Some ((regName, typeStr))
-      | None -> None
+      | None -> Some ((regName, "Unknown"))
 
     platform.ReturnRegisters |> List.choose returnRegTypeStr |> Map.ofList
 

@@ -29,7 +29,9 @@ type CheckerMode =
 /// </summary>
 type MainOptions =
   { Mode: CheckerMode
-    BinaryPath: string
+    BinaryPath: string option
+    GroundTruthPath: string option
+    InferredPath: string option
     OutFileName: string
     OutputDirPath: string
     IsStore: bool }
@@ -37,6 +39,8 @@ type MainOptions =
 type CLIArg =
   | [<AltCommandLine("-m")>] Mode of int
   | [<AltCommandLine("-b")>] Binary of string
+  | [<AltCommandLine("-gt")>] GroundTruth of string
+  | [<AltCommandLine("-i")>] Inferred of string
   | [<AltCommandLine("-o")>] Output of string
   | [<AltCommandLine("-on")>] OutputName of string
 
@@ -52,6 +56,9 @@ type CLIArg =
         Mode 3 prints out the evaluation result of PointerAnalyzer"
       | Binary _ ->
         "Binary file to inspect. For mode 2, this should be the ground-truth binary with DWARF debug info."
+      | GroundTruth _ -> "Ground-truth JSON file. This is required for mode 3."
+      | Inferred _ ->
+        "PointerAnalyzer inferredTypes.json file. This is required for mode 3."
       | Output _ ->
         "Optional output directory path. If omitted, print to stdout."
       | OutputName _ ->
@@ -106,15 +113,35 @@ let private parseArg (args: string array) =
       eprintf "Unsupported mode %d" modeInt
       exit 1
 
-  (* Extract binary path *)
-  let bin = r.GetResult <@ Binary @>
+  (* Extract input paths *)
+  let bin =
+    if r.Contains Binary then
+      Some (r.GetResult <@ Binary @>)
+    else
+      None
+
+  let gt =
+    if r.Contains GroundTruth then
+      Some (r.GetResult <@ GroundTruth @>)
+    else
+      None
+
+  let inferred =
+    if r.Contains Inferred then
+      Some (r.GetResult <@ Inferred @>)
+    else
+      None
 
   (* Extract name of output file *)
   let outFileName =
     if r.Contains OutputName then
       r.GetResult <@ OutputName @>
     else
-      Path.GetFileName bin
+      match bin, gt, inferred with
+      | Some path, _, _ -> Path.GetFileName path
+      | _, Some path, _ -> Path.GetFileNameWithoutExtension path
+      | _, _, Some path -> Path.GetFileNameWithoutExtension path
+      | _ -> "result"
 
   (* Extract how to emit output; print or store *)
   let isStore = r.Contains Output
@@ -124,24 +151,54 @@ let private parseArg (args: string array) =
 
   { Mode = mode
     BinaryPath = bin
+    GroundTruthPath = gt
+    InferredPath = inferred
     OutFileName = outFileName
     OutputDirPath = outDir
     IsStore = isStore }
 
+/// If binary path are not given, halt
+let private requireBinary options =
+  match options.BinaryPath with
+  | Some path -> path
+  | None ->
+    eprintfn "Binary path is required. Use -b <binary>."
+    exit 1
+
+/// If ground truth path are not given, halt
+let private requireGroundTruth options =
+  match options.GroundTruthPath with
+  | Some path -> path
+  | None ->
+    eprintfn "Ground-truth JSON path is required. Use -gt <ground-truth-json>."
+    exit 1
+
+/// If inferred result from PointerAnalyzer path are not given, halt
+let private requireInferred options =
+  match options.InferredPath with
+  | Some path -> path
+  | None ->
+    eprintfn
+      "Inferred result JSON path is required. Use -i <inferredTypes.json>."
+
+    exit 1
+
 /// Execute FindCall0 mode
 let private runFindCall0 options =
-  let result = FindCall0.run options.BinaryPath |> FindCall0.toText
+  let result = FindCall0.run (requireBinary options) |> FindCall0.toText
   emitOutput options "FindCall0Result" result
 
 /// Execute FindCall0Invalid mode
 let private runFindCall0Invalid options =
   let result =
-    FindCall0Invalid.run options.BinaryPath |> FindCall0Invalid.toText
+    FindCall0Invalid.run (requireBinary options) |> FindCall0Invalid.toText
 
   emitOutput options "FindCall0InvalidResult" result
 
 /// Execute GroundTruth Extractor
 let private runBuildGroundTruth options =
+  let binaryPath = requireBinary options
+
   (* Generate output directory for storing log file *)
   if options.IsStore then
     Directory.CreateDirectory options.OutputDirPath |> ignore
@@ -158,7 +215,7 @@ let private runBuildGroundTruth options =
       None
 
   let buildOptions: EvaluateAnalyzer.GroundTruthExtractor.Builder.BuildOptions =
-    { GroundTruthBinary = options.BinaryPath
+    { GroundTruthBinary = binaryPath
       OutputSuffix = options.OutFileName
       LogFilePath = logFilePath }
 
@@ -177,7 +234,34 @@ let private runBuildGroundTruth options =
     eprintfn "%s" ex.Message
     exit 1
 
-let private runEvalAnalyzer options = eprintf "Not implemented"
+/// Execute PointerAnalyzer evaluator
+let private runEvalAnalyzer options =
+  let evalOptions: EvaluateAnalyzer.Evaluator.Evaluator.EvalOptions =
+    { GroundTruthJsonPath = requireGroundTruth options
+      InferredJsonPath = requireInferred options }
+
+  try
+    (* Execute PointerAnalyzer evaluator *)
+    let result = EvaluateAnalyzer.Evaluator.Evaluator.run evalOptions
+
+    (* Construct evaluate result path *)
+    let jsonFileName =
+      EvaluateAnalyzer.Evaluator.Evaluator.evalResultJsonFileName
+        options.OutFileName
+
+    (* Construct path of log during evaluator *)
+    let logFileName =
+      EvaluateAnalyzer.Evaluator.Evaluator.evalResultLogFileName
+        options.OutFileName
+
+    (* Store result *)
+    emitOutput options jsonFileName result.Json
+    printfn ""
+    emitOutput options logFileName result.Log
+
+  with ex ->
+    eprintfn "%s" ex.Message
+    exit 1
 
 [<EntryPoint>]
 let main argv =
