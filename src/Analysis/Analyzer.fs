@@ -41,7 +41,8 @@ type AnalyzerModule
 
   member __.InitialState =
     match config.InitialStackPointer with
-    | Some stackPointer -> stateDom.initializeStackPointer stackPointer stateDom.bot
+    | Some stackPointer ->
+      stateDom.initializeStackPointer stackPointer stateDom.bot
     | None -> stateDom.bot
 
   /// Analyze one block. Transfer the statements in given block and collect
@@ -75,7 +76,8 @@ type AnalyzerModule
 
     let tryFindAnyBlockAddress address =
       cfg.Vertices
-      |> Seq.tryFind (fun vertex -> vertex.VData.Internals.BlockAddress = address)
+      |> Seq.tryFind (fun vertex ->
+        vertex.VData.Internals.BlockAddress = address)
 
     match transferTarget with
     | LabelTarget label -> tryFindAddress label.Address
@@ -93,16 +95,34 @@ type AnalyzerModule
   /// Join analysis state by keeping TypeState, since TypeState is passed
   /// during analysis
   member private _.JoinNormal left right types =
+    (* Helper for joining CurrentRegisters and CurrentStackSlots *)
+    let joinCurrentTypeIds left right =
+      let addRight result key rightTypeId =
+        (*
+          Only track the entry that
+          1. Appears only on type Map
+          2. Same type Id with same key
+        *)
+        match Map.tryFind key result with
+        | None -> Map.add key rightTypeId result
+        | Some leftTypeId when leftTypeId = rightTypeId -> result
+        | Some _ -> Map.remove key result
+
+      Map.fold addRight left right
+
     { RegMap = stateDom.RegMap.join left.RegMap right.RegMap
       Memory = stateDom.AbsMem.join left.Memory right.Memory
       Types = types
+      CurrentRegisters =
+        joinCurrentTypeIds left.CurrentRegisters right.CurrentRegisters
+      CurrentStackSlots =
+        joinCurrentTypeIds left.CurrentStackSlots right.CurrentStackSlots
       PendingReturns =
         right.PendingReturns
         |> Map.fold
           (fun acc regId typeId -> Map.add regId typeId acc)
           left.PendingReturns
-      StackPointer =
-        StackPointerState.join left.StackPointer right.StackPointer }
+      StackPointer = StackPointerState.join left.StackPointer right.StackPointer }
 
   /// Analyze given CFG (entire binary) and return AnalysisState
   /// collected TypeConstraint

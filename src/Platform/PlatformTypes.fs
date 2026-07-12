@@ -64,7 +64,6 @@ type Platform =
     Name: string
 
     WordSize: int
-    IsAndMask: uint64 -> bool
 
     IsStack0Return: bool
 
@@ -82,4 +81,8 @@ type Platform =
 
     TryParameterIndex: Variable -> int option
     TryCallArgumentIndex: CallSiteStackContext -> Variable -> int option
+    TryCallRegisterArgumentIndex:
+      CallSiteStackContext -> RegisterID -> int option
+    TryCallStackSlotArgumentIndex: CallSiteStackContext -> int -> int option
+    TryCallReturnAddressStackSlot: CallSiteStackContext -> int option
     TryReturnIndex: Variable -> int option }

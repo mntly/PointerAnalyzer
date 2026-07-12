@@ -19,6 +19,8 @@ open PointerAnalyzer.AbsDom.TypeState
 /// <see cref="PointerAnalyzer.AbsDom.AbsMem.AbsMem" />.
 /// <c>Types</c> is PointerAnalyzer's
 /// <see cref="PointerAnalyzer.AbsDom.TypeState.TypeState" />.
+/// <c>CurrentRegisters</c> tracks the type Id of each register.
+/// <c>CurrentStackSlots</c> tracks the type Id of each stack slot.
 /// <c>PendingReturns</c> tracks callee output register types after applying
 /// callee. The stored register is eliminated when it is used or redefined.
 /// <c>StackPointer</c> tracks initial and current stack pointer values.
@@ -27,6 +29,8 @@ type AnalysisState =
   { RegMap: RegMap
     Memory: AbsMem
     Types: TypeState
+    CurrentRegisters: Map<RegisterID, TypeId>
+    CurrentStackSlots: Map<int, TypeId>
     PendingReturns: Map<RegisterID, TypeId>
     StackPointer: StackPointerState }
 
@@ -39,6 +43,21 @@ type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
   let memory = AbsMemDomain.create platform
   let types = TypeStateDomain.create startTypeId
 
+  /// Join helper for CurrentRegisters and CurrentStackSlots
+  let joinCurrentTypeIds left right =
+    let joinInner result key rightTypeId =
+      (*
+        Only track the entry that
+        1. Appears only on type Map
+        2. Same type Id with same key
+      *)
+      match Map.tryFind key result with
+      | None -> Map.add key rightTypeId result
+      | Some leftTypeId when leftTypeId = rightTypeId -> result
+      | Some _ -> Map.remove key result
+
+    Map.fold joinInner left right
+
   member _.AbsVal = absVal
   member _.RegMap = regMap
   member _.AbsMem = memory
@@ -48,6 +67,8 @@ type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
     { RegMap = regMap.bot
       Memory = memory.bot
       Types = types.bot
+      CurrentRegisters = Map.empty
+      CurrentStackSlots = Map.empty
       PendingReturns = Map.empty
       StackPointer = StackPointerState.empty }
 
@@ -82,11 +103,24 @@ type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
   /// Return the Abstract Value of given register
   member _.tryFindRegister variable state = regMap.tryFind variable state.RegMap
 
-  /// Set the abstract value of given register as given abstract value
-  member _.setRegister variable value typeId state =
+  /// Set the abstract value of given register as given abstract value.
+  /// In addition, record the lates type Id written to given register.
+  member _.setRegister (variable: Variable) value typeId state =
+    let currentRegisters =
+      match variable.Kind with
+      | VariableKind.RegVar (_, registerId, _) ->
+        Map.add registerId typeId state.CurrentRegisters
+      | _ -> state.CurrentRegisters
+
     { state with
         RegMap = regMap.add variable value state.RegMap
-        Types = types.set variable typeId state.Types }
+        Types = types.set variable typeId state.Types
+        CurrentRegisters = currentRegisters }
+
+  /// Record the latest type Id written to given current stack slot.
+  member _.setCurrentStackSlot offset typeId state =
+    { state with
+        CurrentStackSlots = Map.add offset typeId state.CurrentStackSlots }
 
   /// Add new type constraint
   member _.addConstraint constraint_ state =
@@ -238,6 +272,10 @@ type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
     { RegMap = regMap.join left.RegMap right.RegMap
       Memory = memory.join left.Memory right.Memory
       Types = types.join left.Types right.Types
+      CurrentRegisters =
+        joinCurrentTypeIds left.CurrentRegisters right.CurrentRegisters
+      CurrentStackSlots =
+        joinCurrentTypeIds left.CurrentStackSlots right.CurrentStackSlots
       PendingReturns =
         right.PendingReturns
         |> Map.fold

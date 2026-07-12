@@ -181,6 +181,8 @@ module ModularAnalyzer =
           | None -> None
         | None -> None
 
+      let debug = func.Address = 0x08049322UL
+
       let config =
         StmtEvalConfig.construct
           program.Binary.Handle
@@ -188,7 +190,7 @@ module ModularAnalyzer =
           classifyConstant
           platform.StackPointer
           applyCallSummary
-          false
+          debug (* Used for tracking new type constraint per stmt *)
 
       (* Transfer stmt to collect type constraints *)
       let result =

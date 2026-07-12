@@ -26,21 +26,6 @@ module FunctionSummaryBuilder =
 
     sameParamIdxSeq |> Seq.map chooseReg |> Map.ofSeq
 
-  /// Select the final SSA register version for each physical register.
-  let private selectRegisterOutputs entries : Map<RegisterID, TypeId> =
-    let chooseReg
-      (regId: RegisterID, regSeq: (RegisterID * Variable * TypeId) seq)
-      =
-      let _, _, typeId =
-        regSeq |> Seq.maxBy (fun (_, reg: Variable, _) -> reg.Identifier)
-
-      regId, typeId
-
-    entries
-    |> Seq.groupBy (fun (regId, _, _) -> regId)
-    |> Seq.map chooseReg
-    |> Map.ofSeq
-
   /// Construct function summary for analyzing caller
   let build address name platform (result: AnalysisResult) =
     (* If given variable is parameter, then retrieve its parameter index *)
@@ -50,33 +35,22 @@ module FunctionSummaryBuilder =
       | None -> None
 
     (* If given modified variable is register, then retrieve its register id *)
-    let filterRegisterOutput (reg: Variable, tid: TypeId) =
+    let filterRegisterOutput (regId: RegisterID, tid: TypeId) =
       let trivialTypes =
         Set.union
           platform.TrivialValueRegisters
           platform.TrivialAddressRegisters
 
-      match reg.Kind with
-      | VariableKind.RegVar (_, regId, _) when
-        not (Set.contains regId trivialTypes)
-        ->
+      if not (Set.contains regId trivialTypes) then
         (*
-          The register with trivial type does not need to trakc between
+          The register with trivial type does not need to track between
           caller-callee
         *)
-        Some (regId, reg, tid)
-      | _ -> None
+        Some (regId, tid)
+      else
+        None
 
     let typeIndSeq = result.FinalState.Types.TypeIndicators |> Map.toSeq
-
-    (* Extract type Id of all variables *)
-    let outputRegSeq =
-      result.FinalState.RegMap
-      |> Map.toSeq
-      |> Seq.choose (fun (reg, _value) ->
-        result.FinalState.Types.TypeIndicators
-        |> Map.tryFind reg
-        |> Option.map (fun typeId -> reg, typeId))
 
     (* Summarize parameter type information *)
     let paramIdxTidMap =
@@ -84,7 +58,10 @@ module FunctionSummaryBuilder =
 
     (* Summarize modified register information *)
     let returnTidMap =
-      outputRegSeq |> Seq.choose filterRegisterOutput |> selectRegisterOutputs
+      result.FinalState.CurrentRegisters
+      |> Map.toSeq
+      |> Seq.choose filterRegisterOutput
+      |> Map.ofSeq
 
     { Address = address
       Name = name

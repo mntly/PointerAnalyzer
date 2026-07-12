@@ -56,10 +56,18 @@ let private isTrivialValue (variable: Variable) =
   | RegVar (_, registerId, _) -> Set.contains registerId trivialValueRegisters
   | _ -> false
 
+/// Returns the index of arguments passed by register
 let private tryRegisterArgumentIndex (variable: Variable) =
   match tryRegisterId variable with
   | Some registerId -> argumentRegisters |> List.tryFindIndex ((=) registerId)
   | None -> None
+
+/// Returns the index of arguments passed by register
+let private tryCallRegisterArgumentIndex
+  (_context: CallSiteStackContext)
+  (registerId: RegisterID)
+  =
+  argumentRegisters |> List.tryFindIndex ((=) registerId)
 
 (*
   Callee-side x86-32 stack arguments are represented by B2R2 as:
@@ -90,6 +98,29 @@ let private tryCallStackIndex
       if index >= context.ParameterCount then None else Some index
   | _ -> None
 
+/// Get index of arguments (passed through stack) of given offset
+let private tryCallStackSlotArgumentIndex
+  (context: CallSiteStackContext)
+  (offset: int)
+  =
+  match context.StackPointer.TryDelta with
+  | Some returnAddressOffset when offset < returnAddressOffset ->
+    let distance = returnAddressOffset - offset
+
+    if distance % wordSize <> 0 then
+      None
+    else
+      let index = argumentRegisters.Length + distance / wordSize - 1
+
+      if index >= context.ParameterCount then None else Some index
+  | _ -> None
+
+/// Return offset of Return Address is stored.
+/// In B2R2, it transforms call instruction into push and jmp,
+/// so offset of Return Address is offset of current SP
+let private tryCallReturnAddressStackSlot (context: CallSiteStackContext) =
+  context.StackPointer.TryDelta
+
 /// Get index of return register of given variabel
 let private tryReturnIndex (variable: Variable) =
   match tryRegisterId variable with
@@ -109,7 +140,6 @@ let create () =
     Name = "ELF x86-32"
 
     WordSize = wordSize
-    IsAndMask = fun value -> value >= 0xFFFF0000UL
 
     IsStack0Return = true
 
@@ -133,4 +163,7 @@ let create () =
       fun context variable ->
         tryRegisterArgumentIndex variable
         |> Option.orElseWith (fun () -> tryCallStackIndex context variable)
+    TryCallRegisterArgumentIndex = tryCallRegisterArgumentIndex
+    TryCallStackSlotArgumentIndex = tryCallStackSlotArgumentIndex
+    TryCallReturnAddressStackSlot = tryCallReturnAddressStackSlot
     TryReturnIndex = tryReturnIndex }

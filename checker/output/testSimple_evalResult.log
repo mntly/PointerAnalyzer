@@ -102,28 +102,20 @@
 0x0805972c __GI_lseek64
 
 ===== Correct Functions =====
+0x08050dbb dlerror
 0x08051476 __h_errno_location
-0x08053bc5 __GI_strcat
-0x08053c9c __GI_strcpy
 
 ===== MisInferred Functions =====
-0x08049322 __CLOSE
-0x0804aad0 _dl_linux_resolver
-0x0804eba9 _dl_parse_dynamic_info
 0x0804edea remove_slotinfo
+0x08050e03 do_dladdr
 0x080514e7 __close_nocancel
-0x08051860 __open2_nocancel
 0x08051a5f __fcntl_nocancel
 0x08052efd _promoted_size
-0x08052fa2 _ppfs_parsespec
+0x08053c55 __GI_strcmp
 0x08053da0 memcmp_common_alignment
 0x08053f52 memcmp_not_common_alignment
 0x080541e9 __GI_memcmp
-0x0805660e __GI_raise
-0x08057538 __libc_clock_gettime
-0x08057b38 __GI_munmap
 0x08057b9a __GI_sigprocmask
-0x08057d58 __syscall_rt_sigaction
 0x08057dbe __write_nocancel
 
 ===== Conflict Functions =====
@@ -132,6 +124,7 @@
 0x08049545 __stdio_wcommit
 0x08049591 __GI___fputc_unlocked
 0x08049766 __GI_strlen
+0x0804aad0 _dl_linux_resolver
 0x0804b68c _dl_find_hash
 0x0804bf06 map_writeable
 0x0804c321 _dl_load_elf_shared_library
@@ -141,8 +134,8 @@
 0x080502d3 do_dlsym
 0x080504da do_dlclose
 0x08050e03 do_dladdr
+0x080510af _dl_linux_resolve
 0x08051458 __errno_location
-0x0805149c _setjmp
 0x080519f1 __GI_sbrk
 0x08051d0e __stdio_WRITE
 0x08051e21 __stdio_fwrite
@@ -162,11 +155,8 @@
 0x080550a1 __malloc_alloc
 0x080556ab __malloc_largebin_index
 0x08055703 malloc
-0x0805660e __GI_raise
-0x08056b0f _dl_allocate_tls_storage
 0x08057661 __GI_brk
 0x08057b38 __GI_munmap
-0x08057b9a __GI_sigprocmask
 0x080580d1 __stdio_adjust_position
 0x080581c7 _load_inttype
 0x080582c9 _uintmaxtostr
@@ -174,6 +164,8 @@
 
 ===== Failed Functions =====
 0x080491f6 puts
+0x08049322 __CLOSE
+0x08049545 __stdio_wcommit
 0x08049fb5 __check_suid
 0x0804a7dd _dl_tls_setup
 0x0804aad0 _dl_linux_resolver
@@ -186,13 +178,11 @@
 0x0804ef40 _dl_build_local_scope
 0x0804efd3 do_dlopen
 0x080502d3 do_dlsym
-0x080504da do_dlclose
-0x08050dbb dlerror
 0x08050e03 do_dladdr
-0x080510af _dl_linux_resolve
 0x080511f0 __lll_timedlock_wait
 0x08051321 __lll_timedwait_tid
 0x0805149c _setjmp
+0x080514e7 __close_nocancel
 0x080515cf __GI_getegid
 0x080515f7 __GI_geteuid
 0x0805161f __GI_getgid
@@ -201,28 +191,37 @@
 0x08051860 __open2_nocancel
 0x080518c2 __GI_open
 0x08051a5f __fcntl_nocancel
-0x08052900 _ppfs_init
-0x08052efd _promoted_size
+0x08051d0e __stdio_WRITE
+0x08051e21 __stdio_fwrite
+0x08051fb7 __stdio_trans2w
 0x08052f49 _is_equal_or_bigger_arg
 0x08053b77 __GI_memset
+0x08053bc5 __GI_strcat
 0x08053c18 __GI_strchr
-0x08053c55 __GI_strcmp
+0x08053c9c __GI_strcpy
+0x08053cd9 __GI_strnlen
 0x08053f52 memcmp_not_common_alignment
 0x080541e9 __GI_memcmp
 0x08054332 __GI_memrchr
+0x080544bb __GI___xpg_strerror_r
 0x08054920 __malloc_trim
+0x080550a1 __malloc_alloc
 0x080556ab __malloc_largebin_index
+0x08055703 malloc
 0x08056584 __libc_signal_block_app
 0x080565d8 __libc_signal_restore_set
+0x0805660e __GI_raise
 0x080566ab __libc_enable_asynccancel
 0x0805697e _dl_next_tls_modid
+0x08056b0f _dl_allocate_tls_storage
 0x08057538 __libc_clock_gettime
-0x08057661 __GI_brk
 0x08057b21 __getpagesize
 0x08057b38 __GI_munmap
 0x08057b9a __GI_sigprocmask
 0x08057d58 __syscall_rt_sigaction
 0x08057dbe __write_nocancel
 0x080581c7 _load_inttype
+0x080582c9 _uintmaxtostr
+0x0805949f __GI_strncmp
 0x08059674 __syscall_error
 

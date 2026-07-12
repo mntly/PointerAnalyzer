@@ -32,23 +32,34 @@ type SummaryApplicatorModule (platform: Platform) =
 
     List.fold mapSameArgIdx state variables
 
-  /// Based on calling convention, extract the arugments of specific callee
+  /// Connect callee parameter type ids to caller-side live argument type ids.
+  let connectTypeIds getCalleeParamTid indexedTypeIds state =
+    let mapSameArgIdx state (argumentIndex, callerTypeId) =
+      match getCalleeParamTid argumentIndex with
+      | Some (calleeTypeId: TypeId) ->
+        stateDom.addSame [ calleeTypeId; callerTypeId ] state
+      | None -> state
+
+    List.fold mapSameArgIdx state indexedTypeIds
+
+  /// Based on calling convention, extract the arguments of specific callee
+  /// from the current caller state.
   let inferArguments context state =
-    let filterArg (reg, _regVal) =
-      match platform.TryCallArgumentIndex context reg with
-      | Some idx -> Some (idx, reg)
-      | None -> None
+    let registerArgs =
+      state.CurrentRegisters
+      |> Map.toSeq
+      |> Seq.choose (fun (regId, typeId) ->
+        platform.TryCallRegisterArgumentIndex context regId
+        |> Option.map (fun index -> index, typeId))
 
-    (* Latest defined from call instruction *)
-    let getLastReg (_argIdx, sameArgIdx) =
-      let sameArgs = Seq.map snd sameArgIdx
-      let lastRegArg = Seq.maxBy (fun reg -> reg.Identifier) sameArgs
-      lastRegArg
+    let stackArgs =
+      state.CurrentStackSlots
+      |> Map.toSeq
+      |> Seq.choose (fun (offset, typeId) ->
+        platform.TryCallStackSlotArgumentIndex context offset
+        |> Option.map (fun index -> index, typeId))
 
-    let argSeq = state.RegMap |> Map.toSeq |> Seq.choose filterArg
-    let groupedByArgIdx = argSeq |> Seq.groupBy fst
-
-    groupedByArgIdx |> Seq.map getLastReg |> Seq.toList
+    Seq.append registerArgs stackArgs |> Seq.toList
 
   /// Store the modified register types due to callee until the caller uses or
   /// redefines corresponding registers.
@@ -77,7 +88,11 @@ type SummaryApplicatorModule (platform: Platform) =
     let state =
       if List.isEmpty inputs then
         let inferredInputs = inferArguments context state
-        connectVariables inVarType inferredInputs state
+
+        connectTypeIds
+          (fun index -> Map.tryFind index summary.Parameters)
+          inferredInputs
+          state
       else
         connectVariables inVarType inputs state
 
@@ -86,26 +101,12 @@ type SummaryApplicatorModule (platform: Platform) =
       used for return address slot
     *)
     let state =
-      match context.StackPointer.TryDelta, platform.IsStack0Return with
-      | Some offset, true ->
-        let checkOffset (reg: Variable, tid) =
-          match reg.Kind with
-          | StackVar (_, offset') when offset' = offset -> Some (reg, tid)
-          | _ -> None
-
-        let caller0Candi =
-          state.Types.TypeIndicators |> Map.toSeq |> Seq.choose checkOffset
-
-        if Seq.isEmpty caller0Candi then
-          state
-        else
-          let tidCaller =
-            caller0Candi |> Seq.maxBy (fun (reg, _) -> reg.Identifier) |> snd
-
-          stateDom.addAddress tidCaller state
-
-      | Some _, false
-      | None, _ -> state
+      match platform.TryCallReturnAddressStackSlot context with
+      | Some offset when platform.IsStack0Return ->
+        match Map.tryFind offset state.CurrentStackSlots with
+        | Some typeId -> stateDom.addAddress typeId state
+        | None -> state
+      | _ -> state
 
     (*
       Explicitly connect modified variable due to callee or store them as

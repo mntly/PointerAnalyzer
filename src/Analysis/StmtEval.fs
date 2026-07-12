@@ -168,6 +168,14 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
     else
       state
 
+  /// If the definition target is a stack variable, remember the latest type Id
+  /// for that stack slot offset.
+  member private _.updateCurrentStackSlot (variable: Variable) typeId state =
+    match variable.Kind with
+    | VariableKind.StackVar (_, offset) ->
+      stateDom.setCurrentStackSlot offset typeId state
+    | _ -> state
+
   /// Assign evaluated value to target variable and connect type constraint.
   /// The type Id of expression and target variable are connected with Same
   /// type constraint.
@@ -182,7 +190,9 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
     let _, state = stateDom.consumePendingReturn variable state
 
     let state = stateDom.setRegister variable value typeId state
-    state |> this.applyPointerHint variable typeId
+    state
+    |> this.updateCurrentStackSlot variable typeId
+    |> this.applyPointerHint variable typeId
 
   /// Handle variable definition by evaluating the expression and assign it to
   /// target variable
@@ -249,6 +259,7 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
     state
     |> stateDom.addSame (destTypeId :: sourceTypeIds)
     |> stateDom.setRegister variable valueJoined destTypeId
+    |> this.updateCurrentStackSlot variable destTypeId
     |> this.applyPointerHint variable destTypeId
 
   /// Statement evaluation
