@@ -30,7 +30,8 @@ type CountBucket =
 /// <c>Correct</c> tracks the elemtnes not be inferred.
 /// </remarks>
 type CountResult =
-  { All: int
+  { GTAll: int
+    All: int
     Correct: CountBucket
     MisInferred: CountBucket
     Conflict: CountBucket
@@ -146,7 +147,7 @@ let private incrementBucket gt (bucket: CountBucket) : CountBucket =
   | _ -> bucket
 
 /// Count the # of elements in each case
-let buildCount results =
+let buildCount gtAll results =
   let folder (count: CountResult) (result: ElementResult) =
     match result.Category with
     | Correct ->
@@ -163,7 +164,8 @@ let buildCount results =
           Fail = incrementBucket result.GT count.Fail }
 
   let initial: CountResult =
-    { All = List.length results
+    { GTAll = gtAll
+      All = List.length results
       Correct = emptyBucket
       MisInferred = emptyBucket
       Conflict = emptyBucket
@@ -211,9 +213,9 @@ let private buildFinalResult results =
     Precision = div tp (tp + fp) }
 
 /// Calculate evaluation metrix using the result of evaluation classification
-let build results =
+let build gtAll results =
   (* Count the # of elements in each case *)
-  let count: CountResult = buildCount results
+  let count: CountResult = buildCount gtAll results
 
   (* Calculate ratio of each case *)
   let ratio: RatioResult =

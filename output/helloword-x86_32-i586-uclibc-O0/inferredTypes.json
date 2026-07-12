@@ -3,7 +3,7 @@
     "Name": "_init",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -110,7 +110,7 @@
     "Name": "_start",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -257,7 +257,7 @@
     "Name": "__get_pc_thunk_bx",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -286,7 +286,7 @@
     "Name": "deregister_tm_clones",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -477,7 +477,7 @@
     "Name": "register_tm_clones",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -768,7 +768,7 @@
     "Name": "__do_global_dtors_aux",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -1130,7 +1130,7 @@
     "Name": "frame_dummy",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -1329,7 +1329,7 @@
     "Name": "main",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -1486,9 +1486,9 @@
     "Name": "puts",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -2276,7 +2276,7 @@
     "Name": "__x86.get_pc_thunk.ax",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -2305,9 +2305,9 @@
     "Name": "__CLOSE",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -2562,7 +2562,7 @@
     "Name": "_stdio_term",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -3203,7 +3203,7 @@
     "Name": "_stdio_init",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -3491,7 +3491,7 @@
     "Name": "__x86.get_pc_thunk.dx",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -3520,7 +3520,7 @@
     "Name": "__x86.get_pc_thunk.bx",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -3549,9 +3549,9 @@
     "Name": "__stdio_wcommit",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -3812,10 +3812,10 @@
     "Name": "__fputc_unlocked",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Conflict",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict",
+        "1": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -4567,9 +4567,9 @@
     "Name": "fputs_unlocked",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -4810,11 +4810,11 @@
     "Name": "fwrite_unlocked",
     "Arguments": {
       "ArgNum": 3,
-      "Args": [
-        "Unknown",
-        "Unknown",
-        "Conflict"
-      ]
+      "Args": {
+        "1": "Unknown",
+        "2": "Unknown",
+        "3": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -5136,7 +5136,7 @@
     "Name": "__x86.get_pc_thunk.si",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -5165,9 +5165,9 @@
     "Name": "__GI_strlen",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -5383,7 +5383,7 @@
     "Name": "__GI_isatty",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -5555,9 +5555,9 @@
     "Name": "tcgetattr",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Address"
-      ]
+      "Args": {
+        "1": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -10226,7 +10226,7 @@
     "Name": "__pthread_mutex_trylock",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -10302,7 +10302,7 @@
     "Name": "__pthread_mutex_init",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -10378,11 +10378,11 @@
     "Name": "_pthread_cleanup_push_defer",
     "Arguments": {
       "ArgNum": 3,
-      "Args": [
-        "Address",
-        "Unknown",
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -10488,10 +10488,10 @@
     "Name": "_pthread_cleanup_pop_restore",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Address",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Address",
+        "1": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -10633,9 +10633,9 @@
     "Name": "__check_one_fd",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -10893,7 +10893,7 @@
     "Name": "__check_suid",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -11122,7 +11122,7 @@
     "Name": "__uClibc_init",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -11422,7 +11422,7 @@
     "Name": "__uClibc_fini",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -11731,15 +11731,15 @@
     "Name": "__uClibc_main",
     "Arguments": {
       "ArgNum": 7,
-      "Args": [
-        "Address",
-        "Unknown",
-        "Address",
-        "Address",
-        "Unknown",
-        "Unknown",
-        "Address"
-      ]
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Address",
+        "3": "Address",
+        "4": "Unknown",
+        "5": "Unknown",
+        "6": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -13553,7 +13553,7 @@
     "Name": "__x86.get_pc_thunk.cx",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -13582,7 +13582,7 @@
     "Name": "init_slotinfo",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -13684,10 +13684,10 @@
     "Name": "init_static_tls",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Unknown",
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -13887,9 +13887,9 @@
     "Name": "__libc_setup_tls",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Address"
-      ]
+      "Args": {
+        "1": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -14463,7 +14463,7 @@
     "Name": "_dl_tls_setup",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -14594,7 +14594,7 @@
     "Name": "__pthread_initialize_minimal",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -14731,7 +14731,7 @@
     "Name": "_dl_aux_init",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -15074,9 +15074,9 @@
     "Name": "_dl_nothread_init_static_tls",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Address"
-      ]
+      "Args": {
+        "0": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -15520,7 +15520,7 @@
     "Name": "_dl_map_cache",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -15595,7 +15595,7 @@
     "Name": "_dl_unmap_cache",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -15670,11 +15670,11 @@
     "Name": "_dl_run_array_forward",
     "Arguments": {
       "ArgNum": 3,
-      "Args": [
-        "Unknown",
-        "Unknown",
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -15953,9 +15953,9 @@
     "Name": "_dl_run_init_array",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Address"
-      ]
+      "Args": {
+        "0": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -16116,7 +16116,7 @@
     "Name": "_dl_app_init_array",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -16258,9 +16258,9 @@
     "Name": "_dl_run_fini_array",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -16559,7 +16559,7 @@
     "Name": "_dl_app_fini_array",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -16701,10 +16701,10 @@
     "Name": "_dl_linux_resolver",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Address",
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Address",
+        "1": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -17356,12 +17356,12 @@
     "Name": "_dl_parse",
     "Arguments": {
       "ArgNum": 4,
-      "Args": [
-        "Address",
-        "Address",
-        "Unknown",
-        "Address"
-      ]
+      "Args": {
+        "0": "Address",
+        "2": "Address",
+        "3": "Unknown",
+        "4": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -17735,12 +17735,12 @@
     "Name": "_dl_do_reloc",
     "Arguments": {
       "ArgNum": 4,
-      "Args": [
-        "Conflict",
-        "Address",
-        "Conflict",
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Conflict",
+        "2": "Address",
+        "3": "Conflict",
+        "4": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -19785,10 +19785,10 @@
     "Name": "_dl_do_lazy_reloc",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Address",
-        "Address"
-      ]
+      "Args": {
+        "0": "Address",
+        "2": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -20057,9 +20057,9 @@
     "Name": "_dl_parse_lazy_relocation_information",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Address"
-      ]
+      "Args": {
+        "0": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -20219,9 +20219,9 @@
     "Name": "_dl_parse_relocation_information",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Address"
-      ]
+      "Args": {
+        "0": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -20380,9 +20380,9 @@
     "Name": "_dl_elf_hash",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Address"
-      ]
+      "Args": {
+        "0": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -20673,11 +20673,11 @@
     "Name": "_dl_add_elf_hash_table",
     "Arguments": {
       "ArgNum": 3,
-      "Args": [
-        "Unknown",
-        "Unknown",
-        "Unknown"
-      ]
+      "Args": {
+        "1": "Unknown",
+        "2": "Unknown",
+        "3": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -23419,10 +23419,10 @@
     "Name": "check_match",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Address",
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Address",
+        "1": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -23965,13 +23965,13 @@
     "Name": "_dl_find_hash",
     "Arguments": {
       "ArgNum": 5,
-      "Args": [
-        "Unknown",
-        "Conflict",
-        "Conflict",
-        "Conflict",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Unknown",
+        "1": "Conflict",
+        "2": "Conflict",
+        "3": "Conflict",
+        "4": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -25248,9 +25248,9 @@
     "Name": "_dl_protect_relro",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Address"
-      ]
+      "Args": {
+        "0": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -25886,9 +25886,9 @@
     "Name": "search_for_named_library",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Unknown"
-      ]
+      "Args": {
+        "2": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -26242,10 +26242,10 @@
     "Name": "_dl_load_shared_library",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Address",
-        "Conflict"
-      ]
+      "Args": {
+        "2": "Address",
+        "3": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -27903,13 +27903,13 @@
     "Name": "map_writeable",
     "Arguments": {
       "ArgNum": 5,
-      "Args": [
-        "Unknown",
-        "Address",
-        "Unknown",
-        "Unknown",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Unknown",
+        "3": "Unknown",
+        "4": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -30585,11 +30585,11 @@
     "Name": "_dl_load_elf_shared_library",
     "Arguments": {
       "ArgNum": 3,
-      "Args": [
-        "Unknown",
-        "Conflict",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Unknown",
+        "1": "Conflict",
+        "2": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -48109,10 +48109,10 @@
     "Name": "_dl_fixup",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Address",
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Address",
+        "2": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -50114,12 +50114,12 @@
     "Name": "_dl_parse_dynamic_info",
     "Arguments": {
       "ArgNum": 4,
-      "Args": [
-        "Address",
-        "Unknown",
-        "Unknown",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Unknown",
+        "3": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -51790,12 +51790,12 @@
     "Name": "remove_slotinfo",
     "Arguments": {
       "ArgNum": 4,
-      "Args": [
-        "Address",
-        "Conflict",
-        "Value",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Address",
+        "1": "Conflict",
+        "2": "Value",
+        "3": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -52993,10 +52993,10 @@
     "Name": "_dl_build_local_scope",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Address",
-        "Address"
-      ]
+      "Args": {
+        "0": "Address",
+        "1": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -53428,11 +53428,11 @@
     "Name": "do_dlopen",
     "Arguments": {
       "ArgNum": 3,
-      "Args": [
-        "Unknown",
-        "Unknown",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -57325,7 +57325,7 @@
     "Name": "dlopen",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -57692,11 +57692,11 @@
     "Name": "do_dlsym",
     "Arguments": {
       "ArgNum": 3,
-      "Args": [
-        "Conflict",
-        "Unknown",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict",
+        "1": "Unknown",
+        "2": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -58530,7 +58530,7 @@
     "Name": "dlsym",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -58897,10 +58897,10 @@
     "Name": "do_dlclose",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Conflict",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict",
+        "1": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -63591,7 +63591,7 @@
     "Name": "dlclose",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -63943,7 +63943,7 @@
     "Name": "dlerror",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -64103,10 +64103,10 @@
     "Name": "do_dladdr",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Unknown",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Unknown",
+        "1": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -65562,7 +65562,7 @@
     "Name": "dladdr",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -65916,7 +65916,7 @@
     "Name": "_dl_linux_resolve",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -66087,9 +66087,9 @@
     "Name": "__lll_lock_wait_private",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -66445,10 +66445,10 @@
     "Name": "__lll_lock_wait",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Address",
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Address",
+        "1": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -66842,11 +66842,11 @@
     "Name": "__lll_timedlock_wait",
     "Arguments": {
       "ArgNum": 3,
-      "Args": [
-        "Address",
-        "Address",
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Address",
+        "1": "Address",
+        "2": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -67690,10 +67690,10 @@
     "Name": "__lll_timedwait_tid",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Address",
-        "Address"
-      ]
+      "Args": {
+        "0": "Address",
+        "1": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -68535,7 +68535,7 @@
     "Name": "__x86.get_pc_thunk.di",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -68564,7 +68564,7 @@
     "Name": "__errno_location",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -68665,7 +68665,7 @@
     "Name": "__h_errno_location",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -68792,9 +68792,9 @@
     "Name": "_setjmp",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Address"
-      ]
+      "Args": {
+        "0": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -68880,15 +68880,15 @@
     "Name": "__libc_i386_syscall6",
     "Arguments": {
       "ArgNum": 7,
-      "Args": [
-        "Unknown",
-        "Conflict",
-        "Unknown",
-        "Unknown",
-        "Unknown",
-        "Unknown",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Unknown",
+        "1": "Conflict",
+        "2": "Unknown",
+        "3": "Unknown",
+        "4": "Unknown",
+        "5": "Unknown",
+        "6": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -69015,9 +69015,9 @@
     "Name": "__close_nocancel",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Address"
-      ]
+      "Args": {
+        "0": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -69291,9 +69291,9 @@
     "Name": "__close_nocancel_no_status",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -69469,7 +69469,7 @@
     "Name": "close",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -69745,7 +69745,7 @@
     "Name": "__GI_getegid",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -69896,7 +69896,7 @@
     "Name": "__GI_geteuid",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -70047,7 +70047,7 @@
     "Name": "__GI_getgid",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -70198,9 +70198,9 @@
     "Name": "__GI_gettimeofday",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Address"
-      ]
+      "Args": {
+        "0": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -70539,7 +70539,7 @@
     "Name": "__GI_getuid",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -70690,10 +70690,10 @@
     "Name": "__GI_ioctl",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Unknown",
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -71363,11 +71363,11 @@
     "Name": "__open_nocancel",
     "Arguments": {
       "ArgNum": 3,
-      "Args": [
-        "Unknown",
-        "Unknown",
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -71673,10 +71673,10 @@
     "Name": "__open2_nocancel",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Unknown",
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -71970,10 +71970,10 @@
     "Name": "open",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Unknown",
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -72689,9 +72689,9 @@
     "Name": "sbrk",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -73012,11 +73012,11 @@
     "Name": "__fcntl_nocancel",
     "Arguments": {
       "ArgNum": 3,
-      "Args": [
-        "Unknown",
-        "Unknown",
-        "Address"
-      ]
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -73534,9 +73534,9 @@
     "Name": "fcntl",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Unknown"
-      ]
+      "Args": {
+        "1": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -73916,7 +73916,7 @@
     "Name": "dprintf",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -74084,9 +74084,9 @@
     "Name": "vdprintf",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -74440,9 +74440,9 @@
     "Name": "__WRITE",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -74762,11 +74762,11 @@
     "Name": "__stdio_WRITE",
     "Arguments": {
       "ArgNum": 3,
-      "Args": [
-        "Conflict",
-        "Conflict",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict",
+        "1": "Conflict",
+        "2": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -75605,11 +75605,11 @@
     "Name": "__stdio_fwrite",
     "Arguments": {
       "ArgNum": 3,
-      "Args": [
-        "Conflict",
-        "Conflict",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict",
+        "1": "Conflict",
+        "2": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -76813,9 +76813,9 @@
     "Name": "__stdio_trans2w",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -77552,11 +77552,11 @@
     "Name": "_fp_out_narrow",
     "Arguments": {
       "ArgNum": 3,
-      "Args": [
-        "Unknown",
-        "Conflict",
-        "Conflict"
-      ]
+      "Args": {
+        "1": "Unknown",
+        "2": "Conflict",
+        "3": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -78028,10 +78028,10 @@
     "Name": "_charpad",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Conflict",
-        "Unknown"
-      ]
+      "Args": {
+        "1": "Conflict",
+        "2": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -78281,7 +78281,7 @@
     "Name": "_do_one_spec",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -81916,9 +81916,9 @@
     "Name": "_vfprintf_internal",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Conflict"
-      ]
+      "Args": {
+        "1": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -82827,10 +82827,10 @@
     "Name": "_ppfs_init",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Conflict",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict",
+        "1": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -85287,10 +85287,10 @@
     "Name": "_ppfs_prepargs",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Conflict",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict",
+        "1": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -85531,9 +85531,9 @@
     "Name": "_ppfs_setargs",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -87073,9 +87073,9 @@
     "Name": "_promoted_size",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Address"
-      ]
+      "Args": {
+        "0": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -87313,10 +87313,10 @@
     "Name": "_is_equal_or_bigger_arg",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Unknown",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Unknown",
+        "1": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -87597,9 +87597,9 @@
     "Name": "_ppfs_parsespec",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -87820,8 +87820,8 @@
         "PC_415": "Address",
         "PF_116": "Value",
         "SF_116": "Value",
-        "T_18_1": "Conflict",
-        "T_19_1": "Unknown",
+        "T_18_2": "Conflict",
+        "T_19_2": "Unknown",
         "T_20_1": "Unknown",
         "ZF_116": "Value"
       },
@@ -87839,8 +87839,8 @@
         "PF_117": "Value",
         "SF_117": "Value",
         "T_11_1": "Conflict",
-        "T_12_1": "Conflict",
-        "T_13_1": "Conflict",
+        "T_12_2": "Conflict",
+        "T_13_2": "Conflict",
         "T_14_1": "Unknown",
         "T_15_1": "Value",
         "T_16_1": "Unknown",
@@ -90579,7 +90579,7 @@
         "PF_83": "Value",
         "SF_83": "Value",
         "T_4_2": "Address",
-        "T_5_3": "Address",
+        "T_5_2": "Address",
         "T_6_1": "Unknown",
         "T_7_1": "Value",
         "T_8_1": "Unknown",
@@ -90594,8 +90594,8 @@
         "PC_286": "Address",
         "PF_84": "Value",
         "SF_84": "Value",
-        "T_1_4": "Conflict",
-        "T_2_4": "Unknown",
+        "T_1_3": "Conflict",
+        "T_2_3": "Unknown",
         "T_3_2": "Unknown",
         "ZF_84": "Value"
       },
@@ -90825,12 +90825,12 @@
         "PC_263": "Address",
         "PF_76": "Value",
         "SF_76": "Value",
-        "T_1_3": "Address",
-        "T_2_3": "Address",
-        "T_3_2": "Unknown",
-        "T_4_2": "Value",
-        "T_5_2": "Unknown",
-        "T_6_2": "Unknown",
+        "T_14_1": "Address",
+        "T_15_1": "Address",
+        "T_16_1": "Unknown",
+        "T_17_1": "Value",
+        "T_18_1": "Unknown",
+        "T_19_1": "Unknown",
         "ZF_76": "Value"
       },
       "0x08053486": {
@@ -90864,13 +90864,13 @@
         "PC_326": "Address",
         "PF_95": "Value",
         "SF_95": "Value",
-        "T_66_2": "Conflict",
-        "T_67_2": "Conflict",
-        "T_68_2": "Conflict",
-        "T_69_2": "Unknown",
-        "T_70_1": "Value",
-        "T_71_2": "Unknown",
-        "T_72_2": "Unknown",
+        "T_10_1": "Unknown",
+        "T_11_1": "Value",
+        "T_12_1": "Unknown",
+        "T_13_1": "Unknown",
+        "T_7_1": "Conflict",
+        "T_8_2": "Conflict",
+        "T_9_2": "Conflict",
         "ZF_95": "Value"
       },
       "0x08053490": {
@@ -90902,12 +90902,12 @@
         "PC_331": "Address",
         "PF_96": "Value",
         "SF_96": "Value",
-        "T_60_2": "Unknown",
-        "T_61_2": "Unknown",
-        "T_62_1": "Unknown",
-        "T_63_1": "Value",
-        "T_64_1": "Unknown",
-        "T_65_2": "Unknown",
+        "T_1_4": "Unknown",
+        "T_2_4": "Unknown",
+        "T_3_2": "Unknown",
+        "T_4_2": "Value",
+        "T_5_3": "Unknown",
+        "T_6_2": "Unknown",
         "ZF_96": "Value"
       },
       "0x0805349e": {
@@ -90970,7 +90970,7 @@
     "Name": "_stdio_openlist_dec_use",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -92337,9 +92337,9 @@
     "Name": "__GI_fflush_unlocked",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -94351,11 +94351,11 @@
     "Name": "__GI_memcpy",
     "Arguments": {
       "ArgNum": 3,
-      "Args": [
-        "Conflict",
-        "Conflict",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict",
+        "1": "Conflict",
+        "2": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -94608,11 +94608,11 @@
     "Name": "memset",
     "Arguments": {
       "ArgNum": 3,
-      "Args": [
-        "Address",
-        "Unknown",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -94893,10 +94893,10 @@
     "Name": "__GI_strcat",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Address",
-        "Address"
-      ]
+      "Args": {
+        "0": "Address",
+        "1": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -95189,10 +95189,10 @@
     "Name": "strchr",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Address",
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Address",
+        "1": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -95419,10 +95419,10 @@
     "Name": "strcmp",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Address",
-        "Address"
-      ]
+      "Args": {
+        "0": "Address",
+        "1": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -95728,10 +95728,10 @@
     "Name": "__GI_strcpy",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Address",
-        "Address"
-      ]
+      "Args": {
+        "0": "Address",
+        "1": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -95958,10 +95958,10 @@
     "Name": "__GI_strnlen",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Conflict",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict",
+        "1": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -96165,10 +96165,10 @@
     "Name": "__GI_strrchr",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Conflict",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict",
+        "1": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -96409,7 +96409,7 @@
     "Name": "memcmp_bytes",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -96665,11 +96665,11 @@
     "Name": "memcmp_common_alignment",
     "Arguments": {
       "ArgNum": 3,
-      "Args": [
-        "Address",
-        "Address",
-        "Address"
-      ]
+      "Args": {
+        "0": "Address",
+        "1": "Address",
+        "2": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -97906,11 +97906,11 @@
     "Name": "memcmp_not_common_alignment",
     "Arguments": {
       "ArgNum": 3,
-      "Args": [
-        "Unknown",
-        "Address",
-        "Address"
-      ]
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -99975,11 +99975,11 @@
     "Name": "memcmp",
     "Arguments": {
       "ArgNum": 3,
-      "Args": [
-        "Address",
-        "Address",
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Address",
+        "1": "Address",
+        "2": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -100394,10 +100394,10 @@
         "PC_74": "Address",
         "PF_26": "Value",
         "SF_26": "Value",
-        "T_1_3": "Address",
-        "T_2_3": "Address",
-        "T_3_1": "Unknown",
-        "T_4_1": "Value",
+        "T_1_4": "Address",
+        "T_2_4": "Address",
+        "T_3_2": "Unknown",
+        "T_4_2": "Value",
         "T_5_3": "Unknown",
         "T_6_3": "Unknown",
         "ZF_26": "Value"
@@ -100467,12 +100467,12 @@
         "PC_66": "Address",
         "PF_24": "Value",
         "SF_24": "Value",
-        "T_10_2": "Unknown",
-        "T_5_2": "Address",
-        "T_6_2": "Address",
-        "T_7_2": "Unknown",
-        "T_8_2": "Value",
-        "T_9_2": "Unknown",
+        "T_1_3": "Address",
+        "T_2_3": "Address",
+        "T_3_1": "Unknown",
+        "T_4_1": "Value",
+        "T_5_2": "Unknown",
+        "T_6_2": "Unknown",
         "ZF_24": "Value"
       },
       "0x0805428e": {
@@ -100489,10 +100489,10 @@
         "PC_77": "Address",
         "PF_27": "Value",
         "SF_27": "Value",
-        "T_1_4": "Address",
-        "T_2_4": "Unknown",
-        "T_3_3": "Unknown",
-        "T_4_3": "Unknown",
+        "T_10_2": "Unknown",
+        "T_7_1": "Address",
+        "T_8_1": "Unknown",
+        "T_9_2": "Unknown",
         "V_16_7": "Address",
         "V_28_5": "Address",
         "ZF_27": "Value"
@@ -100853,10 +100853,10 @@
     "Name": "__mempcpy",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Unknown",
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Unknown",
+        "2": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -101014,11 +101014,11 @@
     "Name": "__GI_memrchr",
     "Arguments": {
       "ArgNum": 3,
-      "Args": [
-        "Conflict",
-        "Unknown",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict",
+        "1": "Unknown",
+        "2": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -101936,9 +101936,9 @@
     "Name": "strerror_r",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Unknown"
-      ]
+      "Args": {
+        "1": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -102071,9 +102071,9 @@
     "Name": "strdup",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -102355,11 +102355,11 @@
     "Name": "__GI___xpg_strerror_r",
     "Arguments": {
       "ArgNum": 3,
-      "Args": [
-        "Conflict",
-        "Conflict",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict",
+        "1": "Conflict",
+        "2": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -105329,10 +105329,10 @@
     "Name": "__malloc_trim",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Unknown",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Unknown",
+        "1": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -105562,7 +105562,7 @@
     "Name": "malloc_trim",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -105962,9 +105962,9 @@
     "Name": "malloc_init_state",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Address"
-      ]
+      "Args": {
+        "0": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -106433,9 +106433,9 @@
     "Name": "__malloc_consolidate",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -107895,9 +107895,9 @@
     "Name": "free",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -109919,10 +109919,10 @@
     "Name": "__malloc_alloc",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Conflict",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict",
+        "1": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -113644,9 +113644,9 @@
     "Name": "__malloc_largebin_index",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -113955,9 +113955,9 @@
     "Name": "__libc_malloc",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -119427,7 +119427,7 @@
     "Name": "__GI_abort",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -122183,7 +122183,7 @@
     "Name": "__GI_getenv",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -122612,7 +122612,7 @@
     "Name": "exit",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -123088,9 +123088,9 @@
     "Name": "__clear_internal_signals",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Address"
-      ]
+      "Args": {
+        "0": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -123759,9 +123759,9 @@
     "Name": "__libc_signal_block_app",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -123995,9 +123995,9 @@
     "Name": "__libc_signal_restore_set",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -124164,9 +124164,9 @@
     "Name": "raise",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -124586,7 +124586,7 @@
     "Name": "__libc_enable_asynccancel",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -125051,7 +125051,7 @@
     "Name": "__libc_disable_asynccancel",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -125617,7 +125617,7 @@
     "Name": "_dl_memalign",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -125747,7 +125747,7 @@
     "Name": "_dl_allocate_static_tls",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -126151,7 +126151,7 @@
     "Name": "_dl_next_tls_modid",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -126845,7 +126845,7 @@
     "Name": "allocate_dtv",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -127129,7 +127129,7 @@
     "Name": "_dl_get_tls_static_info",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -127274,7 +127274,7 @@
     "Name": "_dl_allocate_tls_storage",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -129568,7 +129568,7 @@
     "Name": "_dl_allocate_tls_init",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -130744,7 +130744,7 @@
     "Name": "_dl_allocate_tls",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -130929,7 +130929,7 @@
     "Name": "_dl_deallocate_tls",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -131597,9 +131597,9 @@
     "Name": "_dl_add_to_slotinfo",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Address"
-      ]
+      "Args": {
+        "0": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -134232,10 +134232,10 @@
     "Name": "__libc_clock_gettime",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Unknown",
-        "Address"
-      ]
+      "Args": {
+        "0": "Unknown",
+        "1": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -134878,7 +134878,7 @@
     "Name": "clock_gettime",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -135016,9 +135016,9 @@
     "Name": "brk",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -135204,9 +135204,9 @@
     "Name": "sigaction",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Address"
-      ]
+      "Args": {
+        "1": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -137827,7 +137827,7 @@
     "Name": "__GI_mmap",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -137896,9 +137896,9 @@
     "Name": "_exit",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -138009,7 +138009,7 @@
     "Name": "__getpagesize",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -138090,10 +138090,10 @@
     "Name": "__GI_munmap",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Unknown",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Unknown",
+        "1": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -138387,11 +138387,11 @@
     "Name": "sigprocmask",
     "Arguments": {
       "ArgNum": 3,
-      "Args": [
-        "Unknown",
-        "Address",
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -139581,12 +139581,12 @@
     "Name": "__syscall_rt_sigaction",
     "Arguments": {
       "ArgNum": 4,
-      "Args": [
-        "Unknown",
-        "Unknown",
-        "Unknown",
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Unknown",
+        "3": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -139887,11 +139887,11 @@
     "Name": "__write_nocancel",
     "Arguments": {
       "ArgNum": 3,
-      "Args": [
-        "Unknown",
-        "Unknown",
-        "Address"
-      ]
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -140187,7 +140187,7 @@
     "Name": "write",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -140486,7 +140486,7 @@
         "ESP_23": "Address",
         "ESP_24": "Address",
         "PC_33": "Address",
-        "T_1_6": "Address",
+        "T_7_2": "Address",
         "V_0_0": "Address"
       }
     }
@@ -140495,10 +140495,10 @@
     "Name": "fseek",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Conflict",
-        "Address"
-      ]
+      "Args": {
+        "0": "Conflict",
+        "1": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -140663,7 +140663,7 @@
     "Name": "__GI_fprintf",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -140831,10 +140831,10 @@
     "Name": "__SEEK",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Conflict",
-        "Address"
-      ]
+      "Args": {
+        "0": "Conflict",
+        "1": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -141116,12 +141116,12 @@
     "Name": "fseeko64",
     "Arguments": {
       "ArgNum": 4,
-      "Args": [
-        "Conflict",
-        "Address",
-        "Unknown",
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Conflict",
+        "1": "Address",
+        "2": "Unknown",
+        "3": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -142132,10 +142132,10 @@
     "Name": "__stdio_adjust_position",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Conflict",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict",
+        "1": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -142677,10 +142677,10 @@
     "Name": "__stdio_seek",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Address",
-        "Address"
-      ]
+      "Args": {
+        "0": "Address",
+        "1": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -142932,11 +142932,11 @@
     "Name": "_load_inttype",
     "Arguments": {
       "ArgNum": 3,
-      "Args": [
-        "Unknown",
-        "Conflict",
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Unknown",
+        "1": "Conflict",
+        "2": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -143360,12 +143360,12 @@
     "Name": "_store_inttype",
     "Arguments": {
       "ArgNum": 4,
-      "Args": [
-        "Conflict",
-        "Conflict",
-        "Unknown",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict",
+        "1": "Conflict",
+        "2": "Unknown",
+        "3": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -143559,12 +143559,12 @@
     "Name": "_uintmaxtostr",
     "Arguments": {
       "ArgNum": 4,
-      "Args": [
-        "Conflict",
-        "Conflict",
-        "Conflict",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Conflict",
+        "1": "Conflict",
+        "2": "Conflict",
+        "3": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -143876,7 +143876,7 @@
     "Name": "_fpmaxtostr",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -149629,9 +149629,9 @@
     "Name": "vfprintf",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Address"
-      ]
+      "Args": {
+        "0": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -150474,11 +150474,11 @@
     "Name": "strncmp",
     "Arguments": {
       "ArgNum": 3,
-      "Args": [
-        "Address",
-        "Address",
-        "Conflict"
-      ]
+      "Args": {
+        "0": "Address",
+        "1": "Address",
+        "2": "Conflict"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -150841,9 +150841,9 @@
     "Name": "__libc_calloc",
     "Arguments": {
       "ArgNum": 1,
-      "Args": [
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -151780,7 +151780,7 @@
     "Name": "__syscall_error",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -151911,12 +151911,12 @@
     "Name": "__lseek64_nocancel",
     "Arguments": {
       "ArgNum": 4,
-      "Args": [
-        "Unknown",
-        "Unknown",
-        "Unknown",
-        "Address"
-      ]
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Unknown",
+        "3": "Address"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -152320,7 +152320,7 @@
     "Name": "lseek64",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -152685,7 +152685,7 @@
         "ESP_29": "Address",
         "ESP_30": "Address",
         "PC_43": "Address",
-        "T_7_2": "Address",
+        "T_1_6": "Address",
         "V_0_0": "Address"
       }
     }
@@ -152694,7 +152694,7 @@
     "Name": "__do_global_ctors_aux",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {
@@ -152826,7 +152826,7 @@
     "Name": "_fini",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
       "ReturnReg": {

@@ -31,6 +31,7 @@ let evalResultLogFileName suffix = suffix + "_evalResult.log"
 let run options =
   (* Parse GroundTruth Json file *)
   let gt = ParseJSON.loadGroundTruth options.GroundTruthJsonPath
+  let gtAll = ElementEvaluator.countValidGTElements gt
 
   (* Parse Inferred Result Jsin file *)
   let inferred = ParseJSON.loadInferred options.InferredJsonPath
@@ -39,7 +40,7 @@ let run options =
   (* 1. Classify the type of result: Correct, MisInferred, Conflict, Fail *)
   let elements, logState = ElementEvaluator.evaluate gt inferred
   (* 2. Measure each metric *)
-  let metric = Metric.build elements
+  let metric = Metric.build gtAll elements
 
   { Json = Metric.toJson metric
     Log = Log.toText logState }

@@ -46,6 +46,21 @@ let private readTypeArray (element: JsonElement) =
         None)
     |> Seq.toList
 
+/// Given JSON element(value of inferred "Args"), extract type of
+/// parameter map. Object form preserves parameter indices. Array form is
+/// accepted for old result files and uses array indices as parameter indices.
+let private readTypeMap (element: JsonElement) =
+  match element.ValueKind with
+  | JsonValueKind.Object ->
+    element.EnumerateObject ()
+    |> Seq.choose (fun prop ->
+      match System.Int32.TryParse prop.Name, prop.Value.ValueKind with
+      | (true, index), JsonValueKind.String ->
+        Some (index, parseEvalType (prop.Value.GetString ()))
+      | _ -> None)
+    |> Map.ofSeq
+  | _ -> Map.empty
+
 (*
   ToDo
     Handle if multiple return register is used (XMM, ...?)
@@ -122,7 +137,7 @@ let loadInferred path : Map<string, InferredFunction> =
 
     (* Extract inferred type of parameters *)
     let argsElem = body.GetProperty "Arguments"
-    let args = argsElem.GetProperty "Args" |> readTypeArray
+    let args = argsElem.GetProperty "Args" |> readTypeMap
 
     (* Extract inferred type of return value *)
     let retElem = body.GetProperty "Return"

@@ -14,7 +14,7 @@ type ArgumentsJson =
     ArgNum: int
 
     [<JsonPropertyName("Args")>]
-    Args: string list }
+    Args: Map<int, string> }
 
 type ReturnJson =
   { [<JsonPropertyName("ReturnReg")>]
@@ -44,13 +44,15 @@ type FunctionJson =
 type AnalysisResultJson = Map<string, FunctionJson>
 
 module FunctionJson =
-  let private indexedTypesToStringList constraints conflicts indexedTypes =
+  let private indexedTypesToStringMap constraints conflicts indexedTypes =
     let resolveTypeId2Str (_idx, typeId) =
       let resolvedType = ResolvedTypeInfo.ofTypeId constraints conflicts typeId
       resolvedType.Type.ToOutputString
 
-    let sortedIndexedTypes = indexedTypes |> Map.toSeq |> Seq.sortBy fst
-    sortedIndexedTypes |> Seq.map resolveTypeId2Str |> Seq.toList
+    indexedTypes
+    |> Map.toSeq
+    |> Seq.map (fun (index, typeId) -> index, resolveTypeId2Str (index, typeId))
+    |> Map.ofSeq
 
   /// Convert type Id into resolved Type String (Address|Value|Conflict|Unknown)
   let private typeIdToTypeString constraints conflicts typeId =
@@ -95,7 +97,7 @@ module FunctionJson =
 
     (* Resolved type of argumentes *)
     let args =
-      indexedTypesToStringList
+      indexedTypesToStringMap
         constraints
         conflicts
         funAnalysis.Summary.Parameters
@@ -128,7 +130,7 @@ module FunctionJson =
 
     { Name = funAnalysis.Function.Name
       Arguments =
-        { ArgNum = List.length args
+        { ArgNum = Map.count args
           Args = args }
       Return =
         { ReturnReg = returnRegs

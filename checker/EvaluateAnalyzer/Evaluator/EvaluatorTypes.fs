@@ -50,7 +50,7 @@ type GTFunction =
 /// </summary>
 type InferredFunction =
   { Function: FunctionKey
-    Args: EvalType list
+    Args: Map<int, EvalType>
     Return: EvalType list }
 
 /// <summary>
@@ -73,7 +73,8 @@ type EvalLogState =
     Correct: Set<FunctionKey>
     MisInferred: Set<FunctionKey>
     Conflict: Set<FunctionKey>
-    Fail: Set<FunctionKey> }
+    Fail: Set<FunctionKey>
+    InferMoreParams: Set<FunctionKey> }
 
 module EvalLogState =
   let empty =
@@ -83,4 +84,5 @@ module EvalLogState =
       Correct = Set.empty
       MisInferred = Set.empty
       Conflict = Set.empty
-      Fail = Set.empty }
+      Fail = Set.empty
+      InferMoreParams = Set.empty }

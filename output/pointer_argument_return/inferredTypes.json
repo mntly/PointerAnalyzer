@@ -3,10 +3,10 @@
     "Name": "addOffset",
     "Arguments": {
       "ArgNum": 2,
-      "Args": [
-        "Address",
-        "Unknown"
-      ]
+      "Args": {
+        "0": "Address",
+        "1": "Unknown"
+      }
     },
     "Return": {
       "ReturnReg": {
@@ -61,13 +61,13 @@
     "Name": "compute",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
-      "ReturnReg": {},
-      "ModifiedReg": {
-        "EBP": "Unknown"
-      }
+      "ReturnReg": {
+        "EAX": "Unknown"
+      },
+      "ModifiedReg": {}
     },
     "DetailType": {
       "0x08049000": {
@@ -147,10 +147,12 @@
     "Name": "_start",
     "Arguments": {
       "ArgNum": 0,
-      "Args": []
+      "Args": {}
     },
     "Return": {
-      "ReturnReg": {},
+      "ReturnReg": {
+        "EAX": "Unknown"
+      },
       "ModifiedReg": {}
     },
     "DetailType": {

@@ -20,10 +20,14 @@ let private classify gt inferred =
   | Value, Unknown -> Fail
   | _ -> Fail
 
-/// Evaluate each parameters in function signature
+/// Evaluate each parameters in function signature.
+/// If inferred parameter was missing, assume its type as Unknown.
 let private argResults fn gtArgs inferredArgs =
-  List.zip gtArgs inferredArgs
-  |> List.mapi (fun paramIdx (gt, inferred) ->
+  gtArgs
+  |> List.mapi (fun paramIdx gt ->
+    let inferred =
+      Map.tryFind paramIdx inferredArgs |> Option.defaultValue Unknown
+
     { Function = fn
       Target = Argument paramIdx
       GT = gt
@@ -32,8 +36,11 @@ let private argResults fn gtArgs inferredArgs =
 
 /// Evaluate return value in function signature
 let private returnResults fn gtReturns inferredReturns =
-  List.zip gtReturns inferredReturns
-  |> List.mapi (fun index (gt, inferred) ->
+  gtReturns
+  |> List.mapi (fun index gt ->
+    let inferred =
+      inferredReturns |> List.tryItem index |> Option.defaultValue Unknown
+
     { Function = fn
       Target = Return index
       GT = gt
@@ -110,26 +117,33 @@ let evaluate
         { logState with
             MissedDetect = Set.add gt.Function logState.MissedDetect }
       | Some inferred ->
-        if List.length gt.Args <> List.length inferred.Args then
-          (*
-            If # of inferred parameters differ with GT,
-            Do not use this for evaluation, just logging.
-          *)
-          results,
-          { logState with
-              CountMismatch = Set.add gt.Function logState.CountMismatch }
-        else if List.length gt.Return <> List.length inferred.Return then
-          (*
-            ToDo
-              Handle if multiple return register is used (XMM, ...?)
-          *)
-          results,
-          { logState with
-              CountMismatch = Set.add gt.Function logState.CountMismatch }
-        else
-          let fn = gt.Function
+        let fn = gt.Function
 
+        let logState =
+          if List.length gt.Args < Map.count inferred.Args then
+            { logState with
+                InferMoreParams = Set.add fn logState.InferMoreParams }
+          else if List.length gt.Args <> Map.count inferred.Args then
+            { logState with
+                CountMismatch = Set.add fn logState.CountMismatch }
+          else
+            logState
+
+        let logState =
+          if
+            (not (List.isEmpty gt.Return))
+            && List.length gt.Return <> List.length inferred.Return
+          then
+            { logState with
+                CountMismatch = Set.add fn logState.CountMismatch }
+          else
+            logState
+
+        if List.length gt.Args < Map.count inferred.Args then
+          results, logState
+        else
           (* Evaluate with parameter/return value-wise type checking *)
+          (* If GT has no return value, returnResults naturally evaluates none. *)
           let elementResults =
             argResults fn gt.Args inferred.Args
             @ returnResults fn gt.Return inferred.Return
@@ -142,3 +156,11 @@ let evaluate
   |> Map.toList
   |> List.fold evalEachFunc ([], EvalLogState.empty)
   |> fun (results, logState) -> List.rev results, logState
+
+/// Count all elements in valid GT function signatures
+let countValidGTElements (gtMap: Map<string, GTFunction>) =
+  gtMap
+  |> Map.toSeq
+  |> Seq.map snd
+  |> Seq.filter (hasUnknownGT >> not)
+  |> Seq.sumBy (fun gt -> List.length gt.Args + List.length gt.Return)
