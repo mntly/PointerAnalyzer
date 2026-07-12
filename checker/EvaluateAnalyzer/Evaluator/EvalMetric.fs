@@ -94,12 +94,38 @@ type GTTypeRatioResult =
     GTValue: GTTypeRatioBucket }
 
 /// <summary>
+/// Represent confusion metrix of final evaluation.
+/// Unknown inferred type is treated as Value when calculating this metric.
+/// Conflict inferred type is treated as both Address and Value when
+/// calculating this metric.
+/// </summary>
+type ConfusionMetrix = { TP: int; TN: int; FP: int; FN: int }
+
+/// <summary>
+/// Represent final binary classification metrics.
+/// Unknown inferred type is treated as Value when calculating this metric.
+/// Conflict inferred type is treated as both Address and Value when
+/// calculating this metric.
+/// </summary>
+/// <remarks>
+/// <c>Acc</c> is accuracy.
+/// <c>Recall</c> is recall when Address is treated as positive.
+/// <c>Precision</c> is precision when Address is treated as positive.
+/// </remarks>
+type FinalResult =
+  { Confusion: ConfusionMetrix
+    Acc: float
+    Recall: float
+    Precision: float }
+
+/// <summary>
 /// Represent entire metrics that will be stored as JSON.
 /// </summary>
 type EvalMetric =
   { Count: CountResult
     Ratio: RatioResult
-    GTTypeRatio: GTTypeRatioResult }
+    GTTypeRatio: GTTypeRatioResult
+    FinalResult: FinalResult }
 
 let private emptyBucket: CountBucket =
   { Total = 0
@@ -158,6 +184,32 @@ let private ratioBucket all (bucket: CountBucket) : RatioBucket =
     GTAddress = div bucket.GTAddress bucket.Total
     GTValue = div bucket.GTValue bucket.Total }
 
+/// In final binary metric, Unknown inferred type is considered as Value.
+let private normalizeFinalType typ =
+  match typ with
+  | Unknown -> Value
+  | other -> other
+
+/// Calculate final Accuracy/Recall/Precision. Address is positive.
+let private buildFinalResult results =
+  let folder (tp, tn, fp, fn) (result: ElementResult) =
+    match result.GT, normalizeFinalType result.Inferred with
+    | Address, Address -> tp + 1, tn, fp, fn
+    | Value, Value -> tp, tn + 1, fp, fn
+    | Value, Address -> tp, tn, fp + 1, fn
+    | Address, Value -> tp, tn, fp, fn + 1
+    | Address, Conflict -> tp, tn, fp, fn + 1
+    | Value, Conflict -> tp, tn, fp + 1, fn
+    | _ -> tp, tn, fp, fn
+
+  let tp, tn, fp, fn = List.fold folder (0, 0, 0, 0) results
+  let all = tp + tn + fp + fn
+
+  { Confusion = { TP = tp; TN = tn; FP = fp; FN = fn }
+    Acc = div (tp + tn) all
+    Recall = div tp (tp + fn)
+    Precision = div tp (tp + fp) }
+
 /// Calculate evaluation metrix using the result of evaluation classification
 let build results =
   (* Count the # of elements in each case *)
@@ -204,7 +256,8 @@ let build results =
     Ratio = ratio
     GTTypeRatio =
       { GTAddress = addressRatio
-        GTValue = valueRatio } }
+        GTValue = valueRatio }
+    FinalResult = buildFinalResult results }
 
 /// Transform given metric DS to JSON
 let toJson metric =
