@@ -83,11 +83,11 @@ type ExprEvalModule (platform: Platform, config: ExprEvalConfig) =
   member this.Eval state expr : AbsVal * TypeId option * AnalysisState =
     match expr with
     | Num bv ->
-      let typeId, state =
-        match config.ClassifyConstant bv with
-        | AddressConstant -> TypeIds.address, state
-        | ValueConstant -> TypeIds.value, state
-        | UnknownConstant -> stateDom.freshTypeId state
+      // let typeId, state =
+      //   match config.ClassifyConstant bv with
+      //   | AddressConstant -> TypeIds.address, state
+      //   | ValueConstant -> TypeIds.value, state
+      //   | UnknownConstant -> stateDom.freshTypeId state
 
       (* absVal.ofBitVector bv, Some typeId, state *)
       (*
@@ -181,7 +181,8 @@ type ExprEvalModule (platform: Platform, config: ExprEvalConfig) =
       //   |> stateDom.addValue resultTypeId
 
       // result, Some resultTypeId, state
-      result, Some resultTypeId, stateDom.addValue resultTypeId state
+      // result, Some resultTypeId, stateDom.addValue resultTypeId state
+      result, Some resultTypeId, state
 
     | UnOp (op, _, innerExpr) ->
       let value, innerTypeId, state = this.Eval state innerExpr
@@ -201,7 +202,7 @@ type ExprEvalModule (platform: Platform, config: ExprEvalConfig) =
 
     | Ite (conditionExpr, _, trueExpr, falseExpr) ->
       let _, conditionTypeId, state = this.Eval state conditionExpr
-      let state = this.markValue conditionTypeId state
+      // let state = this.markValue conditionTypeId state
       let trueValue, trueTypeId, trueState = this.Eval state trueExpr
       let falseValue, falseTypeId, falseState = this.Eval state falseExpr
       let state = stateDom.join trueState falseState

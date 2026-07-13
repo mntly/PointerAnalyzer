@@ -190,6 +190,7 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
     let _, state = stateDom.consumePendingReturn variable state
 
     let state = stateDom.setRegister variable value typeId state
+
     state
     |> this.updateCurrentStackSlot variable typeId
     |> this.applyPointerHint variable typeId
@@ -300,10 +301,10 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
       | Jmp (IntraCJmp (conditionExpr, trueLabel, falseLabel)) ->
         let _, conditionTypeId, state = exprEval.Eval state conditionExpr
 
-        let state =
-          match conditionTypeId with
-          | Some typeId -> stateDom.addValue typeId state
-          | None -> state
+        // let state =
+        //   match conditionTypeId with
+        //   | Some typeId -> stateDom.addValue typeId state
+        //   | None -> state
 
         [ { Target = LabelTarget trueLabel
             State = state }
@@ -338,10 +339,10 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
 
         let state =
           state
-          |> (fun state ->
-            match conditionTypeId with
-            | Some typeId -> stateDom.addValue typeId state
-            | None -> state)
+          // |> (fun state ->
+          //   match conditionTypeId with
+          //   | Some typeId -> stateDom.addValue typeId state
+          //   | None -> state)
           |> (fun state ->
             match trueTypeId with
             | Some typeId -> stateDom.addAddress typeId state

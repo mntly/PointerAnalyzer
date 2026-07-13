@@ -148,12 +148,16 @@ type TypeConstraintSolverModule () =
 
     (* "Addr" = Addr + Val | Val + Addr *)
     let rule1 result l r (typeAddr, typeVal) =
-      if isAddress l && isValue r then
-        Set.add result typeAddr, typeVal
-      else if isValue l && isAddress r then
-        Set.add result typeAddr, typeVal
-      else
-        typeAddr, typeVal
+      // if isAddress l && isValue r then
+      //   Set.add result typeAddr, typeVal
+      // else if isValue l && isAddress r then
+      //   Set.add result typeAddr, typeVal
+      // else
+      //   typeAddr, typeVal
+
+      if isAddress l then Set.add result typeAddr, typeVal
+      else if isAddress r then Set.add result typeAddr, typeVal
+      else typeAddr, typeVal
 
     (* Addr = "Addr" + Val | Val + "Addr" *)
     let rule2 result l r (typeAddr, typeVal) =
@@ -187,7 +191,8 @@ type TypeConstraintSolverModule () =
       else
         typeAddr, typeVal
 
-    let rules = [ rule1; rule2; rule3; rule4; rule5 ]
+    // let rules = [ rule1; rule2; rule3; rule4; rule5 ]
+    let rules = [ rule1; rule2 ]
 
     let addrToAdd, valToAdd =
       List.fold
@@ -226,11 +231,18 @@ type TypeConstraintSolverModule () =
     (* Addr = "Addr" - "Val" *)
     let rule4 result l r (typeAddr, typeVal) =
       if isAddress result then
-        Set.add l typeAddr, Set.add r typeVal
+        typeAddr, Set.add r typeVal
       else
         typeAddr, typeVal
 
-    let rules = [ rule1; rule2; rule3; rule4 ]
+    let rule5 result l r (typeAddr, typeVal) =
+      if isAddress result then
+        Set.add l typeAddr, typeVal
+      else
+        typeAddr, typeVal
+
+    // let rules = [ rule1; rule2; rule3; rule4 ]
+    let rules = [ rule1; rule5 ]
 
     let addrToAdd, valToAdd =
       List.fold

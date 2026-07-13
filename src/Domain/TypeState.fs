@@ -119,7 +119,7 @@ type TypeStateModule (startTypeId: TypeId) =
     | Same typeIds ->
       typeIds
       |> Set.toList
-      |> List.map (sprintf "tid_%d")
+      |> List.map (sprintf "t%d")
       |> String.concat ", "
       |> sprintf "Same({%s})"
     | AddResult (result, left, right) ->

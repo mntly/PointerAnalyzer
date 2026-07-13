@@ -3,71 +3,71 @@
     "GTAll": 473,
     "All": 460,
     "Correct": {
-      "Total": 62,
-      "GTAddress": 59,
-      "GTValue": 3
+      "Total": 122,
+      "GTAddress": 122,
+      "GTValue": 0
     },
     "MisInferred": {
-      "Total": 23,
+      "Total": 70,
       "GTAddress": 0,
-      "GTValue": 23
+      "GTValue": 70
     },
     "Conflict": {
-      "Total": 112,
-      "GTAddress": 65,
-      "GTValue": 47
+      "Total": 0,
+      "GTAddress": 0,
+      "GTValue": 0
     },
     "Fail": {
-      "Total": 263,
-      "GTAddress": 103,
-      "GTValue": 160
+      "Total": 268,
+      "GTAddress": 105,
+      "GTValue": 163
     }
   },
   "Ratio": {
     "Correct": {
-      "Total": 0.13478260869565217,
-      "GTAddress": 0.9516129032258065,
-      "GTValue": 0.04838709677419355
+      "Total": 0.26521739130434785,
+      "GTAddress": 1,
+      "GTValue": 0
     },
     "MisInferred": {
-      "Total": 0.05,
+      "Total": 0.15217391304347827,
       "GTAddress": 0,
       "GTValue": 1
     },
     "Conflict": {
-      "Total": 0.24347826086956523,
-      "GTAddress": 0.5803571428571429,
-      "GTValue": 0.41964285714285715
+      "Total": 0,
+      "GTAddress": 0,
+      "GTValue": 0
     },
     "Fail": {
-      "Total": 0.5717391304347826,
-      "GTAddress": 0.3916349809885932,
-      "GTValue": 0.6083650190114068
+      "Total": 0.5826086956521739,
+      "GTAddress": 0.3917910447761194,
+      "GTValue": 0.6082089552238806
     }
   },
   "GTTypeRatio": {
     "GTAddress": {
-      "Correct": 0.2599118942731278,
+      "Correct": 0.5374449339207048,
       "MisInferred": 0,
-      "Conflict": 0.28634361233480177,
-      "Fail": 0.45374449339207046
+      "Conflict": 0,
+      "Fail": 0.46255506607929514
     },
     "GTValue": {
-      "Correct": 0.012875536480686695,
-      "MisInferred": 0.09871244635193133,
-      "Conflict": 0.2017167381974249,
-      "Fail": 0.6866952789699571
+      "Correct": 0,
+      "MisInferred": 0.30042918454935624,
+      "Conflict": 0,
+      "Fail": 0.6995708154506438
     }
   },
   "FinalResult": {
     "Confusion": {
-      "TP": 59,
+      "TP": 122,
       "TN": 163,
       "FP": 70,
-      "FN": 168
+      "FN": 105
     },
-    "Acc": 0.4826086956521739,
-    "Recall": 0.2599118942731278,
-    "Precision": 0.4573643410852713
+    "Acc": 0.6195652173913043,
+    "Recall": 0.5374449339207048,
+    "Precision": 0.6354166666666666
   }
 }

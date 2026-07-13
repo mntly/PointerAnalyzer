@@ -88,8 +88,8 @@ type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
       let newTypeState =
         if platform.IsTrivialAddress variable then
           types.addAddress typeId typeState
-        else if platform.IsTrivialValue variable then
-          types.addValue typeId typeState
+        // else if platform.IsTrivialValue variable then
+        //   types.addValue typeId typeState
         else
           typeState
 
