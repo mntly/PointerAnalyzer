@@ -11,11 +11,12 @@ let private regId register = Intel.Register.toRegID register
 
 let private esp = regId Intel.Register.ESP
 let private eax = regId Intel.Register.EAX
-// let private ecx = regId Intel.Register.ECX
-// let private edx = regId Intel.Register.EDX
-// let private ebx = regId Intel.Register.EBX
-// let private esi = regId Intel.Register.ESI
-// let private edi = regId Intel.Register.EDI
+let private ecx = regId Intel.Register.ECX
+let private edx = regId Intel.Register.EDX
+let private ebx = regId Intel.Register.EBX
+let private ebp = regId Intel.Register.EBP
+let private esi = regId Intel.Register.ESI
+let private edi = regId Intel.Register.EDI
 
 let private tryRegisterId (variable: Variable) =
   match variable.Kind with
@@ -25,6 +26,10 @@ let private tryRegisterId (variable: Variable) =
 let private argumentRegisters = []
 
 let private returnRegisters = [ eax ]
+
+let private callerSavedRegisters = Set.ofList [ eax; ecx; edx ]
+
+let private calleeSavedRegisters = Set.ofList [ ebx; ebp; esi; edi ]
 
 let private registerName registerId =
   Intel.Register.ofRegID registerId |> Intel.Register.toString
@@ -146,6 +151,8 @@ let create () =
     StackPointer = stackPointer
     ArgumentRegisters = argumentRegisters
     ReturnRegisters = returnRegisters
+    CallerSavedRegisters = callerSavedRegisters
+    CalleeSavedRegisters = calleeSavedRegisters
     RegisterName = registerName
 
     TrivialAddressRegisters = trivialAddressRegisters

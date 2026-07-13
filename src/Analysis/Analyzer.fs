@@ -15,6 +15,7 @@ open PointerAnalyzer.Analysis.StmtEval
 /// <remarks>
 /// <c>FinalState</c> is PointerAnalyzer's
 /// <see cref="PointerAnalyzer.AbsDom.AnalysisState.AnalysisState" />.
+/// <c>LeafStates</c> stores the final register states at each leaf node of CFG.
 /// <c>TypeConstraints</c> is set of
 /// <see cref="PointerAnalyzer.AbsDom.TypeConstraint.TypeConstraint" />.
 /// <c>TypeConflicts</c> is set of Type Ids to indicates which type Ids are
@@ -22,12 +23,23 @@ open PointerAnalyzer.Analysis.StmtEval
 /// </remarks>
 type AnalysisResult =
   { FinalState: AnalysisState
+    LeafStates: Map<int, AnalysisState>
     TypeConstraints: ConstraintSet
     TypeConflicts: Set<TypeId> }
 
 /// <summary>
-///
+/// Cumulative analysis state during iterating basic blocks.
 /// </summary>
+/// <remarks>
+/// <c>State</c> is cumulative analysis state.
+/// <c>Visitied</c> keeps visited blocks to do not re-evaluate blocks.
+/// <c>LeafStates</c> tracks the final register states at each leaf node of CFG.
+/// </remarks>
+type private RunResult =
+  { State: AnalysisState
+    Visited: Set<int>
+    LeafStates: Map<int, AnalysisState> }
+
 type AnalyzerModule
   (platform: Platform, startTypeId: TypeId, config: StmtEvalConfig) =
   let stateDom = AnalysisStateDomain.create platform startTypeId
@@ -92,6 +104,18 @@ type AnalyzerModule
         |> Array.tryFind (fun edge -> edge.Label = CFGEdgeKind.FallThroughEdge)
         |> Option.map (fun edge -> edge.Second)
 
+  /// Check whether the given block is a leaf node in B2R2 SSA CFG.
+  /// PointerAnalyzer interprets the leaf node as a return/exist block,
+  /// it sets return register as the register from these blocks.
+  member private _.IsLeafBlock (cfg: SSACFG) (block: IVertex<SSABasicBlock>) =
+    cfg.GetSuccs block |> Array.isEmpty
+
+  /// Merge leaf states keyed by B2R2 CFG block id.
+  /// Since one block evaluated only once, there does not exist the evaluation
+  /// result from same block.
+  member private _.MergeLeafStates left right =
+    Map.fold (fun acc blockId state -> Map.add blockId state acc) left right
+
   /// Join analysis state by keeping TypeState, since TypeState is passed
   /// during analysis
   member private _.JoinNormal left right types =
@@ -127,51 +151,127 @@ type AnalyzerModule
   /// Analyze given CFG (entire binary) and return AnalysisState
   /// collected TypeConstraint
   member this.analyze (cfg: SSACFG) =
-    /// Analyze given one block
+    (* Recursively analyze from given block *)
     let rec run (block: IVertex<SSABasicBlock>) inputState visited =
       if Set.contains block.ID visited then
-        inputState, visited
+        (* Already evalutated. Do not evaluate more *)
+        { State = inputState
+          Visited = visited
+          LeafStates = Map.empty }
       else
-        let transNext (absState, visited) transfer =
+        (*
+          Check given target address in transfer is valid and move to evaluate
+          next block. The validity was given by B2R2.
+        *)
+        let transNext (result: RunResult) (transfer: TransferResult) =
+          (*
+            The Analysis State used for evaluating next block is in `transfer`.
+            However, the type Id is monotonly increased and it should be handle
+            global, only Type State is proppagated to next evaluation.
+          *)
           let newState =
             { transfer.State with
-                Types = absState.Types }
+                Types = result.State.Types }
 
-          let transStateRet, transVisitedRet =
+          (*
+            If current block is leaf node, ends up evaluation.
+            If not, evaluate to next successed block.
+            Setting return register as final register of leaf node is done by
+            out of this function.
+          *)
+          let transResult =
             match this.TryResolveTarget cfg block transfer.Target with
-            | Some successor -> run successor newState visited
-            | None -> newState, visited
+            | Some successor -> run successor newState result.Visited
+            | None ->
+              (* Next target is invalid: Successor of leaf node *)
+              { State = newState
+                Visited = result.Visited
+                LeafStates = Map.empty }
 
+          (*
+            Merge analysis result of successed block to tracked DS(result.State)
+          *)
           let retState =
-            this.JoinNormal absState transStateRet transStateRet.Types
+            this.JoinNormal
+              result.State
+              transResult.State
+              transResult.State.Types
 
-          retState, transVisitedRet
+          (*
+            Merge Leaf states induced from successed block and tracked D
+            (result.LeafStates)
+          *)
+          let retLeafState =
+            this.MergeLeafStates result.LeafStates transResult.LeafStates
 
+          { State = retState
+            Visited = transResult.Visited
+            LeafStates = retLeafState }
+
+        (* Insert current block to visited block *)
         let visited = Set.add block.ID visited
 
+        (*
+          Evaluate given block and get next instruction to evalute and
+          AnalysisState used for evaluation
+        *)
         let transfers =
           this.runBlock inputState block.VData.Internals.Statements
 
+        (* Extract updated TypeState *)
+        (* TypeState is managed globally, so it must same among all results *)
         let typeState =
           transfers |> List.head |> (fun transfer -> transfer.State.Types)
 
-        let resultState, resultVisited =
+        (* Store final register states as return register states. *)
+        let leafStates =
+          if this.IsLeafBlock cfg block then
+            match transfers with
+            | transfer: TransferResult :: _ ->
+              (*
+                If current block is leaf node, then there exist only one entry
+                in the result of evaluation: No more than return address to
+                execute.
+              *)
+              Map.empty |> Map.add block.ID transfer.State
+            | [] -> Map.empty
+          else
+            Map.empty
+
+        (* Evaluate next blocks successed from current block *)
+        let result =
           List.fold
             transNext
-            ({ inputState with Types = typeState }, visited)
-            transfers
+            { State = { inputState with Types = typeState }
+              Visited = visited
+              LeafStates = leafStates }
+            (transfers: TransferResult list)
 
-        resultState, resultVisited
+        result
 
-    let runRoot (state, visited) root =
+    (* Start evaluating from entry block *)
+    let runRoot (result: RunResult) root =
       let rootStateInput =
         { this.InitialState with
-            Types = state.Types }
+            Types = result.State.Types }
 
-      let rootResult, visited = run root rootStateInput visited
-      this.JoinNormal state rootResult rootResult.Types, visited
+      let rootResult = run root rootStateInput result.Visited
 
-    Array.fold runRoot (this.InitialState, Set.empty) cfg.Roots |> fst
+      let state =
+        this.JoinNormal result.State rootResult.State rootResult.State.Types
+
+      { State = state
+        Visited = rootResult.Visited
+        LeafStates =
+          this.MergeLeafStates result.LeafStates rootResult.LeafStates }
+
+    let initialResult =
+      { State = this.InitialState
+        Visited = Set.empty
+        LeafStates = Map.empty }
+
+    let result = Array.fold runRoot initialResult cfg.Roots
+    result.State, result.LeafStates
 
 module AnalyzerDomain =
   let createWithStart platform startTypeId config =
@@ -187,9 +287,10 @@ module AnalyzerDomain =
   /// Main-Analysis
   let analyzeRawWithStart platform startTypeId config cfg =
     let analyzer = createWithStart platform startTypeId config
-    let finalState = analyzer.analyze cfg
+    let finalState, leafStates = analyzer.analyze cfg
 
     { FinalState = finalState
+      LeafStates = leafStates
       TypeConstraints = finalState.Types.Constraints
       TypeConflicts = finalState.Types.Conflicts }
 
@@ -204,6 +305,7 @@ module AnalyzerDomain =
           Types = stateDomain.TypeState.solve result.FinalState.Types }
 
     { FinalState = solvedState
+      LeafStates = result.LeafStates
       TypeConstraints = solvedState.Types.Constraints
       TypeConflicts = solvedState.Types.Conflicts }
 

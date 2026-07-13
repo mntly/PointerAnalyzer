@@ -216,10 +216,14 @@ module ModularAnalyzer =
 
     let typeStateDomain = TypeStateDomain.createDefault ()
 
+    (* Collect all type constrains from all analysis results *)
+    (* Since I can not know the last evaluated, so just union all constraints *)
     let rawTypeState =
       analyses
       |> Map.toSeq
-      |> Seq.map (fun (_, analysis) -> analysis.Result.FinalState.Types)
+      |> Seq.map (fun (_, analysis) ->
+        { analysis.Result.FinalState.Types with
+            Constraints = analysis.Summary.Constraints })
       |> Seq.fold typeStateDomain.join typeStateDomain.bot
 
     let solvedTypeState =

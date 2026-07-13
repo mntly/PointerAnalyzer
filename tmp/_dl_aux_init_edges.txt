@@ -1,0 +1,69 @@
+Binary: /mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/datas/binaries/helloword-x86_32-i586-uclibc-O0
+Function: _dl_aux_init (0x0804a82e)
+Total blocks: 8
+
+====== Edge Kind Counts ======
+CallEdge: 1
+FallThroughEdge: 2
+InterCJmpFalseEdge: 2
+InterCJmpTrueEdge: 2
+InterJmpEdge: 1
+RetEdge: 1
+
+====== Leaf Nodes ======
+Node6(0x0804a882, abstract=false)  last-pp: 0x0804a8be+3
+
+====== RetEdge Source Nodes ======
+Node2(0x0804953d, abstract=true)  retTargets=[Node3(0x0804a83b, abstract=false)]  last-pp: 0x0804953d+5
+
+====== Edges Per Block ======
+Node2(0x0804953d, abstract=true)
+  preds: 1
+  succs: 1
+  last-pp: 0x0804953d+5
+  edge: -[RetEdge]-> Node3(0x0804a83b, abstract=false)
+
+Node1(0x0804a82e, abstract=false)
+  preds: 0
+  succs: 1
+  last-pp: 0x0804a836+3
+  edge: -[CallEdge]-> Node2(0x0804953d, abstract=true)
+
+Node3(0x0804a83b, abstract=false)
+  preds: 1
+  succs: 1
+  last-pp: 0x0804a84f+1
+  edge: -[InterJmpEdge]-> Node4(0x0804a879, abstract=false)
+
+Node5(0x0804a851, abstract=false)
+  preds: 1
+  succs: 2
+  last-pp: 0x0804a859+1
+  edge: -[InterCJmpTrueEdge]-> Node7(0x0804a875, abstract=false)
+  edge: -[InterCJmpFalseEdge]-> Node8(0x0804a85b, abstract=false)
+
+Node8(0x0804a85b, abstract=false)
+  preds: 1
+  succs: 1
+  last-pp: 0x0804a871+1
+  edge: -[FallThroughEdge]-> Node7(0x0804a875, abstract=false)
+
+Node7(0x0804a875, abstract=false)
+  preds: 2
+  succs: 1
+  last-pp: 0x0804a875+14
+  edge: -[FallThroughEdge]-> Node4(0x0804a879, abstract=false)
+
+Node4(0x0804a879, abstract=false)
+  preds: 2
+  succs: 2
+  last-pp: 0x0804a880+1
+  edge: -[InterCJmpTrueEdge]-> Node5(0x0804a851, abstract=false)
+  edge: -[InterCJmpFalseEdge]-> Node6(0x0804a882, abstract=false)
+
+Node6(0x0804a882, abstract=false)
+  preds: 1
+  succs: 0
+  last-pp: 0x0804a8be+3
+  edge: <leaf/no successor>
+

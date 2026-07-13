@@ -26,6 +26,49 @@ module FunctionSummaryBuilder =
 
     sameParamIdxSeq |> Seq.map chooseReg |> Map.ofSeq
 
+  /// Merge output type IDs from all leaf states according to ABI register
+  /// class.
+  let private mergeExitRegisterTypeIds platform groupedTypeIds =
+    (* Check given register has trivial type *)
+    (* Register with trivial type do not need to merge *)
+    let isTrivial regId =
+      Set.contains regId platform.TrivialValueRegisters
+      || Set.contains regId platform.TrivialAddressRegisters
+
+    (* Check given register is caller-saved register *)
+    (* Caller-saved register should be merged *)
+    let isCallerSaved regId =
+      Set.contains regId platform.CallerSavedRegisters
+      || List.contains regId platform.ReturnRegisters
+
+    (* Check given register is callee-saved register *)
+    (* Callee-saved register should be selectively merged *)
+    let isCalleeSaved regId =
+      Set.contains regId platform.CalleeSavedRegisters
+
+    let mergeRegister (constraints_, returns_) (regId, typeIds: Set<TypeId>) =
+      if isTrivial regId || Set.isEmpty typeIds then
+        constraints_, returns_
+      elif isCallerSaved regId then
+        let representative = Set.minElement typeIds
+
+        let constraints_ =
+          if Set.count typeIds <= 1 then
+            constraints_
+          else
+            Set.add (Same typeIds) constraints_
+
+        constraints_, Map.add regId representative returns_
+      elif isCalleeSaved regId then
+        if Set.count typeIds = 1 then
+          constraints_, Map.add regId (Set.minElement typeIds) returns_
+        else
+          constraints_, returns_
+      else
+        constraints_, returns_
+
+    groupedTypeIds |> Seq.fold mergeRegister (Set.empty, Map.empty)
+
   /// Construct function summary for analyzing caller
   let build address name platform (result: AnalysisResult) =
     (* If given variable is parameter, then retrieve its parameter index *)
@@ -34,38 +77,28 @@ module FunctionSummaryBuilder =
       | Some paramIdx -> Some (paramIdx, reg, tid)
       | None -> None
 
-    (* If given modified variable is register, then retrieve its register id *)
-    let filterRegisterOutput (regId: RegisterID, tid: TypeId) =
-      let trivialTypes =
-        Set.union
-          platform.TrivialValueRegisters
-          platform.TrivialAddressRegisters
-
-      if not (Set.contains regId trivialTypes) then
-        (*
-          The register with trivial type does not need to track between
-          caller-callee
-        *)
-        Some (regId, tid)
-      else
-        None
-
     let typeIndSeq = result.FinalState.Types.TypeIndicators |> Map.toSeq
 
     (* Summarize parameter type information *)
     let paramIdxTidMap =
       typeIndSeq |> Seq.choose filterParams |> selectByIdentifier Seq.minBy
 
-    (* Summarize modified register information *)
-    let returnTidMap =
-      result.FinalState.CurrentRegisters
+    (* Summarize output register information from all leaf nodes. *)
+    (* Group type Ids as the key with corresponding register. *)
+    let groupedExitTypeIds =
+      result.LeafStates
       |> Map.toSeq
-      |> Seq.choose filterRegisterOutput
-      |> Map.ofSeq
+      |> Seq.collect (fun (_, state) -> state.CurrentRegisters |> Map.toSeq)
+      |> Seq.groupBy fst
+      |> Seq.map (fun (regId, entries) ->
+        regId, entries |> Seq.map snd |> Set.ofSeq)
+
+    let mergeConstraints, returnTidMap =
+      mergeExitRegisterTypeIds platform groupedExitTypeIds
 
     { Address = address
       Name = name
       Parameters = paramIdxTidMap
       Returns = returnTidMap
-      Constraints = result.TypeConstraints
+      Constraints = Set.union result.TypeConstraints mergeConstraints
       NextTypeId = result.FinalState.Types.NextTypeId }
