@@ -2,95 +2,108 @@ Binary: /mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/datas/binaries/helloword-x
 ISA: x86
 Platform: ELF x86-32
 [*] CFG recovery started.
-[*] Total 0.7204175s elapsed.
+[*] Total 0.8924527s elapsed.
 Recovered functions: 192
-Selected function: __GI_strlen -> 0x8049766
+Selected function: puts -> 0x80491f6
 dumpedSSA output: output/helloword-x86_32-i586-uclibc-O0/dumpedSSA
-Stmt: PC_1 := 0x8049766:I32
+Stmt: PC_1 := 0x80491f6:I32
 
   Added constraints:
-    Address(t27851)
+    Address(t28192)
 Stmt: ESP_1 := (ESP_0 - 0x4:I32)
 
   Added constraints:
-    Address(t27852)
-    Address(t27854)
-    Same({t27853, t27854})
+    Address(t28193)
+    Address(t28195)
+    Same({t28194, t28195})
 Stmt: V_4_1 := EBP_0
 
   Added constraints:
-    Same({t27855, t27856})
-Stmt: PC_2 := 0x8049767:I32
+    Same({t28196, t28197})
+Stmt: PC_2 := 0x80491f7:I32
 
   Added constraints:
-    Address(t27857)
+    Address(t28198)
 Stmt: EBP_1 := ESP_1
 
   Added constraints:
-    Same({t27854, t27858})
-Stmt: PC_3 := 0x8049769:I32
+    Same({t28195, t28199})
+Stmt: PC_3 := 0x80491f9:I32
 
   Added constraints:
-    Address(t27859)
+    Address(t28200)
 Stmt: ESP_2 := (ESP_1 - 0x4:I32)
 
   Added constraints:
-    Address(t27861)
-    Same({t27860, t27861})
+    Address(t28202)
+    Same({t28201, t28202})
 Stmt: V_8_1 := EDI_0
 
   Added constraints:
-    Same({t27862, t27863})
-Stmt: PC_4 := 0x804976a:I32
+    Same({t28203, t28204})
+Stmt: PC_4 := 0x80491fa:I32
 
   Added constraints:
-    Address(t27864)
+    Address(t28205)
 Stmt: ESP_3 := (ESP_2 - 0x4:I32)
 
   Added constraints:
-    Address(t27866)
-    Same({t27865, t27866})
-Stmt: V_12_1 := EBX_0
+    Address(t28207)
+    Same({t28206, t28207})
+Stmt: V_12_1 := ESI_0
 
   Added constraints:
-    Same({t27867, t27868})
-Stmt: PC_5 := 0x804976b:I32
+    Same({t28208, t28209})
+Stmt: PC_5 := 0x80491fb:I32
 
   Added constraints:
-    Address(t27869)
-Stmt: T_1_1 := ESP_3
+    Address(t28210)
+Stmt: ESP_4 := (ESP_3 - 0x4:I32)
 
   Added constraints:
-    Same({t27866, t27870})
-Stmt: T_2_1 := (T_1_1 - 0xc:I32)
+    Address(t28212)
+    Same({t28211, t28212})
+Stmt: V_16_1 := EBX_0
 
   Added constraints:
-    Same({t27871, t27872})
-Stmt: ESP_4 := T_2_1
+    Same({t28213, t28214})
+Stmt: PC_6 := 0x80491fc:I32
 
   Added constraints:
-    Address(t27873)
-    Same({t27872, t27873})
-Stmt: CF_1 := (T_1_1 < 0xc:I32)
+    Address(t28215)
+Stmt: T_1_1 := ESP_4
 
   Added constraints:
-    Same({t27874, t27875})
-Stmt: OF_1 := (((T_1_1 ^ 0xc:I32) & (T_1_1 ^ T_2_1))[31:31])
+    Same({t28212, t28216})
+Stmt: T_2_1 := (T_1_1 - 0x2c:I32)
 
   Added constraints:
-    Same({t27876, t27877})
-Stmt: AF_1 := ((((T_2_1 ^ T_1_1) ^ 0xc:I32) & 0x10:I32) = 0x10:I32)
+    Same({t28217, t28218})
+Stmt: ESP_5 := T_2_1
 
   Added constraints:
-    Same({t27878, t27879})
+    Address(t28219)
+    Same({t28218, t28219})
+Stmt: CF_1 := (T_1_1 < 0x2c:I32)
+
+  Added constraints:
+    Same({t28220, t28221})
+Stmt: OF_1 := (((T_1_1 ^ 0x2c:I32) & (T_1_1 ^ T_2_1))[31:31])
+
+  Added constraints:
+    Same({t28222, t28223})
+Stmt: AF_1 := ((((T_2_1 ^ T_1_1) ^ 0x2c:I32) & 0x10:I32) = 0x10:I32)
+
+  Added constraints:
+    Same({t28224, t28225})
 Stmt: SF_1 := (T_2_1[31:31])
 
   Added constraints:
-    Same({t27880, t27881})
+    Same({t28226, t28227})
 Stmt: ZF_1 := (T_2_1 = 0x0:I32)
 
   Added constraints:
-    Same({t27882, t27883})
+    Same({t28228, t28229})
 Stmt: T_3_1 := (T_2_1 ^ (T_2_1 >> 0x4:I32))
 
   Added constraints: <none>
@@ -100,336 +113,1668 @@ Stmt: T_4_1 := (T_3_1 ^ (T_3_1 >> 0x2:I32))
 Stmt: PF_1 := (~ ((T_4_1 ^ (T_4_1 >> 0x1:I32))[0:0]))
 
   Added constraints:
-    Same({t27887, t27888})
-Stmt: PC_6 := 0x804976e:I32
+    Same({t28233, t28234})
+Stmt: PC_7 := 0x80491ff:I32
 
   Added constraints:
-    Address(t27889)
-Stmt: ESP_5 := (ESP_4 - 0x4:I32)
+    Address(t28235)
+Stmt: ESP_6 := (ESP_5 - 0x4:I32)
 
   Added constraints:
-    Address(t27891)
-    Same({t27890, t27891})
-Stmt: V_28_1 := 0x8049773:I32
+    Address(t28237)
+    Same({t28236, t28237})
+Stmt: V_64_1 := 0x8049204:I32
 
   Added constraints: <none>
 Stmt: Jmp 0x804931e:I32
 
-  Added constraints:
-    Address(t27892)
-Stmt: PC_7 := 0x8049773:I32
+  Added constraints: <none>
+Stmt: PC_8 := 0x8049204:I32
 
   Added constraints:
-    Address(t27893)
-Stmt: T_12_1 := EAX_2
+    Address(t28239)
+Stmt: T_5_1 := EAX_2
 
   Added constraints:
-    Same({t1904, t27894})
-    Same({t27894, t27895})
-Stmt: T_13_1 := (T_12_1 + 0x1487d:I32)
+    Same({t28240, t28241})
+Stmt: T_6_1 := (T_5_1 + 0x14dec:I32)
 
   Added constraints:
-    Same({t27896, t27897})
-Stmt: EAX_3 := T_13_1
+    Same({t28242, t28243})
+Stmt: EAX_3 := T_6_1
 
   Added constraints:
-    Same({t27897, t27898})
-Stmt: T_14_1 := (T_12_1[31:31])
+    Same({t28243, t28244})
+Stmt: T_7_1 := (T_5_1[31:31])
 
   Added constraints:
-    Same({t27899, t27900})
-Stmt: T_15_1 := (T_13_1[31:31])
+    Same({t28245, t28246})
+Stmt: T_8_1 := (T_6_1[31:31])
 
   Added constraints:
-    Same({t27901, t27902})
-Stmt: CF_2 := (T_13_1 < T_12_1)
+    Same({t28247, t28248})
+Stmt: CF_2 := (T_6_1 < T_5_1)
 
   Added constraints:
-    Same({t27903, t27904})
-Stmt: OF_2 := ((T_14_1 = 0x0:I1) & (T_14_1 ^ T_15_1))
+    Same({t28249, t28250})
+Stmt: OF_2 := ((T_7_1 = 0x0:I1) & (T_7_1 ^ T_8_1))
 
   Added constraints: <none>
-Stmt: AF_2 := ((((T_13_1 ^ T_12_1) ^ 0x1487d:I32) & 0x10:I32) = 0x10:I32)
+Stmt: AF_2 := ((((T_6_1 ^ T_5_1) ^ 0x14dec:I32) & 0x10:I32) = 0x10:I32)
 
   Added constraints:
-    Same({t27907, t27908})
-Stmt: SF_2 := T_15_1
+    Same({t28253, t28254})
+Stmt: SF_2 := T_8_1
 
   Added constraints:
-    Same({t27902, t27909})
-Stmt: ZF_2 := (T_13_1 = 0x0:I32)
+    Same({t28248, t28255})
+Stmt: ZF_2 := (T_6_1 = 0x0:I32)
 
   Added constraints:
-    Same({t27910, t27911})
-Stmt: T_16_1 := (T_13_1 ^ (T_13_1 >> 0x4:I32))
+    Same({t28256, t28257})
+Stmt: T_9_1 := (T_6_1 ^ (T_6_1 >> 0x4:I32))
 
   Added constraints: <none>
-Stmt: T_17_1 := (T_16_1 ^ (T_16_1 >> 0x2:I32))
+Stmt: T_10_1 := (T_9_1 ^ (T_9_1 >> 0x2:I32))
 
   Added constraints: <none>
-Stmt: PF_2 := (~ ((T_17_1 ^ (T_17_1 >> 0x1:I32))[0:0]))
+Stmt: PF_2 := (~ ((T_10_1 ^ (T_10_1 >> 0x1:I32))[0:0]))
 
   Added constraints:
-    Same({t27915, t27916})
-Stmt: PC_8 := 0x8049778:I32
+    Same({t28261, t28262})
+Stmt: PC_9 := 0x8049209:I32
 
   Added constraints:
-    Address(t27917)
-Stmt: EDX_1 := 0xffffffff:I32
+    Address(t28263)
+Stmt: EDI_1 := V_-4_0
+
+  Added constraints:
+    Same({t28264, t28265})
+Stmt: PC_10 := 0x804920c:I32
+
+  Added constraints:
+    Address(t28266)
+Stmt: EAX_4 := 0x805e0c0:I32
+
+  Added constraints:
+    Address(t28267)
+Stmt: PC_11 := 0x8049212:I32
+
+  Added constraints:
+    Address(t28268)
+Stmt: EBX_1 := MEM_1[EAX_4]:I32
+
+  Added constraints:
+    Address(t28270)
+    Same({t28269, t28270})
+Stmt: PC_12 := 0x8049214:I32
+
+  Added constraints:
+    Address(t28271)
+Stmt: EAX_5 := MEM_1[(EBX_1 + 0x24:I32)]:I32
+
+  Added constraints:
+    Address(t28272)
+Stmt: PC_13 := 0x8049217:I32
+
+  Added constraints:
+    Address(t28274)
+Stmt: V_24_1 := EAX_5
+
+  Added constraints:
+    Same({t28273, t28275})
+Stmt: PC_14 := 0x804921a:I32
+
+  Added constraints:
+    Address(t28276)
+Stmt: T_1_2 := V_24_1
+
+  Added constraints:
+    Same({t28275, t28277})
+Stmt: T_2_2 := (T_1_2 - 0x0:I32)
+
+  Added constraints:
+    Same({t28278, t28279})
+Stmt: CF_3 := (T_1_2 < 0x0:I32)
+
+  Added constraints:
+    Same({t28280, t28281})
+Stmt: OF_3 := (((T_1_2 ^ 0x0:I32) & (T_1_2 ^ T_2_2))[31:31])
+
+  Added constraints:
+    Same({t28282, t28283})
+Stmt: AF_3 := ((((T_2_2 ^ T_1_2) ^ 0x0:I32) & 0x10:I32) = 0x10:I32)
+
+  Added constraints:
+    Same({t28284, t28285})
+Stmt: SF_3 := (T_2_2[31:31])
+
+  Added constraints:
+    Same({t28286, t28287})
+Stmt: ZF_3 := (T_2_2 = 0x0:I32)
+
+  Added constraints:
+    Same({t28288, t28289})
+Stmt: T_3_2 := (T_2_2 ^ (T_2_2 >> 0x4:I32))
 
   Added constraints: <none>
-Stmt: PC_9 := 0x804977d:I32
-
-  Added constraints:
-    Address(t27919)
-Stmt: EAX_4 := V_-4_0
-
-  Added constraints:
-    Same({t27920, t27921})
-Stmt: PC_10 := 0x8049780:I32
-
-  Added constraints:
-    Address(t27922)
-Stmt: EBX_1 := 0x0:I32
+Stmt: T_4_2 := (T_3_2 ^ (T_3_2 >> 0x2:I32))
 
   Added constraints: <none>
-Stmt: PC_11 := 0x8049785:I32
+Stmt: PF_3 := (~ ((T_4_2 ^ (T_4_2 >> 0x1:I32))[0:0]))
 
   Added constraints:
-    Address(t27924)
-Stmt: ECX_1 := EDX_1
+    Same({t28293, t28294})
+Stmt: PC_15 := 0x804921e:I32
 
   Added constraints:
-    Same({t27918, t27925})
-Stmt: PC_12 := 0x8049787:I32
-
-  Added constraints:
-    Address(t27926)
-Stmt: EDX_2 := EAX_4
-
-  Added constraints:
-    Same({t27921, t27927})
-Stmt: PC_13 := 0x8049789:I32
-
-  Added constraints:
-    Address(t27928)
-Stmt: EAX_5 := EBX_1
-
-  Added constraints:
-    Same({t27923, t27929})
-Stmt: PC_14 := 0x804978b:I32
-
-  Added constraints:
-    Address(t27930)
-Stmt: EDI_1 := EDX_2
-
-  Added constraints:
-    Same({t27927, t27931})
-Stmt: ECX_2 := phi(1;4;)
-
-  Added constraints:
-    Same({t27925, t27932, t27933})
-Stmt: EDI_2 := phi(1;4;)
-
-  Added constraints:
-    Address(t27935)
-    Same({t27931, t27934, t27935})
-Stmt: PC_15 := 0x804978d:I32
-
-  Added constraints:
-    Address(t27936)
-Stmt: if (ECX_2 = 0x0:I32) then JmpLbl Exit @ 804978d else JmpLbl Continue @ 804978d
+    Address(t28295)
+Stmt: if (ZF_3 = 0x0:I1) then Jmp 0x8049279:I32 else Jmp 0x8049220:I32
 
   Added constraints: <none>
-Stmt: ECX_3 := phi(2;4;)
+Stmt: V_32_1 := phi(0;2;)
 
   Added constraints:
-    Same({t27932, t27933, t27938})
-Stmt: EDI_3 := phi(2;4;)
+    Same({t28297, t28298, t28299})
+Stmt: EAX_6 := phi(5;30;)
 
   Added constraints:
-    Same({t27934, t27935, t27939})
-Stmt: === LMark (Exit @ 804978d)
+    Same({t28273, t28300, t28301})
+Stmt: V_64_2 := phi(1;8;)
+
+  Added constraints:
+    Same({t28238, t28302, t28303})
+Stmt: MEM_2 := phi(1;12;)
 
   Added constraints: <none>
-Stmt: Jmp (PC_15 + 0x2:I32)
+Stmt: ESI_1 := phi(0;5;)
 
   Added constraints:
-    Address(t27940)
-Stmt: ECX_5 := phi(3;4;)
+    Same({t28208, t28304, t28305})
+Stmt: ESP_8 := phi(7;29;)
 
   Added constraints:
-    Same({t27932, t27938, t27941})
-Stmt: EDI_5 := phi(3;4;)
+    Address(t28306)
+    Address(t28307)
+    Address(t28308)
+    Same({t28306, t28307, t28308})
+Stmt: PC_16 := 0x8049279:I32
 
   Added constraints:
-    Same({t27934, t27939, t27942})
-Stmt: PC_16 := 0x804978f:I32
+    Address(t28309)
+Stmt: ESP_9 := (ESP_8 - 0x4:I32)
 
   Added constraints:
-    Address(t27943)
-Stmt: ECX_6 := (~ ECX_5)
+    Address(t28311)
+    Same({t28310, t28311})
+Stmt: V_64_3 := EBX_1
 
   Added constraints:
-    Same({t27944, t27945})
-Stmt: PC_17 := 0x8049791:I32
+    Same({t28270, t28312})
+Stmt: PC_17 := 0x804927a:I32
 
   Added constraints:
-    Address(t27946)
-Stmt: EAX_6 := (ECX_6 + 0xffffffff:I32)
+    Address(t28313)
+Stmt: ESP_10 := (ESP_9 - 0x4:I32)
 
   Added constraints:
-    Same({t27947, t27948})
-Stmt: PC_18 := 0x8049794:I32
+    Address(t28315)
+    Same({t28314, t28315})
+Stmt: V_68_1 := EDI_1
 
   Added constraints:
-    Address(t27949)
-Stmt: EDX_3 := EDI_5
+    Same({t28265, t28316})
+Stmt: PC_18 := 0x804927b:I32
 
   Added constraints:
-    Same({t27942, t27950})
-Stmt: PC_19 := 0x8049796:I32
+    Address(t28317)
+Stmt: ESP_11 := (ESP_10 - 0x4:I32)
 
   Added constraints:
-    Address(t27951)
-Stmt: V_16_1 := ECX_6
-
-  Added constraints:
-    Same({t27945, t27952})
-Stmt: PC_20 := 0x8049799:I32
-
-  Added constraints:
-    Address(t27953)
-Stmt: V_20_1 := EDX_3
-
-  Added constraints:
-    Same({t27950, t27954})
-Stmt: PC_21 := 0x804979c:I32
-
-  Added constraints:
-    Address(t27955)
-Stmt: V_24_1 := EAX_6
-
-  Added constraints:
-    Same({t27948, t27956})
-Stmt: PC_22 := 0x804979f:I32
-
-  Added constraints:
-    Address(t27957)
-Stmt: EAX_7 := V_24_1
-
-  Added constraints:
-    Same({t27956, t27958})
-Stmt: PC_23 := 0x80497a2:I32
-
-  Added constraints:
-    Address(t27959)
-Stmt: T_2_2 := ESP_6
-
-  Added constraints:
-    Address(t27960)
-    Same({t27960, t27961})
-Stmt: T_3_2 := (T_2_2 + 0xc:I32)
-
-  Added constraints:
-    Same({t27962, t27963})
-Stmt: ESP_7 := T_3_2
-
-  Added constraints:
-    Address(t27964)
-    Same({t27963, t27964})
-Stmt: T_4_1 := (T_2_2[31:31])
-
-  Added constraints:
-    Same({t27965, t27966})
-Stmt: T_5_1 := (T_3_2[31:31])
-
-  Added constraints:
-    Same({t27967, t27968})
-Stmt: CF_4 := (T_3_2 < T_2_2)
-
-  Added constraints:
-    Same({t27969, t27970})
-Stmt: OF_4 := ((T_4_1 = 0x0:I1) & (T_4_1 ^ T_5_1))
+    Address(t28319)
+    Same({t28318, t28319})
+Stmt: V_72_1 := 0x8049280:I32
 
   Added constraints: <none>
-Stmt: AF_4 := ((((T_3_2 ^ T_2_2) ^ 0xc:I32) & 0x10:I32) = 0x10:I32)
-
-  Added constraints:
-    Same({t27973, t27974})
-Stmt: SF_4 := T_5_1
-
-  Added constraints:
-    Same({t27968, t27975})
-Stmt: ZF_4 := (T_3_2 = 0x0:I32)
-
-  Added constraints:
-    Same({t27976, t27977})
-Stmt: T_6_1 := (T_3_2 ^ (T_3_2 >> 0x4:I32))
+Stmt: Jmp 0x8049690:I32
 
   Added constraints: <none>
-Stmt: T_7_1 := (T_6_1 ^ (T_6_1 >> 0x2:I32))
+Stmt: PC_19 := 0x8049280:I32
+
+  Added constraints:
+    Address(t28321)
+Stmt: T_5_2 := ESP_12
+
+  Added constraints:
+    Address(t28322)
+    Same({t28322, t28323})
+Stmt: T_6_2 := (T_5_2 + 0x8:I32)
+
+  Added constraints:
+    Same({t28324, t28325})
+Stmt: ESP_13 := T_6_2
+
+  Added constraints:
+    Address(t28326)
+    Same({t28325, t28326})
+Stmt: T_7_2 := (T_5_2[31:31])
+
+  Added constraints:
+    Same({t28327, t28328})
+Stmt: T_8_2 := (T_6_2[31:31])
+
+  Added constraints:
+    Same({t28329, t28330})
+Stmt: CF_4 := (T_6_2 < T_5_2)
+
+  Added constraints:
+    Same({t28331, t28332})
+Stmt: OF_4 := ((T_7_2 = 0x0:I1) & (T_7_2 ^ T_8_2))
 
   Added constraints: <none>
-Stmt: PF_4 := (~ ((T_7_1 ^ (T_7_1 >> 0x1:I32))[0:0]))
+Stmt: AF_4 := ((((T_6_2 ^ T_5_2) ^ 0x8:I32) & 0x10:I32) = 0x10:I32)
 
   Added constraints:
-    Same({t27981, t27982})
-Stmt: PC_24 := 0x80497a5:I32
+    Same({t28335, t28336})
+Stmt: SF_4 := T_8_2
 
   Added constraints:
-    Address(t27983)
-Stmt: EBX_2 := V_12_1
+    Same({t28330, t28337})
+Stmt: ZF_4 := (T_6_2 = 0x0:I32)
 
   Added constraints:
-    Same({t27868, t27984})
-Stmt: ESP_8 := (ESP_7 + 0x4:I32)
+    Same({t28338, t28339})
+Stmt: T_9_2 := (T_6_2 ^ (T_6_2 >> 0x4:I32))
+
+  Added constraints: <none>
+Stmt: T_10_2 := (T_9_2 ^ (T_9_2 >> 0x2:I32))
+
+  Added constraints: <none>
+Stmt: PF_4 := (~ ((T_10_2 ^ (T_10_2 >> 0x1:I32))[0:0]))
 
   Added constraints:
-    Address(t27986)
-    Same({t27985, t27986})
-Stmt: PC_25 := 0x80497a6:I32
+    Same({t28343, t28344})
+Stmt: PC_20 := 0x8049283:I32
 
   Added constraints:
-    Address(t27987)
-Stmt: EDI_6 := V_8_1
+    Address(t28345)
+Stmt: V_20_1 := EAX_7
 
   Added constraints:
-    Same({t27863, t27988})
-Stmt: ESP_9 := (ESP_8 + 0x4:I32)
+    Same({t28346, t28347})
+Stmt: PC_21 := 0x8049286:I32
 
   Added constraints:
-    Address(t27990)
-    Same({t27989, t27990})
-Stmt: PC_26 := 0x80497a7:I32
+    Address(t28348)
+Stmt: T_1_3 := V_20_1
 
   Added constraints:
-    Address(t27991)
+    Same({t28347, t28349})
+Stmt: T_2_3 := (T_1_3 - 0xffffffff:I32)
+
+  Added constraints:
+    Same({t28350, t28351})
+Stmt: CF_5 := (T_1_3 < 0xffffffff:I32)
+
+  Added constraints:
+    Same({t28352, t28353})
+Stmt: OF_5 := (((T_1_3 ^ 0xffffffff:I32) & (T_1_3 ^ T_2_3))[31:31])
+
+  Added constraints:
+    Same({t28354, t28355})
+Stmt: AF_5 := ((((T_2_3 ^ T_1_3) ^ 0xffffffff:I32) & 0x10:I32) = 0x10:I32)
+
+  Added constraints:
+    Same({t28356, t28357})
+Stmt: SF_5 := (T_2_3[31:31])
+
+  Added constraints:
+    Same({t28358, t28359})
+Stmt: ZF_5 := (T_2_3 = 0x0:I32)
+
+  Added constraints:
+    Same({t28360, t28361})
+Stmt: T_3_3 := (T_2_3 ^ (T_2_3 >> 0x4:I32))
+
+  Added constraints: <none>
+Stmt: T_4_3 := (T_3_3 ^ (T_3_3 >> 0x2:I32))
+
+  Added constraints: <none>
+Stmt: PF_5 := (~ ((T_4_3 ^ (T_4_3 >> 0x1:I32))[0:0]))
+
+  Added constraints:
+    Same({t28365, t28366})
+Stmt: PC_22 := 0x804928a:I32
+
+  Added constraints:
+    Address(t28367)
+Stmt: if ZF_5 then Jmp 0x80492a6:I32 else Jmp 0x804928c:I32
+
+  Added constraints: <none>
+Stmt: V_20_2 := phi(1;3;4;)
+
+  Added constraints:
+    Same({t28347, t28368, t28369, t28370})
+Stmt: EAX_8 := phi(7;24;24;)
+
+  Added constraints:
+    Same({t28346, t28371, t28372})
+Stmt: V_64_4 := phi(3;7;7;)
+
+  Added constraints:
+    Same({t28312, t28373, t28374})
+Stmt: MEM_4 := phi(3;10;10;)
+
+  Added constraints: <none>
+Stmt: ESP_14 := phi(13;28;28;)
+
+  Added constraints:
+    Address(t28375)
+    Address(t28376)
+    Same({t28326, t28375, t28376})
+Stmt: PC_23 := 0x80492a6:I32
+
+  Added constraints:
+    Address(t28377)
+Stmt: T_11_1 := V_24_1
+
+  Added constraints:
+    Same({t28275, t28378})
+Stmt: T_12_1 := (T_11_1 - 0x0:I32)
+
+  Added constraints:
+    Same({t28379, t28380})
+Stmt: CF_6 := (T_11_1 < 0x0:I32)
+
+  Added constraints:
+    Same({t28381, t28382})
+Stmt: OF_6 := (((T_11_1 ^ 0x0:I32) & (T_11_1 ^ T_12_1))[31:31])
+
+  Added constraints:
+    Same({t28383, t28384})
+Stmt: AF_6 := ((((T_12_1 ^ T_11_1) ^ 0x0:I32) & 0x10:I32) = 0x10:I32)
+
+  Added constraints:
+    Same({t28385, t28386})
+Stmt: SF_6 := (T_12_1[31:31])
+
+  Added constraints:
+    Same({t28387, t28388})
+Stmt: ZF_6 := (T_12_1 = 0x0:I32)
+
+  Added constraints:
+    Same({t28389, t28390})
+Stmt: T_13_1 := (T_12_1 ^ (T_12_1 >> 0x4:I32))
+
+  Added constraints: <none>
+Stmt: T_14_1 := (T_13_1 ^ (T_13_1 >> 0x2:I32))
+
+  Added constraints: <none>
+Stmt: PF_6 := (~ ((T_14_1 ^ (T_14_1 >> 0x1:I32))[0:0]))
+
+  Added constraints:
+    Same({t28394, t28395})
+Stmt: PC_24 := 0x80492aa:I32
+
+  Added constraints:
+    Address(t28396)
+Stmt: if (ZF_6 = 0x0:I1) then Jmp 0x8049313:I32 else Jmp 0x80492ac:I32
+
+  Added constraints: <none>
+Stmt: V_48_1 := phi(0;0;2;2;)
+
+  Added constraints:
+    Same({t28398, t28399, t28400})
+Stmt: EAX_9 := phi(8;13;19;23;)
+
+  Added constraints:
+    Same({t28372, t28401, t28402, t28403, t28404})
+Stmt: V_64_5 := phi(4;4;4;6;)
+
+  Added constraints:
+    Same({t28374, t28405, t28406})
+Stmt: MEM_5 := phi(4;6;8;9;)
+
+  Added constraints: <none>
+Stmt: EBX_2 := phi(1;1;1;7;)
+
+  Added constraints:
+    Same({t28270, t28407, t28408})
+Stmt: ESI_2 := phi(1;1;1;4;)
+
+  Added constraints:
+    Same({t28305, t28409, t28410})
+Stmt: ESP_15 := phi(14;14;14;23;)
+
+  Added constraints:
+    Address(t28411)
+    Address(t28412)
+    Same({t28376, t28411, t28412})
+Stmt: PC_25 := 0x8049313:I32
+
+  Added constraints:
+    Address(t28413)
+Stmt: EAX_10 := V_20_2
+
+  Added constraints:
+    Same({t28370, t28414})
+Stmt: PC_26 := 0x8049316:I32
+
+  Added constraints:
+    Address(t28415)
+Stmt: ESP_16 := (EBP_1 + 0xfffffff4:I32)
+
+  Added constraints:
+    Address(t28417)
+    Same({t28416, t28417})
+Stmt: PC_27 := 0x8049319:I32
+
+  Added constraints:
+    Address(t28418)
+Stmt: EBX_3 := V_16_1
+
+  Added constraints:
+    Same({t28214, t28419})
+Stmt: ESP_17 := (ESP_16 + 0x4:I32)
+
+  Added constraints:
+    Address(t28421)
+    Same({t28420, t28421})
+Stmt: PC_28 := 0x804931a:I32
+
+  Added constraints:
+    Address(t28422)
+Stmt: ESI_3 := V_12_1
+
+  Added constraints:
+    Same({t28209, t28423})
+Stmt: ESP_18 := (ESP_17 + 0x4:I32)
+
+  Added constraints:
+    Address(t28425)
+    Same({t28424, t28425})
+Stmt: PC_29 := 0x804931b:I32
+
+  Added constraints:
+    Address(t28426)
+Stmt: EDI_2 := V_8_1
+
+  Added constraints:
+    Same({t28204, t28427})
+Stmt: ESP_19 := (ESP_18 + 0x4:I32)
+
+  Added constraints:
+    Address(t28429)
+    Same({t28428, t28429})
+Stmt: PC_30 := 0x804931c:I32
+
+  Added constraints:
+    Address(t28430)
 Stmt: EBP_2 := V_4_1
 
   Added constraints:
-    Same({t27856, t27992})
-Stmt: ESP_10 := (ESP_9 + 0x4:I32)
+    Same({t28197, t28431})
+Stmt: ESP_20 := (ESP_19 + 0x4:I32)
 
   Added constraints:
-    Address(t27994)
-    Same({t27993, t27994})
-Stmt: PC_27 := 0x80497a8:I32
+    Address(t28433)
+    Same({t28432, t28433})
+Stmt: PC_31 := 0x804931d:I32
 
   Added constraints:
-    Address(t27995)
-Stmt: T_1_2 := V_0_0
+    Address(t28434)
+Stmt: T_42_1 := V_0_0
 
   Added constraints:
-    Address(t27997)
-    Same({t27996, t27997})
-Stmt: ESP_11 := (ESP_10 + 0x4:I32)
+    Address(t28436)
+    Same({t28435, t28436})
+Stmt: ESP_21 := (ESP_20 + 0x4:I32)
 
   Added constraints:
-    Address(t27999)
-    Same({t27998, t27999})
-Stmt: Jmp T_1_2
+    Address(t28438)
+    Same({t28437, t28438})
+Stmt: Jmp T_42_1
 
   Added constraints: <none>
+Stmt: PC_32 := 0x80492ac:I32
+
+  Added constraints:
+    Address(t28439)
+Stmt: EAX_11 := MEM_4[(EBX_1 + 0x2c:I32)]:I32
+
+  Added constraints:
+    Address(t28440)
+Stmt: PC_33 := 0x80492af:I32
+
+  Added constraints:
+    Address(t28442)
+Stmt: T_27_1 := EAX_11
+
+  Added constraints:
+    Same({t28441, t28443})
+Stmt: T_28_1 := (T_27_1 - 0x1:I32)
+
+  Added constraints:
+    Same({t28444, t28445})
+Stmt: EAX_12 := T_28_1
+
+  Added constraints:
+    Same({t28445, t28446})
+Stmt: OF_7 := (((T_27_1 ^ 0x1:I32) & (T_27_1 ^ T_28_1))[31:31])
+
+  Added constraints:
+    Same({t28447, t28448})
+Stmt: AF_7 := ((((T_28_1 ^ T_27_1) ^ 0x1:I32) & 0x10:I32) = 0x10:I32)
+
+  Added constraints:
+    Same({t28449, t28450})
+Stmt: SF_7 := (T_28_1[31:31])
+
+  Added constraints:
+    Same({t28451, t28452})
+Stmt: ZF_7 := (T_28_1 = 0x0:I32)
+
+  Added constraints:
+    Same({t28453, t28454})
+Stmt: T_29_1 := (T_28_1 ^ (T_28_1 >> 0x4:I32))
+
+  Added constraints: <none>
+Stmt: T_30_1 := (T_29_1 ^ (T_29_1 >> 0x2:I32))
+
+  Added constraints: <none>
+Stmt: PF_7 := (~ ((T_30_1 ^ (T_30_1 >> 0x1:I32))[0:0]))
+
+  Added constraints:
+    Same({t28458, t28459})
+Stmt: PC_34 := 0x80492b0:I32
+
+  Added constraints:
+    Address(t28460)
+Stmt: MEM_6 := MEM_4[(EBX_1 + 0x2c:I32) <- EAX_12]
+
+  Added constraints:
+    Address(t28461)
+Stmt: PC_35 := 0x80492b3:I32
+
+  Added constraints:
+    Address(t28462)
+Stmt: EAX_13 := MEM_6[(EBX_1 + 0x2c:I32)]:I32
+
+  Added constraints:
+    Address(t28463)
+Stmt: PC_36 := 0x80492b6:I32
+
+  Added constraints:
+    Address(t28464)
+Stmt: T_24_1 := EAX_13
+
+  Added constraints:
+    Same({t28401, t28465})
+Stmt: SF_8 := (T_24_1[31:31])
+
+  Added constraints:
+    Same({t28466, t28467})
+Stmt: ZF_8 := (T_24_1 = 0x0:I32)
+
+  Added constraints:
+    Same({t28468, t28469})
+Stmt: T_25_1 := (T_24_1 ^ (T_24_1 >> 0x4:I32))
+
+  Added constraints: <none>
+Stmt: T_26_1 := (T_25_1 ^ (T_25_1 >> 0x2:I32))
+
+  Added constraints: <none>
+Stmt: PF_8 := (~ ((T_26_1 ^ (T_26_1 >> 0x1:I32))[0:0]))
+
+  Added constraints:
+    Same({t28473, t28474})
+Stmt: CF_7 := 0x0:I1
+
+  Added constraints: <none>
+Stmt: OF_8 := 0x0:I1
+
+  Added constraints: <none>
+Stmt: AF_8 := Undefined expression (AF is undefined.)
+
+  Added constraints: <none>
+Stmt: PC_37 := 0x80492b8:I32
+
+  Added constraints:
+    Address(t28478)
+Stmt: if (ZF_8 = 0x0:I1) then Jmp 0x8049313:I32 else Jmp 0x80492ba:I32
+
+  Added constraints: <none>
+Stmt: PC_38 := 0x80492ba:I32
+
+  Added constraints:
+    Address(t28480)
+Stmt: MEM_7 := MEM_6[(EBX_1 + 0x30:I32) <- 0x0:I32]
+
+  Added constraints:
+    Address(t28481)
+Stmt: PC_39 := 0x80492c1:I32
+
+  Added constraints:
+    Address(t28482)
+Stmt: EAX_14 := (EBX_1 + 0x28:I32)
+
+  Added constraints:
+    Same({t28483, t28484})
+Stmt: PC_40 := 0x80492c4:I32
+
+  Added constraints:
+    Address(t28485)
+Stmt: V_48_2 := EAX_14
+
+  Added constraints:
+    Same({t28399, t28484})
+Stmt: PC_41 := 0x80492c7:I32
+
+  Added constraints:
+    Address(t28486)
+Stmt: ECX_1 := V_48_2
+
+  Added constraints:
+    Address(t28487)
+    Same({t28399, t28487})
+Stmt: PC_42 := 0x80492ca:I32
+
+  Added constraints:
+    Address(t28488)
+Stmt: EAX_15 := 0x0:I32
+
+  Added constraints: <none>
+Stmt: PC_43 := 0x80492cf:I32
+
+  Added constraints:
+    Address(t28490)
+Stmt: EDX_1 := V_48_2
+
+  Added constraints:
+    Same({t28399, t28491})
+Stmt: PC_44 := 0x80492d2:I32
+
+  Added constraints:
+    Address(t28492)
+Stmt: T_41_1 := MEM_7[ECX_1]:I32
+
+  Added constraints: <none>
+Stmt: MEM_8 := MEM_7[ECX_1 <- EAX_15]
+
+  Added constraints: <none>
+Stmt: EAX_16 := T_41_1
+
+  Added constraints:
+    Same({t28493, t28494})
+Stmt: PC_45 := 0x80492d4:I32
+
+  Added constraints:
+    Address(t28495)
+Stmt: V_52_1 := EAX_16
+
+  Added constraints:
+    Same({t28494, t28496})
+Stmt: PC_46 := 0x80492d7:I32
+
+  Added constraints:
+    Address(t28497)
+Stmt: EAX_17 := V_52_1
+
+  Added constraints:
+    Same({t28496, t28498})
+Stmt: PC_47 := 0x80492da:I32
+
+  Added constraints:
+    Address(t28499)
+Stmt: V_56_1 := EAX_17
+
+  Added constraints:
+    Same({t28498, t28500})
+Stmt: PC_48 := 0x80492dd:I32
+
+  Added constraints:
+    Address(t28501)
+Stmt: T_37_1 := V_56_1
+
+  Added constraints:
+    Same({t28500, t28502})
+Stmt: T_38_1 := (T_37_1 - 0x1:I32)
+
+  Added constraints:
+    Same({t28503, t28504})
+Stmt: CF_8 := (T_37_1 < 0x1:I32)
+
+  Added constraints:
+    Same({t28505, t28506})
+Stmt: OF_9 := (((T_37_1 ^ 0x1:I32) & (T_37_1 ^ T_38_1))[31:31])
+
+  Added constraints:
+    Same({t28507, t28508})
+Stmt: AF_9 := ((((T_38_1 ^ T_37_1) ^ 0x1:I32) & 0x10:I32) = 0x10:I32)
+
+  Added constraints:
+    Same({t28509, t28510})
+Stmt: SF_9 := (T_38_1[31:31])
+
+  Added constraints:
+    Same({t28511, t28512})
+Stmt: ZF_9 := (T_38_1 = 0x0:I32)
+
+  Added constraints:
+    Same({t28513, t28514})
+Stmt: T_39_1 := (T_38_1 ^ (T_38_1 >> 0x4:I32))
+
+  Added constraints: <none>
+Stmt: T_40_1 := (T_39_1 ^ (T_39_1 >> 0x2:I32))
+
+  Added constraints: <none>
+Stmt: PF_9 := (~ ((T_40_1 ^ (T_40_1 >> 0x1:I32))[0:0]))
+
+  Added constraints:
+    Same({t28518, t28519})
+Stmt: PC_49 := 0x80492e1:I32
+
+  Added constraints:
+    Address(t28520)
+Stmt: EAX_18 := ((EAX_17 & 0xffffff00:I32) | zext:I32(zext:I8(((ZF_9 = 0x0:I1) & (SF_9 = OF_9)))))
+
+  Added constraints: <none>
+Stmt: PC_50 := 0x80492e4:I32
+
+  Added constraints:
+    Address(t28526)
+Stmt: EAX_19 := (EAX_18 & 0xff:I32)
+
+  Added constraints: <none>
+Stmt: OF_10 := 0x0:I1
+
+  Added constraints: <none>
+Stmt: CF_9 := 0x0:I1
+
+  Added constraints: <none>
+Stmt: SF_10 := (EAX_19[31:31])
+
+  Added constraints:
+    Same({t28529, t28530})
+Stmt: ZF_10 := (EAX_19 = 0x0:I32)
+
+  Added constraints:
+    Same({t28531, t28532})
+Stmt: T_35_1 := (EAX_19 ^ (EAX_19 >> 0x4:I32))
+
+  Added constraints: <none>
+Stmt: T_36_1 := (T_35_1 ^ (T_35_1 >> 0x2:I32))
+
+  Added constraints: <none>
+Stmt: PF_10 := (~ ((T_36_1 ^ (T_36_1 >> 0x1:I32))[0:0]))
+
+  Added constraints:
+    Same({t28536, t28537})
+Stmt: AF_10 := Undefined expression (AF is undefined.)
+
+  Added constraints: <none>
+Stmt: PC_51 := 0x80492e9:I32
+
+  Added constraints:
+    Address(t28539)
+Stmt: T_31_1 := EAX_19
+
+  Added constraints:
+    Same({t28402, t28540})
+Stmt: SF_11 := (T_31_1[31:31])
+
+  Added constraints:
+    Same({t28541, t28542})
+Stmt: ZF_11 := (T_31_1 = 0x0:I32)
+
+  Added constraints:
+    Same({t28543, t28544})
+Stmt: T_32_1 := (T_31_1 ^ (T_31_1 >> 0x4:I32))
+
+  Added constraints: <none>
+Stmt: T_33_1 := (T_32_1 ^ (T_32_1 >> 0x2:I32))
+
+  Added constraints: <none>
+Stmt: PF_11 := (~ ((T_33_1 ^ (T_33_1 >> 0x1:I32))[0:0]))
+
+  Added constraints:
+    Same({t28548, t28549})
+Stmt: CF_10 := 0x0:I1
+
+  Added constraints: <none>
+Stmt: OF_11 := 0x0:I1
+
+  Added constraints: <none>
+Stmt: AF_11 := Undefined expression (AF is undefined.)
+
+  Added constraints: <none>
+Stmt: PC_52 := 0x80492eb:I32
+
+  Added constraints:
+    Address(t28553)
+Stmt: if ZF_11 then Jmp 0x8049313:I32 else Jmp 0x80492ed:I32
+
+  Added constraints: <none>
+Stmt: PC_53 := 0x80492ed:I32
+
+  Added constraints:
+    Address(t28554)
+Stmt: EAX_20 := V_48_2
+
+  Added constraints:
+    Same({t28399, t28555})
+Stmt: PC_54 := 0x80492f0:I32
+
+  Added constraints:
+    Address(t28556)
+Stmt: ECX_2 := 0x81:I32
+
+  Added constraints: <none>
+Stmt: PC_55 := 0x80492f5:I32
+
+  Added constraints:
+    Address(t28558)
+Stmt: EDX_2 := 0x1:I32
+
+  Added constraints: <none>
+Stmt: PC_56 := 0x80492fa:I32
+
+  Added constraints:
+    Address(t28560)
+Stmt: EBX_4 := 0x0:I32
+
+  Added constraints: <none>
+Stmt: PC_57 := 0x80492ff:I32
+
+  Added constraints:
+    Address(t28562)
+Stmt: ESI_4 := EBX_4
+
+  Added constraints:
+    Same({t28409, t28561})
+Stmt: PC_58 := 0x8049301:I32
+
+  Added constraints:
+    Address(t28563)
+Stmt: ESP_22 := (ESP_14 - 0x4:I32)
+
+  Added constraints:
+    Address(t28565)
+    Same({t28564, t28565})
+Stmt: V_64_6 := EBX_4
+
+  Added constraints:
+    Same({t28405, t28561})
+Stmt: PC_59 := 0x8049302:I32
+
+  Added constraints:
+    Address(t28566)
+Stmt: EBX_5 := EAX_20
+
+  Added constraints:
+    Same({t28555, t28567})
+Stmt: PC_60 := 0x8049304:I32
+
+  Added constraints:
+    Address(t28568)
+Stmt: EAX_21 := 0x1a6:I32
+
+  Added constraints: <none>
+Stmt: PC_61 := 0x8049309:I32
+
+  Added constraints:
+    Address(t28570)
+Stmt: SideEffect Int128
+
+  Added constraints: <none>
+Stmt: MEM_9 := MEM_9
+
+  Added constraints: <none>
+Stmt: EAX_22 := Undefined expression (ret)
+
+  Added constraints: <none>
+Stmt: PC_62 := 0x804930b:I32
+
+  Added constraints:
+    Address(t28573)
+Stmt: EBX_6 := V_64_6
+
+  Added constraints:
+    Same({t28405, t28574})
+Stmt: ESP_23 := (ESP_22 + 0x4:I32)
+
+  Added constraints:
+    Same({t28411, t28575})
+Stmt: PC_63 := 0x804930c:I32
+
+  Added constraints:
+    Address(t28576)
+Stmt: EBX_7 := EAX_22
+
+  Added constraints:
+    Same({t28407, t28572})
+Stmt: PC_64 := 0x804930e:I32
+
+  Added constraints:
+    Address(t28577)
+Stmt: EAX_23 := EBX_7
+
+  Added constraints:
+    Same({t28403, t28407})
+Stmt: PC_65 := 0x8049310:I32
+
+  Added constraints:
+    Address(t28578)
+Stmt: V_60_1 := EAX_23
+
+  Added constraints:
+    Same({t28403, t28579})
+Stmt: PC_66 := 0x804928c:I32
+
+  Added constraints:
+    Address(t28580)
+Stmt: T_15_1 := (EBP_1 + 0xfffffff0:I32)
+
+  Added constraints:
+    Same({t28581, t28582})
+Stmt: T_16_1 := V_20_1
+
+  Added constraints:
+    Same({t28347, t28583})
+Stmt: T_17_1 := 0x1:I32
+
+  Added constraints: <none>
+Stmt: T_18_1 := (T_16_1 + T_17_1)
+
+  Added constraints:
+    Same({t28585, t28586})
+    AddResult(t28585, t28583, t28584)
+Stmt: V_20_3 := T_18_1
+
+  Added constraints:
+    Same({t28368, t28586})
+Stmt: T_19_1 := (T_16_1[31:31])
+
+  Added constraints:
+    Same({t28587, t28588})
+Stmt: T_20_1 := (T_18_1[31:31])
+
+  Added constraints:
+    Same({t28589, t28590})
+Stmt: OF_12 := ((T_19_1 = (T_17_1[31:31])) & (T_19_1 ^ T_20_1))
+
+  Added constraints: <none>
+Stmt: AF_12 := ((((T_18_1 ^ T_16_1) ^ T_17_1) & 0x10:I32) = 0x10:I32)
+
+  Added constraints:
+    Same({t28594, t28595})
+Stmt: SF_12 := T_20_1
+
+  Added constraints:
+    Same({t28590, t28596})
+Stmt: ZF_12 := (T_18_1 = 0x0:I32)
+
+  Added constraints:
+    Same({t28597, t28598})
+Stmt: T_21_1 := (T_18_1 ^ (T_18_1 >> 0x4:I32))
+
+  Added constraints: <none>
+Stmt: T_22_1 := (T_21_1 ^ (T_21_1 >> 0x2:I32))
+
+  Added constraints: <none>
+Stmt: PF_12 := (~ ((T_22_1 ^ (T_22_1 >> 0x1:I32))[0:0]))
+
+  Added constraints:
+    Same({t28602, t28603})
+Stmt: PC_67 := 0x804928f:I32
+
+  Added constraints:
+    Address(t28604)
+Stmt: ESP_24 := (ESP_13 - 0x4:I32)
+
+  Added constraints:
+    Address(t28606)
+    Same({t28605, t28606})
+Stmt: V_64_7 := EBX_1
+
+  Added constraints:
+    Same({t28270, t28373})
+Stmt: PC_68 := 0x8049290:I32
+
+  Added constraints:
+    Address(t28607)
+Stmt: ESP_25 := (ESP_24 - 0x4:I32)
+
+  Added constraints:
+    Address(t28609)
+    Same({t28608, t28609})
+Stmt: V_68_2 := 0xa:I32
+
+  Added constraints: <none>
+Stmt: PC_69 := 0x8049292:I32
+
+  Added constraints:
+    Address(t28611)
+Stmt: ESP_26 := (ESP_25 - 0x4:I32)
+
+  Added constraints:
+    Address(t28613)
+    Same({t28612, t28613})
+Stmt: V_72_2 := 0x8049297:I32
+
+  Added constraints: <none>
+Stmt: Jmp 0x8049591:I32
+
+  Added constraints: <none>
+Stmt: PC_70 := 0x8049297:I32
+
+  Added constraints:
+    Address(t28615)
+Stmt: T_5_3 := ESP_27
+
+  Added constraints:
+    Address(t28616)
+    Same({t28616, t28617})
+Stmt: T_6_3 := (T_5_3 + 0x8:I32)
+
+  Added constraints:
+    Same({t28618, t28619})
+Stmt: ESP_28 := T_6_3
+
+  Added constraints:
+    Same({t28375, t28619})
+Stmt: T_7_3 := (T_5_3[31:31])
+
+  Added constraints:
+    Same({t28620, t28621})
+Stmt: T_8_3 := (T_6_3[31:31])
+
+  Added constraints:
+    Same({t28622, t28623})
+Stmt: CF_11 := (T_6_3 < T_5_3)
+
+  Added constraints:
+    Same({t28624, t28625})
+Stmt: OF_13 := ((T_7_3 = 0x0:I1) & (T_7_3 ^ T_8_3))
+
+  Added constraints: <none>
+Stmt: AF_13 := ((((T_6_3 ^ T_5_3) ^ 0x8:I32) & 0x10:I32) = 0x10:I32)
+
+  Added constraints:
+    Same({t28628, t28629})
+Stmt: SF_13 := T_8_3
+
+  Added constraints:
+    Same({t28623, t28630})
+Stmt: ZF_13 := (T_6_3 = 0x0:I32)
+
+  Added constraints:
+    Same({t28631, t28632})
+Stmt: T_9_3 := (T_6_3 ^ (T_6_3 >> 0x4:I32))
+
+  Added constraints: <none>
+Stmt: T_10_3 := (T_9_3 ^ (T_9_3 >> 0x2:I32))
+
+  Added constraints: <none>
+Stmt: PF_13 := (~ ((T_10_3 ^ (T_10_3 >> 0x1:I32))[0:0]))
+
+  Added constraints:
+    Same({t28636, t28637})
+Stmt: PC_71 := 0x804929a:I32
+
+  Added constraints:
+    Address(t28638)
+Stmt: T_1_4 := EAX_24
+
+  Added constraints:
+    Same({t28371, t28639})
+Stmt: T_2_4 := (T_1_4 - 0xffffffff:I32)
+
+  Added constraints:
+    Same({t28640, t28641})
+Stmt: CF_12 := (T_1_4 < 0xffffffff:I32)
+
+  Added constraints:
+    Same({t28642, t28643})
+Stmt: OF_14 := (((T_1_4 ^ 0xffffffff:I32) & (T_1_4 ^ T_2_4))[31:31])
+
+  Added constraints:
+    Same({t28644, t28645})
+Stmt: AF_14 := ((((T_2_4 ^ T_1_4) ^ 0xffffffff:I32) & 0x10:I32) = 0x10:I32)
+
+  Added constraints:
+    Same({t28646, t28647})
+Stmt: SF_14 := (T_2_4[31:31])
+
+  Added constraints:
+    Same({t28648, t28649})
+Stmt: ZF_14 := (T_2_4 = 0x0:I32)
+
+  Added constraints:
+    Same({t28650, t28651})
+Stmt: T_3_4 := (T_2_4 ^ (T_2_4 >> 0x4:I32))
+
+  Added constraints: <none>
+Stmt: T_4_4 := (T_3_4 ^ (T_3_4 >> 0x2:I32))
+
+  Added constraints: <none>
+Stmt: PF_14 := (~ ((T_4_4 ^ (T_4_4 >> 0x1:I32))[0:0]))
+
+  Added constraints:
+    Same({t28655, t28656})
+Stmt: PC_72 := 0x804929d:I32
+
+  Added constraints:
+    Address(t28657)
+Stmt: if (ZF_14 = 0x0:I1) then Jmp 0x80492a6:I32 else Jmp 0x804929f:I32
+
+  Added constraints: <none>
+Stmt: PC_73 := 0x804929f:I32
+
+  Added constraints:
+    Address(t28659)
+Stmt: V_20_4 := 0xffffffff:I32
+
+  Added constraints: <none>
+Stmt: PC_74 := 0x8049220:I32
+
+  Added constraints:
+    Address(t28660)
+Stmt: EAX_25 := MEM_1[(GSBase_0 + 0x8:I32)]:I32
+
+  Added constraints:
+    Address(t28662)
+Stmt: PC_75 := 0x8049226:I32
+
+  Added constraints:
+    Address(t28664)
+Stmt: V_28_1 := EAX_25
+
+  Added constraints:
+    Same({t28663, t28665})
+Stmt: PC_76 := 0x8049229:I32
+
+  Added constraints:
+    Address(t28666)
+Stmt: EAX_26 := V_28_1
+
+  Added constraints:
+    Same({t28665, t28667})
+Stmt: PC_77 := 0x804922c:I32
+
+  Added constraints:
+    Address(t28668)
+Stmt: V_32_2 := EAX_26
+
+  Added constraints:
+    Same({t28298, t28667})
+Stmt: PC_78 := 0x804922f:I32
+
+  Added constraints:
+    Address(t28669)
+Stmt: EAX_27 := MEM_1[(EBX_1 + 0x30:I32)]:I32
+
+  Added constraints:
+    Address(t28670)
+Stmt: PC_79 := 0x8049232:I32
+
+  Added constraints:
+    Address(t28672)
+Stmt: T_11_2 := V_32_2
+
+  Added constraints:
+    Same({t28298, t28673})
+Stmt: T_12_2 := EAX_27
+
+  Added constraints:
+    Same({t28671, t28674})
+Stmt: T_13_2 := (T_11_2 - T_12_2)
+
+  Added constraints:
+    Same({t28675, t28676})
+    SubResult(t28675, t28673, t28674)
+Stmt: CF_13 := (T_11_2 < T_12_2)
+
+  Added constraints:
+    Same({t28677, t28678})
+Stmt: OF_15 := (((T_11_2 ^ T_12_2) & (T_11_2 ^ T_13_2))[31:31])
+
+  Added constraints:
+    Same({t28679, t28680})
+Stmt: AF_15 := ((((T_13_2 ^ T_11_2) ^ T_12_2) & 0x10:I32) = 0x10:I32)
+
+  Added constraints:
+    Same({t28681, t28682})
+Stmt: SF_15 := (T_13_2[31:31])
+
+  Added constraints:
+    Same({t28683, t28684})
+Stmt: ZF_15 := (T_13_2 = 0x0:I32)
+
+  Added constraints:
+    Same({t28685, t28686})
+Stmt: T_14_2 := (T_13_2 ^ (T_13_2 >> 0x4:I32))
+
+  Added constraints: <none>
+Stmt: T_15_2 := (T_14_2 ^ (T_14_2 >> 0x2:I32))
+
+  Added constraints: <none>
+Stmt: PF_15 := (~ ((T_15_2 ^ (T_15_2 >> 0x1:I32))[0:0]))
+
+  Added constraints:
+    Same({t28690, t28691})
+Stmt: PC_80 := 0x8049235:I32
+
+  Added constraints:
+    Address(t28692)
+Stmt: if ZF_15 then Jmp 0x8049272:I32 else Jmp 0x8049237:I32
+
+  Added constraints: <none>
+Stmt: EAX_28 := phi(27;38;)
+
+  Added constraints:
+    Same({t28671, t28693, t28694})
+Stmt: V_64_8 := phi(1;9;)
+
+  Added constraints:
+    Same({t28238, t28302, t28695})
+Stmt: MEM_11 := phi(1;16;)
+
+  Added constraints: <none>
+Stmt: ESI_5 := phi(0;6;)
+
+  Added constraints:
+    Same({t28208, t28304, t28696})
+Stmt: ESP_29 := phi(7;30;)
+
+  Added constraints:
+    Address(t28697)
+    Same({t28306, t28307, t28697})
+Stmt: PC_81 := 0x8049272:I32
+
+  Added constraints:
+    Address(t28698)
+Stmt: EAX_29 := MEM_11[(EBX_1 + 0x2c:I32)]:I32
+
+  Added constraints:
+    Address(t28699)
+Stmt: PC_82 := 0x8049275:I32
+
+  Added constraints:
+    Address(t28701)
+Stmt: T_32_2 := EAX_29
+
+  Added constraints:
+    Same({t28700, t28702})
+Stmt: T_33_2 := 0x1:I32
+
+  Added constraints: <none>
+Stmt: T_34_1 := (T_32_2 + T_33_2)
+
+  Added constraints:
+    Same({t28704, t28705})
+    AddResult(t28704, t28702, t28703)
+Stmt: EAX_30 := T_34_1
+
+  Added constraints:
+    Same({t28300, t28705})
+Stmt: T_35_1 := (T_32_2[31:31])
+
+  Added constraints:
+    Same({t28706, t28707})
+Stmt: T_36_1 := (T_34_1[31:31])
+
+  Added constraints:
+    Same({t28708, t28709})
+Stmt: OF_16 := ((T_35_1 = (T_33_2[31:31])) & (T_35_1 ^ T_36_1))
+
+  Added constraints: <none>
+Stmt: AF_16 := ((((T_34_1 ^ T_32_2) ^ T_33_2) & 0x10:I32) = 0x10:I32)
+
+  Added constraints:
+    Same({t28713, t28714})
+Stmt: SF_16 := T_36_1
+
+  Added constraints:
+    Same({t28709, t28715})
+Stmt: ZF_16 := (T_34_1 = 0x0:I32)
+
+  Added constraints:
+    Same({t28716, t28717})
+Stmt: T_37_2 := (T_34_1 ^ (T_34_1 >> 0x4:I32))
+
+  Added constraints: <none>
+Stmt: T_38_2 := (T_37_2 ^ (T_37_2 >> 0x2:I32))
+
+  Added constraints: <none>
+Stmt: PF_16 := (~ ((T_38_2 ^ (T_38_2 >> 0x1:I32))[0:0]))
+
+  Added constraints:
+    Same({t28721, t28722})
+Stmt: PC_83 := 0x8049276:I32
+
+  Added constraints:
+    Address(t28723)
+Stmt: MEM_12 := MEM_11[(EBX_1 + 0x2c:I32) <- EAX_30]
+
+  Added constraints:
+    Address(t28724)
+Stmt: PC_84 := 0x8049237:I32
+
+  Added constraints:
+    Address(t28725)
+Stmt: EAX_31 := (EBX_1 + 0x28:I32)
+
+  Added constraints:
+    Same({t28726, t28727})
+Stmt: PC_85 := 0x804923a:I32
+
+  Added constraints:
+    Address(t28728)
+Stmt: V_36_1 := EAX_31
+
+  Added constraints:
+    Same({t28727, t28729})
+Stmt: PC_86 := 0x804923d:I32
+
+  Added constraints:
+    Address(t28730)
+Stmt: ECX_3 := V_36_1
+
+  Added constraints:
+    Address(t28731)
+    Same({t28729, t28731})
+Stmt: PC_87 := 0x8049240:I32
+
+  Added constraints:
+    Address(t28732)
+Stmt: ESI_6 := 0x1:I32
+
+  Added constraints: <none>
+Stmt: PC_88 := 0x8049245:I32
+
+  Added constraints:
+    Address(t28733)
+Stmt: EDX_3 := V_36_1
+
+  Added constraints:
+    Same({t28729, t28734})
+Stmt: PC_89 := 0x8049248:I32
+
+  Added constraints:
+    Address(t28735)
+Stmt: EAX_32 := 0x0:I32
+
+  Added constraints: <none>
+Stmt: PC_90 := 0x804924d:I32
+
+  Added constraints:
+    Address(t28737)
+Stmt: SideEffect AtomicBegin
+
+  Added constraints: <none>
+Stmt: T_26_2 := MEM_1[ECX_3]:I32
+
+  Added constraints: <none>
+Stmt: T_28_2 := EAX_32
+
+  Added constraints:
+    Same({t28736, t28739})
+Stmt: T_27_2 := (T_28_2 - T_26_2)
+
+  Added constraints:
+    Same({t28740, t28741})
+    SubResult(t28740, t28739, t28738)
+Stmt: T_29_1 := (T_28_2 = T_26_2)
+
+  Added constraints:
+    Same({t28742, t28743})
+Stmt: if T_29_1 then JmpLbl Equal @ 804924d else JmpLbl NotEqual @ 804924d
+
+  Added constraints: <none>
+Stmt: === LMark (Equal @ 804924d)
+
+  Added constraints: <none>
+Stmt: ZF_17 := 0x1:I1
+
+  Added constraints: <none>
+Stmt: MEM_13 := MEM_1[ECX_3 <- ESI_6]
+
+  Added constraints: <none>
+Stmt: JmpLbl End @ 804924d
+
+  Added constraints: <none>
+Stmt: EAX_34 := phi(32;33;)
+
+  Added constraints:
+    Same({t28736, t28745, t28746})
+Stmt: MEM_14 := phi(13;1;)
+
+  Added constraints: <none>
+Stmt: === LMark (End @ 804924d)
+
+  Added constraints: <none>
+Stmt: OF_17 := (((T_28_2 ^ T_26_2) & (T_28_2 ^ T_27_2))[31:31])
+
+  Added constraints:
+    Same({t28747, t28748})
+Stmt: SF_17 := (T_27_2[31:31])
+
+  Added constraints:
+    Same({t28749, t28750})
+Stmt: AF_17 := ((((T_27_2 ^ T_28_2) ^ T_26_2) & 0x10:I32) = 0x10:I32)
+
+  Added constraints:
+    Same({t28751, t28752})
+Stmt: T_30_2 := (T_27_2 ^ (T_27_2 >> 0x4:I32))
+
+  Added constraints: <none>
+Stmt: T_31_2 := (T_30_2 ^ (T_30_2 >> 0x2:I32))
+
+  Added constraints: <none>
+Stmt: PF_17 := (~ ((T_31_2 ^ (T_31_2 >> 0x1:I32))[0:0]))
+
+  Added constraints:
+    Same({t28756, t28757})
+Stmt: CF_14 := (T_28_2 < T_26_2)
+
+  Added constraints:
+    Same({t28758, t28759})
+Stmt: SideEffect AtomicEnd
+
+  Added constraints: <none>
+Stmt: PC_91 := 0x8049251:I32
+
+  Added constraints:
+    Address(t28760)
+Stmt: V_40_1 := EAX_34
+
+  Added constraints:
+    Same({t28746, t28761})
+Stmt: PC_92 := 0x8049254:I32
+
+  Added constraints:
+    Address(t28762)
+Stmt: EAX_35 := V_40_1
+
+  Added constraints:
+    Same({t28761, t28763})
+Stmt: PC_93 := 0x8049257:I32
+
+  Added constraints:
+    Address(t28764)
+Stmt: V_44_1 := EAX_35
+
+  Added constraints:
+    Same({t28763, t28765})
+Stmt: PC_94 := 0x804925a:I32
+
+  Added constraints:
+    Address(t28766)
+Stmt: EAX_36 := V_44_1
+
+  Added constraints:
+    Same({t28765, t28767})
+Stmt: PC_95 := 0x804925d:I32
+
+  Added constraints:
+    Address(t28768)
+Stmt: T_23_1 := EAX_36
+
+  Added constraints:
+    Same({t28767, t28769})
+Stmt: SF_18 := (T_23_1[31:31])
+
+  Added constraints:
+    Same({t28770, t28771})
+Stmt: ZF_19 := (T_23_1 = 0x0:I32)
+
+  Added constraints:
+    Same({t28772, t28773})
+Stmt: T_24_2 := (T_23_1 ^ (T_23_1 >> 0x4:I32))
+
+  Added constraints: <none>
+Stmt: T_25_2 := (T_24_2 ^ (T_24_2 >> 0x2:I32))
+
+  Added constraints: <none>
+Stmt: PF_18 := (~ ((T_25_2 ^ (T_25_2 >> 0x1:I32))[0:0]))
+
+  Added constraints:
+    Same({t28777, t28778})
+Stmt: CF_15 := 0x0:I1
+
+  Added constraints: <none>
+Stmt: OF_18 := 0x0:I1
+
+  Added constraints: <none>
+Stmt: AF_18 := Undefined expression (AF is undefined.)
+
+  Added constraints: <none>
+Stmt: PC_96 := 0x804925f:I32
+
+  Added constraints:
+    Address(t28782)
+Stmt: if ZF_19 then Jmp 0x804926c:I32 else Jmp 0x8049261:I32
+
+  Added constraints: <none>
+Stmt: EAX_37 := phi(36;39;)
+
+  Added constraints:
+    Same({t28767, t28783, t28784})
+Stmt: V_64_9 := phi(1;10;)
+
+  Added constraints:
+    Same({t28238, t28695, t28785})
+Stmt: MEM_15 := phi(14;17;)
+
+  Added constraints: <none>
+Stmt: ESP_30 := phi(7;34;)
+
+  Added constraints:
+    Address(t28786)
+    Same({t28306, t28697, t28786})
+Stmt: PC_97 := 0x804926c:I32
+
+  Added constraints:
+    Address(t28787)
+Stmt: EAX_38 := V_32_2
+
+  Added constraints:
+    Same({t28298, t28693})
+Stmt: PC_98 := 0x804926f:I32
+
+  Added constraints:
+    Address(t28788)
+Stmt: MEM_16 := MEM_15[(EBX_1 + 0x30:I32) <- EAX_38]
+
+  Added constraints:
+    Address(t28789)
+Stmt: PC_99 := 0x8049261:I32
+
+  Added constraints:
+    Address(t28790)
+Stmt: T_39_2 := (EBP_1 + 0xffffffe0:I32)
+
+  Added constraints:
+    Address(t28792)
+    Same({t28791, t28792})
+Stmt: ESP_31 := (ESP_7 - 0x4:I32)
+
+  Added constraints:
+    Address(t28794)
+    Same({t28793, t28794})
+Stmt: V_64_10 := MEM_14[T_39_2]:I32
+
+  Added constraints:
+    Same({t28785, t28795})
+Stmt: PC_100 := 0x8049264:I32
+
+  Added constraints:
+    Address(t28796)
+Stmt: ESP_32 := (ESP_31 - 0x4:I32)
+
+  Added constraints:
+    Address(t28798)
+    Same({t28797, t28798})
+Stmt: V_68_3 := 0x8049269:I32
+
+  Added constraints: <none>
+Stmt: Jmp 0x80510d8:I32
+
+  Added constraints: <none>
+Stmt: PC_101 := 0x8049269:I32
+
+  Added constraints:
+    Address(t28800)
+Stmt: T_1_5 := ESP_33
+
+  Added constraints:
+    Address(t28801)
+    Same({t28801, t28802})
+Stmt: T_2_5 := (T_1_5 + 0x4:I32)
+
+  Added constraints:
+    Same({t28803, t28804})
+Stmt: ESP_34 := T_2_5
+
+  Added constraints:
+    Same({t28786, t28804})
+Stmt: T_3_1 := (T_1_5[31:31])
+
+  Added constraints:
+    Same({t28805, t28806})
+Stmt: T_4_1 := (T_2_5[31:31])
+
+  Added constraints:
+    Same({t28807, t28808})
+Stmt: CF_16 := (T_2_5 < T_1_5)
+
+  Added constraints:
+    Same({t28809, t28810})
+Stmt: OF_19 := ((T_3_1 = 0x0:I1) & (T_3_1 ^ T_4_1))
+
+  Added constraints: <none>
+Stmt: AF_19 := ((((T_2_5 ^ T_1_5) ^ 0x4:I32) & 0x10:I32) = 0x10:I32)
+
+  Added constraints:
+    Same({t28813, t28814})
+Stmt: SF_19 := T_4_1
+
+  Added constraints:
+    Same({t28808, t28815})
+Stmt: ZF_20 := (T_2_5 = 0x0:I32)
+
+  Added constraints:
+    Same({t28816, t28817})
+Stmt: T_5_4 := (T_2_5 ^ (T_2_5 >> 0x4:I32))
+
+  Added constraints: <none>
+Stmt: T_6_4 := (T_5_4 ^ (T_5_4 >> 0x2:I32))
+
+  Added constraints: <none>
+Stmt: PF_19 := (~ ((T_6_4 ^ (T_6_4 >> 0x1:I32))[0:0]))
+
+  Added constraints:
+    Same({t28821, t28822})
 inferredTypes.json output: output/helloword-x86_32-i586-uclibc-O0/inferredTypes.json
 typeConstraints output: output/helloword-x86_32-i586-uclibc-O0/typeConstraints

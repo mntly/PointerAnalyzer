@@ -192,7 +192,8 @@ type TypeConstraintSolverModule () =
         typeAddr, typeVal
 
     // let rules = [ rule1; rule2; rule3; rule4; rule5 ]
-    let rules = [ rule1; rule2 ]
+    // let rules = [ rule1; rule2 ]
+    let rules = []
 
     let addrToAdd, valToAdd =
       List.fold
@@ -242,7 +243,8 @@ type TypeConstraintSolverModule () =
         typeAddr, typeVal
 
     // let rules = [ rule1; rule2; rule3; rule4 ]
-    let rules = [ rule1; rule5 ]
+    // let rules = [ rule1; rule5 ]
+    let rules = []
 
     let addrToAdd, valToAdd =
       List.fold

@@ -290,9 +290,8 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
       *)
       | Phi ({ Kind = MemVar }, _) -> [ { Target = Next; State = state } ]
 
-      | Phi (variable, sourceIds) ->
-        [ { Target = Next
-            State = this.evalPhi variable sourceIds state } ]
+      | Phi (variable, sourceIds) -> [ { Target = Next; State = state } ]
+      // State = this.evalPhi variable sourceIds state } ]
 
       | Jmp (IntraJmp label) ->
         [ { Target = LabelTarget label
@@ -321,13 +320,14 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
           | None -> state
 
         match config.ApplyCallSummary programPoint targetAddr [] [] state with
-        | Some (state, returnAddr) ->
+        | Some (appliedState, returnAddr) ->
           let target =
             match returnAddr with
             | Some address -> ReturnTarget address
             | None -> Next
-
-          [ { Target = target; State = state } ]
+          // [ { Target = target; State = state } ]
+          [ { Target = target
+              State = appliedState } ]
         | None ->
           [ { Target = InterTarget target
               State = state } ]
@@ -376,6 +376,7 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
             config.ApplyCallSummary programPoint targetAddr inputs outputs state
           with
           | Some (appliedState, _) -> appliedState
+          // state
           | None -> state
 
         [ { Target = Next; State = state } ]

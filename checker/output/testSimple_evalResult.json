@@ -3,14 +3,14 @@
     "GTAll": 473,
     "All": 460,
     "Correct": {
-      "Total": 142,
-      "GTAddress": 142,
+      "Total": 97,
+      "GTAddress": 97,
       "GTValue": 0
     },
     "MisInferred": {
-      "Total": 79,
+      "Total": 11,
       "GTAddress": 0,
-      "GTValue": 79
+      "GTValue": 11
     },
     "Conflict": {
       "Total": 0,
@@ -18,19 +18,19 @@
       "GTValue": 0
     },
     "Fail": {
-      "Total": 239,
-      "GTAddress": 85,
-      "GTValue": 154
+      "Total": 352,
+      "GTAddress": 130,
+      "GTValue": 222
     }
   },
   "Ratio": {
     "Correct": {
-      "Total": 0.30869565217391304,
+      "Total": 0.2108695652173913,
       "GTAddress": 1,
       "GTValue": 0
     },
     "MisInferred": {
-      "Total": 0.17173913043478262,
+      "Total": 0.02391304347826087,
       "GTAddress": 0,
       "GTValue": 1
     },
@@ -40,34 +40,34 @@
       "GTValue": 0
     },
     "Fail": {
-      "Total": 0.5195652173913043,
-      "GTAddress": 0.35564853556485354,
-      "GTValue": 0.6443514644351465
+      "Total": 0.7652173913043478,
+      "GTAddress": 0.3693181818181818,
+      "GTValue": 0.6306818181818182
     }
   },
   "GTTypeRatio": {
     "GTAddress": {
-      "Correct": 0.6255506607929515,
+      "Correct": 0.42731277533039647,
       "MisInferred": 0,
       "Conflict": 0,
-      "Fail": 0.3744493392070485
+      "Fail": 0.5726872246696035
     },
     "GTValue": {
       "Correct": 0,
-      "MisInferred": 0.33905579399141633,
+      "MisInferred": 0.04721030042918455,
       "Conflict": 0,
-      "Fail": 0.6609442060085837
+      "Fail": 0.9527896995708155
     }
   },
   "FinalResult": {
     "Confusion": {
-      "TP": 142,
-      "TN": 154,
-      "FP": 79,
-      "FN": 85
+      "TP": 97,
+      "TN": 222,
+      "FP": 11,
+      "FN": 130
     },
-    "Acc": 0.6434782608695652,
-    "Recall": 0.6255506607929515,
-    "Precision": 0.6425339366515838
+    "Acc": 0.6934782608695652,
+    "Recall": 0.42731277533039647,
+    "Precision": 0.8981481481481481
   }
 }

@@ -1,0 +1,202 @@
+Binary: /mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/tmp/CfgEdgePrinter/../../datas/binaries/helloword-x86_32-i586-uclibc-O0
+Function: puts (0x080491f6)
+Total blocks: 28
+
+====== Edge Kind Counts ======
+CallEdge: 5
+FallThroughEdge: 7
+InterCJmpFalseEdge: 8
+InterCJmpTrueEdge: 8
+IntraCJmpFalseEdge: 1
+IntraCJmpTrueEdge: 1
+IntraJmpEdge: 1
+RetEdge: 5
+
+====== Leaf Nodes ======
+Node20(0x08049313, abstract=false)  last-pp: 0x0804931d+3
+
+====== RetEdge Source Nodes ======
+Node27(0x00000000, abstract=true)  retTargets=[Node28(0x0804930b, abstract=false)]  last-pp: 0x00000000+2
+Node2(0x0804931e, abstract=true)  retTargets=[Node3(0x08049204, abstract=false)]  last-pp: 0x0804931e+5
+Node24(0x08049591, abstract=true)  retTargets=[Node25(0x08049297, abstract=false)]  last-pp: 0x08049591+4
+Node16(0x08049690, abstract=true)  retTargets=[Node17(0x08049280, abstract=false)]  last-pp: 0x08049690+4
+Node14(0x080510d8, abstract=true)  retTargets=[Node15(0x08049269, abstract=false)]  last-pp: 0x080510d8+4
+
+====== Edges Per Block ======
+Node27(0x00000000, abstract=true)
+  preds: 1
+  succs: 1
+  last-pp: 0x00000000+2
+  edge: -[RetEdge]-> Node28(0x0804930b, abstract=false)
+
+Node1(0x080491f6, abstract=false)
+  preds: 0
+  succs: 1
+  last-pp: 0x080491ff+3
+  edge: -[CallEdge]-> Node2(0x0804931e, abstract=true)
+
+Node3(0x08049204, abstract=false)
+  preds: 1
+  succs: 2
+  last-pp: 0x0804921e+1
+  edge: -[InterCJmpTrueEdge]-> Node4(0x08049279, abstract=false)
+  edge: -[InterCJmpFalseEdge]-> Node5(0x08049220, abstract=false)
+
+Node5(0x08049220, abstract=false)
+  preds: 1
+  succs: 2
+  last-pp: 0x08049235+1
+  edge: -[InterCJmpTrueEdge]-> Node6(0x08049272, abstract=false)
+  edge: -[InterCJmpFalseEdge]-> Node7(0x08049237, abstract=false)
+
+Node7(0x08049237, abstract=false)
+  preds: 1
+  succs: 2
+  last-pp: 0x0804924d+6
+  edge: -[IntraCJmpTrueEdge]-> Node8(0x0804924d, abstract=false)
+  edge: -[IntraCJmpFalseEdge]-> Node9(0x0804924d, abstract=false)
+
+Node8(0x0804924d, abstract=false)
+  preds: 1
+  succs: 1
+  last-pp: 0x0804924d+11
+  edge: -[IntraJmpEdge]-> Node10(0x0804924d, abstract=false)
+
+Node9(0x0804924d, abstract=false)
+  preds: 1
+  succs: 1
+  last-pp: 0x0804924d+14
+  edge: -[FallThroughEdge]-> Node10(0x0804924d, abstract=false)
+
+Node10(0x0804924d, abstract=false)
+  preds: 2
+  succs: 1
+  last-pp: 0x0804924d+25
+  edge: -[FallThroughEdge]-> Node11(0x08049251, abstract=false)
+
+Node11(0x08049251, abstract=false)
+  preds: 1
+  succs: 2
+  last-pp: 0x0804925f+1
+  edge: -[InterCJmpTrueEdge]-> Node12(0x0804926c, abstract=false)
+  edge: -[InterCJmpFalseEdge]-> Node13(0x08049261, abstract=false)
+
+Node13(0x08049261, abstract=false)
+  preds: 1
+  succs: 1
+  last-pp: 0x08049264+3
+  edge: -[CallEdge]-> Node14(0x080510d8, abstract=true)
+
+Node15(0x08049269, abstract=false)
+  preds: 1
+  succs: 1
+  last-pp: 0x08049269+13
+  edge: -[FallThroughEdge]-> Node12(0x0804926c, abstract=false)
+
+Node12(0x0804926c, abstract=false)
+  preds: 2
+  succs: 1
+  last-pp: 0x0804926f+1
+  edge: -[FallThroughEdge]-> Node6(0x08049272, abstract=false)
+
+Node6(0x08049272, abstract=false)
+  preds: 2
+  succs: 1
+  last-pp: 0x08049276+1
+  edge: -[FallThroughEdge]-> Node4(0x08049279, abstract=false)
+
+Node4(0x08049279, abstract=false)
+  preds: 2
+  succs: 1
+  last-pp: 0x0804927b+3
+  edge: -[CallEdge]-> Node16(0x08049690, abstract=true)
+
+Node17(0x08049280, abstract=false)
+  preds: 1
+  succs: 2
+  last-pp: 0x0804928a+1
+  edge: -[InterCJmpTrueEdge]-> Node18(0x080492a6, abstract=false)
+  edge: -[InterCJmpFalseEdge]-> Node19(0x0804928c, abstract=false)
+
+Node19(0x0804928c, abstract=false)
+  preds: 1
+  succs: 1
+  last-pp: 0x08049292+3
+  edge: -[CallEdge]-> Node24(0x08049591, abstract=true)
+
+Node25(0x08049297, abstract=false)
+  preds: 1
+  succs: 2
+  last-pp: 0x0804929d+1
+  edge: -[InterCJmpTrueEdge]-> Node18(0x080492a6, abstract=false)
+  edge: -[InterCJmpFalseEdge]-> Node26(0x0804929f, abstract=false)
+
+Node26(0x0804929f, abstract=false)
+  preds: 1
+  succs: 1
+  last-pp: 0x0804929f+1
+  edge: -[FallThroughEdge]-> Node18(0x080492a6, abstract=false)
+
+Node18(0x080492a6, abstract=false)
+  preds: 3
+  succs: 2
+  last-pp: 0x080492aa+1
+  edge: -[InterCJmpTrueEdge]-> Node20(0x08049313, abstract=false)
+  edge: -[InterCJmpFalseEdge]-> Node21(0x080492ac, abstract=false)
+
+Node21(0x080492ac, abstract=false)
+  preds: 1
+  succs: 2
+  last-pp: 0x080492b8+1
+  edge: -[InterCJmpTrueEdge]-> Node20(0x08049313, abstract=false)
+  edge: -[InterCJmpFalseEdge]-> Node22(0x080492ba, abstract=false)
+
+Node22(0x080492ba, abstract=false)
+  preds: 1
+  succs: 2
+  last-pp: 0x080492eb+1
+  edge: -[InterCJmpTrueEdge]-> Node20(0x08049313, abstract=false)
+  edge: -[InterCJmpFalseEdge]-> Node23(0x080492ed, abstract=false)
+
+Node23(0x080492ed, abstract=false)
+  preds: 1
+  succs: 1
+  last-pp: 0x08049309+1
+  edge: -[CallEdge]-> Node27(0x00000000, abstract=true)
+
+Node28(0x0804930b, abstract=false)
+  preds: 1
+  succs: 1
+  last-pp: 0x08049310+1
+  edge: -[FallThroughEdge]-> Node20(0x08049313, abstract=false)
+
+Node20(0x08049313, abstract=false)
+  preds: 4
+  succs: 0
+  last-pp: 0x0804931d+3
+  edge: <leaf/no successor>
+
+Node2(0x0804931e, abstract=true)
+  preds: 1
+  succs: 1
+  last-pp: 0x0804931e+5
+  edge: -[RetEdge]-> Node3(0x08049204, abstract=false)
+
+Node24(0x08049591, abstract=true)
+  preds: 1
+  succs: 1
+  last-pp: 0x08049591+4
+  edge: -[RetEdge]-> Node25(0x08049297, abstract=false)
+
+Node16(0x08049690, abstract=true)
+  preds: 1
+  succs: 1
+  last-pp: 0x08049690+4
+  edge: -[RetEdge]-> Node17(0x08049280, abstract=false)
+
+Node14(0x080510d8, abstract=true)
+  preds: 1
+  succs: 1
+  last-pp: 0x080510d8+4
+  edge: -[RetEdge]-> Node15(0x08049269, abstract=false)
+
