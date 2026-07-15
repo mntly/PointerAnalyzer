@@ -36,20 +36,26 @@ module FunctionSummaryBuilder =
       || Set.contains regId platform.TrivialAddressRegisters
 
     (* Check given register is caller-saved register *)
-    (* Caller-saved register should be merged *)
+    (*
+      Caller-saved register should be selectively merged
+      since it does not need to same for all candidates
+    *)
     let isCallerSaved regId =
       Set.contains regId platform.CallerSavedRegisters
-      || List.contains regId platform.ReturnRegisters
 
     (* Check given register is callee-saved register *)
-    (* Callee-saved register should be selectively merged *)
+    (*
+      Callee-saved register should be merged
+      since it must same for all candidates
+    *)
     let isCalleeSaved regId =
       Set.contains regId platform.CalleeSavedRegisters
+        || List.contains regId platform.ReturnRegisters
 
     let mergeRegister (constraints_, returns_) (regId, typeIds: Set<TypeId>) =
       if isTrivial regId || Set.isEmpty typeIds then
         constraints_, returns_
-      elif isCallerSaved regId then
+      elif isCalleeSaved regId then
         let representative = Set.minElement typeIds
 
         let constraints_ =
@@ -59,7 +65,7 @@ module FunctionSummaryBuilder =
             Set.add (Same typeIds) constraints_
 
         constraints_, Map.add regId representative returns_
-      elif isCalleeSaved regId then
+      elif isCallerSaved regId then
         if Set.count typeIds = 1 then
           constraints_, Map.add regId (Set.minElement typeIds) returns_
         else

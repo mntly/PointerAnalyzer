@@ -270,6 +270,7 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
     state
     : TransferResult list =
     if config.Debug then
+      printfn "ProgramPoint: %A" programPoint
       printfn "Stmt: %s" (PrettyPrinter.ToString [| stmt |])
 
     let results =
