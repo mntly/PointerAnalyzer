@@ -72,8 +72,10 @@
 0x0804a07e __uClibc_fini
 0x0804a454 init_slotinfo
 0x0804a807 __pthread_initialize_minimal
+0x0804a8bf _dl_nothread_init_static_tls
 0x0804a962 _dl_map_cache
 0x0804a972 _dl_unmap_cache
+0x0804a9de _dl_run_init_array
 0x0804aa12 _dl_app_init_array
 0x0804aa3b _dl_run_fini_array
 0x0804aaa7 _dl_app_fini_array
@@ -86,18 +88,26 @@
 0x080534a5 _stdio_openlist_dec_use
 0x08053bc5 __GI_strcat
 0x08053c9c __GI_strcpy
+0x08054477 __GI_strdup
 0x08054a84 malloc_init_state
 0x08054b59 __malloc_consolidate
 0x08054d8b free
 0x08055f16 __GI_abort
 0x08056497 __clear_internal_signals
+0x08056b0f _dl_allocate_tls_storage
 0x08057138 _dl_add_to_slotinfo
 
 ===== MisInferred Functions =====
+0x080491f6 puts
 0x08049322 __CLOSE
+0x08049545 __stdio_wcommit
+0x08049591 __GI___fputc_unlocked
+0x08049690 __GI_fputs_unlocked
+0x08049766 __GI_strlen
 0x08049f3e _pthread_cleanup_pop_restore
 0x0804aad0 _dl_linux_resolver
 0x0804abf6 _dl_parse
+0x0804b0eb _dl_parse_relocation_information
 0x0804b11b _dl_elf_hash
 0x0804b68c _dl_find_hash
 0x0804bf06 map_writeable
@@ -108,7 +118,9 @@
 0x080514e7 __close_nocancel
 0x080519f1 __GI_sbrk
 0x08051a5f __fcntl_nocancel
+0x08051c7c __WRITE
 0x08051d0e __stdio_WRITE
+0x08051e21 __stdio_fwrite
 0x080520e2 _fp_out_narrow
 0x08052175 _charpad
 0x08052efd _promoted_size
@@ -127,6 +139,7 @@
 0x08057b38 __GI_munmap
 0x08057dbe __write_nocancel
 0x08057ee5 __SEEK
+0x080580d1 __stdio_adjust_position
 0x080582c9 _uintmaxtostr
 0x0805843a _fpmaxtostr
 0x0805949f __GI_strncmp
@@ -135,12 +148,9 @@
 <none>
 
 ===== Failed Functions =====
-0x080491f6 puts
-0x08049545 __stdio_wcommit
 0x08049591 __GI___fputc_unlocked
 0x08049690 __GI_fputs_unlocked
 0x080496d7 __GI_fwrite_unlocked
-0x08049766 __GI_strlen
 0x080497a9 __GI_isatty
 0x080497d6 __GI_tcgetattr
 0x08049ef5 __pthread_return_0
@@ -153,9 +163,7 @@
 0x0804a4db __libc_setup_tls
 0x0804a7dd _dl_tls_setup
 0x0804a82e _dl_aux_init
-0x0804a8bf _dl_nothread_init_static_tls
 0x0804a982 _dl_run_array_forward
-0x0804a9de _dl_run_init_array
 0x0804aad0 _dl_linux_resolver
 0x0804abf6 _dl_parse
 0x0804ad36 _dl_do_reloc
@@ -203,8 +211,6 @@
 0x08051ba8 dprintf
 0x08051bda __GI_vdprintf
 0x08051c7c __WRITE
-0x08051d0e __stdio_WRITE
-0x08051e21 __stdio_fwrite
 0x08051fb7 __stdio_trans2w
 0x080520e2 _fp_out_narrow
 0x08052175 _charpad
@@ -225,7 +231,6 @@
 0x08054308 __GI_mempcpy
 0x08054332 __GI_memrchr
 0x08054452 __GI___glibc_strerror_r
-0x08054477 __GI_strdup
 0x080544bb __GI___xpg_strerror_r
 0x08054920 __malloc_trim
 0x080549f9 malloc_trim
@@ -243,7 +248,6 @@
 0x0805697e _dl_next_tls_modid
 0x08056a73 allocate_dtv
 0x08056ad9 _dl_get_tls_static_info
-0x08056b0f _dl_allocate_tls_storage
 0x08056e7f _dl_allocate_tls_init
 0x08057031 _dl_allocate_tls
 0x08057066 _dl_deallocate_tls
@@ -262,7 +266,6 @@
 0x08057e89 __GI_fseek
 0x08057eb3 __GI_fprintf
 0x08057ee5 __SEEK
-0x080580d1 __stdio_adjust_position
 0x08058172 __stdio_seek
 0x080581c7 _load_inttype
 0x080582c9 _uintmaxtostr

@@ -1,5 +1,6 @@
 module PointerAnalyzer.PreAnalysis.Sink.SinkCollector
 
+open B2R2.MiddleEnd.DataFlow
 open B2R2.MiddleEnd.ControlFlowGraph
 open PointerAnalyzer.Frontend.ProgramDFA
 open PointerAnalyzer.Platform.PlatformTypes
@@ -19,4 +20,8 @@ let collect
   (* Jump target is also marked as live *)
   let cfLive = CallSiteSinkCollector.collect platform functions function_
 
-  Set.union leafLive cfLive
+  (* Other live SSA variabes in Use Edge *)
+  let edges = SSAEdges cfg
+  let usedSet = edges.Uses.Keys |> Set.ofSeq
+
+  Set.union leafLive cfLive |> Set.union usedSet
