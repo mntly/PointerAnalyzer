@@ -162,9 +162,11 @@ let collect
   =
   let cfg = function_.CFG
 
+  let incomingReg = incomingRegisters cfg
+
   let initialState =
-    { CurrentRegisters = incomingRegisters cfg
-      Sinks = Set.empty }
+    { CurrentRegisters = incomingReg
+      Sinks = incomingReg |> Map.toSeq |> Seq.map snd |> Set.ofSeq }
 
   (*
     Extract registers used as argument at each function call starting with
