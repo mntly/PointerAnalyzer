@@ -9,7 +9,7 @@ open PointerAnalyzer.Frontend.BinaryLoader
 open PointerAnalyzer.Frontend.FunctionDFA
 
 /// <summary>
-/// Per-function pre-analysis result.
+/// Per-function DFA result.
 /// </summary>
 /// <remarks>
 /// <c>Address</c> is function address.
@@ -29,16 +29,18 @@ type FunctionDFAResult =
     Callees: Map<Addr, Set<Addr>> }
 
 /// <summary>
-/// Pre-analysis result of entire binary.
+/// DFA result of entire binary.
 /// </summary>
 /// <remarks>
 /// <c>Binary</c> is loaded binary from
 /// <see cref="PointerAnalyzer.Frontend.BinaryLoader.LoadedBinary">.
-/// <c>Functions</c> is per-function pre-analysis result.
+/// <c>Functions</c> is per-function DFA result.
+/// <c>VisitOrder</c> sorts functions from callee to caller.
 /// </remarks>
 type ProgramDFAResult =
   { Binary: LoadedBinary
-    Functions: Map<Addr, FunctionDFAResult> }
+    Functions: Map<Addr, FunctionDFAResult>
+    VisitOrder: Addr list }
 
 module ProgramDFA =
   (* Integrate callSite |-> Callee Mapping from Control-Flow Analysis of B2R2 *)
@@ -61,6 +63,44 @@ module ProgramDFA =
       Map.empty
     else
       function_.Callees |> Seq.fold updateCalleeMap Map.empty
+
+  /// From all callees, filtering only internal functions
+  let private internalCallees (funcs: Map<Addr, FunctionDFAResult>) func =
+    let calleeSeq = func.Callees |> Map.toSeq |> Seq.collect (snd >> Set.toSeq)
+
+    let internalFuncs =
+      calleeSeq
+      |> Seq.filter (fun address -> Map.containsKey address funcs)
+      |> Set.ofSeq
+
+    internalFuncs
+
+  /// Sort functions from Callee to Caller.
+  /// The modular analysis is processed with this order.
+  let private revDFS functions =
+    let rec dfs address (visited, visitOrder) =
+      if Set.contains address visited then
+        visited, visitOrder
+      else
+        let newVisited = Set.add address visited
+        let function_ = Map.find address functions
+
+        let calleeSet = internalCallees functions function_
+
+        let visited, visitOrder =
+          Set.fold
+            (fun acc callee -> dfs callee acc)
+            (newVisited, visitOrder)
+            calleeSet
+
+        visited, address :: visitOrder
+
+    let funcAddrSeq = functions |> Map.toSeq |> Seq.map fst
+
+    funcAddrSeq
+    |> Seq.fold (fun acc address -> dfs address acc) (Set.empty, [])
+    |> snd
+    |> List.rev
 
   /// For each functions in binary, process DFA and integrate them
   let runDFA binary =
@@ -85,5 +125,8 @@ module ProgramDFA =
       |> Seq.map constrFunDFA
       |> Map.ofSeq
 
+    let visitOrder = revDFS functionMap
+
     { Binary = binary
-      Functions = functionMap }
+      Functions = functionMap
+      VisitOrder = visitOrder }

@@ -31,12 +31,21 @@
     <Compile Include="Summary/FunctionSummary.fs" />
     <Compile Include="Summary/SummaryApplicator.fs" />
 
-    <Compile Include="Analysis/ExprEval.fs" />
-
     <Compile Include="Frontend/BinaryLoader.fs" />
-    <Compile Include="Frontend/ConstantClassifier.fs" />
     <Compile Include="Frontend/FunctionDFA.fs" />
     <Compile Include="Frontend/ProgramDFA.fs" />
+
+    <Compile Include="PreAnalysis/PreAnalysisTypes.fs" />
+    <Compile Include="PreAnalysis/VariableCollector.fs" />
+    <Compile Include="PreAnalysis/Sink/DefaultLiveCollector.fs" />
+    <Compile Include="PreAnalysis/Sink/LeafSinkCollector.fs" />
+    <Compile Include="PreAnalysis/Sink/CallSiteSinkCollector.fs" />
+    <Compile Include="PreAnalysis/Sink/SinkCollector.fs" />
+    <Compile Include="PreAnalysis/LivenessPropagator.fs" />
+    <Compile Include="PreAnalysis/PreAnalyzer.fs" />
+
+    <Compile Include="Analysis/ExprEval.fs" />
+    <Compile Include="Frontend/ConstantClassifier.fs" />
 
     <Compile Include="Analysis/StmtEval.fs" />
     <Compile Include="Analysis/Analyzer.fs" />

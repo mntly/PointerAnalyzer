@@ -9,6 +9,7 @@ open PointerAnalyzer.AbsDom.AbsVal
 open PointerAnalyzer.AbsDom.AnalysisState
 open PointerAnalyzer.Analysis.ExprEval
 open PointerAnalyzer.Frontend.FunctionDFA
+open PointerAnalyzer.PreAnalysis.PreAnalysisTypes
 
 /// <summary>
 /// Type of next instructions.
@@ -69,6 +70,7 @@ type StmtEvalConfig =
   { PointerUse: PointerUse
     ConstValue: ConstValue
     ClassifyConstant: BitVector -> ConstantType
+    IsLive: Variable -> bool
     StackPointer: RegisterID option
     InitialStackPointer: Addr option
     ApplyCallSummary: ApplyCallSummary
@@ -79,6 +81,7 @@ module StmtEvalConfig =
     { PointerUse = fun _ -> false
       ConstValue = fun _ -> None
       ClassifyConstant = fun _ -> UnknownConstant
+      IsLive = fun _ -> true
       StackPointer = None
       InitialStackPointer = None
       ApplyCallSummary = fun _ _ _ _ _ -> None
@@ -107,20 +110,17 @@ module StmtEvalConfig =
     constValue stackPointerZero |> Option.bind tryUInt64
 
   /// Construct config used for analyzing.
-  let construct
-    handle
-    (funDFAResult: FunctionDFA)
-    classifyConst
-    sp
-    applyCallee
-    isDebug
-    =
+  let construct handle functionPreResult classifyConst sp applyCallee isDebug =
+    let funDFAResult = functionPreResult.FunctionDFA.DFAResult
+    let preAnalysis = functionPreResult.PreAnalysis
+
     let initialStackPointer =
       tryInitialStackPointer handle sp funDFAResult.ConstValue
 
     { PointerUse = funDFAResult.PointerUse
       ConstValue = funDFAResult.ConstValue
       ClassifyConstant = classifyConst
+      IsLive = fun variable -> PreAnalysisResult.isLive variable preAnalysis
       StackPointer = Some sp
       InitialStackPointer = initialStackPointer
       ApplyCallSummary = applyCallee
@@ -135,7 +135,8 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
   let exprEval =
     ExprEvalDomain.createWithConfig
       platform
-      { ClassifyConstant = config.ClassifyConstant }
+      { ClassifyConstant = config.ClassifyConstant
+        IsLive = config.IsLive }
 
   new (platform: Platform) = StmtEvalModule (platform, StmtEvalConfig.empty)
 
@@ -143,9 +144,21 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
   /// given variable
   member private _.applyPointerHint variable typeId state =
     if config.PointerUse variable then
+      (*
+        Since PointerUsage is trivial type, and do not affect others,
+        do need to check liveness
+      *)
       stateDom.addAddress typeId state
     else
       state
+
+  member private _.isTrivialVariable variable =
+    platform.IsTrivialAddress variable || platform.IsTrivialValue variable
+
+  member private this.isLive variable =
+    config.IsLive variable || this.isTrivialVariable variable
+
+  member private this.allLive variables = variables |> Seq.forall this.isLive
 
   /// Check whether given variable is the stack pointer or not
   member private _.isStackPointer (variable: Variable) =
@@ -183,9 +196,15 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
     let typeId, state = stateDom.getOrFreshTypeId variable state
 
     let state =
+      (*
+        Add type constraint only it consists with the type id of  live SSA
+        variables
+      *)
       match exprTypeId with
-      | Some exprTypeId -> stateDom.addSame [ typeId; exprTypeId ] state
+      | Some exprTypeId when this.isLive variable ->
+        stateDom.addSame [ typeId; exprTypeId ] state
       | None -> state
+      | Some _ -> state
 
     let _, state = stateDom.consumePendingReturn variable state
 
@@ -247,6 +266,10 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
   /// Get type Ids of phi source and connect them with target variable as Same
   /// type constraint.
   member private this.evalPhi variable srcIds state =
+    let sourceVariables =
+      srcIds
+      |> Array.map (fun sourceId -> { variable with Identifier = sourceId })
+
     let getSrcValTyp (values, typeIds, state) sourceId =
       let value, typeId, state = this.phiSource variable sourceId state
       value :: values, typeId :: typeIds, state
@@ -257,8 +280,13 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
     let valueJoined = List.fold absVal.join absVal.bot values
     let destTypeId, state = stateDom.getOrFreshTypeId variable state
 
+    let state =
+      if this.allLive (variable :: Array.toList sourceVariables) then
+        stateDom.addSame (destTypeId :: sourceTypeIds) state
+      else
+        state
+
     state
-    |> stateDom.addSame (destTypeId :: sourceTypeIds)
     |> stateDom.setRegister variable valueJoined destTypeId
     |> this.updateCurrentStackSlot variable destTypeId
     |> this.applyPointerHint variable destTypeId
@@ -291,8 +319,9 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
       *)
       | Phi ({ Kind = MemVar }, _) -> [ { Target = Next; State = state } ]
 
-      | Phi (variable, sourceIds) -> [ { Target = Next; State = state } ]
-      // State = this.evalPhi variable sourceIds state } ]
+      | Phi (variable, sourceIds) ->
+        [ { Target = Next
+            State = this.evalPhi variable sourceIds state } ]
 
       | Jmp (IntraJmp label) ->
         [ { Target = LabelTarget label

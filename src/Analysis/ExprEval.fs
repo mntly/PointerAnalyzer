@@ -7,6 +7,7 @@ open PointerAnalyzer.Platform.PlatformTypes
 open PointerAnalyzer.AbsDom.AbsVal
 open PointerAnalyzer.AbsDom.AnalysisState
 open PointerAnalyzer.AbsDom.TypeIdMap
+open PointerAnalyzer.PreAnalysis.VariableCollector
 
 /// <summary>
 /// Type of constant value. This is checked by B2R2's
@@ -32,10 +33,13 @@ type ConstantType =
 /// <see cref="PointerAnalyzer.Frontend.ConstantClassifier.ConstantClassifier.forBinary" />
 /// </summary>
 type ExprEvalConfig =
-  { ClassifyConstant: BitVector -> ConstantType }
+  { ClassifyConstant: BitVector -> ConstantType
+    IsLive: Variable -> bool }
 
 module ExprEvalConfig =
-  let empty = { ClassifyConstant = fun _ -> ValueConstant }
+  let empty =
+    { ClassifyConstant = fun _ -> ValueConstant
+      IsLive = fun _ -> true }
 
 type ExprEvalModule (platform: Platform, config: ExprEvalConfig) =
 
@@ -55,6 +59,9 @@ type ExprEvalModule (platform: Platform, config: ExprEvalConfig) =
     match typeId with
     | Some typeId -> stateDom.addAddress typeId state
     | None -> state
+
+  member private _.allVariablesLive expr =
+    variablesInExpr expr |> Seq.forall config.IsLive
 
   (* Evaluate Store. But, this should handled during evaluating stmt *)
   member this.EvalStore
@@ -128,11 +135,15 @@ type ExprEvalModule (platform: Platform, config: ExprEvalConfig) =
       | BinOpType.SUB ->
         let resultTypeId, state = stateDom.freshTypeId state
 
+        (*
+          Only add type constraint when given expression consists of only live
+          SSA variables
+        *)
         let state =
-          match op, leftTypeId, rightTypeId with
-          | BinOpType.ADD, Some left, Some right ->
+          match op, leftTypeId, rightTypeId, this.allVariablesLive expr with
+          | BinOpType.ADD, Some left, Some right, true ->
             stateDom.addAddResult resultTypeId left right state
-          | BinOpType.SUB, Some left, Some right ->
+          | BinOpType.SUB, Some left, Some right, true ->
             stateDom.addSubResult resultTypeId left right state
           | _ -> state
 
@@ -140,6 +151,7 @@ type ExprEvalModule (platform: Platform, config: ExprEvalConfig) =
       | _ -> value, None, state
 
     | Load (memoryVariable, _, addressExpr) ->
+      (* Memory Load generate trivial address, do not need to check liveness *)
       let address, addressTypeId, state = this.Eval state addressExpr
       let state = this.markAddress addressTypeId state
       stateDom.load memoryVariable.Identifier address state
@@ -211,7 +223,16 @@ type ExprEvalModule (platform: Platform, config: ExprEvalConfig) =
       let relatedTypeIds =
         [ Some resultTypeId; trueTypeId; falseTypeId ] |> List.choose id
 
-      let state = stateDom.addSame relatedTypeIds state
+      (*
+        Add type constraint only when the expression is consisted of only live
+        register
+      *)
+      let state =
+        if this.allVariablesLive expr then
+          stateDom.addSame relatedTypeIds state
+        else
+          state
+
       absVal.join trueValue falseValue, Some resultTypeId, state
 
     | ExprList exprs ->

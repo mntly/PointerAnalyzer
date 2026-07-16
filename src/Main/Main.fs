@@ -321,20 +321,19 @@ let main argv =
   printfn "ISA: %A" binary.Handle.File.ISA
   printfn "Platform: %s" binary.Platform.Name
 
-  (* PreAnalysis Given Binary (B2R2 DFA)  *)
-  let program =
+  (* Lift every function to B2R2 SSA and run DFA. *)
+  let dfaProgram =
     timed
       options.TrackTime
-      "PreAnalyze binary (B2R2 DFA) and lift SSA"
+      "Run B2R2 DFA and lift SSA"
       (fun () -> ProgramDFA.runDFA binary)
 
-  (* Print PreAnalysis Result *)
-  printfn "Recovered functions: %d" program.Functions.Count
+  printfn "Recovered functions: %d" dfaProgram.Functions.Count
 
   if options.ListFunctions then
     (* ListFunctions: Only print out the functions in given binary *)
     timed options.TrackTime "Print function list" (fun () ->
-      functionListStr program |> emitOutput options "funcList")
+      functionListStr dfaProgram |> emitOutput options "funcList")
 
     totalStopwatch.Stop ()
 
@@ -348,7 +347,7 @@ let main argv =
       match options.FunctionSelector with
       | Some funSelector ->
         (* Analyze All, Print out only given function *)
-        match resolveFunctionSelector program funSelector with
+        match resolveFunctionSelector dfaProgram funSelector with
         | Ok addr ->
           printfn "Selected function: %s -> 0x%x" funSelector.ToString addr
 
@@ -377,10 +376,14 @@ let main argv =
     | Ok (extractFuncDFA, extractFuncRes) ->
       (* Dump SSA *)
       if options.DumpSSA then
-        let selectedSSA = extractFuncDFA program.Functions
+        let selectedSSA = extractFuncDFA dfaProgram.Functions
 
         timed options.TrackTime "Dump SSA" (fun () ->
           selectedSSA |> funcSSAStr |> emitOutput options "dumpedSSA")
+
+      let program =
+        timed options.TrackTime "Pre-analyze SSA liveness" (fun () ->
+          PointerAnalyzer.PreAnalysis.PreAnalyzer.analyze dfaProgram)
 
       (* Run PointerAnalyzer *)
       let result = ModularAnalyzer.analyzeWithTimer options.TrackTime program
@@ -391,7 +394,7 @@ let main argv =
       timed options.TrackTime "Print analysis result" (fun () ->
         selectedResults
         |> Result2Json.AnalysisResultJson.fromAnalysisResultToJsonString
-          program.Binary.Platform
+          dfaProgram.Binary.Platform
           result
         |> storeOutput options "inferredTypes.json")
 

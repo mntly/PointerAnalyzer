@@ -9,6 +9,7 @@ open PointerAnalyzer.Analysis.Analyzer
 open PointerAnalyzer.Analysis.StmtEval
 open PointerAnalyzer.Frontend.ConstantClassifier
 open PointerAnalyzer.Frontend.ProgramDFA
+open PointerAnalyzer.PreAnalysis.PreAnalysisTypes
 open PointerAnalyzer.Summary
 open PointerAnalyzer.Summary.FunctionSummaryBuilder
 open PointerAnalyzer.Summary.SummaryApplicator
@@ -85,44 +86,6 @@ module ModularAnalyzer =
         registerTypeStr ]
     |> String.concat "\n"
 
-  /// From all callees, filtering only internal functions
-  let private internalCallees (funcs: Map<Addr, FunctionDFAResult>) func =
-    let calleeSeq = func.Callees |> Map.toSeq |> Seq.collect (snd >> Set.toSeq)
-
-    let internalFuncs =
-      calleeSeq
-      |> Seq.filter (fun address -> Map.containsKey address funcs)
-      |> Set.ofSeq
-
-    internalFuncs
-
-  /// Sort functions from Callee to Caller.
-  /// The modular analysis is processed with this order.
-  let private revDFS functions =
-    let rec dfs address (visited, visitOrder) =
-      if Set.contains address visited then
-        visited, visitOrder
-      else
-        let newVisited = Set.add address visited
-        let function_ = Map.find address functions
-
-        let calleeSet = internalCallees functions function_
-
-        let visited, visitOrder =
-          Set.fold
-            (fun acc callee -> dfs callee acc)
-            (newVisited, visitOrder)
-            calleeSet
-
-        visited, address :: visitOrder
-
-    let funcAddrSeq = functions |> Map.toSeq |> Seq.map fst
-
-    funcAddrSeq
-    |> Seq.fold (fun acc address -> dfs address acc) (Set.empty, [])
-    |> snd
-    |> List.rev
-
   (*
     ToDo
       Handle when there exist multiple callees at same callsite 
@@ -137,16 +100,17 @@ module ModularAnalyzer =
     | _ -> None
 
   /// Process main-analysis as modular analysis
-  let analyzeWithTimer trackTime (program: ProgramDFAResult) =
+  let analyzeWithTimer trackTime (program: ProgramPreResult) =
     let platform = program.Binary.Platform
     let applicator = SummaryApplicator.create platform
     let classifyConstant = ConstantClassifier.forBinary program.Binary.Handle
-    let visitOrder = revDFS program.Functions
+    let visitOrder = program.VisitOrder
 
     /// Analyze each function
     let analyzeFunction (calleeAnalyResults, summaries, nextTypeId) targetAddr =
       (* Recover function to analyze *)
-      let func = Map.find targetAddr program.Functions
+      let functionPreResult = Map.find targetAddr program.Functions
+      let func = functionPreResult.FunctionDFA
 
       /// If callee is valid, then apply callee summary.
       /// `targetAddr` is used for checking jump target is inlined function by
@@ -187,7 +151,7 @@ module ModularAnalyzer =
       let config =
         StmtEvalConfig.construct
           program.Binary.Handle
-          func.DFAResult
+          functionPreResult
           classifyConstant
           platform.StackPointer
           applyCallSummary
