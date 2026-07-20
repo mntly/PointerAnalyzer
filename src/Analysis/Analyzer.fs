@@ -108,7 +108,8 @@ type AnalyzerModule
   /// PointerAnalyzer interprets the leaf node as a return/exist block,
   /// it sets return register as the register from these blocks.
   member private _.IsLeafBlock (cfg: SSACFG) (block: IVertex<SSABasicBlock>) =
-    cfg.GetSuccs block |> Array.isEmpty
+    (cfg.GetSuccs block |> Array.isEmpty)
+    && not block.VData.Internals.IsAbstract
 
   /// Merge leaf states keyed by B2R2 CFG block id.
   /// Since one block evaluated only once, there does not exist the evaluation

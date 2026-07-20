@@ -191,6 +191,12 @@ type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
     { state with
         PendingReturns = Map.add retRegId calleeRetTypId state.PendingReturns }
 
+  /// Clear PendingReturns. This is used when function applicator clears
+  /// previous result.
+  member _.clearPendingReturns state =
+    { state with
+        PendingReturns = Map.empty }
+
   /// Initialize both initial SP and current SP to given value
   member _.initializeStackPointer value (state: AnalysisState) =
     { state with

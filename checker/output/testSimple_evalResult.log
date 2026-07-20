@@ -92,10 +92,6 @@
 0x08057138 _dl_add_to_slotinfo
 
 ===== MisInferred Functions =====
-0x08051a5f __fcntl_nocancel
-0x08051b20 __GI_fcntl
-0x080521bc _do_one_spec
-0x0805278f _vfprintf_internal
 0x08057aca __GI__exit
 0x080582c9 _uintmaxtostr
 0x0805843a _fpmaxtostr

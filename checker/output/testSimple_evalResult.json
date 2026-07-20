@@ -8,9 +8,9 @@
       "GTValue": 0
     },
     "MisInferred": {
-      "Total": 7,
+      "Total": 3,
       "GTAddress": 0,
-      "GTValue": 7
+      "GTValue": 3
     },
     "Conflict": {
       "Total": 0,
@@ -18,9 +18,9 @@
       "GTValue": 0
     },
     "Fail": {
-      "Total": 357,
+      "Total": 361,
       "GTAddress": 141,
-      "GTValue": 216
+      "GTValue": 220
     }
   },
   "Ratio": {
@@ -30,7 +30,7 @@
       "GTValue": 0
     },
     "MisInferred": {
-      "Total": 0.015217391304347827,
+      "Total": 0.006521739130434782,
       "GTAddress": 0,
       "GTValue": 1
     },
@@ -40,9 +40,9 @@
       "GTValue": 0
     },
     "Fail": {
-      "Total": 0.7760869565217391,
-      "GTAddress": 0.3949579831932773,
-      "GTValue": 0.6050420168067226
+      "Total": 0.7847826086956522,
+      "GTAddress": 0.39058171745152354,
+      "GTValue": 0.6094182825484764
     }
   },
   "GTTypeRatio": {
@@ -54,20 +54,20 @@
     },
     "GTValue": {
       "Correct": 0,
-      "MisInferred": 0.03139013452914798,
+      "MisInferred": 0.013452914798206279,
       "Conflict": 0,
-      "Fail": 0.968609865470852
+      "Fail": 0.9865470852017937
     }
   },
   "FinalResult": {
     "Confusion": {
       "TP": 96,
-      "TN": 216,
-      "FP": 7,
+      "TN": 220,
+      "FP": 3,
       "FN": 141
     },
-    "Acc": 0.6782608695652174,
+    "Acc": 0.6869565217391305,
     "Recall": 0.4050632911392405,
-    "Precision": 0.9320388349514563
+    "Precision": 0.9696969696969697
   }
 }

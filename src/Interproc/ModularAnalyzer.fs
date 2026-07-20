@@ -2,6 +2,8 @@ module PointerAnalyzer.Interproc.ModularAnalyzer
 
 open B2R2
 open B2R2.BinIR.SSA
+open B2R2.MiddleEnd.BinGraph
+open B2R2.MiddleEnd.ControlFlowGraph
 open PointerAnalyzer.AbsDom.TypeConstraint
 open PointerAnalyzer.AbsDom.TypeIdMap
 open PointerAnalyzer.AbsDom.TypeState
@@ -99,6 +101,40 @@ module ModularAnalyzer =
       Some (Set.minElement calleeSet)
     | _ -> None
 
+  /// Find entry point of target callee at given callsite, and extract
+  /// ReturningStatus of corresponding callee.
+  let private tryReturningStatus
+    (cfg: SSACFG)
+    (programPoint: ProgramPoint)
+    calleeAddress
+    =
+    (* Used for extracting callsite of caller *)
+    let containsProgramPoint (block: IVertex<SSABasicBlock>) =
+      block.VData.Internals.Statements
+      |> Array.exists (fun (pp, _) -> pp = programPoint)
+
+    (*
+      Check given successor block is target callee functio
+      (FunctionAbstraction)
+    *)
+    let calleeEntry (successor: IVertex<SSABasicBlock>) =
+      successor.VData.Internals.IsAbstract
+      && successor.VData.Internals.AbstractContent.EntryPoint = calleeAddress
+
+    (* CallSites must in caller -> Not in Fake Node: Function Abstraction *)
+    let callSites =
+      cfg.Vertices
+      |> Array.tryFind (fun block ->
+        not block.VData.Internals.IsAbstract && containsProgramPoint block)
+
+    callSites
+    (* Filter target callee *)
+    |> Option.bind (fun callerBlock ->
+      cfg.GetSuccs callerBlock |> Array.tryFind calleeEntry)
+    (* Extract ReturningStatus of target callee *)
+    |> Option.map (fun abstraction ->
+      abstraction.VData.Internals.AbstractContent.ReturningStatus)
+
   /// Process main-analysis as modular analysis
   let analyzeWithTimer trackTime (program: ProgramPreResult) =
     let platform = program.Binary.Platform
@@ -134,7 +170,13 @@ module ModularAnalyzer =
         | Some callee ->
           match Map.tryFind callee summaries with
           | Some calleeSum ->
-            let state = applicator.apply calleeSum inputs outputs state
+            let returningStatus =
+              tryReturningStatus func.CFG programPoint callee
+              |> Option.defaultValue UnknownNoRet
+
+            let state =
+              applicator.apply calleeSum returningStatus inputs outputs state
+
             Some (state, callee)
           | None -> None
         | None -> None

@@ -2,6 +2,7 @@ module PointerAnalyzer.Summary.SummaryApplicator
 
 open B2R2
 open B2R2.BinIR.SSA
+open B2R2.MiddleEnd.ControlFlowGraph
 
 open PointerAnalyzer.Platform.PlatformTypes
 open PointerAnalyzer.AbsDom.AnalysisState
@@ -70,7 +71,9 @@ type SummaryApplicatorModule (platform: Platform) =
     summary.Returns |> Map.fold setPendingReturnsInner state
 
   /// Applying the analysis result of callee to caller's analysis state
-  member _.apply summary inputs outputs state =
+  member _.apply summary returningStatus inputs outputs state =
+    (* New function call overwrite previous function call summary *)
+    let state = stateDom.clearPendingReturns state
     let context = callSiteContext summary state
 
     (* According to calling convention, get argument index of given variable *)
@@ -113,10 +116,18 @@ type SummaryApplicatorModule (platform: Platform) =
       pending return-register outputs.
     *)
     let state =
-      if List.isEmpty outputs then
-        setPendingReturns summary state
-      else
-        connectVariables outVarType outputs state
+      match returningStatus with
+      | NoRet ->
+        (* If callee has no return value, do not set PendingReturn *)
+        state
+      | NotNoRet
+      | ConditionalNoRet _
+      | UnknownNoRet ->
+        (* Otherwise, set PendingReturn *)
+        if List.isEmpty outputs then
+          setPendingReturns summary state
+        else
+          connectVariables outVarType outputs state
 
     (* Due to stack prologue, set current SP to None *)
     (* After before call, SP will reset *)
