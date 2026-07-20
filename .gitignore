@@ -13,6 +13,9 @@ checker/obj/
 src/bin/
 src/obj/
 
+# tmp
+tmp/
+
 # Analyzer/checker generated outputs
 # output/
 # checker/output/

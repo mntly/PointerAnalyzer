@@ -121,7 +121,8 @@ module StmtEvalConfig =
     { PointerUse = funDFAResult.PointerUse
       ConstValue = funDFAResult.ConstValue
       ClassifyConstant = classifyConst
-      IsLive = fun variable -> PreAnalysisResult.isLive variable preAnalysis
+      // IsLive = fun variable -> PreAnalysisResult.isLive variable preAnalysis
+      IsLive = fun variable -> true
       StackPointer = Some sp
       InitialStackPointer = initialStackPointer
       ApplyCallSummary = applyCallee
@@ -352,7 +353,8 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
 
       | Phi (variable, sourceIds) ->
         [ { Target = Next
-            State = this.evalPhi variable sourceIds state } ]
+            // State = this.evalPhi variable sourceIds state } ]
+            State = state } ]
 
       | Jmp (IntraJmp label) ->
         [ { Target = LabelTarget label

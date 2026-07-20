@@ -274,7 +274,7 @@
       "Value"
     ],
     "Return": [
-      "Value"
+      "Address"
     ]
   },
   "0x0804abf6": {
@@ -841,7 +841,7 @@
       "Address",
       "Value",
       "Value",
-      "Value"
+      "Address"
     ],
     "Return": [
       "Value"
@@ -1042,8 +1042,8 @@
   "0x08053da0": {
     "Name": "memcmp_common_alignment",
     "Args": [
-      "Value",
-      "Value",
+      "Address",
+      "Address",
       "Value"
     ],
     "Return": [
@@ -1053,8 +1053,8 @@
   "0x08053f52": {
     "Name": "memcmp_not_common_alignment",
     "Args": [
-      "Value",
-      "Value",
+      "Address",
+      "Address",
       "Value"
     ],
     "Return": [
