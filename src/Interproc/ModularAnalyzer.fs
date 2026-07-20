@@ -135,13 +135,7 @@ module ModularAnalyzer =
           match Map.tryFind callee summaries with
           | Some calleeSum ->
             let state = applicator.apply calleeSum inputs outputs state
-
-            Some (
-              state,
-              platform.TryCallReturnAddress
-                program.Binary.Handle
-                programPoint.Address
-            )
+            Some (state, callee)
           | None -> None
         | None -> None
 

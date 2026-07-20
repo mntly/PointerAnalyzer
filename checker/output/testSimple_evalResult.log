@@ -107,22 +107,27 @@
 0x08049f3e _pthread_cleanup_pop_restore
 0x0804aad0 _dl_linux_resolver
 0x0804abf6 _dl_parse
-0x0804b0eb _dl_parse_relocation_information
 0x0804b11b _dl_elf_hash
 0x0804b68c _dl_find_hash
 0x0804bf06 map_writeable
-0x0804eba9 _dl_parse_dynamic_info
 0x0804edea remove_slotinfo
-0x0804efd3 do_dlopen
 0x080504da do_dlclose
 0x080514e7 __close_nocancel
+0x08051573 __GI_close
+0x080518c2 __GI_open
 0x080519f1 __GI_sbrk
 0x08051a5f __fcntl_nocancel
+0x08051b20 __GI_fcntl
+0x08051ba8 dprintf
+0x08051bda __GI_vdprintf
 0x08051c7c __WRITE
 0x08051d0e __stdio_WRITE
 0x08051e21 __stdio_fwrite
+0x08051fb7 __stdio_trans2w
 0x080520e2 _fp_out_narrow
 0x08052175 _charpad
+0x080521bc _do_one_spec
+0x0805278f _vfprintf_internal
 0x08052efd _promoted_size
 0x08052f49 _is_equal_or_bigger_arg
 0x08052fa2 _ppfs_parsespec
@@ -136,13 +141,19 @@
 0x080544bb __GI___xpg_strerror_r
 0x080556ab __malloc_largebin_index
 0x08055703 malloc
+0x08057aca __GI__exit
 0x08057b38 __GI_munmap
 0x08057dbe __write_nocancel
+0x08057e21 __GI_write
+0x08057eb3 __GI_fprintf
 0x08057ee5 __SEEK
 0x080580d1 __stdio_adjust_position
+0x08058172 __stdio_seek
 0x080582c9 _uintmaxtostr
 0x0805843a _fpmaxtostr
+0x0805934f __GI_vfprintf
 0x0805949f __GI_strncmp
+0x0805972c __GI_lseek64
 
 ===== Conflict Functions =====
 <none>
@@ -195,7 +206,6 @@
 0x080511f0 __lll_timedlock_wait
 0x08051321 __lll_timedwait_tid
 0x0805149c _setjmp
-0x080514e7 __close_nocancel
 0x08051544 __close_nocancel_no_status
 0x08051573 __GI_close
 0x080515cf __GI_getegid
@@ -211,7 +221,6 @@
 0x08051ba8 dprintf
 0x08051bda __GI_vdprintf
 0x08051c7c __WRITE
-0x08051fb7 __stdio_trans2w
 0x080520e2 _fp_out_narrow
 0x08052175 _charpad
 0x080521bc _do_one_spec
@@ -256,7 +265,6 @@
 0x08057661 __GI_brk
 0x080576c1 __libc_sigaction
 0x08057aaf __GI_mmap
-0x08057aca __GI__exit
 0x08057b21 __getpagesize
 0x08057b38 __GI_munmap
 0x08057b9a __GI_sigprocmask

@@ -239,7 +239,7 @@
     "Args": [
       "Value",
       "Value",
-      "Value"
+      "Address"
     ],
     "Return": []
   },
@@ -350,7 +350,7 @@
     "Name": "_dl_add_elf_hash_table",
     "Args": [
       "Address",
-      "Value",
+      "Address",
       "Address",
       "Value",
       "Value"
@@ -458,7 +458,7 @@
       "Address",
       "Address",
       "Address",
-      "Value"
+      "Address"
     ],
     "Return": [
       "Value"
@@ -491,7 +491,7 @@
     "Args": [
       "Address",
       "Value",
-      "Value"
+      "Address"
     ],
     "Return": [
       "Address"

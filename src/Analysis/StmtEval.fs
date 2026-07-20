@@ -18,13 +18,14 @@ open PointerAnalyzer.PreAnalysis.PreAnalysisTypes
 /// <c>Next</c> indicates normal next instruction.
 /// <c>LabelTarget</c> indicates jump target with Label.
 /// <c>InterTarget</c> indicates jump target with address, not function call.
-/// <c>ReturnTarget</c> indicates the instruction after a function call.
+/// <c>CallTarget</c> indicates B2R2's function-abstraction node for a call.
+/// This represents the callee.
 /// </remarks>
 type TransferTarget =
   | Next
   | LabelTarget of Label
   | InterTarget of AbsVal
-  | ReturnTarget of Addr
+  | CallTarget of Addr
 
 /// <summary>
 /// The transfer result of each statement.
@@ -51,8 +52,8 @@ type ConstValue = Variable -> BitVector option
 
 /// <summary>
 /// Type definition of function for applying function summary to caller.
-/// This function also returns return address to handle inlined function by
-/// B2R2.
+/// This function also returns the resolved callee address so the analyzer can
+/// enter B2R2's function-abstraction node.
 /// </summary>
 type ApplyCallSummary =
   ProgramPoint
@@ -60,7 +61,7 @@ type ApplyCallSummary =
     -> Variable list
     -> Variable list
     -> AnalysisState
-    -> (AnalysisState * Addr option) option
+    -> (AnalysisState * Addr) option
 
 /// <summary>
 /// Some information used by evaluation, passed from
@@ -152,8 +153,16 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
     else
       state
 
+  /// Check given SSA variable's type is Trivial
   member private _.isTrivialVariable variable =
     platform.IsTrivialAddress variable || platform.IsTrivialValue variable
+
+  /// Check given register is return register
+  member private _.isReturnRegister (variable: Variable) =
+    match variable.Kind with
+    | RegVar (_, registerId, _) ->
+      List.contains registerId platform.ReturnRegisters
+    | _ -> false
 
   member private this.isLive variable =
     config.IsLive variable || this.isTrivialVariable variable
@@ -227,6 +236,24 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
     state
     |> this.defReg variable value typeId
     |> this.updateStackPointerFromConst variable
+
+  /// Update register used for return value in Fake Node.
+  member private this.evalAbstractReturnDefinition variable state =
+    (* Assign new type id for corresponding SSA variable *)
+    let typeId, state = stateDom.getOrFreshTypeId variable state
+    (* Get return type id of callee *)
+    let pendingReturn, state = stateDom.consumePendingReturn variable state
+
+    (* Connect callee and caller return register *)
+    let state =
+      match pendingReturn with
+      | Some calleeTypeId -> stateDom.addSame [ typeId; calleeTypeId ] state
+      | None -> state
+
+    state
+    |> stateDom.setRegister variable absVal.bot typeId
+    |> this.updateCurrentStackSlot variable typeId
+    |> this.applyPointerHint variable typeId
 
   /// Handle memory definition by evaluating the expression. Memory definition
   /// occurs only when store expression, this evaluate store expression and
@@ -309,6 +336,10 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
         [ { Target = Next
             State = this.evalMemoryDefinition resultMem expr state } ]
 
+      | Def (variable, Undefined (_, "ret")) when this.isReturnRegister variable ->
+        [ { Target = Next
+            State = this.evalAbstractReturnDefinition variable state } ]
+
       | Def (variable, expr) ->
         [ { Target = Next
             State = this.evalDefinition variable expr state } ]
@@ -350,13 +381,8 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
           | None -> state
 
         match config.ApplyCallSummary programPoint targetAddr [] [] state with
-        | Some (appliedState, returnAddr) ->
-          let target =
-            match returnAddr with
-            | Some address -> ReturnTarget address
-            | None -> Next
-          // [ { Target = target; State = state } ]
-          [ { Target = target
+        | Some (appliedState, calleeAddress) ->
+          [ { Target = CallTarget calleeAddress
               State = appliedState } ]
         | None ->
           [ { Target = InterTarget target

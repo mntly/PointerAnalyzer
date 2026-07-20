@@ -140,8 +140,7 @@ let loadInferred path : Map<string, InferredFunction> =
     let args = argsElem.GetProperty "Args" |> readTypeMap
 
     (* Extract inferred type of return value *)
-    let retElem = body.GetProperty "Return"
-    let retRegElem = retElem.GetProperty "ReturnReg"
+    let retRegElem = body.GetProperty "ReturnReg"
     let returns = readReturnReg retRegElem
 
     (* Construct inferred function signature *)

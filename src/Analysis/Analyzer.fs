@@ -86,14 +86,14 @@ type AnalyzerModule
       |> Array.tryFind (fun successor ->
         successor.VData.Internals.BlockAddress = address)
 
-    let tryFindAnyBlockAddress address =
-      cfg.Vertices
-      |> Seq.tryFind (fun vertex ->
-        vertex.VData.Internals.BlockAddress = address)
-
     match transferTarget with
     | LabelTarget label -> tryFindAddress label.Address
-    | ReturnTarget address -> tryFindAnyBlockAddress address
+    | CallTarget address ->
+      (* Jump to Fake Node that represents callee *)
+      successors
+      |> Array.tryFind (fun successor ->
+        successor.VData.Internals.IsAbstract
+        && successor.VData.Internals.AbstractContent.EntryPoint = address)
     | InterTarget value ->
       stateDom.AbsVal.tryGetUInt64 value |> Option.bind tryFindAddress
     | Next ->

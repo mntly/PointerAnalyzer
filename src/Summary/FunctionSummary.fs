@@ -28,7 +28,7 @@ type FunctionSummary =
     header + content
 
   member this.ReturnToString =
-    let header = "  Output registers:\n"
+    let header = "  Return registers:\n"
 
     let content =
       if Map.isEmpty this.Returns then

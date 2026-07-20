@@ -16,13 +16,6 @@ type ArgumentsJson =
     [<JsonPropertyName("Args")>]
     Args: Map<int, string> }
 
-type ReturnJson =
-  { [<JsonPropertyName("ReturnReg")>]
-    ReturnReg: Map<string, string>
-
-    [<JsonPropertyName("ModifiedReg")>]
-    ModifiedReg: Map<string, string> }
-
 type PP = string
 type SSARegName = string
 type InferredType = string
@@ -35,8 +28,8 @@ type FunctionJson =
     [<JsonPropertyName("Arguments")>]
     Arguments: ArgumentsJson
 
-    [<JsonPropertyName("Return")>]
-    Return: ReturnJson
+    [<JsonPropertyName("ReturnReg")>]
+    ReturnReg: Map<string, string>
 
     [<JsonPropertyName("DetailType")>]
     DetailType: DetailType }
@@ -58,16 +51,6 @@ module FunctionJson =
   let private typeIdToTypeString constraints conflicts typeId =
     let resolvedType = ResolvedTypeInfo.ofTypeId constraints conflicts typeId
     resolvedType.Type.ToOutputString
-
-  /// Convert type Id of each variable into resolved Type String
-  let private registerTypesToStringMap constraints conflicts platform regTypes =
-    regTypes
-    |> Map.toSeq
-    |> Seq.sortBy fst
-    |> Seq.map (fun (regId, typeId) ->
-      platform.RegisterName regId,
-      typeIdToTypeString constraints conflicts typeId)
-    |> Map.ofSeq
 
   /// Covert type Id of each return registers into resolved Type String
   let private returnRegTypesToStringMap
@@ -110,14 +93,6 @@ module FunctionJson =
         platform
         funAnalysis.Summary.Returns
 
-    (* Resolved type of all modified registers *)
-    let modifiedRegs =
-      registerTypesToStringMap
-        constraints
-        conflicts
-        platform
-        funAnalysis.Summary.Returns
-
     (* Resolved type per instruction(SSA) *)
     let detailType =
       let resolvedTypes =
@@ -129,12 +104,8 @@ module FunctionJson =
       TypePerInst.build resolvedTypes funAnalysis.Function.DFAResult.Statements
 
     { Name = funAnalysis.Function.Name
-      Arguments =
-        { ArgNum = Map.count args
-          Args = args }
-      Return =
-        { ReturnReg = returnRegs
-          ModifiedReg = modifiedRegs }
+      Arguments = { ArgNum = Map.count args; Args = args }
+      ReturnReg = returnRegs
       DetailType = detailType }
 
 module AnalysisResultJson =

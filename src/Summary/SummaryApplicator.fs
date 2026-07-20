@@ -61,8 +61,8 @@ type SummaryApplicatorModule (platform: Platform) =
 
     Seq.append registerArgs stackArgs |> Seq.toList
 
-  /// Store the modified register types due to callee until the caller uses or
-  /// redefines corresponding registers.
+  /// Store callee return-register types until B2R2's function abstraction
+  /// defines the corresponding caller SSA variables.
   let setPendingReturns summary state =
     let setPendingReturnsInner state regId calleeRetTypId =
       stateDom.setPendingReturn regId calleeRetTypId state
@@ -109,8 +109,8 @@ type SummaryApplicatorModule (platform: Platform) =
       | _ -> state
 
     (*
-      Explicitly connect modified variable due to callee or store them as
-      pending register outputs.
+      Explicitly connect return variables due to callee or store them as
+      pending return-register outputs.
     *)
     let state =
       if List.isEmpty outputs then
