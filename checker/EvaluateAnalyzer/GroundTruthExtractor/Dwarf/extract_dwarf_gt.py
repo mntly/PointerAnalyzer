@@ -171,6 +171,17 @@ def resolve_type(die, seen=None, context=None, path=None):
         return VALUE, []
 
     if tag in RECURSIVE_TAGS:
+        if 'DW_AT_name' in die.attributes:
+            # Handling for Elf(Addr)
+            try:
+                name_bytes = die.attributes['DW_AT_name'].value
+                type_name = name_bytes.decode('utf-8', errors='ignore')
+                
+                if "Addr" in type_name:
+                    return ADDRESS, []
+            except Exception:
+                pass
+        
         return resolve_type(
             get_ref_die(die, "DW_AT_type"),
             seen,
