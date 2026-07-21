@@ -17,8 +17,12 @@ open PointerAnalyzer.PreAnalysis.PreAnalysisTypes
 /// </summary>
 /// <remarks>
 /// <c>Next</c> indicates normal next instruction.
-/// <c>LabelTarget</c> indicates jump target with Label.
+/// <c>LabelTarget</c> indicates jump target with Label. Its optional
+/// CFGEdgeKind distinguishes conditional successors that share the same
+/// address.
 /// <c>InterTarget</c> indicates jump target with address, not function call.
+/// Its optional CFGEdgeKind distinguishes true and false conditional
+/// successors.
 /// <c>CallTarget</c> indicates B2R2's function-abstraction node for a call.
 /// This represents the callee.
 /// <c>AbstractionReturn</c> indicates the terminal jump (return) in B2R2's
@@ -26,8 +30,8 @@ open PointerAnalyzer.PreAnalysis.PreAnalysisTypes
 /// </remarks>
 type TransferTarget =
   | Next
-  | LabelTarget of Label
-  | InterTarget of AbsVal
+  | LabelTarget of Label * CFGEdgeKind option
+  | InterTarget of AbsVal * CFGEdgeKind option
   | CallTarget of Addr
   | AbstractionReturn
 
@@ -376,7 +380,7 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
             State = state } ]
 
       | Jmp (IntraJmp label) ->
-        [ { Target = LabelTarget label
+        [ { Target = LabelTarget (label, None)
             State = state } ]
 
       | Jmp (IntraCJmp (conditionExpr, trueLabel, falseLabel)) ->
@@ -387,9 +391,9 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
         //   | Some typeId -> stateDom.addValue typeId state
         //   | None -> state
 
-        [ { Target = LabelTarget trueLabel
+        [ { Target = LabelTarget (trueLabel, Some IntraCJmpTrueEdge)
             State = state }
-          { Target = LabelTarget falseLabel
+          { Target = LabelTarget (falseLabel, Some IntraCJmpFalseEdge)
             State = state } ]
 
       | Jmp (InterJmp targetExpr) ->
@@ -413,7 +417,7 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
             [ { Target = CallTarget calleeAddress
                 State = appliedState } ]
           | None ->
-            [ { Target = InterTarget target
+            [ { Target = InterTarget (target, None)
                 State = state } ]
 
       | Jmp (InterCJmp (conditionExpr, trueExpr, falseExpr)) ->
@@ -436,9 +440,9 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
             | Some typeId -> stateDom.addAddress typeId state
             | None -> state)
 
-        [ { Target = InterTarget trueTarget
+        [ { Target = InterTarget (trueTarget, Some InterCJmpTrueEdge)
             State = state }
-          { Target = InterTarget falseTarget
+          { Target = InterTarget (falseTarget, Some InterCJmpFalseEdge)
             State = state } ]
 
       (*

@@ -94,16 +94,33 @@ type AnalyzerModule
       |> Array.tryFind (fun successor ->
         successor.VData.Internals.BlockAddress = address)
 
+    (*
+      Among sucessed block, select one block with same address and same edge
+      kind
+    *)
+    let tryFindEdge edgeKind address =
+      cfg.GetSuccEdges block
+      |> Array.tryFind (fun edge -> edge.Label = edgeKind)
+      |> Option.map (fun edge -> edge.Second)
+      |> Option.filter (fun successor ->
+        successor.VData.Internals.BlockAddress = address)
+
+    let tryFindTarget edgeKind address =
+      match edgeKind with
+      | Some edgeKind -> tryFindEdge edgeKind address
+      | None -> tryFindAddress address
+
     match transferTarget with
-    | LabelTarget label -> tryFindAddress label.Address
+    | LabelTarget (label, edgeKind) -> tryFindTarget edgeKind label.Address
     | CallTarget address ->
       (* Jump to Fake Node that represents callee *)
       successors
       |> Array.tryFind (fun successor ->
         successor.VData.Internals.IsAbstract
         && successor.VData.Internals.AbstractContent.EntryPoint = address)
-    | InterTarget value ->
-      stateDom.AbsVal.tryGetUInt64 value |> Option.bind tryFindAddress
+    | InterTarget (value, edgeKind) ->
+      stateDom.AbsVal.tryGetUInt64 value
+      |> Option.bind (tryFindTarget edgeKind)
     | AbstractionReturn ->
       (* Return from callee: Back to caller, not just jump target *)
       (* Sometimes, jump target is out of caller. *)

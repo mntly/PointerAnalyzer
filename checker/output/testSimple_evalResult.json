@@ -1,36 +1,14 @@
 {
   "Count": {
     "GTAll": 473,
-    "All": 460,
+    "All": 455,
     "Correct": {
-      "Total": 96,
-      "GTAddress": 96,
+      "Total": 93,
+      "GTAddress": 93,
       "GTValue": 0
     },
     "MisInferred": {
-      "Total": 2,
-      "GTAddress": 0,
-      "GTValue": 2
-    },
-    "Conflict": {
-      "Total": 0,
-      "GTAddress": 0,
-      "GTValue": 0
-    },
-    "Fail": {
-      "Total": 362,
-      "GTAddress": 141,
-      "GTValue": 221
-    }
-  },
-  "Ratio": {
-    "Correct": {
-      "Total": 0.20869565217391303,
-      "GTAddress": 1,
-      "GTValue": 0
-    },
-    "MisInferred": {
-      "Total": 0.004347826086956522,
+      "Total": 1,
       "GTAddress": 0,
       "GTValue": 1
     },
@@ -40,34 +18,56 @@
       "GTValue": 0
     },
     "Fail": {
-      "Total": 0.7869565217391304,
-      "GTAddress": 0.38950276243093923,
-      "GTValue": 0.6104972375690608
+      "Total": 361,
+      "GTAddress": 142,
+      "GTValue": 219
+    }
+  },
+  "Ratio": {
+    "Correct": {
+      "Total": 0.2043956043956044,
+      "GTAddress": 1,
+      "GTValue": 0
+    },
+    "MisInferred": {
+      "Total": 0.002197802197802198,
+      "GTAddress": 0,
+      "GTValue": 1
+    },
+    "Conflict": {
+      "Total": 0,
+      "GTAddress": 0,
+      "GTValue": 0
+    },
+    "Fail": {
+      "Total": 0.7934065934065934,
+      "GTAddress": 0.39335180055401664,
+      "GTValue": 0.6066481994459834
     }
   },
   "GTTypeRatio": {
     "GTAddress": {
-      "Correct": 0.4050632911392405,
+      "Correct": 0.39574468085106385,
       "MisInferred": 0,
       "Conflict": 0,
-      "Fail": 0.5949367088607594
+      "Fail": 0.6042553191489362
     },
     "GTValue": {
       "Correct": 0,
-      "MisInferred": 0.008968609865470852,
+      "MisInferred": 0.004545454545454545,
       "Conflict": 0,
-      "Fail": 0.9910313901345291
+      "Fail": 0.9954545454545455
     }
   },
   "FinalResult": {
     "Confusion": {
-      "TP": 96,
-      "TN": 221,
-      "FP": 2,
-      "FN": 141
+      "TP": 93,
+      "TN": 219,
+      "FP": 1,
+      "FN": 142
     },
-    "Acc": 0.6891304347826087,
-    "Recall": 0.4050632911392405,
-    "Precision": 0.9795918367346939
+    "Acc": 0.6857142857142857,
+    "Recall": 0.39574468085106385,
+    "Precision": 0.9893617021276596
   }
 }
