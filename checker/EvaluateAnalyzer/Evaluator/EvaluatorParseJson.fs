@@ -30,20 +30,20 @@ let private getFunName defaultValue (name: string) (element: JsonElement) =
   else
     defaultValue
 
-/// Given JSON element(value of "Args"), extract type of
-/// parameter/return value list
-let private readTypeArray (element: JsonElement) =
+/// Given a GT JSON element, extract its source-level byte size and type.
+let private readGTElement (element: JsonElement) =
+  let size = element.GetProperty("Size").GetInt32 ()
+  let typ = element.GetProperty("Type").GetString () |> parseEvalType
+  { Size = size; Type = typ }
+
+/// Given JSON element(value of "Args"), extract GT parameter/return elements.
+let private readGTArray (element: JsonElement) =
   if element.ValueKind <> JsonValueKind.Array then
     (* This case may not be held *)
     []
   else
     element.EnumerateArray ()
-    |> Seq.choose (fun item ->
-      if item.ValueKind = JsonValueKind.String then
-        Some (parseEvalType (item.GetString ()))
-      else
-        (* This case may not be held *)
-        None)
+    |> Seq.map readGTElement
     |> Seq.toList
 
 /// Given JSON element(value of inferred "Args"), extract type of
@@ -102,10 +102,10 @@ let loadGroundTruth path : Map<string, GTFunction> =
     let name = getFunName address "Name" body
 
     (* Extract GT type of parameters *)
-    let args = body.GetProperty "Args" |> readTypeArray
+    let args = body.GetProperty "Args" |> readGTArray
 
     (* Extract GT type of return value *)
-    let returns = body.GetProperty "Return" |> readTypeArray
+    let returns = body.GetProperty "Return" |> readGTArray
 
     (* Construct function signature *)
     let gtFunction: GTFunction =
@@ -115,6 +115,19 @@ let loadGroundTruth path : Map<string, GTFunction> =
 
     address, gtFunction)
   |> Map.ofSeq
+
+/// Parse the PointerAnalyzer configuration associated with inferred results.
+let loadAnalysisConfig path : AnalysisConfig =
+  if not (File.Exists path) then
+    failwithf "analysis configuration JSON does not exist: %s" path
+
+  use doc = JsonDocument.Parse (File.ReadAllText path)
+  let wordSize = doc.RootElement.GetProperty("WordSize").GetInt32 ()
+
+  if wordSize <= 0 then
+    failwithf "analysis configuration has invalid WordSize: %d" wordSize
+
+  { WordSize = wordSize }
 
 /// Parsing inferred result and construct InferredFunction Map.
 /// The address is used as Key of InferredFunction Map.

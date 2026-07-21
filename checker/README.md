@@ -61,6 +61,10 @@ dotnet run --project Checker.fsproj \
 
 With `-on` option, you can assign the suffix name of output file. As default, it will be basename of given binary. The extracted ground truth is stroed with `SUFFIX_GT.json`. During extraction, if there happens some strange behavior, the extractor will logs as `SUFFIX_GTExtract.log`
 
+Each ground-truth argument and return value contains its byte `Size` and
+classified `Type`. A size of `0` means that DWARF did not provide enough size
+information and requires manual correction before evaluation.
+
 ```
 dotnet run --project Checker.fsproj \
   -m 2 \
@@ -72,6 +76,8 @@ dotnet run --project Checker.fsproj \
 ### [Evaluator](./EvaluateAnalyzer/Evaluator/)
 
 This directory contains the codes related to evaluate the performance of PointerAnalyzer using given ground truth type(`-gt`) and inferred type(`-i`).
+The evaluator reads `analysisConfig.json` from the directory containing the
+given `inferredTypes.json`. PointerAnalyzer generates both files together.
 
 ```
 dotnet run --project Checker.fsproj \

@@ -3,25 +3,40 @@
     "Name": "_start",
     "Args": [],
     "Return": [
-      "Unknown"
+      {
+        "Size": 0,
+        "Type": "Unknown"
+      }
     ]
   },
   "0x080491f6": {
     "Name": "puts",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08049322": {
     "Name": "__CLOSE",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x0804937b": {
@@ -37,113 +52,209 @@
   "0x08049545": {
     "Name": "__stdio_wcommit",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08049591": {
     "Name": "__GI___fputc_unlocked",
     "Args": [
-      "Value",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08049690": {
     "Name": "__GI_fputs_unlocked",
     "Args": [
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x080496d7": {
     "Name": "__GI_fwrite_unlocked",
     "Args": [
-      "Address",
-      "Value",
-      "Value",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08049766": {
     "Name": "__GI_strlen",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x080497a9": {
     "Name": "__GI_isatty",
     "Args": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x080497d6": {
     "Name": "__GI_tcgetattr",
     "Args": [
-      "Value",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08049ef5": {
     "Name": "__pthread_return_0",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08049f09": {
     "Name": "__pthread_mutex_init",
     "Args": [
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08049f1d": {
     "Name": "_pthread_cleanup_push_defer",
     "Args": [
-      "Address",
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": []
   },
   "0x08049f3e": {
     "Name": "_pthread_cleanup_pop_restore",
     "Args": [
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": []
   },
   "0x08049f67": {
     "Name": "__check_one_fd",
     "Args": [
-      "Value",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": []
   },
@@ -151,7 +262,10 @@
     "Name": "__check_suid",
     "Args": [],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x0804a00c": {
@@ -167,13 +281,34 @@
   "0x0804a0ec": {
     "Name": "__uClibc_main",
     "Args": [
-      "Address",
-      "Value",
-      "Address",
-      "Address",
-      "Address",
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": []
   },
@@ -185,16 +320,28 @@
   "0x0804a488": {
     "Name": "init_static_tls",
     "Args": [
-      "Value",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": []
   },
   "0x0804a4db": {
     "Name": "__libc_setup_tls",
     "Args": [
-      "Value",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": []
   },
@@ -202,7 +349,10 @@
     "Name": "_dl_tls_setup",
     "Args": [],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x0804a807": {
@@ -213,14 +363,20 @@
   "0x0804a82e": {
     "Name": "_dl_aux_init",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": []
   },
   "0x0804a8bf": {
     "Name": "_dl_nothread_init_static_tls",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": []
   },
@@ -237,16 +393,28 @@
   "0x0804a982": {
     "Name": "_dl_run_array_forward",
     "Args": [
-      "Value",
-      "Value",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": []
   },
   "0x0804a9de": {
     "Name": "_dl_run_init_array",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": []
   },
@@ -258,7 +426,10 @@
   "0x0804aa3b": {
     "Name": "_dl_run_fini_array",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": []
   },
@@ -270,667 +441,1303 @@
   "0x0804aad0": {
     "Name": "_dl_linux_resolver",
     "Args": [
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x0804abf6": {
     "Name": "_dl_parse",
     "Args": [
-      "Address",
-      "Address",
-      "Value",
-      "Value",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x0804ad36": {
     "Name": "_dl_do_reloc",
     "Args": [
-      "Address",
-      "Address",
-      "Address",
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x0804b05e": {
     "Name": "_dl_do_lazy_reloc",
     "Args": [
-      "Address",
-      "Address",
-      "Address",
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x0804b0bb": {
     "Name": "_dl_parse_lazy_relocation_information",
     "Args": [
-      "Address",
-      "Value",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": []
   },
   "0x0804b0eb": {
     "Name": "_dl_parse_relocation_information",
     "Args": [
-      "Address",
-      "Address",
-      "Value",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x0804b11b": {
     "Name": "_dl_elf_hash",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x0804b17b": {
     "Name": "_dl_add_elf_hash_table",
     "Args": [
-      "Address",
-      "Address",
-      "Address",
-      "Value",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x0804b5d3": {
     "Name": "check_match",
     "Args": [
-      "Address",
-      "Address",
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x0804b68c": {
     "Name": "_dl_find_hash",
     "Args": [
-      "Address",
-      "Address",
-      "Address",
-      "Value",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x0804b900": {
     "Name": "_dl_protect_relro",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": []
   },
   "0x0804ba24": {
     "Name": "search_for_named_library",
     "Args": [
-      "Address",
-      "Value",
-      "Address",
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x0804bc37": {
     "Name": "_dl_load_shared_library",
     "Args": [
-      "Value",
-      "Address",
-      "Address",
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x0804bf06": {
     "Name": "map_writeable",
     "Args": [
-      "Value",
-      "Address",
-      "Value",
-      "Value",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x0804c321": {
     "Name": "_dl_load_elf_shared_library",
     "Args": [
-      "Value",
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x0804e8a3": {
     "Name": "_dl_fixup",
     "Args": [
-      "Address",
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x0804eba9": {
     "Name": "_dl_parse_dynamic_info",
     "Args": [
-      "Address",
-      "Address",
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x0804edea": {
     "Name": "remove_slotinfo",
     "Args": [
-      "Value",
-      "Address",
-      "Value",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 1,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 1,
+        "Type": "Value"
+      }
     ]
   },
   "0x0804ef40": {
     "Name": "_dl_build_local_scope",
     "Args": [
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x0804efd3": {
     "Name": "do_dlopen",
     "Args": [
-      "Address",
-      "Value",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x08050258": {
     "Name": "dlopen",
     "Args": [
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x080502d3": {
     "Name": "do_dlsym",
     "Args": [
-      "Address",
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x0805045f": {
     "Name": "dlsym",
     "Args": [
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x080504da": {
     "Name": "do_dlclose",
     "Args": [
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08050d45": {
     "Name": "dlclose",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08050dbb": {
     "Name": "dlerror",
     "Args": [],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x08050e03": {
     "Name": "do_dladdr",
     "Args": [
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08051038": {
     "Name": "dladdr",
     "Args": [
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x080510af": {
     "Name": "_dl_linux_resolve",
     "Args": [],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x080510d8": {
     "Name": "__lll_lock_wait_private",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": []
   },
   "0x08051162": {
     "Name": "__lll_lock_wait",
     "Args": [
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": []
   },
   "0x080511f0": {
     "Name": "__lll_timedlock_wait",
     "Args": [
-      "Address",
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08051321": {
     "Name": "__lll_timedwait_tid",
     "Args": [
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08051458": {
     "Name": "__errno_location",
     "Args": [],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x08051476": {
     "Name": "__h_errno_location",
     "Args": [],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x0805149c": {
     "Name": "_setjmp",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x080514c0": {
     "Name": "__libc_i386_syscall6",
     "Args": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x080514e7": {
     "Name": "__close_nocancel",
     "Args": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08051544": {
     "Name": "__close_nocancel_no_status",
     "Args": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": []
   },
   "0x08051573": {
     "Name": "__GI_close",
     "Args": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x080515cf": {
     "Name": "__GI_getegid",
     "Args": [],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x080515f7": {
     "Name": "__GI_geteuid",
     "Args": [],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x0805161f": {
     "Name": "__GI_getgid",
     "Args": [],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08051647": {
     "Name": "__GI_gettimeofday",
     "Args": [
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x080516b6": {
     "Name": "__GI_getuid",
     "Args": [],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x080516de": {
     "Name": "__GI_ioctl",
     "Args": [
-      "Value",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08051860": {
     "Name": "__open2_nocancel",
     "Args": [
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x080518c2": {
     "Name": "__GI_open",
     "Args": [
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x080519f1": {
     "Name": "__GI_sbrk",
     "Args": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x08051a5f": {
     "Name": "__fcntl_nocancel",
     "Args": [
-      "Value",
-      "Value",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08051b20": {
     "Name": "__GI_fcntl",
     "Args": [
-      "Value",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08051ba8": {
     "Name": "dprintf",
     "Args": [
-      "Value",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08051bda": {
     "Name": "__GI_vdprintf",
     "Args": [
-      "Value",
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08051c7c": {
     "Name": "__WRITE",
     "Args": [
-      "Address",
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08051d0e": {
     "Name": "__stdio_WRITE",
     "Args": [
-      "Address",
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08051e21": {
     "Name": "__stdio_fwrite",
     "Args": [
-      "Address",
-      "Value",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08051fb7": {
     "Name": "__stdio_trans2w",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x080520e2": {
     "Name": "_fp_out_narrow",
     "Args": [
-      "Address",
-      "Value",
-      "Value",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08052175": {
     "Name": "_charpad",
     "Args": [
-      "Address",
-      "Value",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x080521bc": {
     "Name": "_do_one_spec",
     "Args": [
-      "Address",
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x0805278f": {
     "Name": "_vfprintf_internal",
     "Args": [
-      "Address",
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08052900": {
     "Name": "_ppfs_init",
     "Args": [
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08052c9c": {
     "Name": "_ppfs_prepargs",
     "Args": [
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": []
   },
   "0x08052cf4": {
     "Name": "_ppfs_setargs",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": []
   },
   "0x08052efd": {
     "Name": "_promoted_size",
     "Args": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08052f49": {
     "Name": "_is_equal_or_bigger_arg",
     "Args": [
-      "Value",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08052fa2": {
     "Name": "_ppfs_parsespec",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x080534a5": {
@@ -941,256 +1748,484 @@
   "0x08053765": {
     "Name": "__GI_fflush_unlocked",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08053b30": {
     "Name": "__GI_memcpy",
     "Args": [
-      "Address",
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x08053b77": {
     "Name": "__GI_memset",
     "Args": [
-      "Address",
-      "Value",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x08053bc5": {
     "Name": "__GI_strcat",
     "Args": [
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x08053c18": {
     "Name": "__GI_strchr",
     "Args": [
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x08053c55": {
     "Name": "__GI_strcmp",
     "Args": [
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08053c9c": {
     "Name": "__GI_strcpy",
     "Args": [
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x08053cd9": {
     "Name": "__GI_strnlen",
     "Args": [
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08053d0f": {
     "Name": "__GI_strrchr",
     "Args": [
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x08053d52": {
     "Name": "memcmp_bytes",
     "Args": [
-      "Value",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08053da0": {
     "Name": "memcmp_common_alignment",
     "Args": [
-      "Address",
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08053f52": {
     "Name": "memcmp_not_common_alignment",
     "Args": [
-      "Address",
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x080541e9": {
     "Name": "__GI_memcmp",
     "Args": [
-      "Address",
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08054308": {
     "Name": "__GI_mempcpy",
     "Args": [
-      "Address",
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x08054332": {
     "Name": "__GI_memrchr",
     "Args": [
-      "Address",
-      "Value",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x08054452": {
     "Name": "__GI___glibc_strerror_r",
     "Args": [
-      "Value",
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x08054477": {
     "Name": "__GI_strdup",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x080544bb": {
     "Name": "__GI___xpg_strerror_r",
     "Args": [
-      "Value",
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08054920": {
     "Name": "__malloc_trim",
     "Args": [
-      "Value",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x080549f9": {
     "Name": "malloc_trim",
     "Args": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08054a84": {
     "Name": "malloc_init_state",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": []
   },
   "0x08054b59": {
     "Name": "__malloc_consolidate",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": []
   },
   "0x08054d8b": {
     "Name": "free",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": []
   },
   "0x080550a1": {
     "Name": "__malloc_alloc",
     "Args": [
-      "Value",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x080556ab": {
     "Name": "__malloc_largebin_index",
     "Args": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08055703": {
     "Name": "malloc",
     "Args": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x08055f16": {
@@ -1201,81 +2236,129 @@
   "0x08056359": {
     "Name": "__GI_getenv",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x080563dd": {
     "Name": "__GI_exit",
     "Args": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": []
   },
   "0x08056497": {
     "Name": "__clear_internal_signals",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": []
   },
   "0x08056584": {
     "Name": "__libc_signal_block_app",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x080565d8": {
     "Name": "__libc_signal_restore_set",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x0805660e": {
     "Name": "__GI_raise",
     "Args": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x080566ab": {
     "Name": "__libc_enable_asynccancel",
     "Args": [],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08056775": {
     "Name": "__libc_disable_asynccancel",
     "Args": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": []
   },
   "0x08056850": {
     "Name": "_dl_memalign",
     "Args": [
-      "Value",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x08056872": {
     "Name": "_dl_allocate_static_tls",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": []
   },
@@ -1283,23 +2366,38 @@
     "Name": "_dl_next_tls_modid",
     "Args": [],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08056a73": {
     "Name": "allocate_dtv",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x08056ad9": {
     "Name": "_dl_get_tls_static_info",
     "Args": [
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": []
   },
@@ -1307,100 +2405,184 @@
     "Name": "_dl_allocate_tls_storage",
     "Args": [],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x08056e7f": {
     "Name": "_dl_allocate_tls_init",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x08057031": {
     "Name": "_dl_allocate_tls",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x08057066": {
     "Name": "_dl_deallocate_tls",
     "Args": [
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 1,
+        "Type": "Value"
+      }
     ],
     "Return": []
   },
   "0x08057138": {
     "Name": "_dl_add_to_slotinfo",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": []
   },
   "0x08057538": {
     "Name": "__libc_clock_gettime",
     "Args": [
-      "Value",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x0805763c": {
     "Name": "clock_gettime",
     "Args": [
-      "Value",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08057661": {
     "Name": "__GI_brk",
     "Args": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x080576c1": {
     "Name": "__libc_sigaction",
     "Args": [
-      "Value",
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08057aaf": {
     "Name": "__GI_mmap",
     "Args": [
-      "Address",
-      "Value",
-      "Value",
-      "Value",
-      "Value",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x08057aca": {
     "Name": "__GI__exit",
     "Args": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": []
   },
@@ -1408,231 +2590,471 @@
     "Name": "__getpagesize",
     "Args": [],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08057b38": {
     "Name": "__GI_munmap",
     "Args": [
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08057b9a": {
     "Name": "__GI_sigprocmask",
     "Args": [
-      "Value",
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08057d58": {
     "Name": "__syscall_rt_sigaction",
     "Args": [
-      "Value",
-      "Address",
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08057dbe": {
     "Name": "__write_nocancel",
     "Args": [
-      "Value",
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08057e21": {
     "Name": "__GI_write",
     "Args": [
-      "Value",
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08057e89": {
     "Name": "__GI_fseek",
     "Args": [
-      "Address",
-      "Value",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08057eb3": {
     "Name": "__GI_fprintf",
     "Args": [
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08057ee5": {
     "Name": "__SEEK",
     "Args": [
-      "Address",
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08057f45": {
     "Name": "__GI_fseeko64",
     "Args": [
-      "Address",
-      "Value",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 8,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x080580d1": {
     "Name": "__stdio_adjust_position",
     "Args": [
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x08058172": {
     "Name": "__stdio_seek",
     "Args": [
-      "Address",
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x080581c7": {
     "Name": "_load_inttype",
     "Args": [
-      "Value",
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 8,
+        "Type": "Value"
+      }
     ]
   },
   "0x0805827b": {
     "Name": "_store_inttype",
     "Args": [
-      "Address",
-      "Value",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 8,
+        "Type": "Value"
+      }
     ],
     "Return": []
   },
   "0x080582c9": {
     "Name": "_uintmaxtostr",
     "Args": [
-      "Address",
-      "Value",
-      "Value",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 8,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x0805843a": {
     "Name": "_fpmaxtostr",
     "Args": [
-      "Address",
-      "Value",
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 12,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x0805934f": {
     "Name": "__GI_vfprintf",
     "Args": [
-      "Address",
-      "Address",
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x0805949f": {
     "Name": "__GI_strncmp",
     "Args": [
-      "Address",
-      "Address",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x080594f4": {
     "Name": "calloc",
     "Args": [
-      "Value",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Address"
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
     ]
   },
   "0x08059674": {
     "Name": "__syscall_error",
     "Args": [],
     "Return": [
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ]
   },
   "0x0805969f": {
     "Name": "__lseek64_nocancel",
     "Args": [
-      "Value",
-      "Value",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 8,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 8,
+        "Type": "Value"
+      }
     ]
   },
   "0x0805972c": {
     "Name": "__GI_lseek64",
     "Args": [
-      "Value",
-      "Value",
-      "Value"
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 8,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
     ],
     "Return": [
-      "Value"
+      {
+        "Size": 8,
+        "Type": "Value"
+      }
     ]
   }
 }

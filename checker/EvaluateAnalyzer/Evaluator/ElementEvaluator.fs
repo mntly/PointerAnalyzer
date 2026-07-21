@@ -5,7 +5,18 @@ open EvaluateAnalyzer.Evaluator.Types
 /// Check GT function signature has Unknown type.
 /// This kinds of funcition not used for evaluation.
 let private hasUnknownGT (gt: GTFunction) =
-  List.exists ((=) Unknown) gt.Args || List.exists ((=) Unknown) gt.Return
+  let hasUnknown elements =
+    elements |> List.exists (fun element -> element.Type = Unknown)
+
+  hasUnknown gt.Args || hasUnknown gt.Return
+
+/// A zero size indicates the need of manual correction.
+/// Evaluator does not consider the type with zero size as GT.
+let private hasInvalidGTSize (gt: GTFunction) =
+  let hasInvalidSize elements =
+    elements |> List.exists (fun element -> element.Size <= 0)
+
+  hasInvalidSize gt.Args || hasInvalidSize gt.Return
 
 /// Classify the evaluate result type of given pair of GT and inferred type
 let private classify gt inferred =
@@ -20,32 +31,73 @@ let private classify gt inferred =
   | Value, Unknown -> Fail
   | _ -> Fail
 
+/// Join Type.
+let private joinType left right =
+  match left, right with
+  | Unknown, other
+  | other, Unknown -> other
+  | Conflict, _
+  | _, Conflict -> Conflict
+  | Address, Address -> Address
+  | Value, Value -> Value
+  | Address, Value
+  | Value, Address -> Conflict
+
+/// From given byteSize, calculate the # of Word Slots
+let private wordSlotCount wordSize byteSize =
+  (byteSize + wordSize - 1) / wordSize
+
+/// Calculate total # of Word Slots to represent given GT args
+let private expectedArgSlots wordSize args =
+  args |> List.sumBy (fun arg -> wordSlotCount wordSize arg.Size)
+
 /// Evaluate each parameters in function signature.
 /// If inferred parameter was missing, assume its type as Unknown.
-let private argResults fn gtArgs inferredArgs =
-  gtArgs
-  |> List.mapi (fun paramIdx gt ->
-    let inferred =
-      Map.tryFind paramIdx inferredArgs |> Option.defaultValue Unknown
+let private argResults wordSize fn gtArgs inferredArgs =
+  (*
+    From given InferArgIdx(slotCursor), merge(join) all inferred types
+    corresponding to GT by assigning same size
+  *)
+  let evaluateArgument (slotCursor, results) (paramIdx, gt: GTElement) =
+    (* Transform the byte size of GT into # of word slot *)
+    let slotCount = wordSlotCount wordSize gt.Size
 
-    { Function = fn
-      Target = Argument paramIdx
-      GT = gt
-      Inferred = inferred
-      Category = classify gt inferred })
+    (* Extract all corresponding inferred types and Join *)
+    let inferred =
+      [ slotCursor .. slotCursor + slotCount - 1 ]
+      |> List.map (fun slotIndex ->
+        Map.tryFind slotIndex inferredArgs |> Option.defaultValue Unknown)
+      |> List.fold joinType Unknown
+
+    (* Construct result DS for calculating metric *)
+    let result =
+      { Function = fn
+        Target = Argument paramIdx
+        GT = gt.Type
+        Inferred = inferred
+        Category = classify gt.Type inferred }
+
+    (* Update next InferArgIdx *)
+    slotCursor + slotCount, result :: results
+
+  gtArgs
+  |> List.indexed
+  |> List.fold evaluateArgument (0, [])
+  |> snd
+  |> List.rev
 
 /// Evaluate return value in function signature
 let private returnResults fn gtReturns inferredReturns =
   gtReturns
-  |> List.mapi (fun index gt ->
+  |> List.mapi (fun index (gt: GTElement) ->
     let inferred =
       inferredReturns |> List.tryItem index |> Option.defaultValue Unknown
 
     { Function = fn
       Target = Return index
-      GT = gt
+      GT = gt.Type
       Inferred = inferred
-      Category = classify gt inferred })
+      Category = classify gt.Type inferred })
 
 /// From evaluation result of each element, log detail
 let private addFunctionCategory fn results logState =
@@ -97,16 +149,35 @@ let private addFunctionCategory fn results logState =
     logState
 
 let evaluate
+  wordSize
   (gtMap: Map<string, GTFunction>)
   (inferredMap: Map<string, InferredFunction>)
   =
   let evalEachFunc (results, logState) (address, gt) =
-    if hasUnknownGT gt then
-      (* If Unknown Type exists in GT Signature, do not use to evaluate *)
-      (* Add GTUnknown Log *)
+    let unknownGT = hasUnknownGT gt
+    let invalidGTSize = hasInvalidGTSize gt
+
+    if unknownGT || invalidGTSize then
+      (*
+        If Unknown Type exists in GT Signature or GT type is invalid,
+        do not use to evaluate. Add corresponding log
+      *)
+      let logState =
+        if unknownGT then
+          { logState with
+              GTUnknown = Set.add gt.Function logState.GTUnknown }
+        else
+          logState
+
+      let logState =
+        if invalidGTSize then
+          { logState with
+              InvalidGTSize = Set.add gt.Function logState.InvalidGTSize }
+        else
+          logState
+
       results,
-      { logState with
-          GTUnknown = Set.add gt.Function logState.GTUnknown }
+      logState
     else
       (* For each GT function signature,find corresponding inferred signature *)
       match Map.tryFind address inferredMap with
@@ -119,11 +190,22 @@ let evaluate
       | Some inferred ->
         let fn = gt.Function
 
+        (*
+          Calculate expected Word-Sized Stack Slots to log misinferred the # of
+          parameters
+        *)
+        let expectedSlots = expectedArgSlots wordSize gt.Args
+        let expectedIndices = Set.ofList [ 0 .. expectedSlots - 1 ]
+        let inferredIndices = inferred.Args |> Map.keys |> Set.ofSeq
+        let missingIndices = Set.difference expectedIndices inferredIndices
+        let extraIndices = Set.difference inferredIndices expectedIndices
+        let inferMoreParams = not (Set.isEmpty extraIndices)
+
         let logState =
-          if List.length gt.Args < Map.count inferred.Args then
+          if inferMoreParams then
             { logState with
                 InferMoreParams = Set.add fn logState.InferMoreParams }
-          else if List.length gt.Args <> Map.count inferred.Args then
+          else if not (Set.isEmpty missingIndices) then
             { logState with
                 CountMismatch = Set.add fn logState.CountMismatch }
           else
@@ -139,13 +221,22 @@ let evaluate
           else
             logState
 
-        if List.length gt.Args < Map.count inferred.Args then
+        (* Log for there exist more than 1 return Word-Sized Slot *)
+        (* ToDo: Handle large size return value *)
+        let logState =
+          if gt.Return |> List.exists (fun ret -> ret.Size > wordSize) then
+            { logState with
+                LargeReturn = Set.add fn logState.LargeReturn }
+          else
+            logState
+
+        if inferMoreParams then
           results, logState
         else
           (* Evaluate with parameter/return value-wise type checking *)
           (* If GT has no return value, returnResults naturally evaluates none. *)
           let elementResults =
-            argResults fn gt.Args inferred.Args
+            argResults wordSize fn gt.Args inferred.Args
             @ returnResults fn gt.Return inferred.Return
 
           (* Log function detail *)
@@ -162,5 +253,5 @@ let countValidGTElements (gtMap: Map<string, GTFunction>) =
   gtMap
   |> Map.toSeq
   |> Seq.map snd
-  |> Seq.filter (hasUnknownGT >> not)
+  |> Seq.filter (fun gt -> not (hasUnknownGT gt || hasInvalidGTSize gt))
   |> Seq.sumBy (fun gt -> List.length gt.Args + List.length gt.Return)

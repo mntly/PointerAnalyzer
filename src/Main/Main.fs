@@ -437,6 +437,13 @@ let main argv =
           result
         |> storeOutput options "inferredTypes.json")
 
+      (* Extract Word Size used for Evaluation *)
+      timed options.TrackTime "Print analysis configuration" (fun () ->
+        dfaProgram.Binary.Platform
+        |> Result2Json.AnalysisConfigJson.fromPlatform
+        |> Result2Json.AnalysisConfigJson.toJsonString
+        |> storeOutput options "analysisConfig.json")
+
       (* Dump type constraints collected during entire analysis process *)
       if options.DumpConstraints then
         timed options.TrackTime "Print type constraints" (fun () ->

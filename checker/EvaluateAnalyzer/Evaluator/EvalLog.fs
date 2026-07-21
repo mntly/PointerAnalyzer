@@ -33,6 +33,16 @@ let toText logState =
 
   appendSection
     builder
+    "===== Invalid GT Size Functions ====="
+    logState.InvalidGTSize
+
+  appendSection
+    builder
+    "===== Large Return Functions ====="
+    logState.LargeReturn
+
+  appendSection
+    builder
     "===== MissedDetect Functions ====="
     logState.MissedDetect
 

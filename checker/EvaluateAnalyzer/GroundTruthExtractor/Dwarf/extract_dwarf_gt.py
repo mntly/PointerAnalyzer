@@ -91,6 +91,31 @@ def type_path_to_text(path):
         return "<empty>"
     return " -> ".join(path)
 
+# Construct Ground Truth Type Element
+def type_info(size, resolved_type):
+    return {"Size": size, "Type": resolved_type}
+
+# Extract byte size of type of given DIE
+def direct_byte_size(die):
+    size_attr = attr(die, "DW_AT_byte_size")
+    if size_attr is None:
+        return 0
+    try:
+        return int(size_attr.value)
+    except (TypeError, ValueError):
+        return 0
+
+# Extract byte size of address type of given DIE
+# address_size is used only when DW_AT_byte_size fail
+def address_byte_size(die):
+    size = direct_byte_size(die)
+    if size > 0:
+        return size
+    try:
+        return int(die.cu["address_size"])
+    except (KeyError, TypeError, ValueError):
+        return 0
+
 """
 Construct log when type is classified as Unknown
 
@@ -127,13 +152,13 @@ Input
    path tracks history for traversing recursive TypeTag
 
 Output
-    Classified type
+    Classified type and its byte size
     Addition log indicating log when type is classified as Unknown
 """
 def resolve_type(die, seen=None, context=None, path=None):
     # Type DIE not exist -> Mark as Unknown
     if die is None:
-        return UNKNOWN, unknown_type_log(
+        return type_info(0, UNKNOWN), unknown_type_log(
             context,
             "Missing DW_AT_type reference",
             path=path,
@@ -153,7 +178,7 @@ def resolve_type(die, seen=None, context=None, path=None):
     next_path = path + [tag]
 
     if die_key in seen:
-        return UNKNOWN, unknown_type_log(
+        return type_info(direct_byte_size(die), UNKNOWN), unknown_type_log(
             context,
             "Recursive type resolution",
             tag=tag,
@@ -165,12 +190,47 @@ def resolve_type(die, seen=None, context=None, path=None):
 
     # Classify Type
     if tag in ADDR_TAGS:
-        return ADDRESS, []
+        # Get byte size of type
+        size = address_byte_size(die)
+        logs = []
+        if size == 0:
+            logs = unknown_type_log(
+                context,
+                "Missing DW_AT_byte_size",
+                tag=tag,
+                die=die,
+                path=next_path,
+            )
+        return type_info(size, ADDRESS), logs
 
     if tag in VALUE_TAGS:
-        return VALUE, []
+        # Get byte size of type
+        size = direct_byte_size(die)
+        logs = []
+        if size == 0:
+            logs = unknown_type_log(
+                context,
+                "Missing DW_AT_byte_size",
+                tag=tag,
+                die=die,
+                path=next_path,
+            )
+        return type_info(size, VALUE), logs
 
     if tag in RECURSIVE_TAGS:
+        resolved, logs = resolve_type(
+            get_ref_die(die, "DW_AT_type"),
+            seen,
+            context,
+            next_path,
+        )
+        
+        # If type of recursive tag is unknown,
+        # Use size of current DIE as its type
+        wrapper_size = direct_byte_size(die)
+        if resolved["Size"] == 0 and wrapper_size > 0:
+            resolved = type_info(wrapper_size, resolved["Type"])
+
         if 'DW_AT_name' in die.attributes:
             # Handling for Elf(Addr)
             try:
@@ -178,18 +238,26 @@ def resolve_type(die, seen=None, context=None, path=None):
                 type_name = name_bytes.decode('utf-8', errors='ignore')
                 
                 if "Addr" in type_name:
-                    return ADDRESS, []
+                    return type_info(resolved["Size"], ADDRESS), logs
             except Exception:
                 pass
-        
-        return resolve_type(
-            get_ref_die(die, "DW_AT_type"),
-            seen,
-            context,
-            next_path,
-        )
 
-    return UNKNOWN, unknown_type_log(
+        return resolved, logs
+
+    # Even fail to extract type, extract size of type
+    size = direct_byte_size(die)
+    if size == 0:
+        referenced = get_ref_die(die, "DW_AT_type")
+        if referenced is not None:
+            referenced_type, _ = resolve_type(
+                referenced,
+                seen,
+                context=None,
+                path=next_path,
+            )
+            size = referenced_type["Size"]
+
+    return type_info(size, UNKNOWN), unknown_type_log(
         context,
         "Unsupported DWARF type tag",
         tag=tag,
@@ -288,7 +356,12 @@ def extract_signature(die, name, address):
     }, arg_logs + return_logs
 
 def unknown_count(signature):
-    return signature["Args"].count(UNKNOWN) + signature["Return"].count(UNKNOWN)
+    elements = signature["Args"] + signature["Return"]
+    return sum(
+        1
+        for element in elements
+        if element["Type"] == UNKNOWN or element["Size"] == 0
+    )
 
 def choose_duplicate(signatures):
     return sorted(
@@ -298,19 +371,41 @@ def choose_duplicate(signatures):
 
 # Transform function signature to string
 def signature_to_text(signature):
-    args = ", ".join(signature["Args"])
-    returns = ", ".join(signature["Return"])
+    def element_to_text(element):
+        return f'{element["Type"]}[{element["Size"]}B]'
+
+    args = ", ".join(element_to_text(element) for element in signature["Args"])
+    returns = ", ".join(
+        element_to_text(element) for element in signature["Return"]
+    )
     return f'{signature["Name"]}: ({args}) -> ({returns})'
 
 # Merge single type
 def merge_type(left, right):
-    if left == right:
-        return left
-    if left == UNKNOWN:
-        return right
-    if right == UNKNOWN:
-        return left
-    return None
+    left_type = left["Type"]
+    right_type = right["Type"]
+
+    if left_type == right_type:
+        merged_type = left_type
+    elif left_type == UNKNOWN:
+        merged_type = right_type
+    elif right_type == UNKNOWN:
+        merged_type = left_type
+    else:
+        return None
+
+    left_size = left["Size"]
+    right_size = right["Size"]
+    if left_size == right_size:
+        merged_size = left_size
+    elif left_size == 0:
+        merged_size = right_size
+    elif right_size == 0:
+        merged_size = left_size
+    else:
+        return None
+
+    return type_info(merged_size, merged_type)
 
 # Merge type list left and right
 def merge_type_list(left, right):
@@ -351,8 +446,8 @@ def unique_signatures(signatures):
     for signature in signatures:
         key = (
             signature["Name"],
-            tuple(signature["Args"]),
-            tuple(signature["Return"]),
+            tuple((item["Size"], item["Type"]) for item in signature["Args"]),
+            tuple((item["Size"], item["Type"]) for item in signature["Return"]),
         )
         if key in seen:
             continue

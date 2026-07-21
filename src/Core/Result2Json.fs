@@ -36,6 +36,19 @@ type FunctionJson =
 
 type AnalysisResultJson = Map<string, FunctionJson>
 
+type AnalysisConfigJson =
+  { [<JsonPropertyName("WordSize")>]
+    WordSize: int }
+
+module AnalysisConfigJson =
+  let private jsonOptions = JsonSerializerOptions (WriteIndented = true)
+
+  let fromPlatform (platform: Platform) : AnalysisConfigJson =
+    { WordSize = platform.WordSize }
+
+  let toJsonString config =
+    JsonSerializer.Serialize (config, jsonOptions) + "\n"
+
 module FunctionJson =
   let private indexedTypesToStringMap constraints conflicts indexedTypes =
     let resolveTypeId2Str (_idx, typeId) =

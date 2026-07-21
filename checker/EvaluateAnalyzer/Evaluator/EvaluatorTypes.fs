@@ -38,12 +38,24 @@ type EvalCategory =
 type FunctionKey = { Address: string; Name: string }
 
 /// <summary>
+/// Ground-truth type and its source-level size in bytes.
+/// </summary>
+type GTElement =
+  { Size: int
+    Type: EvalType }
+
+/// <summary>
+/// Information passed from PointerAnalyzer used for Evaluation.
+/// </summary>
+type AnalysisConfig = { WordSize: int }
+
+/// <summary>
 /// Represent per-function function signature.
 /// </summary>
 type GTFunction =
   { Function: FunctionKey
-    Args: EvalType list
-    Return: EvalType list }
+    Args: GTElement list
+    Return: GTElement list }
 
 /// <summary>
 /// Represent per-function inferred function signature.
@@ -68,6 +80,8 @@ type ElementResult =
 /// </summary>
 type EvalLogState =
   { GTUnknown: Set<FunctionKey>
+    InvalidGTSize: Set<FunctionKey>
+    LargeReturn: Set<FunctionKey>
     MissedDetect: Set<FunctionKey>
     CountMismatch: Set<FunctionKey>
     Correct: Set<FunctionKey>
@@ -79,6 +93,8 @@ type EvalLogState =
 module EvalLogState =
   let empty =
     { GTUnknown = Set.empty
+      InvalidGTSize = Set.empty
+      LargeReturn = Set.empty
       MissedDetect = Set.empty
       CountMismatch = Set.empty
       Correct = Set.empty

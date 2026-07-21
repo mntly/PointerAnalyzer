@@ -44,10 +44,13 @@ This stores the main analysis result at:
 
 ```text
 output/pointer_argument_return/inferredTypes.json
+output/pointer_argument_return/analysisConfig.json
 ```
 
 The default JSON result stores only inferred type names such as `Address`,
 `Value`, `Conflict`, and `Unknown`; it does not include TypeIds.
+`analysisConfig.json` stores the analyzed platform's word size for the
+evaluator.
 
 ### Print recovered SSA
 

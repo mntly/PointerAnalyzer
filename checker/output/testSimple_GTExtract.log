@@ -43,8 +43,8 @@ DIE: cu=0x14c1a, die=0x14c54
 
 == Duplicate Address Signature Merge ==
 Address 0x08057aaf has multiple DWARF function signatures:
-  - mmap: (Address, Value, Value, Value, Value, Value) -> (Address)
-  - __GI_mmap: (Address, Value, Value, Value, Value, Value) -> (Address)
-Merged: __GI_mmap: (Address, Value, Value, Value, Value, Value) -> (Address)
+  - mmap: (Address[4B], Value[4B], Value[4B], Value[4B], Value[4B], Value[4B]) -> (Address[4B])
+  - __GI_mmap: (Address[4B], Value[4B], Value[4B], Value[4B], Value[4B], Value[4B]) -> (Address[4B])
+Merged: __GI_mmap: (Address[4B], Value[4B], Value[4B], Value[4B], Value[4B], Value[4B]) -> (Address[4B])
 Decision: accepted
 
