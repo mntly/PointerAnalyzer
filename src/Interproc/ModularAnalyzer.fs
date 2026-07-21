@@ -195,7 +195,12 @@ module ModularAnalyzer =
 
       (* Transfer stmt to collect type constraints *)
       let result =
-        AnalyzerDomain.analyzeRawWithStart platform nextTypeId config func.CFG
+        AnalyzerDomain.analyzeRawWithStart
+          platform
+          nextTypeId
+          config
+          func.CFG
+          func.RetAddresses
 
       (* Store analysis result *)
       let summary =

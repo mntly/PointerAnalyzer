@@ -27,6 +27,7 @@ open PointerAnalyzer.PreAnalysis.PreAnalysisTypes
 /// This represents the callee.
 /// <c>AbstractionReturn</c> indicates the terminal jump (return) in B2R2's
 /// function-abstraction node.
+/// <c>Terminated</c> indicates that the current execution path cannot continue.
 /// </remarks>
 type TransferTarget =
   | Next
@@ -34,6 +35,7 @@ type TransferTarget =
   | InterTarget of AbsVal * CFGEdgeKind option
   | CallTarget of Addr
   | AbstractionReturn
+  | Terminated
 
 /// <summary>
 /// Indicates the context of block containing current statement.
@@ -469,6 +471,10 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
 
         [ { Target = Next; State = state } ]
 
+      | SideEffect Terminate -> [ { Target = Terminated; State = state } ]
+
+      (* Some exception may be handled by SW *)
+      | SideEffect (Exception _)
       | SideEffect _ -> [ { Target = Next; State = state } ]
 
     if config.Debug then

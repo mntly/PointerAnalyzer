@@ -15,6 +15,8 @@ open PointerAnalyzer.Frontend.FunctionDFA
 /// <c>Address</c> is function address.
 /// <c>Name</c> is recovered function name.
 /// <c>CFG</c> is B2R2's <see cref="B2R2.MiddleEnd.ControlFlowGraph.SSACFG" />.
+/// <c>RetAddresses</c> stores addresses that B2R2 identifies as
+/// return instructions in the original function CFG.
 /// <c>DFAResult</c> is derived from B2R2's data-flow framework in
 /// <see cref="B2R2.MiddleEnd.DataFlow" />.
 /// <c>Callees</c> is mapping from callsite to callee address. This is derived
@@ -25,6 +27,7 @@ type FunctionDFAResult =
   { Address: Addr
     Name: string
     CFG: SSACFG
+    RetAddresses: Set<Addr>
     DFAResult: FunctionDFA
     Callees: Map<Addr, Set<Addr>> }
 
@@ -43,6 +46,18 @@ type ProgramDFAResult =
     VisitOrder: Addr list }
 
 module ProgramDFA =
+  /// Collect normal return instructions before lifting the CFG to SSA.
+  let private extractRetAddr (function_: Function) =
+    function_.CFG.Exits
+    |> Seq.choose (fun vertex ->
+      let block = vertex.VData.Internals
+
+      if block.IsAbstract || not block.LastInstruction.IsRET then
+        None
+      else
+        Some block.LastInstruction.Address)
+    |> Set.ofSeq
+
   (* Integrate callSite |-> Callee Mapping from Control-Flow Analysis of B2R2 *)
   let private callees (function_: Function) =
     let updateCalleeMap calleeMap (KeyValue (callSite: CallSite, callee)) =
@@ -116,6 +131,7 @@ module ProgramDFA =
       { Address = func.EntryPoint
         Name = func.Name
         CFG = cfg
+        RetAddresses = extractRetAddr func
         DFAResult = dfaResult
         Callees = callees func }
 

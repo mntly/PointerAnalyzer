@@ -127,6 +127,7 @@ type AnalyzerModule
       cfg.GetSuccEdges block
       |> Array.tryFind (fun edge -> edge.Label = CFGEdgeKind.RetEdge)
       |> Option.map (fun edge -> edge.Second)
+    | Terminated -> None
     | Next ->
       match successors with
       | [| successor |] -> Some successor
@@ -135,12 +136,25 @@ type AnalyzerModule
         |> Array.tryFind (fun edge -> edge.Label = CFGEdgeKind.FallThroughEdge)
         |> Option.map (fun edge -> edge.Second)
 
-  /// Check whether the given block is a leaf node in B2R2 SSA CFG.
-  /// PointerAnalyzer interprets the leaf node as a return/exist block,
-  /// it sets return register as the register from these blocks.
-  member private _.IsLeafBlock (cfg: SSACFG) (block: IVertex<SSABasicBlock>) =
-    (cfg.GetSuccs block |> Array.isEmpty)
-    && not block.VData.Internals.IsAbstract
+  /// Check whether the given leaf block ends in a return instruction that
+  /// B2R2 identified in the original function CFG.
+  member private _.IsReturnLeaf
+    (cfg: SSACFG)
+    retAddresses
+    (block: IVertex<SSABasicBlock>)
+    =
+    let internals = block.VData.Internals
+
+    let terminalAddress =
+      internals.Statements
+      |> Array.tryLast
+      |> Option.map (fun (programPoint, _) -> programPoint.Address)
+
+    not internals.IsAbstract
+    && (cfg.GetSuccs block |> Array.isEmpty)
+    && Option.exists
+      (fun address -> Set.contains address retAddresses)
+      terminalAddress
 
   /// Merge leaf states keyed by B2R2 CFG block id.
   /// Since one block evaluated only once, there does not exist the evaluation
@@ -182,7 +196,7 @@ type AnalyzerModule
 
   /// Analyze given CFG (entire binary) and return AnalysisState
   /// collected TypeConstraint
-  member this.analyze (cfg: SSACFG) =
+  member this.analyze (cfg: SSACFG) retAddresses =
     (* Recursively analyze from given block *)
     let rec run (block: IVertex<SSABasicBlock>) inputState visited =
       if Set.contains block.ID visited then
@@ -275,7 +289,7 @@ type AnalyzerModule
 
         (* Store final register states as return register states. *)
         let leafStates =
-          if this.IsLeafBlock cfg block then
+          if this.IsReturnLeaf cfg retAddresses block then
             match transfers with
             | transfer: TransferResult :: _ ->
               (*
@@ -335,9 +349,16 @@ module AnalyzerDomain =
     PointerAnalyzer.Platform.Platform.ofString platform |> create
 
   /// Main-Analysis
-  let analyzeRawWithStart platform startTypeId config cfg =
+  let analyzeRawWithStart
+    platform
+    startTypeId
+    config
+    cfg
+    retAddresses
+    =
     let analyzer = createWithStart platform startTypeId config
-    let finalState, leafStates = analyzer.analyze cfg
+    let finalState, leafStates =
+      analyzer.analyze cfg retAddresses
 
     { FinalState = finalState
       LeafStates = leafStates
@@ -345,8 +366,20 @@ module AnalyzerDomain =
       TypeConflicts = finalState.Types.Conflicts }
 
   /// Main-Analysis and Constraint Solving process
-  let analyzeWithStart platform startTypeId config cfg =
-    let result = analyzeRawWithStart platform startTypeId config cfg
+  let analyzeWithStart
+    platform
+    startTypeId
+    config
+    cfg
+    retAddresses
+    =
+    let result =
+      analyzeRawWithStart
+        platform
+        startTypeId
+        config
+        cfg
+        retAddresses
     let stateDomain = AnalysisStateDomain.create platform startTypeId
 
     (* Solve type constraints *)
@@ -359,4 +392,5 @@ module AnalyzerDomain =
       TypeConstraints = solvedState.Types.Constraints
       TypeConflicts = solvedState.Types.Conflicts }
 
-  let analyze platform config cfg = analyzeWithStart platform 0 config cfg
+  let analyze platform config cfg retAddresses =
+    analyzeWithStart platform 0 config cfg retAddresses
