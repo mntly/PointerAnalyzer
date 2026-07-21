@@ -181,8 +181,8 @@ module ModularAnalyzer =
           | None -> None
         | None -> None
 
-      // let debug = func.Address = 0x080563DDUL
-      let debug = false
+      let debug = func.Address = 0x080521BCUL
+      // let debug = false
 
       let config =
         StmtEvalConfig.construct

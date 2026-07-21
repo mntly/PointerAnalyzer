@@ -191,7 +191,8 @@ let private funcSSAStr targetFunctions =
       | Var variable -> Set.add variable acc
       | ExprList expressions -> List.fold collect acc expressions
       | Load (_, _, address) -> collect acc address
-      | Expr.Store (_, _, address, value) -> collect (collect acc address) value
+      | Expr.Store (_, _, address, value) ->
+        collect (collect acc address) value
       | UnOp (_, _, expr)
       | Cast (_, _, expr)
       | Extract (expr, _, _) -> collect acc expr
@@ -216,7 +217,12 @@ let private funcSSAStr targetFunctions =
     | LMark _
     | SideEffect _ -> Set.empty
     | Def (variable, expression) -> Set.add variable (varsInExpr expression)
-    | Phi (variable, _) -> Set.singleton variable
+    | Phi (variable, sourceIds) ->
+      sourceIds
+      |> Array.fold
+        (fun variables sourceId ->
+          Set.add { variable with Identifier = sourceId } variables)
+        (Set.singleton variable)
     | Jmp jmpType -> varsInJmp jmpType
     | ExternalCall (callee, inputVariables, outputVariables) ->
       Set.unionMany
@@ -224,11 +230,44 @@ let private funcSSAStr targetFunctions =
           Set.ofList inputVariables
           Set.ofList outputVariables ]
 
+  let variableSizeStr variable =
+    let regTypeStr regType =
+      let bitWidth = RegType.toBitWidth regType
+
+      if bitWidth % 8 = 0 then
+        sprintf "%s/%dB" (RegType.toString regType) (bitWidth / 8)
+      else
+        RegType.toString regType
+
+    let size =
+      match variable.Kind with
+      | RegVar (regType, _, _)
+      | PCVar regType
+      | TempVar (regType, _)
+      | StackVar (regType, _)
+      | GlobalVar (regType, _) -> regTypeStr regType
+      | MemVar -> "Memory"
+
+    sprintf "%O=%s" variable size
+
   let stmtStr (pp, stmt: Stmt) =
+    let variableSizes =
+      varsInStmt stmt
+      |> Set.toList
+      |> List.sortBy (fun variable -> variable.ToString ())
+      |> List.map variableSizeStr
+
+    let sizeSuffix =
+      if List.isEmpty variableSizes then
+        ""
+      else
+        sprintf "  [SSA sizes: %s]" (String.concat ", " variableSizes)
+
     sprintf
-      "  %-20s %s"
+      "  %-20s %s%s"
       (ppStr pp)
       ((PrettyPrinter.ToString [| stmt |]).Trim ())
+      sizeSuffix
 
   let constPropStr func =
     let constantVariables =
