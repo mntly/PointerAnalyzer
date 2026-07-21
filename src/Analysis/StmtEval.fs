@@ -4,6 +4,7 @@ open B2R2
 open B2R2.BinIR
 open B2R2.BinIR.SSA
 open B2R2.FrontEnd
+open B2R2.MiddleEnd.ControlFlowGraph
 open PointerAnalyzer.Platform.PlatformTypes
 open PointerAnalyzer.AbsDom.AbsVal
 open PointerAnalyzer.AbsDom.AnalysisState
@@ -20,12 +21,29 @@ open PointerAnalyzer.PreAnalysis.PreAnalysisTypes
 /// <c>InterTarget</c> indicates jump target with address, not function call.
 /// <c>CallTarget</c> indicates B2R2's function-abstraction node for a call.
 /// This represents the callee.
+/// <c>AbstractionReturn</c> indicates the terminal jump (return) in B2R2's
+/// function-abstraction node.
 /// </remarks>
 type TransferTarget =
   | Next
   | LabelTarget of Label
   | InterTarget of AbsVal
   | CallTarget of Addr
+  | AbstractionReturn
+
+/// <summary>
+/// Indicates the context of block containing current statement.
+/// </summary>
+/// <remarks>
+/// <c>NormalBlock</c> indicates corresponding block is the block of target
+/// function.
+/// <c>AbstractBlock</c> indicates corresponding block is FunctionAbstraction
+/// representing callee function. This stores the ReturningStatus of
+/// corresponding FunctionAbstraction.
+/// </remarks>
+type StmtContext =
+  | NormalBlock
+  | AbstractBlock of NonReturningStatus
 
 /// <summary>
 /// The transfer result of each statement.
@@ -321,6 +339,7 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
 
   /// Statement evaluation
   member this.Eval
+    context
     (programPoint: ProgramPoint)
     (stmt: B2R2.BinIR.SSA.Stmt)
     state
@@ -382,13 +401,20 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
           | Some typeId -> stateDom.addAddress typeId state
           | None -> state
 
-        match config.ApplyCallSummary programPoint targetAddr [] [] state with
-        | Some (appliedState, calleeAddress) ->
-          [ { Target = CallTarget calleeAddress
-              State = appliedState } ]
-        | None ->
-          [ { Target = InterTarget target
+        match context with
+        | AbstractBlock _ ->
+          (* InterJmp from FunctionAbstraction: Return to caller *)
+          [ { Target = AbstractionReturn
               State = state } ]
+        | NormalBlock ->
+          (* InterJmp from Normal Block: Normal jmp/call *)
+          match config.ApplyCallSummary programPoint targetAddr [] [] state with
+          | Some (appliedState, calleeAddress) ->
+            [ { Target = CallTarget calleeAddress
+                State = appliedState } ]
+          | None ->
+            [ { Target = InterTarget target
+                State = state } ]
 
       | Jmp (InterCJmp (conditionExpr, trueExpr, falseExpr)) ->
         let _, conditionTypeId, state = exprEval.Eval state conditionExpr

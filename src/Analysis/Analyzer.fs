@@ -59,16 +59,24 @@ type AnalyzerModule
 
   /// Analyze one block. Transfer the statements in given block and collect
   /// type constraints.
-  member private _.runBlock state (stmts: (B2R2.ProgramPoint * Stmt) array) =
+  member private _.runBlock state (block: IVertex<SSABasicBlock>) =
+    (* Get ReturnStatus of given block *)
+    (* ReturnStatus is used for detecting `ret` of FunctionAbstraction *)
+    let context =
+      if block.VData.Internals.IsAbstract then
+        AbstractBlock block.VData.Internals.AbstractContent.ReturningStatus
+      else
+        NormalBlock
+
     let rec runBlockInner state (lst: (B2R2.ProgramPoint * Stmt) list) =
       match lst with
       | (programPoint, stmt) :: tl ->
-        match stmtEval.Eval programPoint stmt state with
+        match stmtEval.Eval context programPoint stmt state with
         | [ { Target = Next; State = nextState } ] -> runBlockInner nextState tl
         | results -> results
       | [] -> [ { Target = Next; State = state } ]
 
-    let stmtsLst = Array.toList stmts
+    let stmtsLst = Array.toList block.VData.Internals.Statements
 
     runBlockInner state stmtsLst
 
@@ -96,6 +104,12 @@ type AnalyzerModule
         && successor.VData.Internals.AbstractContent.EntryPoint = address)
     | InterTarget value ->
       stateDom.AbsVal.tryGetUInt64 value |> Option.bind tryFindAddress
+    | AbstractionReturn ->
+      (* Return from callee: Back to caller, not just jump target *)
+      (* Sometimes, jump target is out of caller. *)
+      cfg.GetSuccEdges block
+      |> Array.tryFind (fun edge -> edge.Label = CFGEdgeKind.RetEdge)
+      |> Option.map (fun edge -> edge.Second)
     | Next ->
       match successors with
       | [| successor |] -> Some successor
@@ -175,6 +189,16 @@ type AnalyzerModule
                 Types = result.State.Types }
 
           (*
+            Check given successor has ret instruction when current jmp
+            instruction is ret of FunctionAbstraction
+          *)
+          let isNoRetCall (successor: IVertex<SSABasicBlock>) =
+            match transfer.Target with
+            | CallTarget _ when successor.VData.Internals.IsAbstract ->
+              successor.VData.Internals.AbstractContent.ReturningStatus = NoRet
+            | _ -> false
+          
+          (*
             If current block is leaf node, ends up evaluation.
             If not, evaluate to next successed block.
             Setting return register as final register of leaf node is done by
@@ -182,6 +206,14 @@ type AnalyzerModule
           *)
           let transResult =
             match this.TryResolveTarget cfg block transfer.Target with
+            | Some successor when isNoRetCall successor ->
+              (*
+                The call summary has already connected the arguments. A
+                non-returning abstraction has no continuation to evaluate.
+              *)
+              { State = newState
+                Visited = result.Visited
+                LeafStates = Map.empty }
             | Some successor -> run successor newState result.Visited
             | None ->
               (* Next target is invalid: Successor of leaf node *)
@@ -217,7 +249,7 @@ type AnalyzerModule
           AnalysisState used for evaluation
         *)
         let transfers =
-          this.runBlock inputState block.VData.Internals.Statements
+          this.runBlock inputState block
 
         (* Extract updated TypeState *)
         (* TypeState is managed globally, so it must same among all results *)
