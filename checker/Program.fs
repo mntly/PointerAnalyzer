@@ -4,7 +4,8 @@ open Argu
 open System.IO
 
 /// <summary>
-/// Checker mode for evaluating <see cref="PointerAnalyzer" />.
+/// Checker mode for evaluating <see cref="PointerAnalyzer" /> or testing
+/// <see cref="B2R2" />.
 /// </summary>
 /// <remarks>
 /// <c>FindCall0</c> mode checks call 0 instructions from lifted
@@ -16,13 +17,17 @@ open System.IO
 /// <c>BuildGroundTruth</c> mode extracts type signature of given binary by
 /// parsing DWARF information. If given binary was not compiled with debug
 /// option, it will fail.
-/// <c>EvalAnalyzer</c> mode ToDo.
+/// <c>EvalAnalyzer</c> mode evaluates <see cref="PointerAnalyzer" /> using the
+/// result of <see cref="PointerAnalyzer" /> and GT from BuildGroundTruth.
+/// <c>DetectReturn64</c> mode detects the functions return 64 bit value and
+/// evaluate the detector.
 /// </remarks>
 type CheckerMode =
   | FindCall0
   | FindCall0Invalid
   | BuildGroundTruth
   | EvalAnalyzer
+  | DetectReturn64
 
 /// <summary>
 /// Options used for propagating given input to each mode.
@@ -34,7 +39,10 @@ type MainOptions =
     InferredPath: string option
     OutFileName: string
     OutputDirPath: string
-    IsStore: bool }
+    IsStore: bool
+    Return64Range: Checker.Return64Detection.Return64Types.AnalysisRange
+    Return64Heuristic:
+      Checker.Return64Detection.Return64Types.DetectionHeuristic }
 
 type CLIArg =
   | [<AltCommandLine("-m")>] Mode of int
@@ -43,6 +51,8 @@ type CLIArg =
   | [<AltCommandLine("-i")>] Inferred of string
   | [<AltCommandLine("-o")>] Output of string
   | [<AltCommandLine("-on")>] OutputName of string
+  | [<AltCommandLine("-rr")>] ReturnRange of int
+  | [<AltCommandLine("-rh")>] ReturnHeuristic of int
 
   interface IArgParserTemplate with
     member this.Usage =
@@ -53,7 +63,8 @@ type CLIArg =
         Mode 1 prints out the SSA jump/call instructions whose target is 1.
           This checks the invalid functions of B2R2.
         Mode 2 extracts ground-truth signatures from DWARF debug info.
-        Mode 3 prints out the evaluation result of PointerAnalyzer"
+        Mode 3 prints out the evaluation result of PointerAnalyzer.
+        Mode 4 detects functions that return 64 bit values in EDX:EAX."
       | Binary _ ->
         "Binary file to inspect. For mode 2, this should be the ground-truth binary with DWARF debug info."
       | GroundTruth _ -> "Ground-truth JSON file. This is required for mode 3."
@@ -63,6 +74,10 @@ type CLIArg =
         "Optional output directory path. If omitted, print to stdout."
       | OutputName _ ->
         "Optional output file name. It is only used for storing. If omitted, file name is determined based on binary name."
+      | ReturnRange _ ->
+        "Return64 range: 0 = leaf and direct predecessors; 1 = entire function."
+      | ReturnHeuristic _ ->
+        "Return64 heuristic: 0 = basic; 1 = basic with caller checker."
 
 /// Store given content to file with given file name
 let private storeOutput options fileName (content: string) =
@@ -109,6 +124,8 @@ let private parseArg (args: string array) =
       BuildGroundTruth
     else if modeInt = 3 then
       EvalAnalyzer
+    else if modeInt = 4 then
+      DetectReturn64
     else
       eprintf "Unsupported mode %d" modeInt
       exit 1
@@ -149,13 +166,34 @@ let private parseArg (args: string array) =
   (* Extract the path of output directory. Default as `output` *)
   let outDir = if isStore then r.GetResult <@ Output @> else "output"
 
+  (* Extract the type of AnalysisRange for Return64Detector *)
+  let return64Range =
+    match r.GetResult (<@ ReturnRange @>, defaultValue = 0) with
+    | 0 ->
+      Checker.Return64Detection.Return64Types.LeafAndDirectPredecessors
+    | 1 -> Checker.Return64Detection.Return64Types.EntireFunction
+    | value ->
+      eprintfn "Unsupported Return64Detector range %d. Use 0 or 1." value
+      exit 1
+
+  (* Extract the type of Heuristics for Return64Detector *)
+  let return64Heuristic =
+    match r.GetResult (<@ ReturnHeuristic @>, defaultValue = 0) with
+    | 0 -> Checker.Return64Detection.Return64Types.Basic
+    | 1 -> Checker.Return64Detection.Return64Types.BasicWithCallerChecker
+    | value ->
+      eprintfn "Unsupported Return64Detector heuristic %d. Use 0 or 1." value
+      exit 1
+
   { Mode = mode
     BinaryPath = bin
     GroundTruthPath = gt
     InferredPath = inferred
     OutFileName = outFileName
     OutputDirPath = outDir
-    IsStore = isStore }
+    IsStore = isStore
+    Return64Range = return64Range
+    Return64Heuristic = return64Heuristic }
 
 /// If binary path are not given, halt
 let private requireBinary options =
@@ -263,6 +301,24 @@ let private runEvalAnalyzer options =
     eprintfn "%s" ex.Message
     exit 1
 
+/// Execute x86-32 EDX:EAX 64 bit return detector.
+let private runReturn64Detector options =
+  let detectOptions:
+    Checker.Return64Detection.Return64Detector.DetectOptions =
+    { BinaryPath = requireBinary options
+      Range = options.Return64Range
+      Heuristic = options.Return64Heuristic }
+
+  try
+    let result =
+      Checker.Return64Detection.Return64Detector.run detectOptions
+      |> Checker.Return64Detection.Return64Formatter.toText
+
+    emitOutput options "Return64Result" result
+  with ex ->
+    eprintfn "%s" ex.Message
+    exit 1
+
 [<EntryPoint>]
 let main argv =
   let options = parseArg argv
@@ -272,5 +328,6 @@ let main argv =
   | FindCall0Invalid -> runFindCall0Invalid options
   | BuildGroundTruth -> runBuildGroundTruth options
   | EvalAnalyzer -> runEvalAnalyzer options
+  | DetectReturn64 -> runReturn64Detector options
 
   0

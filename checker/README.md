@@ -97,3 +97,24 @@ dotnet run --project Checker.fsproj \
   -o output \
   -on testSimple
 ```
+
+## [Return64Detection](./Return64Detection/)
+
+This directory contains the x86-32 detector for functions that return a
+64-bit value through `EDX:EAX`.
+
+Use `-rr 0` to analyze each return leaf and its direct predecessors, or
+`-rr 1` to analyze the entire function. Use `-rh 0` for the basic def-use
+heuristic, or `-rh 1` to additionally require a caller that consumes `EDX`
+before overwriting it.
+
+```sh
+dotnet run --project Checker.fsproj -- \
+  -m 4 \
+  -b ../datas/binaries/helloword-x86_32-i586-uclibc-O0 \
+  -rr 0 \
+  -rh 1
+```
+
+Passing `-o output` stores the report as `Return64Result`; otherwise it is
+printed to standard output.

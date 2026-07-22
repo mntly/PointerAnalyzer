@@ -181,7 +181,7 @@ module ModularAnalyzer =
           | None -> None
         | None -> None
 
-      // let debug = func.Address = 0x080521BCUL
+      // let debug = func.Address = 0x80582C9UL
       let debug = false
 
       let config =
