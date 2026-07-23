@@ -221,10 +221,10 @@ let private continuationEvidence
 
             let confirmedUses =
               match stmt with
-              | Phi (destination, _) ->
-                match transitivePhiUses edges statementIndex destination with
-                | [] -> []
-                | uses -> directUse :: uses
+              // | Phi (destination, _) ->
+              //   match transitivePhiUses edges statementIndex destination with
+              //   | [] -> []
+              //   | uses -> directUse :: uses
               | _ -> [ directUse ]
 
             match confirmedUses with
