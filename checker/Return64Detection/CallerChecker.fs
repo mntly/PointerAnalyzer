@@ -5,8 +5,12 @@ open B2R2.BinIR.SSA
 open B2R2.FrontEnd
 open B2R2.MiddleEnd.BinGraph
 open B2R2.MiddleEnd.ControlFlowGraph
+open B2R2.MiddleEnd.DataFlow
 open PointerAnalyzer.Frontend.ProgramDFA
 open Checker.Return64Detection.Return64Types
+open Checker.Return64Detection.Analysis.StatementIndex
+
+module StmtIndex = Checker.Return64Detection.Analysis.StatementIndex
 
 let private edx = Intel.Register.toRegID Intel.Register.EDX
 
@@ -59,12 +63,13 @@ let rec private variablesInExpr expr =
 let private usedVariables =
   function
   | Def (_, expression) -> variablesInExpr expression
-  | Phi (destination, sourceIds) ->
-    sourceIds
-    |> Seq.map (fun identifier ->
-      { destination with
-          Identifier = identifier })
-    |> Set.ofSeq
+  | Phi (_, _) -> Set.empty
+  // | Phi (destination, sourceIds) ->
+  //   sourceIds
+  //   |> Seq.map (fun identifier ->
+  //     { destination with
+  //         Identifier = identifier })
+  //   |> Set.ofSeq
   | Jmp (IntraJmp _) -> Set.empty
   | Jmp (IntraCJmp (condition, _, _)) -> variablesInExpr condition
   | Jmp (InterJmp target) -> variablesInExpr target
@@ -77,6 +82,38 @@ let private usedVariables =
     Set.union (variablesInExpr callee) (inputs |> Set.ofList)
   | LMark _
   | SideEffect _ -> Set.empty
+
+/// Iterate B2R2 DFA Use chain to determine given variable is used or not.
+/// If given variable is appeared except PHI statements, `transitivePhiUses`
+/// says corresponding variable is Used.
+/// If given variable is used to PHI, given variable is marked as Used only
+/// when corresponding PHI result also Used.
+let private transitivePhiUses
+  (edges: SSAEdges)
+  (statementIndex: StatementIndex)
+  variable
+  =
+  let rec visit visited current =
+    if Set.contains current visited then
+      []
+    else
+      let visited = Set.add current visited
+
+      match edges.Uses.TryGetValue current with
+      | false, _ -> []
+      | true, uses ->
+        uses
+        |> Seq.choose (fun location -> Map.tryFind location statementIndex)
+        |> Seq.collect (fun entry ->
+          match entry.Statement with
+          | Phi (destination, _) -> visit visited destination
+          | _ ->
+            [ { Variable = current
+                ProgramPoint = entry.ProgramPoint
+                Reason = "EDX-derived PHI result used after function call" } ])
+        |> Seq.toList
+
+  visit Set.empty variable |> List.distinct
 
 /// Check whether given statement defines EDX
 let private definedEDX =
@@ -153,6 +190,8 @@ let private continuationEvidence
   (calleeAbst: IVertex<SSABasicBlock>)
   =
   let callerCFG = caller.CFG
+  let edges = SSAEdges callerCFG
+  let statementIndex = StmtIndex.build callerCFG
 
   let rec visit visited (block: IVertex<SSABasicBlock>) =
     if Set.contains block.ID visited || block.VData.Internals.IsAbstract then
@@ -164,8 +203,8 @@ let private continuationEvidence
         Analyze give statements and determine EDX is used, defined, or not 
         determined
       *)
-      let rec scanStmt statements =
-        match statements with
+      let rec scanStmt remainingStatements =
+        match remainingStatements with
         | [] -> KeepScanning
         | (programPoint, stmt) :: rest ->
           (* Check EDX is used in current Statement *)
@@ -175,14 +214,27 @@ let private continuationEvidence
           if not (Set.isEmpty edxUses) then
             let variable = Set.minElement edxUses
 
-            EDXUsed
-              { CallerAddress = callerAddress
-                CallSite = callSite
-                EDXVariable = variable
-                Uses =
-                  [ { Variable = variable
-                      ProgramPoint = programPoint
-                      Reason = "EDX used after function call" } ] }
+            let directUse =
+              { Variable = variable
+                ProgramPoint = programPoint
+                Reason = "EDX used after function call" }
+
+            let confirmedUses =
+              match stmt with
+              | Phi (destination, _) ->
+                match transitivePhiUses edges statementIndex destination with
+                | [] -> []
+                | uses -> directUse :: uses
+              | _ -> [ directUse ]
+
+            match confirmedUses with
+            | uses when not (List.isEmpty uses) ->
+              EDXUsed
+                { CallerAddress = callerAddress
+                  CallSite = callSite
+                  EDXVariable = variable
+                  Uses = uses }
+            | _ -> scanStmt rest
           elif isFunctionCall functions caller programPoint stmt then
             (* EDX is caller-saved register *)
             EDXOverwritten
