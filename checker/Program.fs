@@ -19,8 +19,8 @@ open System.IO
 /// option, it will fail.
 /// <c>EvalAnalyzer</c> mode evaluates <see cref="PointerAnalyzer" /> using the
 /// result of <see cref="PointerAnalyzer" /> and GT from BuildGroundTruth.
-/// <c>DetectReturn64</c> mode detects the functions return 64 bit value and
-/// evaluate the detector.
+/// <c>DetectReturn64</c> mode detects the functions return 64 bit value.
+/// <c>EvalReturn64</c> mode evaluates Return64Detector using GT.
 /// </remarks>
 type CheckerMode =
   | FindCall0
@@ -28,6 +28,7 @@ type CheckerMode =
   | BuildGroundTruth
   | EvalAnalyzer
   | DetectReturn64
+  | EvalReturn64
 
 /// <summary>
 /// Options used for propagating given input to each mode.
@@ -64,10 +65,12 @@ type CLIArg =
           This checks the invalid functions of B2R2.
         Mode 2 extracts ground-truth signatures from DWARF debug info.
         Mode 3 prints out the evaluation result of PointerAnalyzer.
-        Mode 4 detects functions that return 64 bit values in EDX:EAX."
+        Mode 4 detects functions that return 64 bit values in EDX:EAX.
+        Mode 5 evaluates Return64Detector using ground-truth return sizes."
       | Binary _ ->
         "Binary file to inspect. For mode 2, this should be the ground-truth binary with DWARF debug info."
-      | GroundTruth _ -> "Ground-truth JSON file. This is required for mode 3."
+      | GroundTruth _ ->
+        "Ground-truth JSON file. This is required for modes 3 and 5."
       | Inferred _ ->
         "PointerAnalyzer inferredTypes.json file. This is required for mode 3."
       | Output _ ->
@@ -126,6 +129,8 @@ let private parseArg (args: string array) =
       EvalAnalyzer
     else if modeInt = 4 then
       DetectReturn64
+    else if modeInt = 5 then
+      EvalReturn64
     else
       eprintf "Unsupported mode %d" modeInt
       exit 1
@@ -169,8 +174,7 @@ let private parseArg (args: string array) =
   (* Extract the type of AnalysisRange for Return64Detector *)
   let return64Range =
     match r.GetResult (<@ ReturnRange @>, defaultValue = 0) with
-    | 0 ->
-      Checker.Return64Detection.Return64Types.LeafAndDirectPredecessors
+    | 0 -> Checker.Return64Detection.Return64Types.LeafAndDirectPredecessors
     | 1 -> Checker.Return64Detection.Return64Types.EntireFunction
     | value ->
       eprintfn "Unsupported Return64Detector range %d. Use 0 or 1." value
@@ -303,18 +307,49 @@ let private runEvalAnalyzer options =
 
 /// Execute x86-32 EDX:EAX 64 bit return detector.
 let private runReturn64Detector options =
-  let detectOptions:
-    Checker.Return64Detection.Return64Detector.DetectOptions =
+  let detectOptions: Return64Detection.Return64Detector.DetectOptions =
     { BinaryPath = requireBinary options
       Range = options.Return64Range
       Heuristic = options.Return64Heuristic }
 
   try
     let result =
-      Checker.Return64Detection.Return64Detector.run detectOptions
-      |> Checker.Return64Detection.Return64Formatter.toText
+      Return64Detection.Return64Detector.run detectOptions
+      |> Return64Detection.Return64Formatter.toText
 
     emitOutput options "Return64Result" result
+  with ex ->
+    eprintfn "%s" ex.Message
+    exit 1
+
+/// Execute and evaluate x86-32 EDX:EAX 64 bit return detector.
+let private runReturn64Evaluator options =
+  let evalOptions: Return64Detection.Evaluator.Evaluator.EvalOptions =
+    { BinaryPath = requireBinary options
+      GroundTruthPath = requireGroundTruth options
+      Range = options.Return64Range
+      Heuristic = options.Return64Heuristic }
+
+  try
+    let result = Return64Detection.Evaluator.Evaluator.run evalOptions
+
+    let detectorFileName =
+      Return64Detection.Evaluator.Evaluator.detectorResultFileName
+        options.OutFileName
+
+    let jsonFileName =
+      Return64Detection.Evaluator.Evaluator.evalResultJsonFileName
+        options.OutFileName
+
+    let logFileName =
+      Return64Detection.Evaluator.Evaluator.evalResultLogFileName
+        options.OutFileName
+
+    emitOutput options detectorFileName result.Detector
+    printfn ""
+    emitOutput options jsonFileName result.Json
+    printfn ""
+    emitOutput options logFileName result.Log
   with ex ->
     eprintfn "%s" ex.Message
     exit 1
@@ -329,5 +364,6 @@ let main argv =
   | BuildGroundTruth -> runBuildGroundTruth options
   | EvalAnalyzer -> runEvalAnalyzer options
   | DetectReturn64 -> runReturn64Detector options
+  | EvalReturn64 -> runReturn64Evaluator options
 
   0

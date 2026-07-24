@@ -8,7 +8,7 @@ This directory contains the codes to find out which instructions are lifted to [
 
 This file extracts the functions in given binary using `readelf` and in each function, check it contains `jmp 0` form SSA statement.
 
-```
+```sh
 dotnet run --project Checker.fsproj \
   -m 0 \
   -b ../datas/binaries/helloword-x86_32-i586-uclibc-O0
@@ -16,7 +16,7 @@ dotnet run --project Checker.fsproj \
 
 If option `-o` is indicated with directory path, it stores the result into given directory.
 
-```
+```sh
 dotnet run --project Checker.fsproj \
   -m 0 \
   -b ../datas/binaries/helloword-x86_32-i586-uclibc-O0 \
@@ -27,7 +27,7 @@ dotnet run --project Checker.fsproj \
 
 Almost same as [FindCall0.fs](./FindCall0/FindCall0.fs). The main difference is this file checks the function resolved from B2R2. It extract function not only valid but aslo invalid from B2R2 function recovery logic.
 
-```
+```sh
 dotnet run --project Checker.fsproj \
   -m 1 \
   -b ../datas/binaries/helloword-x86_32-i586-uclibc-O0
@@ -35,7 +35,7 @@ dotnet run --project Checker.fsproj \
 
 If option `-o` is indicated with directory path, it stores the result into given directory.
 
-```
+```sh
 dotnet run --project Checker.fsproj \
   -m 1 \
   -b ../datas/binaries/helloword-x86_32-i586-uclibc-O0 \
@@ -52,7 +52,7 @@ This directory contains the codes related to extract type of parameters and retu
 
 The ground truth type signature is only appeared in binary compiled with debug option that includes DWARF information. If given binary does not have DWARF information, the [GroundTruthExtractor](./EvaluateAnalyzer/GroundTruthExtractor) may occur error.
 
-```
+```sh
 dotnet run --project Checker.fsproj \
   -m 2 \
   -b ../datas/binaries/helloword-x86_32-i586-uclibc-O0-gt \
@@ -65,7 +65,7 @@ Each ground-truth argument and return value contains its byte `Size` and
 classified `Type`. A size of `0` means that DWARF did not provide enough size
 information and requires manual correction before evaluation.
 
-```
+```sh
 dotnet run --project Checker.fsproj \
   -m 2 \
   -b ../datas/binaries/helloword-x86_32-i586-uclibc-O0-gt \
@@ -79,7 +79,7 @@ This directory contains the codes related to evaluate the performance of Pointer
 The evaluator reads `analysisConfig.json` from the directory containing the
 given `inferredTypes.json`. PointerAnalyzer generates both files together.
 
-```
+```sh
 dotnet run --project Checker.fsproj \
   -m 3 \
   -gt output/testSimple_GT.json \
@@ -89,7 +89,7 @@ dotnet run --project Checker.fsproj \
 
 With `-on` option, you can assign the suffix name of output file. As default, it will be basename of given binary. The extracted ground truth is stroed with `SUFFIX_GT.json`. During extraction, if there happens some strange behavior, the extractor will logs as `SUFFIX_GTExtract.log`
 
-```
+```sh
 dotnet run --project Checker.fsproj \
   -m 3 \
   -gt output/testSimple_GT.json \
@@ -101,7 +101,7 @@ dotnet run --project Checker.fsproj \
 ## [Return64Detection](./Return64Detection/)
 
 This directory contains the x86-32 detector for functions that return a
-64-bit value through `EDX:EAX`.
+64 bit value through `EDX:EAX`.
 
 Use `-rr 0` to analyze each return leaf and its direct predecessors, or
 `-rr 1` to analyze the entire function. Use `-rh 0` for the basic def-use
@@ -118,3 +118,27 @@ dotnet run --project Checker.fsproj -- \
 
 Passing `-o output` stores the report as `Return64Result`; otherwise it is
 printed to standard output.
+
+### [Evaluator](./Return64Detection/Evaluator/)
+
+This directory contains the evaluator of x86-32 detector for functions that
+return a 64 bit value through `EDX:EAX`. To evaluate, GT Json file generate from
+[GroundTruthExtractor](./EvaluateAnalyzer/GroundTruthExtractor) is needed.
+The evaluator only evaluates the function with returns valid vlaue. If the
+function does not exist in GT Json or its GT return value size is more than 8,
+then corresponding function marked as Invalid.
+
+```sh
+dotnet run --project Checker.fsproj -- \
+  -m 5 \
+  -b ../datas/binaries/helloword-x86_32-i586-uclibc-O0 \
+  -gt output/testSimple_GT.json \
+  -rr 1 \
+  -rh 1 \
+  -o output \
+  -on testSimple
+```
+
+With above commmand, this evaluator stores `testSimple_Return64Result`: the 
+result of Return64Detector, `testSimple_Return64EvalResult.json`: the evaluation
+metric, and `testSimple_Return64EvalResult.log`: the detailed log of evaluation.
