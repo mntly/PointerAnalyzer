@@ -133,7 +133,7 @@ dotnet run --project Checker.fsproj -- \
   -m 5 \
   -b ../datas/binaries/helloword-x86_32-i586-uclibc-O0 \
   -gt output/testSimple_GT.json \
-  -rr 1 \
+  -rr 0 \
   -rh 1 \
   -o output \
   -on testSimple
