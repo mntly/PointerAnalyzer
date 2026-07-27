@@ -2,6 +2,20 @@
 
 ## ToDo: Description of PointerAnalyzer
 
+## Shortcuts
+
+* [Usage](#usage)
+  * [Required Arguments](#required-arguments)
+  * [Optional Arguments](#optional-arguments)
+* [Examples](#examples)
+  * [Analyze all functions](#analyze-all-functions)
+  * [Track analysis time](#track-analysis-time)
+  * [Disable function-summary application](#disable-function-summary-application)
+  * [Dump recovered SSA](#dump-recovered-ssa)
+  * [Dump recovered funtions](#dump-recovered-funtions)
+  * [Dump type constraints](#dump-type-constraints)
+  * [Print out the result of specific function](#print-out-the-result-of-specific-function)
+
 ## Usage
 
 ```bash
@@ -27,6 +41,7 @@ dotnet run --project src/PointerAnalyzer.fsproj \
 | `-lf`, `--listfunctions` | Print/Store recovered functions and exit before analysis. |
 | `-s`, `--store <int>` | If `1`, store optional outputs such as SSA/function list/constraints in the output directory. If `0`, print optional outputs to stdout. The main `inferredTypes.json` result is always stored. |
 | `-t`, `--tracktime` | Print the processing time of each analysis step. |
+| `-fa`, `--functionapply <int>` | Apply callee summaries at function calls. `1` enables application and `0` disables it. The default is `1`. |
 | `--function <name\|address>` | After analyzing the binary, print the result of only the selected function. |
 | `--help` | Display help information. |
 
@@ -49,46 +64,8 @@ output/pointer_argument_return/analysisConfig.json
 
 The default JSON result stores only inferred type names such as `Address`,
 `Value`, `Conflict`, and `Unknown`; it does not include TypeIds.
-`analysisConfig.json` stores the analyzed platform's word size for the
-evaluator.
-
-### Print recovered SSA
-
-```bash
-dotnet run --project src/PointerAnalyzer.fsproj \
-    -b datas/binaries/pointer_argument_return \
-    -o output \
-    -d
-```
-
-### Dump the recovered SSA
-
-```bash
-dotnet run --project src/PointerAnalyzer.fsproj \
-    -b datas/binaries/pointer_argument_return \
-    -o output \
-    -d \
-    -s 1
-```
-
-### List recovered functions
-
-```bash
-dotnet run --project src/PointerAnalyzer.fsproj \
-    -b datas/binaries/pointer_argument_return \
-    -o output \
-    -lf
-```
-
-### Save the recovered funtions
-
-```bash
-dotnet run --project src/PointerAnalyzer.fsproj \
-    -b datas/binaries/pointer_argument_return \
-    -o output \
-    -lf \
-    -s 1
-```
+`analysisConfig.json` stores the analyzed platform's word size and whether
+function-summary application was enabled.
 
 ### Track analysis time
 
@@ -97,6 +74,25 @@ dotnet run --project src/PointerAnalyzer.fsproj \
     -b datas/binaries/pointer_argument_return \
     -o output \
     -t
+```
+
+### Disable function-summary application
+
+```bash
+dotnet run --project src/PointerAnalyzer.fsproj \
+    -b datas/binaries/pointer_argument_return \
+    -o output/no-function-apply \
+    -fa 0
+```
+
+### Dump recovered SSA
+
+```bash
+dotnet run --project src/PointerAnalyzer.fsproj \
+    -b datas/binaries/pointer_argument_return \
+    -o output \
+    -d \
+    -s 1
 ```
 
 ### Dump type constraints
@@ -108,7 +104,17 @@ dotnet run --project src/PointerAnalyzer.fsproj \
     -dc
 ```
 
-### Print out one the result of specific function
+### Dump recovered funtions
+
+```bash
+dotnet run --project src/PointerAnalyzer.fsproj \
+    -b datas/binaries/pointer_argument_return \
+    -o output \
+    -lf \
+    -s 1
+```
+
+### Print out the result of specific function
 
 * Below scripts both print out the inferred type result of `_dl_aux_init` function at 0x0804a80f.
 

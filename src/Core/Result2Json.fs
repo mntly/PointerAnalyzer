@@ -38,13 +38,20 @@ type AnalysisResultJson = Map<string, FunctionJson>
 
 type AnalysisConfigJson =
   { [<JsonPropertyName("WordSize")>]
-    WordSize: int }
+    WordSize: int
+
+    [<JsonPropertyName("FunctionApply")>]
+    FunctionApply: bool }
 
 module AnalysisConfigJson =
   let private jsonOptions = JsonSerializerOptions (WriteIndented = true)
 
-  let fromPlatform (platform: Platform) : AnalysisConfigJson =
-    { WordSize = platform.WordSize }
+  let fromPlatform
+    (platform: Platform)
+    functionApply
+    : AnalysisConfigJson =
+    { WordSize = platform.WordSize
+      FunctionApply = functionApply }
 
   let toJsonString config =
     JsonSerializer.Serialize (config, jsonOptions) + "\n"

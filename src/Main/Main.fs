@@ -31,6 +31,7 @@ type MainOptions =
     DumpConstraints: bool
     ListFunctions: bool
     FunctionSelector: FunctionSelector option
+    FunctionApplyMode: FunctionApplyMode
     TrackTime: bool }
 
 type CLIArg =
@@ -41,6 +42,7 @@ type CLIArg =
   | [<AltCommandLine("-lf")>] ListFunctions
   | [<AltCommandLine("-s")>] Store of int
   | [<AltCommandLine("-t")>] TrackTime
+  | [<AltCommandLine("-fa")>] FunctionApply of int
   | Function of string
 
   interface IArgParserTemplate with
@@ -48,15 +50,21 @@ type CLIArg =
       match this with
       | Binary _ -> "Binary file to analyze."
       | Output _ ->
-        "Output directory to store analysis results. Basically, the inferred type will be stored here."
+        "Output directory to store analysis results.
+        Basically, the inferred type will be stored here."
       | Store _ ->
-        "If 1 then store printed result (Dumped SSA, Listed Function) at output directory. If 0 then print out."
+        "If 1 then store printed result at output directory.
+        If 0 then print out."
       | DumpSSA -> "Print recovered B2R2 SSA"
       | DumpConstraints ->
         "Print/Store the human-readable type constraints and type IDs."
       | ListFunctions -> "Print recovered functions and exit before analysis."
       | Function _ ->
-        "Print only the selected function. Accepts an address or exact function name."
+        "Print only the selected function.
+        Accepts an address or exact function name."
+      | FunctionApply _ ->
+        "Apply callee function summaries: 1 = enabled, 0 = disabled.
+        Default is 1."
       | TrackTime -> "Track and print out the processing time of each step."
 
 let private tryParseAddress (text: string) =
@@ -102,6 +110,14 @@ let private parseArg (args: string array) =
   let listFunctions = r.Contains ListFunctions
   let trackTime = r.Contains TrackTime
 
+  let functionApplyMode =
+    match r.GetResult (<@ FunctionApply @>, defaultValue = 1) with
+    | 0 -> IgnoreFunctionSummary
+    | 1 -> ApplyFunctionSummary
+    | value ->
+      eprintfn "Unsupported function-apply mode %d. Use 0 or 1." value
+      exit 1
+
   let targetFunc =
     match r.TryGetResult Function with
     | Some tarFun ->
@@ -117,6 +133,7 @@ let private parseArg (args: string array) =
     DumpConstraints = dumpConstraints
     ListFunctions = listFunctions
     FunctionSelector = targetFunc
+    FunctionApplyMode = functionApplyMode
     TrackTime = trackTime }
 
 /// Filter only given target function. Only single target function is valid.
@@ -191,8 +208,7 @@ let private funcSSAStr targetFunctions =
       | Var variable -> Set.add variable acc
       | ExprList expressions -> List.fold collect acc expressions
       | Load (_, _, address) -> collect acc address
-      | Expr.Store (_, _, address, value) ->
-        collect (collect acc address) value
+      | Expr.Store (_, _, address, value) -> collect (collect acc address) value
       | UnOp (_, _, expr)
       | Cast (_, _, expr)
       | Extract (expr, _, _) -> collect acc expr
@@ -362,10 +378,8 @@ let main argv =
 
   (* Lift every function to B2R2 SSA and run DFA. *)
   let dfaProgram =
-    timed
-      options.TrackTime
-      "Run B2R2 DFA and lift SSA"
-      (fun () -> ProgramDFA.runDFA binary)
+    timed options.TrackTime "Run B2R2 DFA and lift SSA" (fun () ->
+      ProgramDFA.runDFA binary)
 
   printfn "Recovered functions: %d" dfaProgram.Functions.Count
 
@@ -425,7 +439,11 @@ let main argv =
           PointerAnalyzer.PreAnalysis.PreAnalyzer.analyze dfaProgram)
 
       (* Run PointerAnalyzer *)
-      let result = ModularAnalyzer.analyzeWithTimer options.TrackTime program
+      let result =
+        ModularAnalyzer.analyzeWithTimer
+          options.TrackTime
+          options.FunctionApplyMode
+          program
 
       (* Extract only targeted function *)
       let selectedResults = extractFuncRes result.Functions
@@ -439,8 +457,9 @@ let main argv =
 
       (* Extract Word Size used for Evaluation *)
       timed options.TrackTime "Print analysis configuration" (fun () ->
-        dfaProgram.Binary.Platform
-        |> Result2Json.AnalysisConfigJson.fromPlatform
+        Result2Json.AnalysisConfigJson.fromPlatform
+          dfaProgram.Binary.Platform
+          options.FunctionApplyMode.isApply
         |> Result2Json.AnalysisConfigJson.toJsonString
         |> storeOutput options "analysisConfig.json")
 

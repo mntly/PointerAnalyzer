@@ -19,6 +19,23 @@ open PointerAnalyzer.TypeInference.ResolvedType
 open PointerAnalyzer.Utils
 
 /// <summary>
+/// Controls whether callee summaries are applied at function calls.
+/// </summary>
+/// <remarks>
+/// <c>ApplyFunctionSummary</c> lets PointerAnalyzer applies function summary.
+/// <c>IgnoreFunctionSummary</c> lets PointerAnalyzer does not apply function
+/// summary.
+/// </remarks>
+type FunctionApplyMode =
+  | ApplyFunctionSummary
+  | IgnoreFunctionSummary
+
+  member this.isApply =
+    match this with
+    | ApplyFunctionSummary -> true
+    | IgnoreFunctionSummary -> false
+
+/// <summary>
 /// Main analysis result of one specific function.
 /// </summary>
 /// <remarks>
@@ -136,7 +153,11 @@ module ModularAnalyzer =
       abstraction.VData.Internals.AbstractContent.ReturningStatus)
 
   /// Process main-analysis as modular analysis
-  let analyzeWithTimer trackTime (program: ProgramPreResult) =
+  let analyzeWithTimer
+    trackTime
+    (functionApplyMode: FunctionApplyMode)
+    (program: ProgramPreResult)
+    =
     let platform = program.Binary.Platform
     let applicator = SummaryApplicator.create platform
     let classifyConstant = ConstantClassifier.forBinary program.Binary.Handle
@@ -166,8 +187,8 @@ module ModularAnalyzer =
             targetAddr
             |> Option.filter (fun address -> Map.containsKey address summaries)
 
-        match calleeOpt with
-        | Some callee ->
+        match calleeOpt, functionApplyMode.isApply with
+        | Some callee, true ->
           match Map.tryFind callee summaries with
           | Some calleeSum ->
             let returningStatus =
@@ -179,7 +200,8 @@ module ModularAnalyzer =
 
             Some (state, callee)
           | None -> None
-        | None -> None
+        | Some callee, false -> Some (state, callee)
+        | None, _ -> None
 
       // let debug = func.Address = 0x804B17BUL
       let debug = false
