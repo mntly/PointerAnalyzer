@@ -120,13 +120,28 @@ type FinalResult =
     Precision: float }
 
 /// <summary>
+/// Represent the metrics related to structure slot coverage will be stored as
+/// JSON.
+/// </summary>
+type StructureSlotCoverage =
+  { Elements: int
+    FullyObserved: int
+    PartiallyObserved: int
+    Unobserved: int
+    GTSlots: int
+    ObservedSlots: int
+    MissingSlots: int
+    Ratio: float }
+
+/// <summary>
 /// Represent entire metrics that will be stored as JSON.
 /// </summary>
 type EvalMetric =
   { Count: CountResult
     Ratio: RatioResult
     GTTypeRatio: GTTypeRatioResult
-    FinalResult: FinalResult }
+    FinalResult: FinalResult
+    StructureSlotCoverage: StructureSlotCoverage }
 
 let private emptyBucket: CountBucket =
   { Total = 0
@@ -212,8 +227,39 @@ let private buildFinalResult results =
     Recall = div tp (tp + fn)
     Precision = div tp (tp + fp) }
 
+/// Converge all structure slot metrics of each function
+let private buildStructureSlotCoverage (coverages: StructureCoverage list) =
+  let expected =
+    coverages |> List.sumBy (fun coverage -> coverage.ExpectedSlots)
+
+  let observed =
+    coverages |> List.sumBy (fun coverage -> coverage.ObservedSlots)
+
+  let countHelper f =
+    coverages |> List.filter f |> List.length
+
+  let fullyObserved =
+    countHelper (fun coverage ->
+      coverage.ObservedSlots = coverage.ExpectedSlots)
+
+  let partialObserved =
+    countHelper (fun coverage ->
+      coverage.ObservedSlots > 0
+      && coverage.ObservedSlots < coverage.ExpectedSlots)
+
+  let unObserved = countHelper (fun coverage -> coverage.ObservedSlots = 0)
+
+  { Elements = List.length coverages
+    FullyObserved = fullyObserved
+    PartiallyObserved = partialObserved
+    Unobserved = unObserved
+    GTSlots = expected
+    ObservedSlots = observed
+    MissingSlots = expected - observed
+    Ratio = div observed expected }
+
 /// Calculate evaluation metrix using the result of evaluation classification
-let build gtAll results =
+let build gtAll results structureCoverages =
   (* Count the # of elements in each case *)
   let count: CountResult = buildCount gtAll results
 
@@ -259,7 +305,8 @@ let build gtAll results =
     GTTypeRatio =
       { GTAddress = addressRatio
         GTValue = valueRatio }
-    FinalResult = buildFinalResult results }
+    FinalResult = buildFinalResult results
+    StructureSlotCoverage = buildStructureSlotCoverage structureCoverages }
 
 /// Transform given metric DS to JSON
 let toJson metric =

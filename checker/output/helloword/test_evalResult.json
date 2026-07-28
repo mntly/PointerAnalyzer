@@ -69,5 +69,15 @@
     "Acc": 0.7473460721868365,
     "Recall": 0.5062761506276151,
     "Precision": 0.9918032786885246
+  },
+  "StructureSlotCoverage": {
+    "Elements": 0,
+    "FullyObserved": 0,
+    "PartiallyObserved": 0,
+    "Unobserved": 0,
+    "GTSlots": 0,
+    "ObservedSlots": 0,
+    "MissingSlots": 0,
+    "Ratio": 0
   }
 }

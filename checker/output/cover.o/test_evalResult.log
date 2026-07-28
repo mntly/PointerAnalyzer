@@ -1,0 +1,85 @@
+===== GTUnknown Functions =====
+<none>
+
+===== Invalid GT Size Functions =====
+<none>
+
+===== Large Return Functions =====
+<none>
+
+===== MissedDetect Functions =====
+0x00000014 MEM_read64
+0x0000002b MEM_swap64
+0x00000060 MEM_readLE64
+0x000000a2 ERR_isError
+0x000000bd ERR_getErrorCode
+0x000000e9 ERR_getErrorName
+0x00000119 _force_has_format_string
+0x00000129 ZSTD_countLeadingZeros32
+0x0000013f ZSTD_highbit32
+0x00000164 BIT_getLowerBits
+0x00000180 BIT_getUpperBits
+0x0000019b BIT_getMiddleBits
+0x000001d4 BIT_lookBits
+0x00000209 BIT_skipBits
+0x0000022a ZSTD_copy8
+0x0000024a ZSTD_copy16
+0x00000293 COVER_map_clear
+0x000002cf COVER_map_init
+0x00000373 COVER_map_hash
+0x000003a2 COVER_map_index
+0x0000040f COVER_map_at
+0x00000465 COVER_map_remove
+0x0000054a COVER_map_destroy
+0x00000592 COVER_sum
+0x000005d8 COVER_cmp
+0x0000062b COVER_cmp8
+0x00000706 COVER_strict_cmp
+0x00000752 COVER_strict_cmp8
+0x0000079e stableSort
+0x000007f1 COVER_lower_bound
+0x00000859 COVER_groupBy
+0x000008d9 COVER_group
+0x000009b5 COVER_selectSegment
+0x00000bd3 COVER_checkParameters
+0x00000c40 COVER_ctx_destroy
+0x00000cfe COVER_ctx_init
+0x00001204 COVER_warnOnSmallCorpus
+0x00001298 COVER_computeEpochs
+0x00001342 COVER_buildDictionary
+0x000015ad ZDICT_trainFromBuffer_cover
+0x000018c6 COVER_checkTotalCompressedSize
+0x00001a5d COVER_best_init
+0x00001abe COVER_best_wait
+0x00001ae1 COVER_best_destroy
+0x00001b2a COVER_best_start
+0x00001b51 COVER_best_finish
+0x00001c60 setDictSelection
+0x00001c9f COVER_dictSelectionError
+0x00001cc8 COVER_dictSelectionIsError
+0x00001cfc COVER_dictSelectionFree
+0x00001d26 COVER_selectDict
+0x000020c6 COVER_tryParameters
+0x00002448 ZDICT_optimizeTrainFromBuffer_cover
+
+===== CountMismatch Functions =====
+<none>
+
+===== Correct Functions =====
+<none>
+
+===== MisInferred Functions =====
+<none>
+
+===== Conflict Functions =====
+<none>
+
+===== Failed Functions =====
+<none>
+
+===== Infer More Params =====
+<none>
+
+===== Structure Slot Coverage =====
+<none>
+

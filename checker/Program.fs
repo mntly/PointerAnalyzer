@@ -286,6 +286,11 @@ let private runEvalAnalyzer options =
     (* Execute PointerAnalyzer evaluator *)
     let result = EvaluateAnalyzer.Evaluator.Evaluator.run evalOptions
 
+    (* Construct low-level GT Function Signatures based on the target ABI *)
+    let convertedGTFileName =
+      EvaluateAnalyzer.Evaluator.Evaluator.convertedGroundTruthFileName
+        options.OutFileName
+
     (* Construct evaluate result path *)
     let jsonFileName =
       EvaluateAnalyzer.Evaluator.Evaluator.evalResultJsonFileName
@@ -297,6 +302,8 @@ let private runEvalAnalyzer options =
         options.OutFileName
 
     (* Store result *)
+    emitOutput options convertedGTFileName result.ConvertedGroundTruth
+    printfn ""
     emitOutput options jsonFileName result.Json
     printfn ""
     emitOutput options logFileName result.Log

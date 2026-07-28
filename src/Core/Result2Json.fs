@@ -37,7 +37,10 @@ type FunctionJson =
 type AnalysisResultJson = Map<string, FunctionJson>
 
 type AnalysisConfigJson =
-  { [<JsonPropertyName("WordSize")>]
+  { [<JsonPropertyName("Platform")>]
+    Platform: string
+
+    [<JsonPropertyName("WordSize")>]
     WordSize: int
 
     [<JsonPropertyName("FunctionApply")>]
@@ -50,7 +53,8 @@ module AnalysisConfigJson =
     (platform: Platform)
     functionApply
     : AnalysisConfigJson =
-    { WordSize = platform.WordSize
+    { Platform = platform.Name
+      WordSize = platform.WordSize
       FunctionApply = functionApply }
 
   let toJsonString config =

@@ -21,13 +21,19 @@ type EvalOptions =
 /// Store result of evaluator. Json stores the metrics and Log stores log
 /// generated during evaluating.
 /// </summary>
-type EvalOutput = { Json: string; Log: string }
+type EvalOutput =
+  { ConvertedGroundTruth: string
+    Json: string
+    Log: string }
 
 /// Generate new output file name
 let evalResultJsonFileName suffix = suffix + "_evalResult.json"
 
 /// Generate new output log file name
 let evalResultLogFileName suffix = suffix + "_evalResult.log"
+
+/// Generate converted ground-truth output file name.
+let convertedGroundTruthFileName suffix = suffix + "_ConvertedGT.json"
 
 /// Get path of analysisConfig file.
 /// PointerAnalyzer generates config file at the same path with result file.
@@ -38,23 +44,33 @@ let private analysisConfigPath inferredJsonPath =
 
 /// Evaluate PointerAnalyzer using given 1 binary with its ground truth
 let run options =
-  (* Parse GroundTruth Json file *)
-  let gt = ParseJSON.loadGroundTruth options.GroundTruthJsonPath
-  let gtAll = ElementEvaluator.countValidGTElements gt
+  (* Parse RawGroundTruth Json file *)
+  let rawGT = ParseJSON.loadGroundTruth options.GroundTruthJsonPath
 
   (* Parse Inferred Result Jsin file *)
   let inferred = ParseJSON.loadInferred options.InferredJsonPath
+
+  (* Extract ABI information to construct low-level GT function signature *)
   let config =
     options.InferredJsonPath
     |> analysisConfigPath
     |> ParseJSON.loadAnalysisConfig
 
+  (* Convert RawGT into ABI-specific low-level GT *)
+  let gt = GroundTruthConverter.GroundTruthConverter.convert config rawGT
+
   (* Evaluate the result *)
   (* 1. Classify the type of result: Correct, MisInferred, Conflict, Fail *)
-  let elements, logState =
-    ElementEvaluator.evaluate config.WordSize gt inferred
-  (* 2. Measure each metric *)
-  let metric = Metric.build gtAll elements
+  let elements, structureCoverages, logState =
+    ElementEvaluator.evaluate gt inferred
 
-  { Json = Metric.toJson metric
+  (* 2. Measure each metric *)
+  let gtAll = ElementEvaluator.countValidGTElements gt
+  let metric = Metric.build gtAll elements structureCoverages
+
+  let convertedGroundTruth =
+    GroundTruthConverter.GroundTruthConverter.toJson config gt
+
+  { ConvertedGroundTruth = convertedGroundTruth
+    Json = Metric.toJson metric
     Log = Log.toText logState }

@@ -17,6 +17,7 @@ except ImportError:
 ADDRESS = "Address"
 VALUE = "Value"
 UNKNOWN = "Unknown"
+STRUCTURE = "Structure"
 
 # Type tags of DWARF
 ADDR_TAGS = [
@@ -29,13 +30,15 @@ ADDR_TAGS = [
 VALUE_TAGS = [
     "DW_TAG_base_type",
     "DW_TAG_enumeration_type",
-    # "DW_TAG_structure_type",
+]
+STRUCTURE_TAGS = [
+    "DW_TAG_structure_type",
     # "DW_TAG_union_type",
     # "DW_TAG_class_type",
 ]
 RECURSIVE_TAGS = [
     "DW_TAG_typedef",
-    # "DW_TAG_const_type",
+    "DW_TAG_const_type",
     # "DW_TAG_volatile_type",
     "DW_TAG_restrict_type",
     # "DW_TAG_atomic_type",
@@ -92,8 +95,33 @@ def type_path_to_text(path):
     return " -> ".join(path)
 
 # Construct Ground Truth Type Element
-def type_info(size, resolved_type):
-    return {"Size": size, "Type": resolved_type}
+def type_info(size, resolved_type, fields=None):
+    result = {"Size": size, "Type": resolved_type}
+    if resolved_type == STRUCTURE:
+        result["Fields"] = fields if fields is not None else []
+    return result
+
+# Extract the offset of given fields in structure containing it
+def member_offset(die):
+    location = attr(die, "DW_AT_data_member_location")
+    if location is None:
+        return None
+
+    try:
+        return int(location.value)
+    except (TypeError, ValueError):
+        return None
+
+# Construct the information of given field(context) for logging
+def field_context(context, field_name):
+    if context is None:
+        return None
+
+    return {
+        "FunctionName": context["FunctionName"],
+        "FunctionAddress": context["FunctionAddress"],
+        "Target": f"{context['Target']} Field {field_name}",
+    }
 
 # Extract byte size of type of given DIE
 def direct_byte_size(die):
@@ -189,6 +217,64 @@ def resolve_type(die, seen=None, context=None, path=None):
     seen.add(die_key)
 
     # Classify Type
+    if tag in STRUCTURE_TAGS:
+        fields = []
+        logs = []
+
+        for index, child in enumerate(die.iter_children()):
+            if child.tag != "DW_TAG_member":
+                # Field information is in DW_TAG_member
+                continue
+
+            name = attr_string(child, "DW_AT_name") or f"<field-{index}>"
+            offset = member_offset(child)
+            child_context = field_context(context, name)
+
+            if offset is None:
+                resolved = type_info(direct_byte_size(child), UNKNOWN)
+                field_logs = unknown_type_log(
+                    child_context,
+                    "Missing or unsupported DW_AT_data_member_location",
+                    tag=child.tag,
+                    die=child,
+                    path=next_path + [child.tag],
+                )
+                offset = -1
+            else:
+                resolved, field_logs = resolve_type(
+                    get_ref_die(child, "DW_AT_type"),
+                    seen.copy(),
+                    child_context,
+                    next_path,
+                )
+
+            field = {
+                "Name": name,
+                "Offset": offset,
+                "Size": resolved["Size"],
+                "Type": resolved["Type"],
+            }
+            # If the field of structure is structure, recursively merge
+            if resolved["Type"] == STRUCTURE:
+                field["Fields"] = resolved["Fields"]
+
+            fields.append(field)
+            logs.extend(field_logs)
+
+        size = direct_byte_size(die)
+        if size == 0:
+            logs.extend(
+                unknown_type_log(
+                    context,
+                    "Missing DW_AT_byte_size",
+                    tag=tag,
+                    die=die,
+                    path=next_path,
+                )
+            )
+
+        return type_info(size, STRUCTURE, fields), logs
+
     if tag in ADDR_TAGS:
         # Get byte size of type
         size = address_byte_size(die)
@@ -356,11 +442,15 @@ def extract_signature(die, name, address):
     }, arg_logs + return_logs
 
 def unknown_count(signature):
-    elements = signature["Args"] + signature["Return"]
+    def element_unknown_count(element):
+        current = int(element["Type"] == UNKNOWN or element["Size"] == 0)
+        return current + sum(
+            element_unknown_count(field) for field in element.get("Fields", [])
+        )
+
     return sum(
-        1
-        for element in elements
-        if element["Type"] == UNKNOWN or element["Size"] == 0
+        element_unknown_count(element)
+        for element in signature["Args"] + signature["Return"]
     )
 
 def choose_duplicate(signatures):
@@ -372,6 +462,12 @@ def choose_duplicate(signatures):
 # Transform function signature to string
 def signature_to_text(signature):
     def element_to_text(element):
+        if element["Type"] == STRUCTURE:
+            fields = ", ".join(
+                f'{field["Name"]}@{field["Offset"]}:{element_to_text(field)}'
+                for field in element.get("Fields", [])
+            )
+            return f'Structure[{element["Size"]}B]{{{fields}}}'
         return f'{element["Type"]}[{element["Size"]}B]'
 
     args = ", ".join(element_to_text(element) for element in signature["Args"])
@@ -404,6 +500,39 @@ def merge_type(left, right):
         merged_size = left_size
     else:
         return None
+
+    if merged_type == STRUCTURE:
+        if left_type == UNKNOWN:
+            return type_info(merged_size, STRUCTURE, right.get("Fields", []))
+        if right_type == UNKNOWN:
+            return type_info(merged_size, STRUCTURE, left.get("Fields", []))
+
+        left_fields = left.get("Fields", [])
+        right_fields = right.get("Fields", [])
+        if len(left_fields) != len(right_fields):
+            return None
+
+        merged_fields = []
+        for left_field, right_field in zip(left_fields, right_fields):
+            if (
+                left_field["Name"] != right_field["Name"]
+                or left_field["Offset"] != right_field["Offset"]
+            ):
+                return None
+
+            merged_field = merge_type(left_field, right_field)
+            if merged_field is None:
+                return None
+
+            merged_fields.append(
+                {
+                    "Name": left_field["Name"],
+                    "Offset": left_field["Offset"],
+                    **merged_field,
+                }
+            )
+
+        return type_info(merged_size, STRUCTURE, merged_fields)
 
     return type_info(merged_size, merged_type)
 
@@ -440,14 +569,28 @@ def merge_signature(left, right):
 
 # Filter only unique signatures
 def unique_signatures(signatures):
+    def element_key(element):
+        return (
+            element["Size"],
+            element["Type"],
+            tuple(
+                (
+                    field["Name"],
+                    field["Offset"],
+                    element_key(field),
+                )
+                for field in element.get("Fields", [])
+            ),
+        )
+
     seen = set()
     result = []
 
     for signature in signatures:
         key = (
             signature["Name"],
-            tuple((item["Size"], item["Type"]) for item in signature["Args"]),
-            tuple((item["Size"], item["Type"]) for item in signature["Return"]),
+            tuple(element_key(item) for item in signature["Args"]),
+            tuple(element_key(item) for item in signature["Return"]),
         )
         if key in seen:
             continue

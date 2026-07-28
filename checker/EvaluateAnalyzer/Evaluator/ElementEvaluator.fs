@@ -5,18 +5,21 @@ open EvaluateAnalyzer.Evaluator.Types
 /// Check GT function signature has Unknown type.
 /// This kinds of funcition not used for evaluation.
 let private hasUnknownGT (gt: GTFunction) =
-  let hasUnknown elements =
-    elements |> List.exists (fun element -> element.Type = Unknown)
+  let hasUnknown (element: GTElement) =
+    element.Type = Unknown
+    || (element.Slots |> List.exists (fun slot -> slot.Type = Unknown))
 
-  hasUnknown gt.Args || hasUnknown gt.Return
+  List.exists hasUnknown gt.Args || List.exists hasUnknown gt.Return
 
 /// A zero size indicates the need of manual correction.
 /// Evaluator does not consider the type with zero size as GT.
 let private hasInvalidGTSize (gt: GTFunction) =
-  let hasInvalidSize elements =
-    elements |> List.exists (fun element -> element.Size <= 0)
+  let hasInvalidSize (element: GTElement) =
+    element.Size <= 0
+    || element.OccupiedSlotCount <= 0
+    || (element.Slots |> List.exists (fun slot -> slot.Size <= 0))
 
-  hasInvalidSize gt.Args || hasInvalidSize gt.Return
+  List.exists hasInvalidSize gt.Args || List.exists hasInvalidSize gt.Return
 
 /// Classify the evaluate result type of given pair of GT and inferred type
 let private classify gt inferred =
@@ -43,64 +46,174 @@ let private joinType left right =
   | Address, Value
   | Value, Address -> Conflict
 
-/// From given byteSize, calculate the # of Word Slots
-let private wordSlotCount wordSize byteSize =
-  (byteSize + wordSize - 1) / wordSize
+/// Compare the normal type parameter. The inferred slot is extracted from
+/// slotCursor. `paramIdx` indicates the index of parameter for logging. If
+/// normal parameter has more than one slot, it should be merged type before
+/// evaluation.
+let private normalArgEvalResult
+  slotCursor
+  fn
+  paramIdx
+  (gt: GTElement)
+  inferredArgs
+  =
+  let inferredSlots =
+    gt.Slots
+    |> List.sortBy (fun slot -> slot.Index)
+    |> List.map (fun slot -> Map.tryFind (slotCursor + slot.Index) inferredArgs)
 
-/// Calculate total # of Word Slots to represent given GT args
-let private expectedArgSlots wordSize args =
-  args |> List.sumBy (fun arg -> wordSlotCount wordSize arg.Size)
+  let inferred =
+    if inferredSlots |> List.exists Option.isNone then
+      Unknown
+    else
+      inferredSlots |> List.choose id |> List.fold joinType Unknown
+
+  { Function = fn
+    Target = Argument paramIdx
+    GT = gt.Type
+    Inferred = inferred
+    Category = classify gt.Type inferred }
+
+/// Compare the structure type parameter. The inferred slot is extracted from
+/// slotCursor. `paramIdx` indicates the index of parameter for logging. The
+/// structure will be evaluated after decomposing its fields into WordSize
+/// slots.
+let private structureArgEvalResults
+  slotCursor
+  fn
+  paramIdx
+  (gt: GTElement)
+  inferredArgs
+  =
+  (* Extract inferred type and matching with GT slot *)
+  let observed =
+    gt.Slots
+    |> List.sortBy (fun slot -> slot.Index)
+    |> List.choose (fun slot ->
+      Map.tryFind (slotCursor + slot.Index) inferredArgs
+      |> Option.map (fun inferred -> slot, inferred))
+
+  let results =
+    observed
+    |> List.map (fun (slot, inferred) ->
+      { Function = fn
+        Target = ArgumentSlot (paramIdx, slot.Index, slot.Path)
+        GT = slot.Type
+        Inferred = inferred
+        Category = classify slot.Type inferred })
+
+  let coverage =
+    { Function = fn
+      Target = Argument paramIdx
+      ExpectedSlots = List.length gt.Slots
+      ObservedSlots = List.length observed }
+
+  results, coverage
 
 /// Evaluate each parameters in function signature.
 /// If inferred parameter was missing, assume its type as Unknown.
-let private argResults wordSize fn gtArgs inferredArgs =
+let private argResults fn gtArgs inferredArgs =
   (*
     From given InferArgIdx(slotCursor), merge(join) all inferred types
     corresponding to GT by assigning same size
   *)
-  let evaluateArgument (slotCursor, results) (paramIdx, gt: GTElement) =
-    (* Transform the byte size of GT into # of word slot *)
-    let slotCount = wordSlotCount wordSize gt.Size
-
-    (* Extract all corresponding inferred types and Join *)
-    let inferred =
-      [ slotCursor .. slotCursor + slotCount - 1 ]
-      |> List.map (fun slotIndex ->
-        Map.tryFind slotIndex inferredArgs |> Option.defaultValue Unknown)
-      |> List.fold joinType Unknown
-
+  let evaluateArgument
+    (slotCursor, results, coverages)
+    (paramIdx, gt: GTElement)
+    =
     (* Construct result DS for calculating metric *)
-    let result =
+    let currentResults, currentCoverages =
+      match gt.Kind with
+      | NormalElement ->
+        [ normalArgEvalResult slotCursor fn paramIdx gt inferredArgs ], []
+      | StructureElement ->
+        let results, coverage =
+          structureArgEvalResults slotCursor fn paramIdx gt inferredArgs
+
+        results, [ coverage ]
+
+    (* Move to next GT element *)
+    let nextSlotCursor = slotCursor + gt.OccupiedSlotCount
+
+    let results =
+      currentResults |> List.fold (fun acc result -> result :: acc) results
+
+    let coverages =
+      currentCoverages
+      |> List.fold (fun acc coverage -> coverage :: acc) coverages
+
+    nextSlotCursor, results, coverages
+
+  let _, results, coverages =
+    gtArgs |> List.indexed |> List.fold evaluateArgument (0, [], [])
+
+  List.rev results, List.rev coverages
+
+let private normalReturnResult fn index (gt: GTElement) inferredReturns =
+  let inferred =
+    inferredReturns |> List.tryItem index |> Option.defaultValue Unknown
+
+  { Function = fn
+    Target = Return index
+    GT = gt.Type
+    Inferred = inferred
+    Category = classify gt.Type inferred }
+
+let private structureReturnResults fn index (gt: GTElement) inferredReturns =
+  let observed =
+    gt.Slots
+    |> List.sortBy (fun slot -> slot.Index)
+    |> List.choose (fun slot ->
+      inferredReturns
+      |> List.tryItem (index + slot.Index)
+      |> Option.map (fun inferred -> slot, inferred))
+
+  let results =
+    observed
+    |> List.map (fun (slot, inferred) ->
       { Function = fn
-        Target = Argument paramIdx
-        GT = gt.Type
+        Target = ReturnSlot (index, slot.Index, slot.Path)
+        GT = slot.Type
         Inferred = inferred
-        Category = classify gt.Type inferred }
+        Category = classify slot.Type inferred })
 
-    (* Update next InferArgIdx *)
-    slotCursor + slotCount, result :: results
-
-  gtArgs
-  |> List.indexed
-  |> List.fold evaluateArgument (0, [])
-  |> snd
-  |> List.rev
-
-/// Evaluate return value in function signature
-let private returnResults fn gtReturns inferredReturns =
-  gtReturns
-  |> List.mapi (fun index (gt: GTElement) ->
-    let inferred =
-      inferredReturns |> List.tryItem index |> Option.defaultValue Unknown
-
+  let coverage =
     { Function = fn
       Target = Return index
-      GT = gt.Type
-      Inferred = inferred
-      Category = classify gt.Type inferred })
+      ExpectedSlots = List.length gt.Slots
+      ObservedSlots = List.length observed }
+
+  results, coverage
+
+/// Evaluate each return value in function signature.
+/// If inferred return value was missing, assume its type as Unknown.
+let private returnResults fn gtReturns inferredReturns =
+  let evaluateReturn (results, coverages) (index, gt: GTElement) =
+    let currentResults, currentCoverages =
+      match gt.Kind with
+      | NormalElement -> [ normalReturnResult fn index gt inferredReturns ], []
+      | StructureElement ->
+        let results, coverage =
+          structureReturnResults fn index gt inferredReturns
+
+        results, [ coverage ]
+
+    let results =
+      currentResults |> List.fold (fun acc result -> result :: acc) results
+
+    let coverages =
+      currentCoverages
+      |> List.fold (fun acc coverage -> coverage :: acc) coverages
+
+    results, coverages
+
+  let results, coverages =
+    gtReturns |> List.indexed |> List.fold evaluateReturn ([], [])
+
+  List.rev results, List.rev coverages
 
 /// From evaluation result of each element, log detail
-let private addFunctionCategory fn results logState =
+let private addFunctionCategory fn hasUnobservedStructure results logState =
   (*
     Used for checking the evaluation result of current function signature has
     specific evaluate result type: Correct, MisInferred, ConflictResult, Fail
@@ -113,7 +226,11 @@ let private addFunctionCategory fn results logState =
     correctly inferred
   *)
   let logState =
-    if results |> List.forall (fun result -> result.Category = Correct) then
+    if
+      not hasUnobservedStructure
+      && not (List.isEmpty results)
+      && (results |> List.forall (fun result -> result.Category = Correct))
+    then
       { logState with
           Correct = Set.add fn logState.Correct }
     else
@@ -142,18 +259,68 @@ let private addFunctionCategory fn results logState =
       logState
 
   (* Add Fail log if at least one element in function signature fail to infer *)
-  if has Fail then
+  if has Fail || hasUnobservedStructure then
     { logState with
         Fail = Set.add fn logState.Fail }
   else
     logState
 
+/// Converge the function signature when its PointerAnalyzer missed at least
+/// one field of structure in function signature
+let private addStructureCoverage
+  (coverages: StructureCoverage list)
+  (logState: EvalLogState)
+  =
+  coverages
+  |> List.fold
+    (fun (logState: EvalLogState) coverage ->
+      if coverage.ObservedSlots <> coverage.ExpectedSlots then
+        { logState with
+            StructureCoverage = Set.add coverage logState.StructureCoverage }
+      else
+        logState)
+    logState
+
+/// Calculate total number of slots and the parameters. PointerAnalyzer can
+/// miss some field of structure, but it must find all parameters.
+/// `normIdx` stores the slot idx of parameters with normal type that
+/// PointerAnalyzer must infer. `structIdxGroup` stores the idx per structure.
+/// This is used to check the PointerAnalyzer can infer at least one field per
+/// structure.
+let private argumentLayout (gt: GTFunction) =
+  let folder (cursor, normIdx, structIdxGroup) (element: GTElement) =
+    let normIdx, structIdxGroup =
+      match element.Kind with
+      | NormalElement ->
+        (* Add all slot index if current element is not structure *)
+        let normIdx =
+          element.Slots
+          |> List.fold
+            (fun indices slot -> Set.add (cursor + slot.Index) indices)
+            normIdx
+
+        normIdx, structIdxGroup
+      | StructureElement ->
+        (* At least one inferred slot must exist for each structure argument *)
+        let structIdxGroup' =
+          element.Slots
+          |> List.map (fun slot -> cursor + slot.Index)
+          |> Set.ofList
+
+        normIdx, structIdxGroup' :: structIdxGroup
+
+    cursor + element.OccupiedSlotCount, normIdx, structIdxGroup
+
+  let occupiedSlots, normIdx, structIdxGroup =
+    List.fold folder (0, Set.empty, []) gt.Args
+
+  occupiedSlots, normIdx, structIdxGroup
+
 let evaluate
-  wordSize
   (gtMap: Map<string, GTFunction>)
   (inferredMap: Map<string, InferredFunction>)
   =
-  let evalEachFunc (results, logState) (address, gt) =
+  let evalEachFunc (results, coverages, logState) (address, gt) =
     let unknownGT = hasUnknownGT gt
     let invalidGTSize = hasInvalidGTSize gt
 
@@ -176,36 +343,51 @@ let evaluate
         else
           logState
 
-      results,
-      logState
+      results, coverages, logState
     else
       (* For each GT function signature,find corresponding inferred signature *)
       match Map.tryFind address inferredMap with
       | None ->
         (* Function Detection Error *)
         (* PoitnerAnalyzer do not handle this, but for analysis, logging *)
-        results,
-        { logState with
-            MissedDetect = Set.add gt.Function logState.MissedDetect }
+        let logState =
+          { logState with
+              MissedDetect = Set.add gt.Function logState.MissedDetect }
+
+        results, coverages, logState
       | Some inferred ->
         let fn = gt.Function
 
-        (*
-          Calculate expected Word-Sized Stack Slots to log misinferred the # of
-          parameters
-        *)
-        let expectedSlots = expectedArgSlots wordSize gt.Args
-        let expectedIndices = Set.ofList [ 0 .. expectedSlots - 1 ]
+        (* Count all slots, and extract all parameter slot idxs *)
+        (* Struct parameter will represented as slot idx set of each field *)
+        let occupiedSlots, normIdxSet, structIdxGroup = argumentLayout gt
+
+        (* Construct slot idx list *)
+        let occupiedIndices =
+          if occupiedSlots = 0 then
+            Set.empty
+          else
+            Set.ofList [ 0 .. occupiedSlots - 1 ]
+
         let inferredIndices = inferred.Args |> Map.keys |> Set.ofSeq
-        let missingIndices = Set.difference expectedIndices inferredIndices
-        let extraIndices = Set.difference inferredIndices expectedIndices
+
+        (* Find out the missed parameters *)
+        let missingNormal = Set.difference normIdxSet inferredIndices
+
+        let missingStructure =
+          structIdxGroup
+          |> List.exists (fun structSlots ->
+            Set.intersect structSlots inferredIndices |> Set.isEmpty)
+
+        (* Find out how many slots are more inferred *)
+        let extraIndices = Set.difference inferredIndices occupiedIndices
         let inferMoreParams = not (Set.isEmpty extraIndices)
 
         let logState =
           if inferMoreParams then
             { logState with
                 InferMoreParams = Set.add fn logState.InferMoreParams }
-          else if not (Set.isEmpty missingIndices) then
+          elif not (Set.isEmpty missingNormal) || missingStructure then
             { logState with
                 CountMismatch = Set.add fn logState.CountMismatch }
           else
@@ -223,35 +405,67 @@ let evaluate
 
         (* Log for there exist more than 1 return Word-Sized Slot *)
         (* ToDo: Handle large size return value *)
+        let hasLargeReturn =
+          gt.Return
+          |> List.exists (fun ret ->
+            ret.Slots
+            |> List.tryHead
+            |> Option.exists (fun firstSlot -> ret.Size > firstSlot.Size))
+
         let logState =
-          if gt.Return |> List.exists (fun ret -> ret.Size > wordSize) then
+          if hasLargeReturn then
             { logState with
                 LargeReturn = Set.add fn logState.LargeReturn }
           else
             logState
 
         if inferMoreParams then
-          results, logState
+          (* Evaluate function only when the inferred params are less than GT *)
+          results, coverages, logState
         else
           (* Evaluate with parameter/return value-wise type checking *)
-          (* If GT has no return value, returnResults naturally evaluates none. *)
-          let elementResults =
-            argResults wordSize fn gt.Args inferred.Args
-            @ returnResults fn gt.Return inferred.Return
+          (* If GT has no return value,returnResults naturally evaluates none *)
+          let argElementResults, argCoverages =
+            argResults fn gt.Args inferred.Args
+
+          let returnElementResults, returnCoverages =
+            returnResults fn gt.Return inferred.Return
+
+          let elementResults = argElementResults @ returnElementResults
+          let structureCoverages = argCoverages @ returnCoverages
+
+          (*
+            If at least one field of structure parameter is found, then assume
+            parameter is found. If not, parameter is unknown
+          *)
+          let hasUnobservedStructure =
+            structureCoverages
+            |> List.exists (fun coverage -> coverage.ObservedSlots = 0)
 
           (* Log function detail *)
-          elementResults @ results,
-          addFunctionCategory fn elementResults logState
+          let logState =
+            logState
+            |> addFunctionCategory fn hasUnobservedStructure elementResults
+            |> addStructureCoverage structureCoverages
+
+          elementResults @ results, structureCoverages @ coverages, logState
 
   gtMap
   |> Map.toList
-  |> List.fold evalEachFunc ([], EvalLogState.empty)
-  |> fun (results, logState) -> List.rev results, logState
+  |> List.fold evalEachFunc ([], [], EvalLogState.empty)
+  |> fun (results, coverages, logState) ->
+      List.rev results, List.rev coverages, logState
 
 /// Count all elements in valid GT function signatures
 let countValidGTElements (gtMap: Map<string, GTFunction>) =
+  let countElement (element: GTElement) =
+    match element.Kind with
+    | NormalElement -> 1
+    | StructureElement -> List.length element.Slots
+
   gtMap
   |> Map.toSeq
   |> Seq.map snd
   |> Seq.filter (fun gt -> not (hasUnknownGT gt || hasInvalidGTSize gt))
-  |> Seq.sumBy (fun gt -> List.length gt.Args + List.length gt.Return)
+  |> Seq.sumBy (fun gt ->
+    List.sumBy countElement gt.Args + List.sumBy countElement gt.Return)

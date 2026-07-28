@@ -30,21 +30,41 @@ let private getFunName defaultValue (name: string) (element: JsonElement) =
   else
     defaultValue
 
-/// Given a GT JSON element, extract its source-level byte size and type.
+/// Given a RawGT JSON element, extract its type.
+/// This recursively extracts structure type as a field of structure.
+let rec private readRawGTType (element: JsonElement) =
+  let typeName =
+    element.GetProperty("Type").GetString().Trim().ToLowerInvariant ()
+
+  match typeName with
+  | "address" -> RawAddress
+  | "value" -> RawValue
+  | "structure" ->
+    let fields =
+      element.GetProperty("Fields").EnumerateArray ()
+      |> Seq.map (fun field ->
+        { Name = getFunName "" "Name" field
+          Offset = field.GetProperty("Offset").GetInt32 ()
+          Size = field.GetProperty("Size").GetInt32 ()
+          Type = readRawGTType field })
+      |> Seq.toList
+
+    RawStructure fields
+  | _ -> RawUnknown
+
+/// Given a RawGT JSON element, extract its source-level byte size and type.
 let private readGTElement (element: JsonElement) =
   let size = element.GetProperty("Size").GetInt32 ()
-  let typ = element.GetProperty("Type").GetString () |> parseEvalType
+  let typ = readRawGTType element
   { Size = size; Type = typ }
 
-/// Given JSON element(value of "Args"), extract GT parameter/return elements.
+/// Given JSON array element, extract GT parameter/return elements.
 let private readGTArray (element: JsonElement) =
   if element.ValueKind <> JsonValueKind.Array then
     (* This case may not be held *)
     []
   else
-    element.EnumerateArray ()
-    |> Seq.map readGTElement
-    |> Seq.toList
+    element.EnumerateArray () |> Seq.map readGTElement |> Seq.toList
 
 /// Given JSON element(value of inferred "Args"), extract type of
 /// parameter map. Object form preserves parameter indices. Array form is
@@ -82,33 +102,34 @@ let private readReturnReg (element: JsonElement) =
         None)
     |> Seq.toList
 
-/// Parsing GT Json and construct GT Map.
-/// The address is used as Key of GT Map.
-let loadGroundTruth path : Map<string, GTFunction> =
-  (* Check gt json file exists *)
+/// Parsing RawGT Json and construct RawGT Map. RawGT is the direct result of
+/// GTExtractor which is not matched with ABI specific low-level conventions.
+/// The address is used as Key of RawGT Map.
+let loadGroundTruth path : Map<string, RawGTFunction> =
+  (* Check raw gt json file exists *)
   if not (File.Exists path) then
-    failwithf "ground-truth JSON does not exist: %s" path
+    failwithf "raw ground-truth JSON does not exist: %s" path
 
   (* Parse given JSON file *)
   use doc = JsonDocument.Parse (File.ReadAllText path)
 
   doc.RootElement.EnumerateObject ()
   |> Seq.map (fun prop ->
-    (* Key of GT Json: Address *)
+    (* Key of RawGT Json: Address *)
     let address = normalizeAddress prop.Name
     let body = prop.Value
 
     (* Extract function name *)
     let name = getFunName address "Name" body
 
-    (* Extract GT type of parameters *)
+    (* Extract RawGT type of parameters *)
     let args = body.GetProperty "Args" |> readGTArray
 
-    (* Extract GT type of return value *)
+    (* Extract RawGT type of return value *)
     let returns = body.GetProperty "Return" |> readGTArray
 
-    (* Construct function signature *)
-    let gtFunction: GTFunction =
+    (* Construct raw gt function signature *)
+    let gtFunction: RawGTFunction =
       { Function = { Address = address; Name = name }
         Args = args
         Return = returns }
@@ -122,12 +143,14 @@ let loadAnalysisConfig path : AnalysisConfig =
     failwithf "analysis configuration JSON does not exist: %s" path
 
   use doc = JsonDocument.Parse (File.ReadAllText path)
+  let platform = doc.RootElement.GetProperty("Platform").GetString ()
   let wordSize = doc.RootElement.GetProperty("WordSize").GetInt32 ()
 
   if wordSize <= 0 then
     failwithf "analysis configuration has invalid WordSize: %d" wordSize
 
-  { WordSize = wordSize }
+  { Platform = platform
+    WordSize = wordSize }
 
 /// Parsing inferred result and construct InferredFunction Map.
 /// The address is used as Key of InferredFunction Map.
