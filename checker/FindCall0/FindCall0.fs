@@ -185,7 +185,7 @@ let private collectJumpZeroSites
 /// Find all statements that try to jump to 0 in given binary
 let run binaryPath =
   let symbols = symbolFunctions binaryPath
-  let hdl = BinHandle binaryPath
+  let hdl = BinHandle.LoadFile binaryPath
   let brew = BinaryBrew hdl
   let lifter = SSALifterFactory.Create hdl
 

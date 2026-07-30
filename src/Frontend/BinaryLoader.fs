@@ -25,7 +25,7 @@ module BinaryLoader =
     if not (File.Exists path) then
       invalidArg (nameof path) (sprintf "Binary does not exist: %s" path)
 
-    let handle = BinHandle path
+    let handle = BinHandle.LoadFile path
 
     { Path = Path.GetFullPath path
       Handle = handle
