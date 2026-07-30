@@ -27,11 +27,15 @@ Usage:
     [--evaluation-dir <dir>] \
     [--log-dir <dir>] \
     [--merged-output <file>] \
+    [--interRelation <0|1>] \
     [--skip-build]
 
 Input lists contain one binary path per line. Empty lines and lines beginning
 with '#' are ignored. Target and ground-truth binaries are paired by exact
 basename.
+
+--interRelation controls callee-summary application: 1 enables it and 0
+disables it. The default is 1.
 EOF
 }
 
@@ -53,6 +57,7 @@ ANALYSIS_DIR=""
 EVALUATION_DIR=""
 LOG_DIR=""
 MERGED_OUTPUT=""
+INTER_RELATION=1
 SKIP_BUILD=0
 
 # Parse the arguments
@@ -90,6 +95,10 @@ while (($# > 0)); do
       MERGED_OUTPUT="${2:-}"
       shift 2
       ;;
+    --interRelation)
+      INTER_RELATION="${2:-}"
+      shift 2
+      ;;
     --skip-build)
       SKIP_BUILD=1
       shift
@@ -109,6 +118,14 @@ done
 # Check target and GT binary list path and output directory path are given
 if [[ -z "$TARGET_LIST" || -z "$GT_BINARY_LIST" || -z "$OUTPUT_ROOT" ]]; then
   usage >&2
+  exit 2
+fi
+
+# Check whether caller-callee relationship option is valid
+if [[ "$INTER_RELATION" != 0 && "$INTER_RELATION" != 1 ]]; then
+  printf \
+    'Invalid --interRelation value: %s. Use 0 or 1.\n' \
+    "$INTER_RELATION" >&2
   exit 2
 fi
 
@@ -146,6 +163,8 @@ status() {
 fail() {
   status "[FAILED] $*"
 }
+
+status "[CONFIG] interRelation=$INTER_RELATION"
 
 # Check given json file fits with Json format
 validate_json() {
@@ -345,7 +364,7 @@ for name in "${NAMES[@]}"; do
     "$binary_log" \
     dotnet run --no-build \
     --project "$REPO_ROOT/src/PointerAnalyzer.fsproj" -- \
-    -b "$target" -o "$ANALYSIS_DIR"; then
+    -b "$target" -o "$ANALYSIS_DIR" -fa "$INTER_RELATION"; then
     fail "$name: PointerAnalyzer failed; see $binary_log"
     FAILURES=$((FAILURES + 1))
     continue
@@ -396,6 +415,7 @@ done
 # If at least one binary is successed to evaluate, merge all evaluation result
 if ((${#METRIC_FILES[@]} > 0)); then
   if python3 "$SCRIPT_DIR/merge_pointer_metrics.py" \
+      --interRelation "$INTER_RELATION" \
       --output "$MERGED_OUTPUT" "${METRIC_FILES[@]}" \
       >> "$MASTER_LOG" 2>&1; then
     status "[MERGED] $SUCCESSES result(s): $MERGED_OUTPUT"

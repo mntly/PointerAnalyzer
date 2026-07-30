@@ -36,7 +36,7 @@ def require_int(mapping: dict, key: str, source: Path) -> int:
     return value
 
 # Merge all evalution results
-def merge(inputs: list[Path]) -> dict:
+def merge(inputs: list[Path], inter_relation: bool) -> dict:
     count = empty_count()
     confusion = {field: 0 for field in CONFUSION_FIELDS}
 
@@ -104,6 +104,9 @@ def merge(inputs: list[Path]) -> dict:
     final_total = tp + tn + fp + fn
 
     return {
+        "Configuration": {
+            "InterRelation": inter_relation,
+        },
         "Count": count,
         "Ratio": ratio,
         "GTTypeRatio": gt_type_ratio,
@@ -121,11 +124,18 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description="Merge PointerAnalyzer evaluator metrics by summing counts."
     )
+    parser.add_argument(
+        "--interRelation",
+        required=True,
+        choices=(0, 1),
+        type=int,
+        help="Whether callee-summary application was enabled.",
+    )
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("inputs", nargs="+", type=Path)
     args = parser.parse_args()
 
-    result = merge(args.inputs)
+    result = merge(args.inputs, bool(args.interRelation))
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.output.open("w", encoding="utf-8") as stream:
         json.dump(result, stream, indent=2)

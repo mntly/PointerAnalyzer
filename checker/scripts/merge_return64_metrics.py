@@ -33,7 +33,7 @@ def require_int(mapping: dict, key: str, source: Path) -> int:
     return value
 
 # Merge all evalution results
-def merge(inputs: list[Path]) -> dict:
+def merge(inputs: list[Path], inter_relation: bool) -> dict:
     count = {field: 0 for field in COUNT_FIELDS}
 
     for source in inputs:
@@ -65,6 +65,9 @@ def merge(inputs: list[Path]) -> dict:
     )
 
     return {
+        "Configuration": {
+            "InterRelation": inter_relation,
+        },
         "Count": count,
         "Metric": {
             "Accuracy": divide(tp + tn, evaluated),
@@ -80,11 +83,18 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description="Merge Return64 evaluator metrics by summing counts."
     )
+    parser.add_argument(
+        "--interRelation",
+        required=True,
+        choices=(0, 1),
+        type=int,
+        help="Whether caller evidence checking was enabled.",
+    )
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("inputs", nargs="+", type=Path)
     args = parser.parse_args()
 
-    result = merge(args.inputs)
+    result = merge(args.inputs, bool(args.interRelation))
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.output.open("w", encoding="utf-8") as stream:
         json.dump(result, stream, indent=2)

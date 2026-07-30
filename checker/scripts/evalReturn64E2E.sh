@@ -22,12 +22,15 @@ Usage:
     [--log-dir <dir>] \
     [--merged-output <file>] \
     [--range <0|1>] \
-    [--heuristic <0|1>] \
+    [--interRelation <0|1>] \
     [--skip-build]
 
 Input lists contain one binary path per line. Empty lines and lines beginning
 with '#' are ignored. Target and ground-truth binaries are paired by exact
 basename.
+
+--interRelation controls caller evidence checking: 1 enables it and 0
+disables it. The default is 1.
 EOF
 }
 
@@ -49,7 +52,7 @@ EVALUATION_DIR=""
 LOG_DIR=""
 MERGED_OUTPUT=""
 RETURN_RANGE=0
-RETURN_HEURISTIC=1
+INTER_RELATION=1
 SKIP_BUILD=0
 
 # Parse the arguments
@@ -87,8 +90,8 @@ while (($# > 0)); do
       RETURN_RANGE="${2:-}"
       shift 2
       ;;
-    --heuristic)
-      RETURN_HEURISTIC="${2:-}"
+    --interRelation)
+      INTER_RELATION="${2:-}"
       shift 2
       ;;
     --skip-build)
@@ -119,11 +122,11 @@ if [[ "$RETURN_RANGE" != 0 && "$RETURN_RANGE" != 1 ]]; then
   exit 2
 fi
 
-# Check valid Heuristic for Return64Detector
-if [[ "$RETURN_HEURISTIC" != 0 && "$RETURN_HEURISTIC" != 1 ]]; then
+# Check whether caller-callee relationship option is valid
+if [[ "$INTER_RELATION" != 0 && "$INTER_RELATION" != 1 ]]; then
   printf \
-    'Invalid --heuristic value: %s. Use 0 or 1.\n' \
-    "$RETURN_HEURISTIC" >&2
+    'Invalid --interRelation value: %s. Use 0 or 1.\n' \
+    "$INTER_RELATION" >&2
   exit 2
 fi
 
@@ -158,6 +161,8 @@ status() {
 fail() {
   status "[FAILED] $*"
 }
+
+status "[CONFIG] interRelation=$INTER_RELATION"
 
 # Check given json file fits with Json format
 validate_json() {
@@ -350,7 +355,7 @@ for name in "${NAMES[@]}"; do
     "$binary_log" \
     dotnet run --no-build --project "$REPO_ROOT/checker/Checker.fsproj" -- \
     -m 5 -b "$target" -gt "$gt_json" \
-    -rr "$RETURN_RANGE" -rh "$RETURN_HEURISTIC" \
+    -rr "$RETURN_RANGE" -rh "$INTER_RELATION" \
     -o "$EVALUATION_DIR" -on "$name"; then
     fail "$name: Return64 evaluation failed; see $binary_log"
     FAILURES=$((FAILURES + 1))
@@ -379,6 +384,7 @@ done
 # If at least one binary is successed to evaluate, merge all evaluation result
 if ((${#METRIC_FILES[@]} > 0)); then
   if python3 "$SCRIPT_DIR/merge_return64_metrics.py" \
+      --interRelation "$INTER_RELATION" \
       --output "$MERGED_OUTPUT" "${METRIC_FILES[@]}" \
       >> "$MASTER_LOG" 2>&1; then
     status "[MERGED] $SUCCESSES result(s): $MERGED_OUTPUT"
