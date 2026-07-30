@@ -20,7 +20,9 @@ let run options =
 
   (* Current, Return64Detector only analyzes ELF x86-32 binaries *)
   if binary.Platform.Kind <> ElfX86_32 then
-    invalidArg (nameof options.BinaryPath) "Return64Detector supports only ELF x86-32 binaries."
+    invalidArg
+      (nameof options.BinaryPath)
+      "Return64Detector supports only ELF x86-32 binaries."
 
   (* B2R2 DFA. Use DS of PointerAnalyzer *)
   let program = ProgramDFA.runDFA binary
@@ -33,6 +35,13 @@ let run options =
     | Basic -> basic
     | BasicWithCallerChecker -> CallerChecker.apply program basic
 
-  { Range = options.Range
+  (*
+    Store not only the result of Return64Detection, but also binary
+    information. Binary information will be used to convert RawGT into
+    ABI-specific GT.
+  *)
+  { Platform = binary.Platform.Name
+    WordSize = binary.Platform.WordSize
+    Range = options.Range
     Heuristic = options.Heuristic
     Functions = functions }

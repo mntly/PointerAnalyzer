@@ -344,6 +344,10 @@ let private runReturn64Evaluator options =
       Return64Detection.Evaluator.Evaluator.detectorResultFileName
         options.OutFileName
 
+    let convertedGTFileName =
+      Return64Detection.Evaluator.Evaluator.convertedGroundTruthFileName
+        options.OutFileName
+
     let jsonFileName =
       Return64Detection.Evaluator.Evaluator.evalResultJsonFileName
         options.OutFileName
@@ -353,6 +357,8 @@ let private runReturn64Evaluator options =
         options.OutFileName
 
     emitOutput options detectorFileName result.Detector
+    printfn ""
+    emitOutput options convertedGTFileName result.ConvertedGroundTruth
     printfn ""
     emitOutput options jsonFileName result.Json
     printfn ""

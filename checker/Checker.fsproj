@@ -19,6 +19,10 @@
     <Compile Include="Return64Detection/Return64Detector.fs" />
     <Compile Include="Return64Detection/Return64Formatter.fs" />
     <Compile Include="Return64Detection/Evaluator/EvaluatorTypes.fs" />
+    <Compile Include="EvaluateAnalyzer/Evaluator/EvaluatorTypes.fs" />
+    <Compile Include="EvaluateAnalyzer/Evaluator/GroundTruthConverter/ELF/x86_32/GroundTruthConverter.fs" />
+    <Compile Include="EvaluateAnalyzer/Evaluator/GroundTruthConverter/GroundTruthConverter.fs" />
+    <Compile Include="EvaluateAnalyzer/Evaluator/EvaluatorParseJson.fs" />
     <Compile Include="Return64Detection/Evaluator/GroundTruthParser.fs" />
     <Compile Include="Return64Detection/Evaluator/ElementEvaluator.fs" />
     <Compile Include="Return64Detection/Evaluator/EvalMetric.fs" />
@@ -26,10 +30,6 @@
     <Compile Include="Return64Detection/Evaluator/Evaluator.fs" />
     <Compile Include="EvaluateAnalyzer/GroundTruthExtractor/Dwarf/PyDwarfCommand.fs" />
     <Compile Include="EvaluateAnalyzer/GroundTruthExtractor/GroundTruthBuilder.fs" />
-    <Compile Include="EvaluateAnalyzer/Evaluator/EvaluatorTypes.fs" />
-    <Compile Include="EvaluateAnalyzer/Evaluator/GroundTruthConverter/ELF/x86_32/GroundTruthConverter.fs" />
-    <Compile Include="EvaluateAnalyzer/Evaluator/GroundTruthConverter/GroundTruthConverter.fs" />
-    <Compile Include="EvaluateAnalyzer/Evaluator/EvaluatorParseJson.fs" />
     <Compile Include="EvaluateAnalyzer/Evaluator/ElementEvaluator.fs" />
     <Compile Include="EvaluateAnalyzer/Evaluator/EvalMetric.fs" />
     <Compile Include="EvaluateAnalyzer/Evaluator/EvalLog.fs" />

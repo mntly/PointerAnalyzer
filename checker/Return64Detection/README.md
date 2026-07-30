@@ -22,3 +22,26 @@ First, apply `Modular Analysis` to filter the function which sets EDX before ret
 1. If current statement literaly uses EDX, mark EDX is used and stop transferring statments. The word `literaly` means that it does not accept usage on PHI because PHI can not represent the usage of target EDX, and it just merges EDX in different branches.
 2. If current statement defines EDX, mark EDX is overwritten and stop transferring statements. PHI on EDX also handled as defining EDX. Since EDX is caller-saved register, function call also handled as defining EDX.
 3. If current statement is empty, i.e. until analyzer reaches the end of function, there does not exist neither EDX usage nor definition, mark as UnknownCalle.
+
+## Ground-Truth Evaluation
+
+The Return64 evaluator parses source-level GT with the same recursive parser
+as PointerAnalyzer's evaluator and converts it according to the binary ABI
+before classifying the expected return width.
+
+For ELF x86-32:
+
+- A normal two-word, eight-byte return is `Return64`.
+- A normal return no larger than one word is `Return32`.
+- A structure return is `Return32` for this detector because the ABI passes a
+  hidden return-buffer pointer instead of returning the structure through
+  `EDX:EAX`.
+- Unsupported normal return sizes and multiple return entries are invalid GT.
+
+The converted GT used during evaluation is stored as:
+
+```text
+SUFFIX_Return64ConvertedGT.json
+```
+
+This artifact shows ABI slots and the synthetic hidden return-buffer argument.

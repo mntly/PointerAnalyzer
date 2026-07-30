@@ -51,15 +51,15 @@ dotnet run --project src/PointerAnalyzer.fsproj \
 
 ```bash
 dotnet run --project src/PointerAnalyzer.fsproj \
-    -b datas/binaries/pointer_argument_return \
+    -b datas/binaries/helloword-x86_32-i586-uclibc-O0 \
     -o output
 ```
 
 This stores the main analysis result at:
 
 ```text
-output/pointer_argument_return/inferredTypes.json
-output/pointer_argument_return/analysisConfig.json
+output/helloword-x86_32-i586-uclibc-O0/inferredTypes.json
+output/helloword-x86_32-i586-uclibc-O0/analysisConfig.json
 ```
 
 The default JSON result stores only inferred type names such as `Address`,
@@ -71,7 +71,7 @@ function-summary application was enabled.
 
 ```bash
 dotnet run --project src/PointerAnalyzer.fsproj \
-    -b datas/binaries/pointer_argument_return \
+    -b datas/binaries/helloword-x86_32-i586-uclibc-O0 \
     -o output \
     -t
 ```
@@ -80,7 +80,7 @@ dotnet run --project src/PointerAnalyzer.fsproj \
 
 ```bash
 dotnet run --project src/PointerAnalyzer.fsproj \
-    -b datas/binaries/pointer_argument_return \
+    -b datas/binaries/helloword-x86_32-i586-uclibc-O0 \
     -o output/no-function-apply \
     -fa 0
 ```
@@ -89,7 +89,7 @@ dotnet run --project src/PointerAnalyzer.fsproj \
 
 ```bash
 dotnet run --project src/PointerAnalyzer.fsproj \
-    -b datas/binaries/pointer_argument_return \
+    -b datas/binaries/helloword-x86_32-i586-uclibc-O0 \
     -o output \
     -d \
     -s 1
@@ -99,7 +99,7 @@ dotnet run --project src/PointerAnalyzer.fsproj \
 
 ```bash
 dotnet run --project src/PointerAnalyzer.fsproj \
-    -b datas/binaries/pointer_argument_return \
+    -b datas/binaries/helloword-x86_32-i586-uclibc-O0 \
     -o output \
     -dc
 ```
@@ -108,7 +108,7 @@ dotnet run --project src/PointerAnalyzer.fsproj \
 
 ```bash
 dotnet run --project src/PointerAnalyzer.fsproj \
-    -b datas/binaries/pointer_argument_return \
+    -b datas/binaries/helloword-x86_32-i586-uclibc-O0 \
     -o output \
     -lf \
     -s 1

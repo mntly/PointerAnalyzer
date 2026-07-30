@@ -11,10 +11,13 @@ type EvalOptions =
 
 type EvalOutput =
   { Detector: string
+    ConvertedGroundTruth: string
     Json: string
     Log: string }
 
 let detectorResultFileName suffix = suffix + "_Return64Result"
+
+let convertedGroundTruthFileName suffix = suffix + "_Return64ConvertedGT.json"
 
 let evalResultJsonFileName suffix = suffix + "_Return64EvalResult.json"
 
@@ -31,8 +34,24 @@ let run options =
   (* Execute Return64Detector *)
   let detection = Return64Detector.run detectOptions
 
-  (* Load GT Json and extract GT return size *)
-  let groundTruth = GroundTruthParser.load options.GroundTruthPath
+  (* Construct ABI information from the binary used by Return64Detector. *)
+  (* This configuration is used to convert RawGT into ABI-specific GT *)
+  let config: EvaluateAnalyzer.Evaluator.Types.AnalysisConfig =
+    { Platform = detection.Platform
+      WordSize = detection.WordSize }
+
+  (* Parse source-level GT and convert it to the target ABI representation. *)
+  let rawGroundTruth =
+    EvaluateAnalyzer.Evaluator.ParseJSON.loadGroundTruth options.GroundTruthPath
+
+  let convertedGroundTruth =
+    EvaluateAnalyzer.Evaluator.GroundTruthConverter.GroundTruthConverter.convert
+      config
+      rawGroundTruth
+
+  (* Extract Return32/Return64 expectations from ABI-converted GT. *)
+  let groundTruth =
+    GroundTruthParser.fromConverted config.WordSize convertedGroundTruth
 
   let gtAll = Map.count groundTruth
 
@@ -45,5 +64,9 @@ let run options =
 
   (* Transform into string (log file) *)
   { Detector = Return64Formatter.toText detection
+    ConvertedGroundTruth =
+      EvaluateAnalyzer.Evaluator.GroundTruthConverter.GroundTruthConverter.toJson
+        config
+        convertedGroundTruth
     Json = Metric.toJson metric
     Log = Log.toText logState }

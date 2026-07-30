@@ -159,6 +159,8 @@ type FunctionDetection =
 /// Represent the result of Return64Detector.
 /// </summary>
 type DetectionResult =
-  { Range: AnalysisRange
+  { Platform: string
+    WordSize: int
+    Range: AnalysisRange
     Heuristic: DetectionHeuristic
     Functions: Map<Addr, FunctionDetection> }

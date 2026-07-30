@@ -20,7 +20,7 @@ If option `-o` is indicated with directory path, it stores the result into given
 dotnet run --project Checker.fsproj \
   -m 0 \
   -b ../datas/binaries/helloword-x86_32-i586-uclibc-O0 \
-  -o output
+  -o output/helloword
 ```
 
 ### [FindCall0Invalid.fs](./FindCall0/FindCall0Invalid.fs)
@@ -39,7 +39,7 @@ If option `-o` is indicated with directory path, it stores the result into given
 dotnet run --project Checker.fsproj \
   -m 1 \
   -b ../datas/binaries/helloword-x86_32-i586-uclibc-O0 \
-  -o output
+  -o output/helloword
 ```
 
 ## [EvaluateAnalyzer](./EvaluateAnalyzer/)
@@ -56,7 +56,7 @@ The ground truth type signature is only appeared in binary compiled with debug o
 dotnet run --project Checker.fsproj \
   -m 2 \
   -b ../datas/binaries/helloword-x86_32-i586-uclibc-O0-gt \
-  -o output
+  -o output/helloword
 ```
 
 With `-on` option, you can assign the suffix name of output file. As default, it will be basename of given binary. The extracted ground truth is stroed with `SUFFIX_GT.json`. During extraction, if there happens some strange behavior, the extractor will logs as `SUFFIX_GTExtract.log`
@@ -71,8 +71,8 @@ requires manual correction before evaluation.
 dotnet run --project Checker.fsproj \
   -m 2 \
   -b ../datas/binaries/helloword-x86_32-i586-uclibc-O0-gt \
-  -o output \
-  -on testSimple
+  -o output/helloword \
+  -on test
 ```
 
 ### [Evaluator](./EvaluateAnalyzer/Evaluator/)
@@ -88,7 +88,7 @@ the conversion and partial-structure evaluation rules.
 ```sh
 dotnet run --project Checker.fsproj \
   -m 3 \
-  -gt output/testSimple_GT.json \
+  -gt output/helloword/test_GT.json \
   -i ../output/helloword-x86_32-i586-uclibc-O0/inferredTypes.json \
   -o output
 ```
@@ -98,10 +98,10 @@ With `-on` option, you can assign the suffix name of output file. As default, it
 ```sh
 dotnet run --project Checker.fsproj \
   -m 3 \
-  -gt output/testSimple_GT.json \
+  -gt output/helloword/test_GT.json \
   -i ../output/helloword-x86_32-i586-uclibc-O0/inferredTypes.json \
-  -o output \
-  -on testSimple
+  -o output/helloword \
+  -on test
 ```
 
 ## [Return64Detection](./Return64Detection/)
@@ -138,13 +138,15 @@ then corresponding function marked as Invalid.
 dotnet run --project Checker.fsproj -- \
   -m 5 \
   -b ../datas/binaries/helloword-x86_32-i586-uclibc-O0 \
-  -gt output/testSimple_GT.json \
+  -gt output/helloword/test_GT.json \
   -rr 0 \
   -rh 1 \
-  -o output \
-  -on testSimple
+  -o output/helloword \
+  -on test
 ```
 
-With above commmand, this evaluator stores `testSimple_Return64Result`: the 
-result of Return64Detector, `testSimple_Return64EvalResult.json`: the evaluation
-metric, and `testSimple_Return64EvalResult.log`: the detailed log of evaluation.
+With above commmand, this evaluator stores
+`testSimple_Return64Result`: the result of Return64Detector,
+`testSimple_Return64ConvertedGT.json`: the ABI-converted GT used for
+evaluation, `testSimple_Return64EvalResult.json`: the evaluation metric, and
+`testSimple_Return64EvalResult.log`: the detailed log of evaluation.

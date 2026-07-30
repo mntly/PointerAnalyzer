@@ -2,13 +2,14 @@ module Checker.Return64Detection.Evaluator.GroundTruthParser
 
 open System
 open System.Globalization
-open System.IO
-open System.Text.Json
+open B2R2
 open Checker.Return64Detection.Evaluator.Types
 
+module ConvertedTypes = EvaluateAnalyzer.Evaluator.Types
+
 /// Transform given string address to uint64 value.
-/// GT Json stores GT with the address of function as key.
-let private parseAddress (gtKey: string) =
+/// Converted GT stores GT with the address of function as key.
+let private parseAddress (gtKey: string) : Addr =
   let normalized = gtKey.Trim ()
 
   let digits =
@@ -27,62 +28,59 @@ let private parseAddress (gtKey: string) =
   | true, address -> address
   | _ -> failwithf "invalid ground-truth function address: %s" gtKey
 
-/// Extract function name from GT json.
-/// If function name not exist, use address as name.
-let private functionName address (body: JsonElement) =
-  let name = body.GetProperty "Name"
-
-  if name.ValueKind = JsonValueKind.String then
-    name.GetString ()
-  else
-    sprintf "0x%08x" address
-
-/// Check return size of given function GT element, and
-/// extract GT of Return64Detector.
-let private classifyReturn (body: JsonElement) =
-  let returns = body.GetProperty "Return"
-
-  if returns.ValueKind <> JsonValueKind.Array then
-    (* GT should store return value as array *)
-    InvalidReturn "Return is not an array"
-  else
-    let entries = returns.EnumerateArray () |> Seq.toList
-
-    match entries with
-    | [] ->
-      (* Not return: Handle as Return32 *)
-      Return32
-    | [ entry ] ->
-      let size = entry.GetProperty("Size").GetInt32 ()
-
-      if size = 8 then Return64
-      elif size > 0 && size <= 4 then Return32
-      else InvalidReturn (sprintf "invalid return size: %d" size)
-    | _ ->
+/// Classify one ABI-converted return element for Return64Detector.
+/// Structure returns use a hidden return-buffer argument on x86-32, so their
+/// source size must not make them Return64.
+let private classifyReturn
+  wordSize
+  (returns: ConvertedTypes.GTElement list)
+  =
+  match returns with
+  | [] ->
+    (* No return value is a negative case for Return64Detector. *)
+    Return32
+  | [ entry ] ->
+    match entry.Kind with
+    | ConvertedTypes.StructureElement when entry.Size <= 0 ->
       InvalidReturn (
-        sprintf "multiple return entries: %d" (List.length entries)
+        sprintf "invalid converted structure return size: %d" entry.Size
       )
+    | ConvertedTypes.StructureElement ->
+      (* In x86-32, always the address of struture pointer is returned *)
+      Return32
+    | ConvertedTypes.NormalElement ->
+      if entry.Size = wordSize * 2 && entry.OccupiedSlotCount = 2 then
+        Return64
+      elif entry.Size > 0 && entry.Size <= wordSize then
+        Return32
+      else
+        InvalidReturn (
+          sprintf
+            "invalid converted return size/slots: size=%d, slots=%d"
+            entry.Size
+            entry.OccupiedSlotCount
+        )
+  | _ ->
+    InvalidReturn (
+      sprintf "multiple return entries: %d" (List.length returns)
+    )
 
-let load path : Map<uint64, GTFunction> =
-  (* Check given GT file exsits *)
-  if not (File.Exists path) then
-    failwithf "ground-truth JSON does not exist: %s" path
+/// Adapt ABI-converted GT to the expectation used by Return64Detector.
+let fromConverted
+  wordSize
+  (functions: Map<string, ConvertedTypes.GTFunction>)
+  : Map<Addr, GTFunction> =
+  if wordSize <= 0 then
+    invalidArg (nameof wordSize) "word size must be positive"
 
-  (* Parse given GT json file *)
-  use document = JsonDocument.Parse (File.ReadAllText path)
-
-  if document.RootElement.ValueKind <> JsonValueKind.Object then
-    failwith "ground-truth JSON root is not an object"
-
-  (* Extract GT return size *)
-  document.RootElement.EnumerateObject ()
-  |> Seq.map (fun property ->
-    let address = parseAddress property.Name
-    let body = property.Value
+  functions
+  |> Map.toSeq
+  |> Seq.map (fun (addressText, converted) ->
+    let address = parseAddress addressText
 
     address,
     { Function =
         { Address = address
-          Name = functionName address body }
-      Expectation = classifyReturn body })
+          Name = converted.Function.Name }
+      Expectation = classifyReturn wordSize converted.Return })
   |> Map.ofSeq

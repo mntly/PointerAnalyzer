@@ -11,8 +11,8 @@ type FunctionKey = { Address: Addr; Name: string }
 /// Represent the GT return value.
 /// </summary>
 /// <remarks>
-/// <c>Return32</c> indicates corresponding function returns less or equal to 32
-/// bit value.
+/// <c>Return32</c> indicates the negative class: corresponding function does
+/// not return a 64 bit scalar through the registers tracked by the detector.
 /// <c>Return64</c> indicates corresponding function returns 64 bit value.
 /// <c>InvalidReturn</c> indicates that the size of GT return value is invalid
 /// such as 0 with non-void value, etc. The string indicates the reason why
