@@ -27,6 +27,7 @@ Usage:
     [--evaluation-dir <dir>] \
     [--log-dir <dir>] \
     [--merged-output <file>] \
+    [--whiteList <file>] \
     [--interRelation <0|1>] \
     [--skip-build]
 
@@ -36,6 +37,9 @@ basename.
 
 --interRelation controls callee-summary application: 1 enables it and 0
 disables it. The default is 1.
+
+--whiteList optionally filters newly extracted GT files using one function
+name per line. Existing GT JSON files are preserved and are not re-filtered.
 EOF
 }
 
@@ -57,6 +61,7 @@ ANALYSIS_DIR=""
 EVALUATION_DIR=""
 LOG_DIR=""
 MERGED_OUTPUT=""
+WHITE_LIST=""
 INTER_RELATION=1
 SKIP_BUILD=0
 
@@ -93,6 +98,10 @@ while (($# > 0)); do
       ;;
     --merged-output)
       MERGED_OUTPUT="${2:-}"
+      shift 2
+      ;;
+    --whiteList)
+      WHITE_LIST="${2:-}"
       shift 2
       ;;
     --interRelation)
@@ -133,6 +142,9 @@ fi
 TARGET_LIST="$(absolute_path "$TARGET_LIST")"
 GT_BINARY_LIST="$(absolute_path "$GT_BINARY_LIST")"
 OUTPUT_ROOT="$(absolute_path "$OUTPUT_ROOT")"
+if [[ -n "$WHITE_LIST" ]]; then
+  WHITE_LIST="$(absolute_path "$WHITE_LIST")"
+fi
 
 GT_DIR="$(absolute_path "${GT_DIR:-"$OUTPUT_ROOT/ground-truth"}")"
 ANALYSIS_DIR="$(absolute_path "${ANALYSIS_DIR:-"$OUTPUT_ROOT/pointer"}")"
@@ -165,6 +177,13 @@ fail() {
 }
 
 status "[CONFIG] interRelation=$INTER_RELATION"
+if [[ -n "$WHITE_LIST" ]]; then
+  if [[ ! -f "$WHITE_LIST" ]]; then
+    fail "function whitelist does not exist: $WHITE_LIST"
+    exit 1
+  fi
+  status "[CONFIG] whiteList=$WHITE_LIST"
+fi
 
 # Check given json file fits with Json format
 validate_json() {
@@ -332,6 +351,9 @@ for name in "${NAMES[@]}"; do
   if [[ -f "$gt_json" ]]; then
     # If valid GT json exist, use previous one: Do not overwrite
     status "[GT EXISTS] $name: preserving $gt_json"
+    if [[ -n "$WHITE_LIST" ]]; then
+      status "[GT EXISTS] $name: whiteList is not reapplied"
+    fi
     if ! validate_json "$gt_json"; then
       fail "$name: existing GT is not valid JSON: $gt_json"
       FAILURES=$((FAILURES + 1))
@@ -340,10 +362,14 @@ for name in "${NAMES[@]}"; do
   else
     # GT json does not exist. Construct GT json.
     status "[GT CREATE] $name"
+    gt_args=(-m 2 -b "$gt_binary" -o "$GT_DIR" -on "$name")
+    if [[ -n "$WHITE_LIST" ]]; then
+      gt_args+=(-wl "$WHITE_LIST")
+    fi
     if ! run_logged \
       "$binary_log" \
       dotnet run --no-build --project "$REPO_ROOT/checker/Checker.fsproj" -- \
-      -m 2 -b "$gt_binary" -o "$GT_DIR" -on "$name"; then
+      "${gt_args[@]}"; then
       fail "$name: ground-truth extraction failed; see $binary_log"
       FAILURES=$((FAILURES + 1))
       continue

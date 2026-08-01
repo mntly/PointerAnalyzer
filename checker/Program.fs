@@ -38,6 +38,7 @@ type MainOptions =
     BinaryPath: string option
     GroundTruthPath: string option
     InferredPath: string option
+    WhiteListPath: string option
     OutFileName: string
     OutputDirPath: string
     IsStore: bool
@@ -50,6 +51,7 @@ type CLIArg =
   | [<AltCommandLine("-b")>] Binary of string
   | [<AltCommandLine("-gt")>] GroundTruth of string
   | [<AltCommandLine("-i")>] Inferred of string
+  | [<AltCommandLine("-wl")>] WhiteList of string
   | [<AltCommandLine("-o")>] Output of string
   | [<AltCommandLine("-on")>] OutputName of string
   | [<AltCommandLine("-rr")>] ReturnRange of int
@@ -73,6 +75,8 @@ type CLIArg =
         "Ground-truth JSON file. This is required for modes 3 and 5."
       | Inferred _ ->
         "PointerAnalyzer inferredTypes.json file. This is required for mode 3."
+      | WhiteList _ ->
+        "Optional function-name whitelist for mode 2. The file contains one function name per line."
       | Output _ ->
         "Optional output directory path. If omitted, print to stdout."
       | OutputName _ ->
@@ -154,6 +158,12 @@ let private parseArg (args: string array) =
     else
       None
 
+  let whiteList =
+    if r.Contains WhiteList then
+      Some (r.GetResult <@ WhiteList @>)
+    else
+      None
+
   (* Extract name of output file *)
   let outFileName =
     if r.Contains OutputName then
@@ -193,6 +203,7 @@ let private parseArg (args: string array) =
     BinaryPath = bin
     GroundTruthPath = gt
     InferredPath = inferred
+    WhiteListPath = whiteList
     OutFileName = outFileName
     OutputDirPath = outDir
     IsStore = isStore
@@ -259,7 +270,8 @@ let private runBuildGroundTruth options =
   let buildOptions: EvaluateAnalyzer.GroundTruthExtractor.Builder.BuildOptions =
     { GroundTruthBinary = binaryPath
       OutputSuffix = options.OutFileName
-      LogFilePath = logFilePath }
+      LogFilePath = logFilePath
+      WhiteListPath = options.WhiteListPath }
 
   (* Execute GroundTruthExtractor*)
   try

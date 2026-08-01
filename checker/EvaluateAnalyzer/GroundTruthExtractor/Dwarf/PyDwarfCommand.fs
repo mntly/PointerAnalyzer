@@ -37,10 +37,15 @@ let private findPython () =
 
   candidates |> List.tryFind File.Exists |> Option.defaultValue "python3"
 
-let run binaryPath logPath =
+let run binaryPath logPath whiteListPath =
   (* Check ground truth binary exists *)
   if not (File.Exists binaryPath) then
     failwithf "ground-truth binary does not exist: %s" binaryPath
+
+  match whiteListPath with
+  | Some path when not (File.Exists path) ->
+    failwithf "function whitelist does not exist: %s" path
+  | _ -> ()
 
   (* Get python script for parsing DWARF *)
   let scriptPath =
@@ -59,6 +64,12 @@ let run binaryPath logPath =
   match logPath with
   | Some path ->
     startInfo.ArgumentList.Add "--log"
+    startInfo.ArgumentList.Add path
+  | None -> ()
+
+  match whiteListPath with
+  | Some path ->
+    startInfo.ArgumentList.Add "--whitelist"
     startInfo.ArgumentList.Add path
   | None -> ()
 

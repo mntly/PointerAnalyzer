@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import argparse
 import json
 import os
 import sys
@@ -559,10 +560,15 @@ def merge_signature(left, right):
     if args is None or returns is None:
         return None
 
-    names = sorted(set(left.get("Names", [left["Name"]]) + [right["Name"]]))
+    names = sorted(
+        set(
+            left.get("_Names", [left["Name"]])
+            + right.get("_Names", [right["Name"]])
+        )
+    )
     return {
         "Name": names[0],
-        "Names": names,
+        "_Names": names,
         "Args": args,
         "Return": returns,
     }
@@ -683,7 +689,7 @@ def merge_duplicate_signatures(address, signatures):
     # Incorporate multiple function signatures
     merged = {
         "Name": signatures[0]["Name"],
-        "Names": [signatures[0]["Name"]],
+        "_Names": signatures[0].get("_Names", [signatures[0]["Name"]]),
         "Args": signatures[0]["Args"],
         "Return": signatures[0]["Return"],
     }
@@ -698,6 +704,7 @@ def merge_duplicate_signatures(address, signatures):
 
     result = {
         "Name": merged["Name"],
+        "_Names": merged["_Names"],
         "Args": merged["Args"],
         "Return": merged["Return"],
     }
@@ -808,14 +815,59 @@ def parsing_definition(dwarf, prototypes, unknown_logs):
                 prototype_signatures,
             )
             declaration_logs.extend(incorporate_logs)
+            incorporated_signature["_Names"] = sorted(
+                set(names + [incorporated_signature["Name"]])
+            )
 
             # Insert the GR information of current function
             by_addr.setdefault(address, []).append(incorporated_signature)
 
     return by_addr, unknown_logs, declaration_logs
 
+# Use key as "Name", not "_Names"
+def public_signature(signature):
+    return {
+        key: value
+        for key, value in signature.items()
+        if not key.startswith("_")
+    }
+
+# Filter the completed GT database using function names from the whitelist.
+def apply_whitelist(db, whitelist):
+    filtered = {}
+    matched_names = set()
+
+    for address, signature in db.items():
+        names = set(signature.get("_Names", [signature["Name"]]))
+        matches = names & whitelist
+        if not matches:
+            continue
+
+        matched_names.update(matches)
+        filtered[address] = signature
+
+    logs = [
+        "== Whitelist Filtering ==",
+        f"Whitelist entries: {len(whitelist)}",
+        f"Functions before filtering: {len(db)}",
+        f"Functions after filtering: {len(filtered)}",
+    ]
+
+    unmatched_names = sorted(whitelist - matched_names)
+    if unmatched_names:
+        logs.append("Unmatched whitelist names:")
+        logs.extend(f"  {name}" for name in unmatched_names)
+
+    logs.append("")
+    return filtered, logs
+
+# Read one function name per line. Empty lines are ignored.
+def load_whitelist(path):
+    with open(path, "r", encoding="utf-8") as stream:
+        return {line.strip() for line in stream if line.strip()}
+
 # Extract GT information from given GT binary
-def extract(binary_path):
+def extract(binary_path, whitelist=None):
     with open(binary_path, "rb") as stream:
         elf = ELFFile(stream)
         
@@ -868,46 +920,63 @@ def extract(binary_path):
             logs.append("== Duplicate Address Signature Merge ==")
             logs.extend(duplicate_logs)
 
+        if whitelist is not None:
+            db, whitelist_logs = apply_whitelist(db, whitelist)
+            logs.extend(whitelist_logs)
+
+        db = {
+            # Filter only Functin Signature with key "Names" not "_Names"
+            address: public_signature(signature)
+            for address, signature in db.items()
+        }
         return db, logs
 
 def main(argv):
-    # Argument parsing
-    if len(argv) != 2 and len(argv) != 4:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("binary_path", help="ground-truth binary with DWARF")
+    parser.add_argument("--log", dest="log_path")
+    parser.add_argument(
+        "--whitelist",
+        dest="whitelist_path",
+        help="file containing one function name per line",
+    )
+    args = parser.parse_args(argv[1:])
+
+    # Check given file exists
+    if not os.path.isfile(args.binary_path):
         print(
-            "usage: extract_dwarf_gt.py <ground-truth-binary> [--log <log-path>]",
+            f"ground-truth binary does not exist: {args.binary_path}",
             file=sys.stderr,
         )
         return 1
 
-    ## Extract ground truth binary for extract ground truth information
-    binary_path = argv[1]
-    log_path = None
-
-    if len(argv) == 4:
-        if argv[2] != "--log":
-            print(
-                "usage: extract_dwarf_gt.py <ground-truth-binary> [--log <log-path>]",
-                file=sys.stderr,
-            )
-            return 1
-        log_path = argv[3]
-
-    # Check given file exists
-    if not os.path.isfile(binary_path):
-        print(f"ground-truth binary does not exist: {binary_path}", file=sys.stderr)
+    if args.whitelist_path is not None and not os.path.isfile(
+        args.whitelist_path
+    ):
+        print(
+            f"function whitelist does not exist: {args.whitelist_path}",
+            file=sys.stderr,
+        )
         return 1
 
     # Extract ground truth
     try:
-        db, logs = extract(binary_path)
+        whitelist = (
+            load_whitelist(args.whitelist_path)
+            if args.whitelist_path is not None
+            else None
+        )
+        db, logs = extract(args.binary_path, whitelist)
     except Exception as ex:
         print(str(ex), file=sys.stderr)
         return 1
 
     # Store mismatched/unknown type issue occurs as log
-    if log_path is not None:
-        os.makedirs(os.path.dirname(log_path), exist_ok=True)
-        with open(log_path, "w", encoding="utf-8") as stream:
+    if args.log_path is not None:
+        log_dir = os.path.dirname(args.log_path)
+        if log_dir:
+            os.makedirs(log_dir, exist_ok=True)
+        with open(args.log_path, "w", encoding="utf-8") as stream:
             stream.write("\n".join(logs))
             if logs:
                 stream.write("\n")

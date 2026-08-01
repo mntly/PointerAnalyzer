@@ -61,6 +61,11 @@ dotnet run --project Checker.fsproj \
 
 With `-on` option, you can assign the suffix name of output file. As default, it will be basename of given binary. The extracted ground truth is stroed with `SUFFIX_GT.json`. During extraction, if there happens some strange behavior, the extractor will logs as `SUFFIX_GTExtract.log`
 
+Use `-wl <path>` to store only functions listed by the optional whitelist.
+The whitelist contains one function name per line; empty lines are ignored.
+Without `-wl`, the extractor stores every function. A name matches
+either the DWARF function name or linkage name associated with an address.
+
 Each ground-truth argument and return value contains its byte `Size` and
 classified `Type`. `Type` is `Address`, `Value`, `Unknown`, or `Structure`.
 Structures recursively contain their fields, byte offsets, sizes, and types.
@@ -72,6 +77,7 @@ dotnet run --project Checker.fsproj \
   -m 2 \
   -b ../datas/binaries/helloword-x86_32-i586-uclibc-O0-gt \
   -o output/helloword \
+  -wl function-whitelist.txt \
   -on test
 ```
 
