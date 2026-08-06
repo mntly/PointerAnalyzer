@@ -1,6 +1,7 @@
 module Checker.Return64Detection.CallerChecker
 
 open B2R2
+open B2R2.BinIR
 open B2R2.BinIR.SSA
 open B2R2.FrontEnd
 open B2R2.MiddleEnd.BinGraph
@@ -125,6 +126,43 @@ let private definedEDX =
     true
   | _ -> false
 
+/// Masks emitted by the x86 lifter when a write to DL, DH, or DX preserves
+/// the remaining bits of EDX.
+let private isEDXPreservationMask (value: BitVector) =
+  let converted =
+    try
+      Some (value.ToUInt64 ())
+    with _ ->
+      None
+
+  match converted with
+  | Some 0xffffff00UL (* DL *)
+  | Some 0xffff00ffUL (* DH *)
+  | Some 0xffff0000UL (* DX *) -> true
+  | _ -> false
+
+/// Check for the preservation half of a lifted partial-register assignment:
+/// EDX_old AND <bits not written by DL/DH/DX>.
+let private isEDXPreservation =
+  function
+  | BinOp (BinOpType.AND, _, Var variable, Num mask)
+  | BinOp (BinOpType.AND, _, Num mask, Var variable) ->
+    isEDX variable && isEDXPreservationMask mask
+  | _ -> false
+
+/// A partial write to DL, DH, or DX is lifted as a definition of EDX which
+/// merges newly written bits with masked, preserved bits from the old EDX.
+/// The preservation read is not a semantic consumption of the return value.
+let private isPartialEDXOverwrite =
+  function
+  | Def (destination, BinOp (BinOpType.OR, _, left, right))
+    when isEDX destination ->
+    (isEDXPreservation left
+     && (variablesInExpr right |> Set.exists isEDX |> not))
+    || (isEDXPreservation right
+        && (variablesInExpr left |> Set.exists isEDX |> not))
+  | _ -> false
+
 /// Convert BitVector into UInt64.
 let private tryUInt64 (value: BitVector) =
   try
@@ -211,7 +249,10 @@ let private continuationEvidence
           (* Used before overwriting EDX, it may acts as return value *)
           let edxUses = usedVariables stmt |> Set.filter isEDX
 
-          if not (Set.isEmpty edxUses) then
+          if isPartialEDXOverwrite stmt then
+            (* A partial-register write destroys the intact EDX return value. *)
+            EDXOverwritten
+          elif not (Set.isEmpty edxUses) then
             let variable = Set.minElement edxUses
 
             let directUse =
