@@ -83,21 +83,25 @@ The main converter dispatches by the `Platform` field in
 
 ## Partial structure coverage
 
-For a structure argument, the evaluator compares only slots present in
-PointerAnalyzer's inferred argument map:
+For a structure argument, the evaluator first checks whether PointerAnalyzer
+inferred at least one of its Word-Size slots:
 
 - No observed structure slots: no confusion-metric element, but the function
   is logged as failed and as a parameter-count mismatch.
-- Some observed slots: compare only those slots.
-- Every observed slot produces one result using that slot's concrete
-  `Address` or `Value` ground-truth type.
+- At least one observed slot: evaluate every GT structure slot. An observed
+  slot uses its inferred type, while a missing slot uses `Unknown` and is
+  classified as failed.
+- Every GT slot produces one result once the structure is considered detected,
+  using that slot's concrete `Address` or `Value` ground-truth type.
 
 The argument cursor always advances by `OccupiedSlotCount`, including missing
 or padding slots. Missing slots of normal arguments remain failures.
 
 Coverage is reported separately in `StructureSlotCoverage` and in the
-evaluation log. `GTAll` counts comparable structure slots, while `All` counts
-only structure slots that were actually observed and evaluated.
+evaluation log. `ObservedSlots` still counts only slots actually inferred by
+PointerAnalyzer. `GTAll` counts comparable structure slots, while `All` counts
+all GT slots of every detected structure and excludes completely unobserved
+structures.
 
 ## Stored output
 

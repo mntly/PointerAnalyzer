@@ -96,7 +96,7 @@ dotnet run --project Checker.fsproj \
   -m 3 \
   -gt output/helloword/test_GT.json \
   -i ../output/helloword-x86_32-i586-uclibc-O0/inferredTypes.json \
-  -o output
+  -o output/helloword
 ```
 
 With `-on` option, you can assign the suffix name of output file. As default, it will be basename of given binary. The extracted ground truth is stroed with `SUFFIX_GT.json`. During extraction, if there happens some strange behavior, the extractor will logs as `SUFFIX_GTExtract.log`

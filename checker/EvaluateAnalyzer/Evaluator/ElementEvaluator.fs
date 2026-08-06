@@ -77,7 +77,8 @@ let private normalArgEvalResult
 /// Compare the structure type parameter. The inferred slot is extracted from
 /// slotCursor. `paramIdx` indicates the index of parameter for logging. The
 /// structure will be evaluated after decomposing its fields into WordSize
-/// slots.
+/// slots. If at least one slot is inferred, all GT slots are evaluated and a
+/// missing inferred slot is treated as Unknown.
 let private structureArgEvalResults
   slotCursor
   fn
@@ -85,28 +86,38 @@ let private structureArgEvalResults
   (gt: GTElement)
   inferredArgs
   =
-  (* Extract inferred type and matching with GT slot *)
-  let observed =
+  (* Match all GT slot with its inferred type without removing missing slots. *)
+  let matchedSlots =
     gt.Slots
     |> List.sortBy (fun slot -> slot.Index)
-    |> List.choose (fun slot ->
-      Map.tryFind (slotCursor + slot.Index) inferredArgs
-      |> Option.map (fun inferred -> slot, inferred))
+    |> List.map (fun slot ->
+      slot, Map.tryFind (slotCursor + slot.Index) inferredArgs)
 
+  (* Count the number of inferred slots *)
+  let observedSlots =
+    matchedSlots
+    |> List.sumBy (fun (_, inferred) -> if Option.isSome inferred then 1 else 0)
+
+  (* Matching GT and inferred type and classify the result *)
   let results =
-    observed
-    |> List.map (fun (slot, inferred) ->
-      { Function = fn
-        Target = ArgumentSlot (paramIdx, slot.Index, slot.Path)
-        GT = slot.Type
-        Inferred = inferred
-        Category = classify slot.Type inferred })
+    if observedSlots = 0 then
+      []
+    else
+      matchedSlots
+      |> List.map (fun (slot, inferred) ->
+        let inferred = Option.defaultValue Unknown inferred
+
+        { Function = fn
+          Target = ArgumentSlot (paramIdx, slot.Index, slot.Path)
+          GT = slot.Type
+          Inferred = inferred
+          Category = classify slot.Type inferred })
 
   let coverage =
     { Function = fn
       Target = Argument paramIdx
       ExpectedSlots = List.length gt.Slots
-      ObservedSlots = List.length observed }
+      ObservedSlots = observedSlots }
 
   results, coverage
 
@@ -159,29 +170,41 @@ let private normalReturnResult fn index (gt: GTElement) inferredReturns =
     Inferred = inferred
     Category = classify gt.Type inferred }
 
+/// If at least one return slot is inferred, evaluate every GT structure slot
+/// and treat each missing inferred slot as Unknown.
 let private structureReturnResults fn index (gt: GTElement) inferredReturns =
-  let observed =
+  (* Map GT slot and inferred slot *)
+  let matchedSlots =
     gt.Slots
     |> List.sortBy (fun slot -> slot.Index)
-    |> List.choose (fun slot ->
-      inferredReturns
-      |> List.tryItem (index + slot.Index)
-      |> Option.map (fun inferred -> slot, inferred))
+    |> List.map (fun slot ->
+      slot, (inferredReturns |> List.tryItem (index + slot.Index)))
 
+  (* Count the number of inferred slots *)
+  let observedSlots =
+    matchedSlots
+    |> List.sumBy (fun (_, inferred) -> if Option.isSome inferred then 1 else 0)
+
+  (* Matching GT and inferred type and classify the result *)
   let results =
-    observed
-    |> List.map (fun (slot, inferred) ->
-      { Function = fn
-        Target = ReturnSlot (index, slot.Index, slot.Path)
-        GT = slot.Type
-        Inferred = inferred
-        Category = classify slot.Type inferred })
+    if observedSlots = 0 then
+      []
+    else
+      matchedSlots
+      |> List.map (fun (slot, inferred) ->
+        let inferred = Option.defaultValue Unknown inferred
+
+        { Function = fn
+          Target = ReturnSlot (index, slot.Index, slot.Path)
+          GT = slot.Type
+          Inferred = inferred
+          Category = classify slot.Type inferred })
 
   let coverage =
     { Function = fn
       Target = Return index
       ExpectedSlots = List.length gt.Slots
-      ObservedSlots = List.length observed }
+      ObservedSlots = observedSlots }
 
   results, coverage
 
@@ -403,7 +426,7 @@ let evaluate
           else
             logState
 
-        (* Log for there exist more than 1 return Word-Sized Slot *)
+        (* Log for there exist more than 1 return WordSized Slot *)
         (* ToDo: Handle large size return value *)
         let hasLargeReturn =
           gt.Return
