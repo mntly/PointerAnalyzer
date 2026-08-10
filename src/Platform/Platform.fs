@@ -16,8 +16,9 @@ let forBinary (handle: BinHandle) =
         handle.File.ISA
         handle.File.Format)
 
-let ofString platform =
-  match platform with
+let ofString (platform: string) =
+  match platform.Trim().ToLowerInvariant () with
+  | "elf x86-32"
   | "elf-x86"
   | "elf-x86-32"
   | "elf-i386"

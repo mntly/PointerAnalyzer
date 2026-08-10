@@ -45,7 +45,7 @@ module FunctionSummaryBuilder =
     groupedTypeIds |> Seq.fold mergeRegister (Set.empty, Map.empty)
 
   /// Construct function summary for analyzing caller
-  let build address name platform (result: AnalysisResult) =
+  let build address name platform returnRegisters (result: AnalysisResult) =
     (* If given variable is parameter, then retrieve its parameter index *)
     let filterParams (reg, tid: TypeId) =
       match platform.TryParameterIndex reg with
@@ -59,7 +59,7 @@ module FunctionSummaryBuilder =
       typeIndSeq |> Seq.choose filterParams |> selectByIdentifier Seq.minBy
 
     (* Summarize ABI return registers from all leaf nodes. *)
-    let returnRegisters = Set.ofList platform.ReturnRegisters
+    let returnRegisters = Set.ofList returnRegisters
 
     let groupedReturnTypeIds =
       result.LeafStates

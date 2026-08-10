@@ -1,6 +1,6 @@
 module Checker.Return64Detection.Return64Formatter
 
-open Checker.Return64Detection.Return64Types
+open PointerAnalyzer.Return64Detection.Return64Types
 
 let private rangeName =
   function

@@ -30,6 +30,9 @@
 0x08057031 _dl_allocate_tls
 0x08057066 _dl_deallocate_tls
 0x08057aaf __GI_mmap
+0x080581c7 _load_inttype
+0x0805969f __lseek64_nocancel
+0x0805972c __GI_lseek64
 
 ===== Correct Functions =====
 0x0804a8bf _dl_nothread_init_static_tls
@@ -48,7 +51,7 @@
 0x08057138 _dl_add_to_slotinfo
 
 ===== MisInferred Functions =====
-0x080582c9 _uintmaxtostr
+<none>
 
 ===== Conflict Functions =====
 <none>

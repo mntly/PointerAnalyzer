@@ -50270,7 +50270,7 @@
         "ESP_37": "Address",
         "ESP_6": "Address",
         "PC_237": "Address",
-        "T_15_3": "Unknown",
+        "T_15_2": "Unknown",
         "V_-12_0": "Unknown",
         "V_80_10": "Unknown"
       },
@@ -50279,7 +50279,7 @@
         "ESP_37": "Address",
         "ESP_38": "Address",
         "PC_238": "Address",
-        "T_14_1": "Unknown",
+        "T_14_2": "Unknown",
         "V_-8_0": "Unknown",
         "V_84_4": "Unknown"
       },
@@ -50309,8 +50309,8 @@
         "T_2_6": "Address",
         "T_3_2": "Unknown",
         "T_4_2": "Unknown",
-        "T_5_5": "Unknown",
-        "T_6_4": "Unknown",
+        "T_5_4": "Unknown",
+        "T_6_3": "Unknown",
         "ZF_62": "Unknown"
       },
       "0x0804e8dc": {
@@ -51511,12 +51511,12 @@
         "PC_116": "Address",
         "PF_29": "Unknown",
         "SF_29": "Unknown",
-        "T_11_3": "Address",
-        "T_12_3": "Address",
-        "T_13_2": "Unknown",
-        "T_14_2": "Unknown",
-        "T_15_2": "Unknown",
-        "T_16_3": "Unknown",
+        "T_11_2": "Address",
+        "T_12_2": "Address",
+        "T_13_1": "Unknown",
+        "T_14_1": "Unknown",
+        "T_15_1": "Unknown",
+        "T_16_2": "Unknown",
         "ZF_29": "Unknown"
       },
       "0x0804eacf": {
@@ -51531,10 +51531,10 @@
         "T_10_3": "Unknown",
         "T_3_4": "Unknown",
         "T_4_4": "Unknown",
-        "T_5_4": "Unknown",
-        "T_6_3": "Unknown",
-        "T_7_3": "Unknown",
-        "T_8_2": "Unknown",
+        "T_5_3": "Unknown",
+        "T_6_2": "Unknown",
+        "T_7_2": "Unknown",
+        "T_8_1": "Unknown",
         "T_9_3": "Unknown",
         "V_16_2": "Unknown",
         "V_16_7": "Unknown",
@@ -51888,12 +51888,12 @@
         "PC_81": "Address",
         "PF_20": "Unknown",
         "SF_20": "Unknown",
-        "T_1_3": "Address",
-        "T_2_3": "Address",
+        "T_1_4": "Address",
+        "T_2_4": "Address",
         "T_3_1": "Unknown",
         "T_4_1": "Unknown",
-        "T_5_3": "Unknown",
-        "T_6_2": "Unknown",
+        "T_5_2": "Unknown",
+        "T_6_1": "Unknown",
         "ZF_20": "Unknown"
       },
       "0x0804eb6a": {
@@ -51966,12 +51966,12 @@
         "PC_71": "Address",
         "PF_18": "Unknown",
         "SF_18": "Unknown",
-        "T_11_2": "Address",
-        "T_12_2": "Address",
-        "T_13_1": "Unknown",
+        "T_10_2": "Address",
+        "T_11_1": "Unknown",
+        "T_12_1": "Unknown",
+        "T_13_2": "Unknown",
         "T_14_1": "Unknown",
-        "T_15_1": "Unknown",
-        "T_16_2": "Unknown",
+        "T_9_2": "Address",
         "ZF_18": "Unknown"
       },
       "0x0804eb8b": {
@@ -51983,14 +51983,14 @@
         "PC_72": "Address",
         "PF_19": "Unknown",
         "SF_19": "Unknown",
-        "T_10_2": "Unknown",
+        "T_1_3": "Unknown",
+        "T_2_3": "Unknown",
         "T_3_3": "Unknown",
         "T_4_3": "Unknown",
-        "T_5_2": "Unknown",
-        "T_6_1": "Unknown",
-        "T_7_2": "Unknown",
-        "T_8_1": "Unknown",
-        "T_9_2": "Unknown",
+        "T_5_1": "Unknown",
+        "T_6_2": "Unknown",
+        "T_7_1": "Unknown",
+        "T_8_2": "Unknown",
         "V_16_3": "Unknown",
         "V_16_5": "Unknown",
         "ZF_19": "Unknown"
@@ -52014,8 +52014,8 @@
         "PC_85": "Address",
         "PF_21": "Unknown",
         "SF_21": "Unknown",
-        "T_1_4": "Unknown",
-        "T_2_4": "Unknown",
+        "T_7_2": "Unknown",
+        "T_8_3": "Unknown",
         "ZF_21": "Unknown"
       },
       "0x0804eb98": {
@@ -85492,7 +85492,7 @@
       "0x08052231": {
         "AF_106": "Unknown",
         "CF_101": "Unknown",
-        "EDX_33": "Unknown",
+        "EDX_34": "Unknown",
         "OF_106": "Unknown",
         "PC_447": "Address",
         "PF_106": "Unknown",
@@ -85501,13 +85501,13 @@
       },
       "0x08052233": {
         "EAX_162": "Unknown",
-        "EDX_33": "Unknown",
         "EDX_34": "Unknown",
+        "EDX_35": "Unknown",
         "PC_448": "Address"
       },
       "0x08052235": {
         "EAX_163": "Unknown",
-        "EDX_34": "Unknown",
+        "EDX_35": "Unknown",
         "PC_449": "Address"
       },
       "0x08052237": {
@@ -85531,7 +85531,7 @@
         "CF_103": "Unknown",
         "EAX_164": "Unknown",
         "EAX_165": "Unknown",
-        "EDX_34": "Unknown",
+        "EDX_35": "Unknown",
         "OF_108": "Unknown",
         "PC_451": "Address",
         "PF_108": "Unknown",
@@ -85702,14 +85702,14 @@
       },
       "0x0805226f": {
         "EAX_158": "Unknown",
-        "EDX_30": "Unknown",
+        "EDX_31": "Unknown",
         "PC_423": "Address"
       },
       "0x08052271": {
         "AF_103": "Unknown",
         "CF_98": "Unknown",
-        "EDX_30": "Unknown",
         "EDX_31": "Unknown",
+        "EDX_32": "Unknown",
         "OF_103": "Unknown",
         "PC_424": "Address",
         "PF_103": "Unknown",
@@ -85753,7 +85753,7 @@
         "PC_429": "Address"
       },
       "0x08052284": {
-        "EDX_31": "Unknown",
+        "EDX_32": "Unknown",
         "ESP_18": "Address",
         "ESP_89": "Address",
         "PC_430": "Address",
@@ -86274,11 +86274,11 @@
         "V_32_3": "Unknown"
       },
       "0x0805235f": {
-        "EDX_20": "Address",
+        "EDX_21": "Unknown",
         "ESP_50": "Address",
         "ESP_51": "Address",
         "PC_219": "Address",
-        "V_236_5": "Address"
+        "V_236_5": "Unknown"
       },
       "0x08052360": {
         "EAX_75": "Unknown",
@@ -87825,7 +87825,7 @@
       },
       "0x0805265c": {
         "EBX_20": "Address",
-        "EDX_22": "Unknown",
+        "EDX_23": "Unknown",
         "ESP_57": "Address",
         "PC_323": "Address",
         "V_28_9": "Unknown",
@@ -87843,7 +87843,7 @@
         "CF_75": "Unknown",
         "EAX_115": "Unknown",
         "EAX_116": "Unknown",
-        "EDX_22": "Unknown",
+        "EDX_23": "Unknown",
         "OF_80": "Unknown",
         "PC_325": "Address",
         "PF_80": "Unknown",
@@ -88009,7 +88009,7 @@
         "PC_339": "Address"
       },
       "0x080526a3": {
-        "EDX_23": "Unknown",
+        "EDX_24": "Unknown",
         "PC_340": "Address",
         "V_36_3": "Unknown"
       },
@@ -88023,7 +88023,7 @@
         "CF_79": "Unknown",
         "EAX_124": "Unknown",
         "EAX_125": "Unknown",
-        "EDX_23": "Unknown",
+        "EDX_24": "Unknown",
         "OF_84": "Unknown",
         "PC_342": "Address",
         "PF_84": "Unknown",
@@ -88058,7 +88058,7 @@
       },
       "0x080526ad": {
         "EAX_126": "Unknown",
-        "EDX_24": "Unknown",
+        "EDX_25": "Unknown",
         "PC_344": "Address"
       },
       "0x080526af": {
@@ -88068,7 +88068,7 @@
       },
       "0x080526b2": {
         "EAX_127": "Address",
-        "EDX_24": "Unknown",
+        "EDX_25": "Unknown",
         "PC_346": "Address"
       },
       "0x080526b4": {
@@ -88206,7 +88206,7 @@
       },
       "0x080526e1": {
         "EAX_150": "Unknown",
-        "EDX_29": "Unknown",
+        "EDX_30": "Unknown",
         "PC_405": "Address"
       },
       "0x080526e3": {
@@ -88218,7 +88218,7 @@
         "AF_99": "Unknown",
         "CF_94": "Unknown",
         "EAX_151": "Unknown",
-        "EDX_29": "Unknown",
+        "EDX_30": "Unknown",
         "OF_99": "Unknown",
         "PC_407": "Address",
         "PF_99": "Unknown",
@@ -88246,7 +88246,7 @@
         "V_36_6": "Unknown"
       },
       "0x080526fb": {
-        "EDX_26": "Unknown",
+        "EDX_27": "Unknown",
         "ESP_58": "Address",
         "PC_353": "Address",
         "V_36_5": "Unknown",
@@ -88267,7 +88267,7 @@
         "CF_84": "Unknown",
         "EAX_133": "Unknown",
         "EAX_134": "Address",
-        "EDX_26": "Unknown",
+        "EDX_27": "Unknown",
         "OF_89": "Unknown",
         "PC_356": "Address",
         "PF_89": "Unknown",
@@ -88368,7 +88368,7 @@
       },
       "0x08052727": {
         "EAX_137": "Unknown",
-        "EDX_27": "Unknown",
+        "EDX_28": "Unknown",
         "PC_367": "Address"
       },
       "0x08052729": {
@@ -88380,7 +88380,7 @@
         "AF_92": "Unknown",
         "CF_87": "Unknown",
         "EAX_138": "Unknown",
-        "EDX_27": "Unknown",
+        "EDX_28": "Unknown",
         "OF_92": "Unknown",
         "PC_369": "Address",
         "PF_92": "Unknown",
@@ -88552,7 +88552,7 @@
       },
       "0x0805276e": {
         "EAX_141": "Unknown",
-        "EDX_28": "Unknown",
+        "EDX_29": "Unknown",
         "PC_381": "Address"
       },
       "0x08052770": {
@@ -88564,7 +88564,7 @@
         "AF_96": "Unknown",
         "CF_91": "Unknown",
         "EAX_142": "Unknown",
-        "EDX_28": "Unknown",
+        "EDX_29": "Unknown",
         "OF_96": "Unknown",
         "PC_383": "Address",
         "PF_96": "Unknown",
@@ -88668,6 +88668,7 @@
       },
       "0x080581c7": {
         "EAX_75": "Unknown",
+        "EDX_21": "Unknown",
         "ESP_46": "Address",
         "ESP_47": "Address",
         "MEM_12": "Unknown"
@@ -106722,10 +106723,10 @@
         "PC_74": "Address",
         "PF_26": "Unknown",
         "SF_26": "Unknown",
-        "T_1_3": "Address",
-        "T_2_3": "Address",
-        "T_3_1": "Unknown",
-        "T_4_1": "Unknown",
+        "T_1_4": "Address",
+        "T_2_4": "Address",
+        "T_3_2": "Unknown",
+        "T_4_2": "Unknown",
         "T_5_3": "Unknown",
         "T_6_3": "Unknown",
         "ZF_26": "Unknown"
@@ -106797,12 +106798,12 @@
         "PC_66": "Address",
         "PF_24": "Unknown",
         "SF_24": "Unknown",
-        "T_10_2": "Unknown",
-        "T_5_2": "Address",
-        "T_6_2": "Address",
-        "T_7_2": "Unknown",
-        "T_8_2": "Unknown",
-        "T_9_2": "Unknown",
+        "T_1_3": "Address",
+        "T_2_3": "Address",
+        "T_3_1": "Unknown",
+        "T_4_1": "Unknown",
+        "T_5_2": "Unknown",
+        "T_6_2": "Unknown",
         "ZF_24": "Unknown"
       },
       "0x0805428e": {
@@ -106817,10 +106818,10 @@
         "PC_77": "Address",
         "PF_27": "Unknown",
         "SF_27": "Unknown",
-        "T_1_4": "Unknown",
-        "T_2_4": "Unknown",
-        "T_3_3": "Unknown",
-        "T_4_3": "Unknown",
+        "T_10_2": "Unknown",
+        "T_7_1": "Unknown",
+        "T_8_1": "Unknown",
+        "T_9_2": "Unknown",
         "V_16_7": "Unknown",
         "ZF_27": "Unknown"
       },
@@ -108928,7 +108929,7 @@
         "AF_4": "Unknown",
         "CF_4": "Unknown",
         "EDX_1": "Unknown",
-        "EDX_2": "Address",
+        "EDX_2": "Unknown",
         "OF_4": "Unknown",
         "PC_18": "Address",
         "PF_4": "Unknown",
@@ -108973,11 +108974,11 @@
         "V_124_1": "Unknown"
       },
       "0x08054523": {
-        "EDX_2": "Address",
+        "EDX_2": "Unknown",
         "ESP_10": "Address",
         "ESP_9": "Address",
         "PC_23": "Address",
-        "V_128_1": "Address"
+        "V_128_1": "Unknown"
       },
       "0x08054524": {
         "EAX_5": "Unknown",
@@ -109118,7 +109119,7 @@
       },
       "0x0805456c": {
         "EAX_62": "Address",
-        "EDX_2": "Address",
+        "EDX_2": "Unknown",
         "EDX_49": "Unknown",
         "PC_392": "Address"
       },
@@ -146924,7 +146925,7 @@
         "ESP_23": "Address",
         "ESP_24": "Address",
         "PC_33": "Address",
-        "T_7_2": "Address",
+        "T_1_6": "Address",
         "V_0_0": "Address"
       }
     }
@@ -149228,7 +149229,7 @@
         "V_16_1": "Unknown"
       },
       "0x080581a2": {
-        "EDX_1": "Unknown",
+        "EDX_2": "Unknown",
         "PC_19": "Address",
         "V_12_1": "Unknown"
       },
@@ -149256,7 +149257,7 @@
         "V_16_1": "Unknown"
       },
       "0x080581ae": {
-        "EDX_2": "Unknown",
+        "EDX_3": "Unknown",
         "PC_24": "Address",
         "V_12_1": "Unknown"
       },
@@ -149267,7 +149268,7 @@
       },
       "0x080581b3": {
         "EBX_1": "Address",
-        "EDX_2": "Unknown",
+        "EDX_3": "Unknown",
         "PC_26": "Address"
       },
       "0x080581b6": {
@@ -149308,6 +149309,7 @@
       },
       "0x0805972c": {
         "EAX_5": "Unknown",
+        "EDX_2": "Unknown",
         "ESP_10": "Address",
         "ESP_11": "Address",
         "MEM_2": "Unknown"
@@ -149325,7 +149327,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {
       "0x0804931e": {
@@ -149931,7 +149934,7 @@
       "Args": {
         "0": "Address",
         "1": "Unknown",
-        "2": "Address",
+        "2": "Unknown",
         "3": "Unknown",
         "4": "Unknown"
       }
@@ -150061,19 +150064,19 @@
         "V_-8_0": "Unknown"
       },
       "0x080582f1": {
-        "EDX_29": "Address",
+        "EDX_29": "Unknown",
         "PC_117": "Address",
-        "V_-12_0": "Address"
+        "V_-12_0": "Unknown"
       },
       "0x080582f4": {
         "AF_35": "Unknown",
         "CF_31": "Unknown",
-        "EDX_29": "Address",
+        "EDX_29": "Unknown",
         "OF_35": "Unknown",
         "PC_118": "Address",
         "PF_35": "Unknown",
         "SF_35": "Unknown",
-        "T_27_1": "Address",
+        "T_27_1": "Unknown",
         "T_28_1": "Unknown",
         "T_29_1": "Unknown",
         "ZF_35": "Unknown"
@@ -150108,7 +150111,7 @@
         "PF_37": "Unknown",
         "SF_37": "Unknown",
         "T_82_1": "Unknown",
-        "T_83_1": "Address",
+        "T_83_1": "Unknown",
         "T_84_1": "Unknown",
         "T_85_1": "Unknown",
         "T_86_1": "Unknown",
@@ -150116,7 +150119,7 @@
         "T_88_1": "Unknown",
         "T_89_1": "Unknown",
         "T_90_1": "Unknown",
-        "V_-12_0": "Address",
+        "V_-12_0": "Unknown",
         "V_-12_2": "Unknown",
         "ZF_37": "Unknown"
       },
@@ -163828,11 +163831,13 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {
       "0x00000000": {
         "EAX_6": "Unknown",
+        "EDX_5": "Unknown",
         "MEM_2": "Unknown"
       },
       "0x08049541": {
@@ -164091,7 +164096,7 @@
       },
       "0x080596fb": {
         "EAX_16": "Unknown",
-        "EDX_8": "Unknown",
+        "EDX_9": "Unknown",
         "PC_49": "Address"
       },
       "0x080596fd": {
@@ -164100,7 +164105,7 @@
       },
       "0x08059703": {
         "EAX_17": "Address",
-        "EDX_8": "Unknown",
+        "EDX_9": "Unknown",
         "GSBase_0": "Unknown",
         "PC_51": "Address"
       },
@@ -164132,14 +164137,14 @@
       },
       "0x08059716": {
         "EAX_12": "Unknown",
-        "EDX_6": "Unknown",
+        "EDX_7": "Unknown",
         "PC_38": "Address"
       },
       "0x08059718": {
         "AF_8": "Unknown",
         "CF_8": "Unknown",
-        "EDX_6": "Unknown",
         "EDX_7": "Unknown",
+        "EDX_8": "Unknown",
         "OF_8": "Unknown",
         "PC_39": "Address",
         "PF_8": "Unknown",
@@ -164158,7 +164163,7 @@
         "V_28_0": "Unknown"
       },
       "0x08059720": {
-        "EDX_5": "Unknown",
+        "EDX_6": "Unknown",
         "PC_37": "Address",
         "V_24_0": "Unknown"
       },
@@ -164228,7 +164233,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {
       "0x0804931e": {
@@ -164254,6 +164260,8 @@
       "0x0805969f": {
         "EAX_13": "Unknown",
         "EAX_9": "Unknown",
+        "EDX_1": "Unknown",
+        "EDX_3": "Unknown",
         "ESP_13": "Address",
         "ESP_14": "Address",
         "ESP_22": "Address",
@@ -164533,7 +164541,7 @@
         "V_28_1": "Unknown"
       },
       "0x08059790": {
-        "EDX_0": "Unknown",
+        "EDX_1": "Unknown",
         "PC_27": "Address",
         "V_24_1": "Unknown"
       },
@@ -164554,7 +164562,7 @@
         "V_28_1": "Unknown"
       },
       "0x0805979e": {
-        "EDX_1": "Unknown",
+        "EDX_2": "Unknown",
         "PC_31": "Address",
         "V_24_1": "Unknown"
       },

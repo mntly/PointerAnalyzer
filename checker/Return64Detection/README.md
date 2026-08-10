@@ -1,5 +1,9 @@
 # Heuristics for determining EDX used as return value
 
+The detector core is shared with PointerAnalyzer from
+`src/Return64Detection/`. This checker directory contains formatting,
+ground-truth conversion, evaluation, and CLI-facing code.
+
 First, apply `Modular Analysis` to filter the function which sets EDX before return. Among them, check whether caller uses EDX after calling target function. If caller uses EDX before defining, determine target function returns 64 bit value.
 
 ## Modular Analaysis

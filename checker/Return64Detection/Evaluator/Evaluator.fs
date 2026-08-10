@@ -1,7 +1,9 @@
 module Checker.Return64Detection.Evaluator.Evaluator
 
-open Checker.Return64Detection
-open Checker.Return64Detection.Return64Types
+open PointerAnalyzer.Return64Detection
+open PointerAnalyzer.Return64Detection.Return64Types
+
+module Return64Formatter = Checker.Return64Detection.Return64Formatter
 
 type EvalOptions =
   { BinaryPath: string

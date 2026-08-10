@@ -1,7 +1,7 @@
 module Checker.Return64Detection.Evaluator.ElementEvaluator
 
 open B2R2
-open Checker.Return64Detection.Return64Types
+open PointerAnalyzer.Return64Detection.Return64Types
 open Checker.Return64Detection.Evaluator.Types
 
 /// Compare GT and inferred result and construct one of TP|TN|FP|FN

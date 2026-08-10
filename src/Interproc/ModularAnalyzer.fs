@@ -156,6 +156,7 @@ module ModularAnalyzer =
   let analyzeWithTimer
     trackTime
     (functionApplyMode: FunctionApplyMode)
+    (return64Functions: Set<Addr>)
     (program: ProgramPreResult)
     =
     let platform = program.Binary.Platform
@@ -225,8 +226,19 @@ module ModularAnalyzer =
           func.RetAddresses
 
       (* Store analysis result *)
+      let returnSlotCount =
+        if Set.contains func.Address return64Functions then 2 else 1
+
+      let returnRegisters =
+        platform.ReturnRegistersForSlotCount returnSlotCount
+
       let summary =
-        FunctionSummaryBuilder.build func.Address func.Name platform result
+        FunctionSummaryBuilder.build
+          func.Address
+          func.Name
+          platform
+          returnRegisters
+          result
 
       let analysis =
         { Function = func

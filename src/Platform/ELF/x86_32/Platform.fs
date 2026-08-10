@@ -27,6 +27,11 @@ let private argumentRegisters = []
 
 let private returnRegisters = [ eax ]
 
+let private returnRegistersForSlotCount = function
+  | count when count <= 0 -> []
+  | 1 -> [ eax ]
+  | _ -> [ eax; edx ]
+
 let private callerSavedRegisters = Set.ofList [ eax; ecx; edx ]
 
 let private calleeSavedRegisters = Set.ofList [ ebx; ebp; esi; edi ]
@@ -151,6 +156,7 @@ let create () =
     StackPointer = stackPointer
     ArgumentRegisters = argumentRegisters
     ReturnRegisters = returnRegisters
+    ReturnRegistersForSlotCount = returnRegistersForSlotCount
     CallerSavedRegisters = callerSavedRegisters
     CalleeSavedRegisters = calleeSavedRegisters
     RegisterName = registerName

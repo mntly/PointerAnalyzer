@@ -1,11 +1,11 @@
-module Checker.Return64Detection.Analysis.ExitVersionAnalyzer
+module PointerAnalyzer.Return64Detection.Analysis.ExitVersionAnalyzer
 
 open B2R2
 open B2R2.BinIR.SSA
 open B2R2.FrontEnd
 open B2R2.MiddleEnd.BinGraph
 open B2R2.MiddleEnd.ControlFlowGraph
-open Checker.Return64Detection.Return64Types
+open PointerAnalyzer.Return64Detection.Return64Types
 
 let private eax = Intel.Register.toRegID Intel.Register.EAX
 let private edx = Intel.Register.toRegID Intel.Register.EDX

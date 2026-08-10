@@ -44,7 +44,10 @@ type AnalysisConfigJson =
     WordSize: int
 
     [<JsonPropertyName("FunctionApply")>]
-    FunctionApply: bool }
+    FunctionApply: bool
+
+    [<JsonPropertyName("SSAMode")>]
+    SSAMode: string }
 
 module AnalysisConfigJson =
   let private jsonOptions = JsonSerializerOptions (WriteIndented = true)
@@ -52,10 +55,12 @@ module AnalysisConfigJson =
   let fromPlatform
     (platform: Platform)
     functionApply
+    ssaMode
     : AnalysisConfigJson =
     { Platform = platform.Name
       WordSize = platform.WordSize
-      FunctionApply = functionApply }
+      FunctionApply = functionApply
+      SSAMode = ssaMode }
 
   let toJsonString config =
     JsonSerializer.Serialize (config, jsonOptions) + "\n"
@@ -81,6 +86,7 @@ module FunctionJson =
     constraints
     conflicts
     platform
+    returnRegisters
     regTypes
     =
     let returnRegTypeStr (regId: RegisterID) =
@@ -92,11 +98,12 @@ module FunctionJson =
         Some ((regName, typeStr))
       | None -> Some ((regName, "Unknown"))
 
-    platform.ReturnRegisters |> List.choose returnRegTypeStr |> Map.ofList
+    returnRegisters |> List.choose returnRegTypeStr |> Map.ofList
 
   let fromAnalysisResult
     (platform: Platform)
     (resultAnalysisResult: ModularAnalysisResult)
+    return64Functions
     (funAnalysis: FunctionAnalysisResult)
     =
     let constraints = resultAnalysisResult.TypeConstraints
@@ -110,11 +117,18 @@ module FunctionJson =
         funAnalysis.Summary.Parameters
 
     (* Resolved type of return register *)
+    let returnSlotCount =
+      if Set.contains funAnalysis.Function.Address return64Functions then 2 else 1
+
+    let returnRegisters =
+      platform.ReturnRegistersForSlotCount returnSlotCount
+
     let returnRegs =
       returnRegTypesToStringMap
         constraints
         conflicts
         platform
+        returnRegisters
         funAnalysis.Summary.Returns
 
     (* Resolved type per instruction(SSA) *)
@@ -144,6 +158,7 @@ module AnalysisResultJson =
   let fromAnalysisResult
     platform
     resultAnalysisResult
+    return64Functions
     targetFunctions
     : AnalysisResultJson =
 
@@ -154,6 +169,7 @@ module AnalysisResultJson =
         FunctionJson.fromAnalysisResult
           platform
           resultAnalysisResult
+          return64Functions
           funAnalysis
 
       addrStr, funJson
@@ -166,7 +182,12 @@ module AnalysisResultJson =
   let fromAnalysisResultToJsonString
     platform
     resultAnalysisResult
+    return64Functions
     targetFunctions
     =
-    fromAnalysisResult platform resultAnalysisResult targetFunctions
+    fromAnalysisResult
+      platform
+      resultAnalysisResult
+      return64Functions
+      targetFunctions
     |> toJsonString

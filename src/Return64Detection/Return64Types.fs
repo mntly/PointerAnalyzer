@@ -1,4 +1,4 @@
-module Checker.Return64Detection.Return64Types
+module PointerAnalyzer.Return64Detection.Return64Types
 
 open B2R2
 open B2R2.BinIR.SSA

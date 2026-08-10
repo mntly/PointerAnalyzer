@@ -161,8 +161,17 @@ let private argResults fn gtArgs inferredArgs =
   List.rev results, List.rev coverages
 
 let private normalReturnResult fn index (gt: GTElement) inferredReturns =
+  let inferredSlots =
+    gt.Slots
+    |> List.sortBy (fun slot -> slot.Index)
+    |> List.map (fun slot ->
+      inferredReturns |> List.tryItem (index + slot.Index))
+
   let inferred =
-    inferredReturns |> List.tryItem index |> Option.defaultValue Unknown
+    if inferredSlots |> List.exists Option.isNone then
+      Unknown
+    else
+      inferredSlots |> List.choose id |> List.fold joinType Unknown
 
   { Function = fn
     Target = Return index

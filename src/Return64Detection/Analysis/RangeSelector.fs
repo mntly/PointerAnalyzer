@@ -1,9 +1,9 @@
-module Checker.Return64Detection.Analysis.RangeSelector
+module PointerAnalyzer.Return64Detection.Analysis.RangeSelector
 
 open B2R2.MiddleEnd.BinGraph
 open B2R2.MiddleEnd.ControlFlowGraph
 open PointerAnalyzer.Frontend.ProgramDFA
-open Checker.Return64Detection.Return64Types
+open PointerAnalyzer.Return64Detection.Return64Types
 
 /// Extract the address of last statement of given basic block
 let private terminalAddress (block: IVertex<SSABasicBlock>) =

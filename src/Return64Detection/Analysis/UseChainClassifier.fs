@@ -1,4 +1,4 @@
-module Checker.Return64Detection.Analysis.UseChainClassifier
+module PointerAnalyzer.Return64Detection.Analysis.UseChainClassifier
 
 open B2R2
 open B2R2.BinIR.SSA
@@ -6,8 +6,8 @@ open B2R2.FrontEnd
 open B2R2.MiddleEnd.BinGraph
 open B2R2.MiddleEnd.ControlFlowGraph
 open B2R2.MiddleEnd.DataFlow
-open Checker.Return64Detection.Return64Types
-open Checker.Return64Detection.Analysis.StatementIndex
+open PointerAnalyzer.Return64Detection.Return64Types
+open PointerAnalyzer.Return64Detection.Analysis.StatementIndex
 
 /// FLAG registers.
 let private flagRegisters =

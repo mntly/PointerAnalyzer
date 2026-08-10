@@ -9,14 +9,6 @@
   <ItemGroup>
     <Compile Include="FindCall0/FindCall0.fs" />
     <Compile Include="FindCall0/FindCall0Invalid.fs" />
-    <Compile Include="Return64Detection/Return64Types.fs" />
-    <Compile Include="Return64Detection/Analysis/StatementIndex.fs" />
-    <Compile Include="Return64Detection/Analysis/RangeSelector.fs" />
-    <Compile Include="Return64Detection/Analysis/ExitVersionAnalyzer.fs" />
-    <Compile Include="Return64Detection/Analysis/UseChainClassifier.fs" />
-    <Compile Include="Return64Detection/BasicDetector.fs" />
-    <Compile Include="Return64Detection/CallerChecker.fs" />
-    <Compile Include="Return64Detection/Return64Detector.fs" />
     <Compile Include="Return64Detection/Return64Formatter.fs" />
     <Compile Include="Return64Detection/Evaluator/EvaluatorTypes.fs" />
     <Compile Include="EvaluateAnalyzer/Evaluator/EvaluatorTypes.fs" />

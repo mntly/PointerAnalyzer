@@ -1,4 +1,4 @@
-module Checker.Return64Detection.CallerChecker
+module PointerAnalyzer.Return64Detection.CallerChecker
 
 open B2R2
 open B2R2.BinIR
@@ -8,10 +8,10 @@ open B2R2.MiddleEnd.BinGraph
 open B2R2.MiddleEnd.ControlFlowGraph
 open B2R2.MiddleEnd.DataFlow
 open PointerAnalyzer.Frontend.ProgramDFA
-open Checker.Return64Detection.Return64Types
-open Checker.Return64Detection.Analysis.StatementIndex
+open PointerAnalyzer.Return64Detection.Return64Types
+open PointerAnalyzer.Return64Detection.Analysis.StatementIndex
 
-module StmtIndex = Checker.Return64Detection.Analysis.StatementIndex
+module StmtIndex = PointerAnalyzer.Return64Detection.Analysis.StatementIndex
 
 let private edx = Intel.Register.toRegID Intel.Register.EDX
 

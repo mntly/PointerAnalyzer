@@ -14,6 +14,9 @@ open PointerAnalyzer.Frontend.ProgramDFA
 open PointerAnalyzer.Interproc.ModularAnalyzer
 open PointerAnalyzer.Utils
 
+module AnalysisProgramBuilder = PointerAnalyzer.Frontend.AnalysisProgramBuilder
+module Return64Types = PointerAnalyzer.Return64Detection.Return64Types
+
 type FunctionSelector =
   | ByAddress of Addr
   | ByName of string
@@ -32,6 +35,9 @@ type MainOptions =
     ListFunctions: bool
     FunctionSelector: FunctionSelector option
     FunctionApplyMode: FunctionApplyMode
+    SSAMode: AnalysisProgramBuilder.SSAMode
+    Return64Range: Return64Types.AnalysisRange
+    Return64Heuristic: Return64Types.DetectionHeuristic
     TrackTime: bool }
 
 type CLIArg =
@@ -43,6 +49,9 @@ type CLIArg =
   | [<AltCommandLine("-s")>] Store of int
   | [<AltCommandLine("-t")>] TrackTime
   | [<AltCommandLine("-fa")>] FunctionApply of int
+  | [<AltCommandLine("-ssa")>] SSA of int
+  | [<AltCommandLine("-rr")>] ReturnRange of int
+  | [<AltCommandLine("-rh")>] ReturnHeuristic of int
   | Function of string
 
   interface IArgParserTemplate with
@@ -65,6 +74,14 @@ type CLIArg =
       | FunctionApply _ ->
         "Apply callee function summaries: 1 = enabled, 0 = disabled.
         Default is 1."
+      | SSA _ ->
+        "SSA mode: 0 = original B2R2 SSA, 1 = Return64-aware SSA.
+        Default is 0."
+      | ReturnRange _ ->
+        "Return64 range: 0 = leaf and direct predecessors;
+        1 = entire function."
+      | ReturnHeuristic _ ->
+        "Return64 heuristic: 0 = basic; 1 = basic with caller checker."
       | TrackTime -> "Track and print out the processing time of each step."
 
 let private tryParseAddress (text: string) =
@@ -118,6 +135,30 @@ let private parseArg (args: string array) =
       eprintfn "Unsupported function-apply mode %d. Use 0 or 1." value
       exit 1
 
+  let ssaMode =
+    match r.GetResult (<@ SSA @>, defaultValue = 0) with
+    | 0 -> AnalysisProgramBuilder.OriginalSSA
+    | 1 -> AnalysisProgramBuilder.Return64AwareSSA
+    | value ->
+      eprintfn "Unsupported SSA mode %d. Use 0 or 1." value
+      exit 1
+
+  let return64Range =
+    match r.GetResult (<@ ReturnRange @>, defaultValue = 0) with
+    | 0 -> Return64Types.LeafAndDirectPredecessors
+    | 1 -> Return64Types.EntireFunction
+    | value ->
+      eprintfn "Unsupported Return64 range %d. Use 0 or 1." value
+      exit 1
+
+  let return64Heuristic =
+    match r.GetResult (<@ ReturnHeuristic @>, defaultValue = 0) with
+    | 0 -> Return64Types.Basic
+    | 1 -> Return64Types.BasicWithCallerChecker
+    | value ->
+      eprintfn "Unsupported Return64 heuristic %d. Use 0 or 1." value
+      exit 1
+
   let targetFunc =
     match r.TryGetResult Function with
     | Some tarFun ->
@@ -134,6 +175,9 @@ let private parseArg (args: string array) =
     ListFunctions = listFunctions
     FunctionSelector = targetFunc
     FunctionApplyMode = functionApplyMode
+    SSAMode = ssaMode
+    Return64Range = return64Range
+    Return64Heuristic = return64Heuristic
     TrackTime = trackTime }
 
 /// Filter only given target function. Only single target function is valid.
@@ -376,12 +420,20 @@ let main argv =
   printfn "ISA: %A" binary.Handle.File.ISA
   printfn "Platform: %s" binary.Platform.Name
 
-  (* Lift every function to B2R2 SSA and run DFA. *)
-  let dfaProgram =
-    timed options.TrackTime "Run B2R2 DFA and lift SSA" (fun () ->
-      ProgramDFA.runDFA binary)
+  (* Build baseline SSA, detect wide returns, and select the requested SSA. *)
+  let analysisProgram =
+    timed options.TrackTime "Prepare B2R2 SSA and Return64 result" (fun () ->
+      AnalysisProgramBuilder.build
+        options.SSAMode
+        options.Return64Range
+        options.Return64Heuristic
+        binary)
+
+  let dfaProgram = analysisProgram.Program
 
   printfn "Recovered functions: %d" dfaProgram.Functions.Count
+  printfn "SSA mode: %s" analysisProgram.SSAMode.Name
+  printfn "Return64 functions: %d" analysisProgram.Return64Functions.Count
 
   if options.ListFunctions then
     (* ListFunctions: Only print out the functions in given binary *)
@@ -438,11 +490,18 @@ let main argv =
         timed options.TrackTime "Pre-analyze SSA liveness" (fun () ->
           PointerAnalyzer.PreAnalysis.PreAnalyzer.analyze dfaProgram)
 
+      let summaryReturn64Functions =
+        match analysisProgram.SSAMode with
+        | AnalysisProgramBuilder.OriginalSSA -> Set.empty
+        | AnalysisProgramBuilder.Return64AwareSSA ->
+          analysisProgram.Return64Functions
+
       (* Run PointerAnalyzer *)
       let result =
         ModularAnalyzer.analyzeWithTimer
           options.TrackTime
           options.FunctionApplyMode
+          summaryReturn64Functions
           program
 
       (* Extract only targeted function *)
@@ -453,6 +512,7 @@ let main argv =
         |> Result2Json.AnalysisResultJson.fromAnalysisResultToJsonString
           dfaProgram.Binary.Platform
           result
+          summaryReturn64Functions
         |> storeOutput options "inferredTypes.json")
 
       (* Extract Word Size used for Evaluation *)
@@ -460,6 +520,7 @@ let main argv =
         Result2Json.AnalysisConfigJson.fromPlatform
           dfaProgram.Binary.Platform
           options.FunctionApplyMode.isApply
+          analysisProgram.SSAMode.Name
         |> Result2Json.AnalysisConfigJson.toJsonString
         |> storeOutput options "analysisConfig.json")
 

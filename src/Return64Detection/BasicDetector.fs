@@ -1,13 +1,13 @@
-module Checker.Return64Detection.BasicDetector
+module PointerAnalyzer.Return64Detection.BasicDetector
 
 open B2R2
 open PointerAnalyzer.Frontend.ProgramDFA
-open Checker.Return64Detection.Return64Types
-open Checker.Return64Detection.Analysis.UseChainClassifier
+open PointerAnalyzer.Return64Detection.Return64Types
+open PointerAnalyzer.Return64Detection.Analysis.UseChainClassifier
 
-module RangeSelector = Checker.Return64Detection.Analysis.RangeSelector
+module RangeSelector = PointerAnalyzer.Return64Detection.Analysis.RangeSelector
 
-module ExitVersionAnalyzer = Checker.Return64Detection.Analysis.ExitVersionAnalyzer
+module ExitVersionAnalyzer = PointerAnalyzer.Return64Detection.Analysis.ExitVersionAnalyzer
 
 let private classifyRegister
   (classifier: Classifier)

@@ -45,6 +45,11 @@ type ProgramDFAResult =
     Functions: Map<Addr, FunctionDFAResult>
     VisitOrder: Addr list }
 
+/// Recovered LowUIR functions which can be lifted to SSA more than once.
+type RecoveredProgram =
+  { Binary: LoadedBinary
+    Functions: Function list }
+
 module ProgramDFA =
   /// Collect normal return instructions before lifting the CFG to SSA.
   let private extractRetAddr (function_: Function) =
@@ -117,10 +122,20 @@ module ProgramDFA =
     |> snd
     |> List.rev
 
-  /// For each functions in binary, process DFA and integrate them
-  let runDFA binary =
+  /// Recover LowUIR CFGs once so different SSA lifters can reuse them.
+  let recover binary =
     let brew = BinaryBrew binary.Handle
-    let lifter = SSALifterFactory.Create binary.Handle
+
+    let functions =
+      brew.Functions.Sequence
+      |> Seq.filter (fun function_ -> not function_.IsExternal)
+      |> Seq.toList
+
+    { Binary = binary; Functions = functions }
+
+  /// Lift recovered functions with the supplied SSA lifter and run DFA.
+  let buildWithLifter (lifter: ISSALiftable) recovered =
+    let binary = recovered.Binary
 
     (* Run DFA on single function, construct FunctionDFAResult *)
     let constrFunDFA (func: Function) =
@@ -136,8 +151,7 @@ module ProgramDFA =
         Callees = callees func }
 
     let functionMap =
-      brew.Functions.Sequence
-      |> Seq.filter (fun function_ -> not function_.IsExternal)
+      recovered.Functions
       |> Seq.map constrFunDFA
       |> Map.ofSeq
 
@@ -146,3 +160,11 @@ module ProgramDFA =
     { Binary = binary
       Functions = functionMap
       VisitOrder = visitOrder }
+
+  /// Lift recovered functions with B2R2's original SSA behavior.
+  let build recovered =
+    let lifter = SSALifterFactory.Create recovered.Binary.Handle
+    buildWithLifter lifter recovered
+
+  /// Recover every function, lift to SSA, and run DFA.
+  let runDFA binary = binary |> recover |> build

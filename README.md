@@ -11,6 +11,7 @@
   * [Analyze all functions](#analyze-all-functions)
   * [Track analysis time](#track-analysis-time)
   * [Disable function-summary application](#disable-function-summary-application)
+  * [Use Return64-aware SSA](#use-return64-aware-ssa)
   * [Dump recovered SSA](#dump-recovered-ssa)
   * [Dump recovered funtions](#dump-recovered-funtions)
   * [Dump type constraints](#dump-type-constraints)
@@ -42,6 +43,9 @@ dotnet run --project src/PointerAnalyzer.fsproj \
 | `-s`, `--store <int>` | If `1`, store optional outputs such as SSA/function list/constraints in the output directory. If `0`, print optional outputs to stdout. The main `inferredTypes.json` result is always stored. |
 | `-t`, `--tracktime` | Print the processing time of each analysis step. |
 | `-fa`, `--functionapply <int>` | Apply callee summaries at function calls. `1` enables application and `0` disables it. The default is `1`. |
+| `-ssa`, `--ssa <int>` | Select SSA mode. `0` uses original B2R2 SSA and `1` re-lifts SSA using Return64Detector results. The default is `0`. |
+| `-rr`, `--returnrange <int>` | Select Return64Detector range. `0` uses leaves and direct predecessors; `1` uses the entire function. The default is `0`. |
+| `-rh`, `--returnheuristic <int>` | Select Return64Detector heuristic. `0` uses the basic heuristic; `1` also checks caller evidence. The default is `0`. |
 | `--function <name\|address>` | After analyzing the binary, print the result of only the selected function. |
 | `--help` | Display help information. |
 
@@ -64,8 +68,8 @@ output/helloword-x86_32-i586-uclibc-O0/analysisConfig.json
 
 The default JSON result stores only inferred type names such as `Address`,
 `Value`, `Conflict`, and `Unknown`; it does not include TypeIds.
-`analysisConfig.json` stores the analyzed platform's word size and whether
-function-summary application was enabled.
+`analysisConfig.json` stores the analyzed platform's word size, whether
+function-summary application was enabled, and the selected SSA mode.
 
 ### Track analysis time
 
@@ -84,6 +88,22 @@ dotnet run --project src/PointerAnalyzer.fsproj \
     -o output/no-function-apply \
     -fa 0
 ```
+
+### Use Return64-aware SSA
+
+```bash
+dotnet run --project src/PointerAnalyzer.fsproj \
+    -b datas/binaries/helloword-x86_32-i586-uclibc-O0 \
+    -o output/return64-aware \
+    -ssa 1 \
+    -rr 0 \
+    -rh 0
+```
+
+This first builds the original B2R2 SSA, runs Return64Detector, and then
+re-lifts the recovered LowUIR CFGs. On x86-32, calls to detected two-slot
+return functions receive a fresh EDX definition marked
+`modified-caller-saved`.
 
 ### Dump recovered SSA
 

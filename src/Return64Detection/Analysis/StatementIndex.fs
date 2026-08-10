@@ -1,4 +1,4 @@
-module Checker.Return64Detection.Analysis.StatementIndex
+module PointerAnalyzer.Return64Detection.Analysis.StatementIndex
 
 open B2R2
 open B2R2.BinIR.SSA

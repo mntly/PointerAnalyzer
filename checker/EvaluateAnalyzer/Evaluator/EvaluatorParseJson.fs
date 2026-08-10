@@ -4,6 +4,7 @@ open System
 open System.IO
 open System.Text.Json
 open EvaluateAnalyzer.Evaluator.Types
+open PointerAnalyzer.Platform.PlatformTypes
 
 /// Trasform hex-string to lowercase string
 let private normalizeAddress (address: string) =
@@ -81,26 +82,41 @@ let private readTypeMap (element: JsonElement) =
     |> Map.ofSeq
   | _ -> Map.empty
 
-(*
-  ToDo
-    Handle if multiple return register is used (XMM, ...?)
-*)
 /// Given JSON element(value of "ReturnReg"), extract type of
-/// return value list
-let private readReturnReg (element: JsonElement) =
+/// return value list in platform ABI order.
+let private readReturnReg (platform: Platform) (element: JsonElement) =
   if element.ValueKind <> JsonValueKind.Object then
     (* This case may not be held *)
     []
   else
-    element.EnumerateObject ()
-    |> Seq.sortBy (fun prop -> prop.Name)
-    |> Seq.choose (fun prop ->
-      if prop.Value.ValueKind = JsonValueKind.String then
-        Some (parseEvalType (prop.Value.GetString ()))
-      else
-        (* This case may not be held *)
-        None)
-    |> Seq.toList
+    let properties =
+      element.EnumerateObject ()
+      |> Seq.map (fun property -> property.Name, property.Value)
+      |> Map.ofSeq
+
+    let orderedTypes =
+      platform.ReturnRegistersForSlotCount 2
+      |> List.map (fun registerId ->
+        let registerName = platform.RegisterName registerId
+
+        match Map.tryFind registerName properties with
+        | Some value when value.ValueKind = JsonValueKind.String ->
+          Some (parseEvalType (value.GetString ()))
+        | _ -> None)
+
+    let lastPresentIndex =
+      orderedTypes
+      |> List.indexed
+      |> List.choose (fun (index, typ) ->
+        if Option.isSome typ then Some index else None)
+      |> List.tryLast
+
+    match lastPresentIndex with
+    | None -> []
+    | Some lastIndex ->
+      orderedTypes
+      |> List.take (lastIndex + 1)
+      |> List.map (Option.defaultValue Unknown)
 
 /// Parsing RawGT Json and construct RawGT Map. RawGT is the direct result of
 /// GTExtractor which is not matched with ABI specific low-level conventions.
@@ -154,7 +170,7 @@ let loadAnalysisConfig path : AnalysisConfig =
 
 /// Parsing inferred result and construct InferredFunction Map.
 /// The address is used as Key of InferredFunction Map.
-let loadInferred path : Map<string, InferredFunction> =
+let loadInferred platform path : Map<string, InferredFunction> =
   (* Check inferred json file exists *)
   if not (File.Exists path) then
     failwithf "inferred result JSON does not exist: %s" path
@@ -177,7 +193,7 @@ let loadInferred path : Map<string, InferredFunction> =
 
     (* Extract inferred type of return value *)
     let retRegElem = body.GetProperty "ReturnReg"
-    let returns = readReturnReg retRegElem
+    let returns = readReturnReg platform retRegElem
 
     (* Construct inferred function signature *)
     let inferredFunction: InferredFunction =

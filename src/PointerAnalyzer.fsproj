@@ -35,6 +35,18 @@
     <Compile Include="Frontend/FunctionDFA.fs" />
     <Compile Include="Frontend/ProgramDFA.fs" />
 
+    <Compile Include="Return64Detection/Return64Types.fs" />
+    <Compile Include="Return64Detection/Analysis/StatementIndex.fs" />
+    <Compile Include="Return64Detection/Analysis/RangeSelector.fs" />
+    <Compile Include="Return64Detection/Analysis/ExitVersionAnalyzer.fs" />
+    <Compile Include="Return64Detection/Analysis/UseChainClassifier.fs" />
+    <Compile Include="Return64Detection/BasicDetector.fs" />
+    <Compile Include="Return64Detection/CallerChecker.fs" />
+    <Compile Include="Return64Detection/Return64Detector.fs" />
+
+    <Compile Include="Frontend/ReturnRegisterSSAModifier.fs" />
+    <Compile Include="Frontend/AnalysisProgramBuilder.fs" />
+
     <Compile Include="PreAnalysis/PreAnalysisTypes.fs" />
     <Compile Include="PreAnalysis/VariableCollector.fs" />
     <Compile Include="PreAnalysis/Sink/DefaultLiveCollector.fs" />

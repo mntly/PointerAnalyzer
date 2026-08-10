@@ -42,9 +42,9 @@ type MainOptions =
     OutFileName: string
     OutputDirPath: string
     IsStore: bool
-    Return64Range: Checker.Return64Detection.Return64Types.AnalysisRange
+    Return64Range: PointerAnalyzer.Return64Detection.Return64Types.AnalysisRange
     Return64Heuristic:
-      Checker.Return64Detection.Return64Types.DetectionHeuristic }
+      PointerAnalyzer.Return64Detection.Return64Types.DetectionHeuristic }
 
 type CLIArg =
   | [<AltCommandLine("-m")>] Mode of int
@@ -184,8 +184,8 @@ let private parseArg (args: string array) =
   (* Extract the type of AnalysisRange for Return64Detector *)
   let return64Range =
     match r.GetResult (<@ ReturnRange @>, defaultValue = 0) with
-    | 0 -> Checker.Return64Detection.Return64Types.LeafAndDirectPredecessors
-    | 1 -> Checker.Return64Detection.Return64Types.EntireFunction
+    | 0 -> PointerAnalyzer.Return64Detection.Return64Types.LeafAndDirectPredecessors
+    | 1 -> PointerAnalyzer.Return64Detection.Return64Types.EntireFunction
     | value ->
       eprintfn "Unsupported Return64Detector range %d. Use 0 or 1." value
       exit 1
@@ -193,8 +193,8 @@ let private parseArg (args: string array) =
   (* Extract the type of Heuristics for Return64Detector *)
   let return64Heuristic =
     match r.GetResult (<@ ReturnHeuristic @>, defaultValue = 0) with
-    | 0 -> Checker.Return64Detection.Return64Types.Basic
-    | 1 -> Checker.Return64Detection.Return64Types.BasicWithCallerChecker
+    | 0 -> PointerAnalyzer.Return64Detection.Return64Types.Basic
+    | 1 -> PointerAnalyzer.Return64Detection.Return64Types.BasicWithCallerChecker
     | value ->
       eprintfn "Unsupported Return64Detector heuristic %d. Use 0 or 1." value
       exit 1
@@ -326,14 +326,14 @@ let private runEvalAnalyzer options =
 
 /// Execute x86-32 EDX:EAX 64 bit return detector.
 let private runReturn64Detector options =
-  let detectOptions: Return64Detection.Return64Detector.DetectOptions =
+  let detectOptions: PointerAnalyzer.Return64Detection.Return64Detector.DetectOptions =
     { BinaryPath = requireBinary options
       Range = options.Return64Range
       Heuristic = options.Return64Heuristic }
 
   try
     let result =
-      Return64Detection.Return64Detector.run detectOptions
+      PointerAnalyzer.Return64Detection.Return64Detector.run detectOptions
       |> Return64Detection.Return64Formatter.toText
 
     emitOutput options "Return64Result" result

@@ -189,6 +189,17 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
       List.contains registerId platform.ReturnRegisters
     | _ -> false
 
+  /// Check whether a variable can be an additional multi-slot return register.
+  member private _.isAdditionalReturnRegister (variable: Variable) =
+    let normalReturns = Set.ofList platform.ReturnRegisters
+
+    match variable.Kind with
+    | RegVar (_, registerId, _) ->
+      platform.ReturnRegistersForSlotCount 2
+      |> List.exists (fun candidate ->
+        candidate = registerId && not (Set.contains candidate normalReturns))
+    | _ -> false
+
   member private this.isLive variable =
     config.IsLive variable || this.isTrivialVariable variable
 
@@ -363,6 +374,12 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
             State = this.evalMemoryDefinition resultMem expr state } ]
 
       | Def (variable, Undefined (_, "ret")) when this.isReturnRegister variable ->
+        [ { Target = Next
+            State = this.evalAbstractReturnDefinition variable state } ]
+
+      | Def (variable, Undefined (_, "modified-caller-saved")) when
+        this.isAdditionalReturnRegister variable
+        ->
         [ { Target = Next
             State = this.evalAbstractReturnDefinition variable state } ]
 

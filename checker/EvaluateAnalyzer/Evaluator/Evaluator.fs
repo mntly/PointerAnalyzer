@@ -47,14 +47,16 @@ let run options =
   (* Parse RawGroundTruth Json file *)
   let rawGT = ParseJSON.loadGroundTruth options.GroundTruthJsonPath
 
-  (* Parse Inferred Result Jsin file *)
-  let inferred = ParseJSON.loadInferred options.InferredJsonPath
-
   (* Extract ABI information to construct low-level GT function signature *)
   let config =
     options.InferredJsonPath
     |> analysisConfigPath
     |> ParseJSON.loadAnalysisConfig
+
+  let platform = PointerAnalyzer.Platform.Platform.ofString config.Platform
+
+  (* Parse inferred result using the platform's return-register order. *)
+  let inferred = ParseJSON.loadInferred platform options.InferredJsonPath
 
   (* Convert RawGT into ABI-specific low-level GT *)
   let gt = GroundTruthConverter.GroundTruthConverter.convert config rawGT
