@@ -51,6 +51,8 @@ This directory contains the codes related to evaluate [PointerAnalyzer](../READM
 This directory contains the codes related to extract type of parameters and return value of each function in given library code.
 
 The ground truth type signature is only appeared in binary compiled with debug option that includes DWARF information. If given binary does not have DWARF information, the [GroundTruthExtractor](./EvaluateAnalyzer/GroundTruthExtractor) may occur error.
+The extractor requires Python 3 and GNU Binutils `readelf`. See the [DWARF extractor documentation](./EvaluateAnalyzer/GroundTruthExtractor/Dwarf/README.md)
+for its parser, GT construction, and object-file whitelist workflows.
 
 ```sh
 dotnet run --project Checker.fsproj \

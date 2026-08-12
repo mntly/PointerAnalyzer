@@ -4,15 +4,7 @@ import json
 import os
 import sys
 
-# Import pyelftools to parse DWARF debug information
-try:
-    from elftools.elf.elffile import ELFFile
-except ImportError:
-    print(
-        "pyelftools is not installed. Install it with: python3 -m pip install pyelftools",
-        file=sys.stderr,
-    )
-    sys.exit(2)
+from readelf_dwarf_parser import run_readelf
 
 # PointerAnalyzer's inferred type result
 ADDRESS = "Address"
@@ -318,16 +310,10 @@ def resolve_type(die, seen=None, context=None, path=None):
         if resolved["Size"] == 0 and wrapper_size > 0:
             resolved = type_info(wrapper_size, resolved["Type"])
 
-        if 'DW_AT_name' in die.attributes:
-            # Handling for Elf(Addr)
-            try:
-                name_bytes = die.attributes['DW_AT_name'].value
-                type_name = name_bytes.decode('utf-8', errors='ignore')
-                
-                if "Addr" in type_name:
-                    return type_info(resolved["Size"], ADDRESS), logs
-            except Exception:
-                pass
+        # Handling for Elf(Addr)
+        type_name = attr_string(die, "DW_AT_name")
+        if type_name is not None and "Addr" in type_name:
+            return type_info(resolved["Size"], ADDRESS), logs
 
         return resolved, logs
 
@@ -867,69 +853,69 @@ def load_whitelist(path):
         return {line.strip() for line in stream if line.strip()}
 
 # Extract GT information from given GT binary
-def extract(binary_path, whitelist=None):
-    with open(binary_path, "rb") as stream:
-        elf = ELFFile(stream)
-        
-        # Check given binary is compiled with debugging option
-        if not elf.has_dwarf_info():
-            raise RuntimeError("binary has no DWARF debug information")
+def extract(binary_path, whitelist=None, readelf=None):
+    # Parse the linked binary's DWARF information through GNU readelf.
+    dwarf = run_readelf(
+        binary_path,
+        readelf or os.environ.get("READELF", "readelf"),
+    )
 
-        # Get DWARFInfo context object
-        dwarf = elf.get_dwarf_info()
+    # 1. Extract type signature from function declaration
+    prototypes, unknown_logs = parsing_declaration(dwarf)
 
-        # 1. Extract type signature from function declaration
-        prototypes, unknown_logs = parsing_declaration(dwarf)
+    # 2. Extract type signature from function definition
+    by_addr, unknown_logs, declaration_logs = parsing_definition(
+        dwarf,
+        prototypes,
+        unknown_logs,
+    )
 
-        # 2. Extract type signature from function definition
-        by_addr, unknown_logs, declaration_logs = parsing_definition(dwarf, prototypes, unknown_logs)
+    if not by_addr:
+        # Can not detect any functions
+        raise RuntimeError(
+            "No DWARF function definitions found. Compile the ground-truth binary with debug information."
+        )
 
-        if not by_addr:
-            # Can not detect any functions
-            raise RuntimeError(
-                "No DWARF function definitions found. Compile the ground-truth binary with debug information."
-            )
-        
-        # 3. Final merging to handle the multiple functions with same address
-        # was found during parsing function definition
-        db = {}
-        duplicate_logs = []
+    # 3. Final merging to handle the multiple functions with same address
+    # was found during parsing function definition
+    db = {}
+    duplicate_logs = []
 
-        # Handle GT multiple function signature at same address
-        for address, signatures in sorted(by_addr.items()):
-            signature, log_lines = merge_duplicate_signatures(address, signatures)
-            duplicate_logs.extend(log_lines)
-            # Update log
-            if log_lines:
-                duplicate_logs.append("")
-            # Update GT DB
-            if signature is not None:
-                db[address] = signature
+    # Handle GT multiple function signature at same address
+    for address, signatures in sorted(by_addr.items()):
+        signature, log_lines = merge_duplicate_signatures(address, signatures)
+        duplicate_logs.extend(log_lines)
+        # Update log
+        if log_lines:
+            duplicate_logs.append("")
+        # Update GT DB
+        if signature is not None:
+            db[address] = signature
 
-        # Merge all logs
-        logs = []
-        if unknown_logs:
-            logs.append("== Unknown Type Classification ==")
-            logs.extend(unknown_logs)
+    # Merge all logs
+    logs = []
+    if unknown_logs:
+        logs.append("== Unknown Type Classification ==")
+        logs.extend(unknown_logs)
 
-        if declaration_logs:
-            logs.append("== Declaration Signature Incorporation ==")
-            logs.extend(declaration_logs)
+    if declaration_logs:
+        logs.append("== Declaration Signature Incorporation ==")
+        logs.extend(declaration_logs)
 
-        if duplicate_logs:
-            logs.append("== Duplicate Address Signature Merge ==")
-            logs.extend(duplicate_logs)
+    if duplicate_logs:
+        logs.append("== Duplicate Address Signature Merge ==")
+        logs.extend(duplicate_logs)
 
-        if whitelist is not None:
-            db, whitelist_logs = apply_whitelist(db, whitelist)
-            logs.extend(whitelist_logs)
+    if whitelist is not None:
+        db, whitelist_logs = apply_whitelist(db, whitelist)
+        logs.extend(whitelist_logs)
 
-        db = {
-            # Filter only Functin Signature with key "Names" not "_Names"
-            address: public_signature(signature)
-            for address, signature in db.items()
-        }
-        return db, logs
+    db = {
+        # Filter only Functin Signature with key "Names" not "_Names"
+        address: public_signature(signature)
+        for address, signature in db.items()
+    }
+    return db, logs
 
 def main(argv):
     parser = argparse.ArgumentParser()
@@ -939,6 +925,11 @@ def main(argv):
         "--whitelist",
         dest="whitelist_path",
         help="file containing one function name per line",
+    )
+    parser.add_argument(
+        "--readelf",
+        default=os.environ.get("READELF", "readelf"),
+        help="readelf executable (default: READELF or readelf)",
     )
     args = parser.parse_args(argv[1:])
 
@@ -966,7 +957,7 @@ def main(argv):
             if args.whitelist_path is not None
             else None
         )
-        db, logs = extract(args.binary_path, whitelist)
+        db, logs = extract(args.binary_path, whitelist, args.readelf)
     except Exception as ex:
         print(str(ex), file=sys.stderr)
         return 1

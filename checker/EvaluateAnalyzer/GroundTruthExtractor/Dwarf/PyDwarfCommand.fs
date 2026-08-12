@@ -86,5 +86,5 @@ let run binaryPath logPath whiteListPath =
     if proc.ExitCode <> 0 then failwith stderr else stdout
   with :? Win32Exception as ex ->
     failwithf
-      "python3 is not installed or not in PATH. Run checker/EvaluateAnalyzer/GroundTruthExtractor/setup_venv.sh first. %s"
+      "python3 is not installed or not in PATH. GroundTruthExtractor also requires GNU readelf. Run checker/EvaluateAnalyzer/GroundTruthExtractor/setup_venv.sh first. %s"
       ex.Message

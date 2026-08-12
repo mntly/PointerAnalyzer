@@ -14,9 +14,13 @@ fi
 # Generate python venv at GroundTruthExtractor
 "${PYTHON_BIN}" -m venv "${VENV_DIR}"
 
-# Install pyelftools for parsing DWARF information
-"${VENV_DIR}/bin/python" -m pip install --upgrade pip
-"${VENV_DIR}/bin/python" -m pip install pyelftools
+# GT extraction uses GNU readelf instead of a Python ELF package.
+READELF_BIN="${READELF:-readelf}"
+if ! command -v "${READELF_BIN}" >/dev/null 2>&1; then
+  echo "readelf is not installed or not in PATH: ${READELF_BIN}" >&2
+  exit 1
+fi
 
 echo "GroundTruthExtractor Python venv is ready: ${VENV_DIR}"
 echo "Python: ${VENV_DIR}/bin/python"
+echo "readelf: $(command -v "${READELF_BIN}")"
