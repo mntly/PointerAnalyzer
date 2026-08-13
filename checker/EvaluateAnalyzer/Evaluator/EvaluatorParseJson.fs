@@ -187,3 +187,97 @@ let loadInferred path : Map<string, InferredFunction> =
 
     address, inferredFunction)
   |> Map.ofSeq
+
+let private readProvenanceFact (element: JsonElement) =
+  { Type = parseEvalType (element.GetProperty("Type").GetString ())
+    TypeId = element.GetProperty("TypeId").GetInt32 () }
+
+let private readProvenanceOrigin (element: JsonElement) =
+  { FunctionName = element.GetProperty("FunctionName").GetString ()
+    Location = element.GetProperty("Location").GetString ()
+    Statement = element.GetProperty("Statement").GetString ()
+    Annotation = element.GetProperty("Annotation").GetString () }
+
+/// Load the compact type-provenance artifact produced by PointerAnalyzer.
+let loadProvenance path : ProvenanceData =
+  if not (File.Exists path) then
+    failwithf "type provenance JSON does not exist: %s" path
+
+  use doc = JsonDocument.Parse (File.ReadAllText path)
+
+  // Arguments contain integer TypeIds, unlike inferred type maps.
+  let functions =
+    doc.RootElement.GetProperty("Functions").EnumerateObject ()
+    |> Seq.map (fun property ->
+      let body = property.Value
+
+      let arguments =
+        body.GetProperty("Arguments").EnumerateObject ()
+        |> Seq.choose (fun entry ->
+          match Int32.TryParse entry.Name with
+          | true, index -> Some (index, entry.Value.GetInt32 ())
+          | false, _ -> None)
+        |> Map.ofSeq
+
+      let returns =
+        body.GetProperty("ReturnReg").EnumerateObject ()
+        |> Seq.sortBy (fun entry -> entry.Name)
+        |> Seq.map (fun entry -> entry.Value.GetInt32 ())
+        |> Seq.toList
+
+      normalizeAddress property.Name,
+      { Name = body.GetProperty("Name").GetString ()
+        Arguments = arguments
+        Return = returns })
+    |> Map.ofSeq
+
+  let derivations =
+    doc.RootElement.GetProperty("Derivations").EnumerateObject ()
+    |> Seq.map (fun property ->
+      let body = property.Value
+
+      let premises =
+        body.GetProperty("Premises").EnumerateArray ()
+        |> Seq.map readProvenanceFact
+        |> Seq.toList
+
+      let originIdElement = body.GetProperty "OriginId"
+
+      let originId =
+        if originIdElement.ValueKind = JsonValueKind.Null then
+          None
+        else
+          Some (originIdElement.GetInt32 ())
+
+      property.Name,
+      { Constraint = body.GetProperty("Constraint").GetString ()
+        Premises = premises
+        OriginId = originId })
+    |> Map.ofSeq
+
+  let typeNames =
+    doc.RootElement.GetProperty("TypeNames").EnumerateObject ()
+    |> Seq.choose (fun property ->
+      match Int32.TryParse property.Name with
+      | true, typeId ->
+        Some (
+          typeId,
+          property.Value.EnumerateArray ()
+          |> Seq.map (fun element -> element.GetString ())
+          |> Seq.toList
+        )
+      | false, _ -> None)
+    |> Map.ofSeq
+
+  let origins =
+    doc.RootElement.GetProperty("Origins").EnumerateObject ()
+    |> Seq.choose (fun property ->
+      match Int32.TryParse property.Name with
+      | true, originId -> Some (originId, readProvenanceOrigin property.Value)
+      | false, _ -> None)
+    |> Map.ofSeq
+
+  { Functions = functions
+    TypeNames = typeNames
+    Origins = origins
+    Derivations = derivations }

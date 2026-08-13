@@ -47,7 +47,8 @@ type MainOptions =
     Return64Range: Checker.Return64Detection.Return64Types.AnalysisRange
     Return64Heuristic:
       Checker.Return64Detection.Return64Types.DetectionHeuristic
-    UnsupportedInstPolicy: UnsupportedInstPolicy }
+    UnsupportedInstPolicy: UnsupportedInstPolicy
+    FalsePositiveDebug: bool }
 
 type CLIArg =
   | [<AltCommandLine("-m")>] Mode of int
@@ -60,6 +61,7 @@ type CLIArg =
   | [<AltCommandLine("-rr")>] ReturnRange of int
   | [<AltCommandLine("-rh")>] ReturnHeuristic of int
   | [<AltCommandLine("-fui")>] FailUnsupportedInstruction
+  | [<AltCommandLine("-fpd")>] FalsePositiveDebug
 
   interface IArgParserTemplate with
     member this.Usage =
@@ -91,6 +93,8 @@ type CLIArg =
         "Return64 heuristic: 0 = basic; 1 = basic with caller checker."
       | FailUnsupportedInstruction ->
         "Terminate analysis if B2R2 emits an unsupported instruction."
+      | FalsePositiveDebug ->
+        "Explain PointerAnalyzer false positives using typeProvenance.json."
 
 /// Store given content to file with given file name
 let private storeOutput options fileName (content: string) =
@@ -233,7 +237,8 @@ let private parseArg (args: string array) =
     IsStore = isStore
     Return64Range = return64Range
     Return64Heuristic = return64Heuristic
-    UnsupportedInstPolicy = unsupportedInstPolicy }
+    UnsupportedInstPolicy = unsupportedInstPolicy
+    FalsePositiveDebug = r.Contains FalsePositiveDebug }
 
 /// If binary path are not given, halt
 let private requireBinary options =
@@ -317,7 +322,8 @@ let private runBuildGroundTruth options =
 let private runEvalAnalyzer options =
   let evalOptions: EvaluateAnalyzer.Evaluator.Evaluator.EvalOptions =
     { GroundTruthJsonPath = requireGroundTruth options
-      InferredJsonPath = requireInferred options }
+      InferredJsonPath = requireInferred options
+      FalsePositiveDebug = options.FalsePositiveDebug }
 
   try
     (* Execute PointerAnalyzer evaluator *)
@@ -344,6 +350,17 @@ let private runEvalAnalyzer options =
     emitOutput options jsonFileName result.Json
     printfn ""
     emitOutput options logFileName result.Log
+
+    match result.FalsePositiveLog with
+    | Some log ->
+      printfn ""
+
+      let fileName =
+        EvaluateAnalyzer.Evaluator.Evaluator.falsePositiveLogFileName
+          options.OutFileName
+
+      emitOutput options fileName log
+    | None -> ()
 
   with ex ->
     eprintfn "%s" ex.Message

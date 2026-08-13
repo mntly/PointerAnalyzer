@@ -49,11 +49,53 @@ type TypeConstraint =
       sprintf "SubResult(t%d, t%d, t%d)" result left right
 
 module TypeConstraint =
+  /// Return type Ids in given TypeConstraint
   let typeIds (constraint_: TypeConstraint) = constraint_.TypeIds
 
   let toString (constraint_: TypeConstraint) = constraint_.ToString ()
 
 type ConstraintSet = Set<TypeConstraint>
+
+/// <summary>
+/// Represents where corresponding type constraint is inferred.
+/// </summary>
+/// <remarks>
+/// <c>FunctionName</c> indicates the name of function containing SSA that
+/// introduce correspondiong type constraint.
+/// <c>Location</c> indicates the ProgramPoint of SSA that introduce
+/// corresponding type constraint.
+/// <c>Statement</c> indicates the SSA that introduce corresponding type
+/// constraint.
+/// <c>Annotation</c> indicates the detail explanation of why corresponding
+/// constraint is inferred such as return value binding.
+/// </remarks>
+type ConstraintOrigin =
+  { FunctionName: string
+    Location: string
+    Statement: string
+    Annotation: string }
+
+/// Represents kind of inferred type
+type TypeFactKind =
+  | AddressFact
+  | ValueFact
+
+  member this.ToString =
+    match this with
+    | AddressFact -> "Address"
+    | ValueFact -> "Value"
+
+/// Represents inferred type of typeId
+type TypeFact =
+  { FactType: TypeFactKind
+    TypeId: TypeId }
+
+/// Represents why corresponding concrete type is inferred. This tells the
+/// constraint and the other inffered concrete types in that constraint to
+/// represent the reason.
+type TypeDerivation =
+  { Constraint: TypeConstraint
+    Premises: TypeFact list }
 
 module ConstraintSet =
   let toString (constSet: ConstraintSet) =

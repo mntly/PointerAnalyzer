@@ -6,6 +6,7 @@ open PointerAnalyzer.Platform.PlatformTypes
 open PointerAnalyzer.AbsDom.AbsMem
 open PointerAnalyzer.AbsDom.AbsVal
 open PointerAnalyzer.AbsDom.RegMap
+open PointerAnalyzer.AbsDom.TypeConstraint
 open PointerAnalyzer.AbsDom.TypeIdMap
 open PointerAnalyzer.AbsDom.TypeState
 
@@ -37,11 +38,12 @@ type AnalysisState =
 /// <summary>
 /// Updates Analysis State.
 /// </summary>
-type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
+type AnalysisStateModule
+  (platform: Platform, startTypeId: TypeId, trackProvenance: bool) =
   let absVal = AbsValDomain.create platform
   let regMap = RegMapDomain.create platform
   let memory = AbsMemDomain.create platform
-  let types = TypeStateDomain.create startTypeId
+  let types = TypeStateDomain.createWithProvenance startTypeId trackProvenance
 
   /// Join helper for CurrentRegisters and CurrentStackSlots
   let joinCurrentTypeIds left right =
@@ -87,7 +89,10 @@ type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
 
       let newTypeState =
         if platform.IsTrivialAddress variable then
-          types.addAddress typeId typeState
+          types.addAddressWithAnnotation
+            "Platform Trivial Address"
+            typeId
+            typeState
         // else if platform.IsTrivialValue variable then
         //   types.addValue typeId typeState
         else
@@ -131,6 +136,11 @@ type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
   member _.addAddress typeId state =
     { state with
         Types = types.addAddress typeId state.Types }
+
+  /// Mark given typeId as Address with given debug annotation
+  member _.addAddressWithAnnotation annotation typeId state =
+    { state with
+        Types = types.addAddressWithAnnotation annotation typeId state.Types }
 
   /// Add new Value type constraint
   member _.addValue typeId state =
@@ -176,15 +186,79 @@ type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
 
     { state with Types = newTypes }
 
+  /// Mark given typeIds as Same with given debug annotation
+  member _.addSameWithAnnotation annotation typeIds state =
+    let containAddr = Seq.contains TypeIds.address typeIds
+    let containVal = Seq.contains TypeIds.value typeIds
+
+    let newTypes =
+      match containAddr, containVal with
+      | false, true ->
+        (* All become Value *)
+        Seq.fold
+          (fun acc typeId ->
+            if typeId = TypeIds.value then
+              acc
+            else
+              types.addConstraintWithAnnotation annotation (Value typeId) acc)
+          state.Types
+          typeIds
+      | true, false ->
+        (* All become Address *)
+        Seq.fold
+          (fun acc typeId ->
+            if typeId = TypeIds.address then
+              acc
+            else
+              types.addAddressWithAnnotation annotation typeId acc)
+          state.Types
+          typeIds
+      | false, false ->
+        (* Normal Same *)
+        types.addSameWithAnnotation annotation typeIds state.Types
+      | true, true ->
+        (* All become Conflict: This must error *)
+        (* To notify error occur by including trivial types *)
+        types.addConstraintWithAnnotation
+          annotation
+          (Same (Set.ofSeq typeIds))
+          state.Types
+
+    { state with Types = newTypes }
+
   /// Add new AddResult(result, left, right) type constraint
   member _.addAddResult result left right state =
     { state with
         Types = types.addAddResult result left right state.Types }
 
+  /// Add new AddResult(result, left, right) type constraint with given debug
+  /// annotation
+  member _.addAddResultWithAnnotation annotation result left right state =
+    { state with
+        Types =
+          types.addAddResultWithAnnotation
+            annotation
+            result
+            left
+            right
+            state.Types }
+
   /// Add new SubResult(result, left, right) type constraint
   member _.addSubResult result left right state =
     { state with
         Types = types.addSubResult result left right state.Types }
+
+  /// Add new SubResult(result, left, right) type constraint with given debug
+  /// annotation
+  member _.addSubResultWithAnnotation annotation result left right state =
+    { state with
+        Types =
+          types.addSubResultWithAnnotation
+            annotation
+            result
+            left
+            right
+            state.Types }
 
   /// Set the type of output register as given type Id
   member _.setPendingReturn retRegId calleeRetTypId state =
@@ -290,9 +364,12 @@ type AnalysisStateModule (platform: Platform, startTypeId: TypeId) =
       StackPointer = StackPointerState.join left.StackPointer right.StackPointer }
 
 module AnalysisStateDomain =
+  let createWithProvenance platform startTypeId trackProvenance =
+    AnalysisStateModule (platform, startTypeId, trackProvenance)
+
   /// Create analysis state handler starting with given type id
   let create platform startTypeId =
-    AnalysisStateModule (platform, startTypeId)
+    createWithProvenance platform startTypeId false
 
   /// Create analysis state handler starting with type Id 0
   let createDefault platform = create platform 0

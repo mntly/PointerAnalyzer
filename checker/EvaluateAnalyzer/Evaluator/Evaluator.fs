@@ -12,10 +12,13 @@ open EvaluateAnalyzer.Evaluator
 /// <c>InferredJsonPath</c> is path of the inferred function signature. This
 /// file is the result of PointerAnalyzer. The evaluator loads
 /// `analysisConfig.json` from the same directory.
+/// <c>FalsePositiveDebug</c> indicates whether the evaluator should print out
+/// constraint propagation history of FP cases.
 /// </remarks>
 type EvalOptions =
   { GroundTruthJsonPath: string
-    InferredJsonPath: string }
+    InferredJsonPath: string
+    FalsePositiveDebug: bool }
 
 /// <summary>
 /// Store result of evaluator. Json stores the metrics and Log stores log
@@ -24,7 +27,8 @@ type EvalOptions =
 type EvalOutput =
   { ConvertedGroundTruth: string
     Json: string
-    Log: string }
+    Log: string
+    FalsePositiveLog: string option }
 
 /// Generate new output file name
 let evalResultJsonFileName suffix = suffix + "_evalResult.json"
@@ -35,12 +39,21 @@ let evalResultLogFileName suffix = suffix + "_evalResult.log"
 /// Generate converted ground-truth output file name.
 let convertedGroundTruthFileName suffix = suffix + "_ConvertedGT.json"
 
+/// Generate type constraint propagation history of FP cases
+let falsePositiveLogFileName suffix = suffix + "_FPReason.log"
+
 /// Get path of analysisConfig file.
 /// PointerAnalyzer generates config file at the same path with result file.
 let private analysisConfigPath inferredJsonPath =
   let fullPath = Path.GetFullPath inferredJsonPath
   let directory = Path.GetDirectoryName fullPath
   Path.Combine (directory, "analysisConfig.json")
+
+/// Construct typeProvenance.json based on inferred json path
+let private provenancePath inferredJsonPath =
+  let fullPath = Path.GetFullPath inferredJsonPath
+  let directory = Path.GetDirectoryName fullPath
+  Path.Combine (directory, "typeProvenance.json")
 
 /// Evaluate PointerAnalyzer using given 1 binary with its ground truth
 let run options =
@@ -71,6 +84,17 @@ let run options =
   let convertedGroundTruth =
     GroundTruthConverter.GroundTruthConverter.toJson config gt
 
+  let falsePositiveLog =
+    if options.FalsePositiveDebug then
+      options.InferredJsonPath
+      |> provenancePath
+      |> ParseJSON.loadProvenance
+      |> fun provenance -> FalsePositiveDebug.toText provenance elements
+      |> Some
+    else
+      None
+
   { ConvertedGroundTruth = convertedGroundTruth
     Json = Metric.toJson metric
-    Log = Log.toText logState }
+    Log = Log.toText logState
+    FalsePositiveLog = falsePositiveLog }

@@ -62,6 +62,14 @@ let private normalArgEvalResult
     |> List.sortBy (fun slot -> slot.Index)
     |> List.map (fun slot -> Map.tryFind (slotCursor + slot.Index) inferredArgs)
 
+  let sources =
+    gt.Slots
+    |> List.sortBy (fun slot -> slot.Index)
+    |> List.choose (fun slot ->
+      let index = slotCursor + slot.Index
+      if Map.containsKey index inferredArgs then Some (ArgumentSource index)
+      else None)
+
   let inferred =
     if inferredSlots |> List.exists Option.isNone then
       Unknown
@@ -72,6 +80,7 @@ let private normalArgEvalResult
     Target = Argument paramIdx
     GT = gt.Type
     Inferred = inferred
+    Sources = sources
     Category = classify gt.Type inferred }
 
 /// Compare the structure type parameter. The inferred slot is extracted from
@@ -104,13 +113,18 @@ let private structureArgEvalResults
       []
     else
       matchedSlots
-      |> List.map (fun (slot, inferred) ->
-        let inferred = Option.defaultValue Unknown inferred
+      |> List.map (fun (slot, inferredOpt) ->
+        let inferred = Option.defaultValue Unknown inferredOpt
 
         { Function = fn
           Target = ArgumentSlot (paramIdx, slot.Index, slot.Path)
           GT = slot.Type
           Inferred = inferred
+          Sources =
+            if Option.isSome inferredOpt then
+              [ ArgumentSource (slotCursor + slot.Index) ]
+            else
+              []
           Category = classify slot.Type inferred })
 
   let coverage =
@@ -161,13 +175,14 @@ let private argResults fn gtArgs inferredArgs =
   List.rev results, List.rev coverages
 
 let private normalReturnResult fn index (gt: GTElement) inferredReturns =
-  let inferred =
-    inferredReturns |> List.tryItem index |> Option.defaultValue Unknown
+  let inferredOpt = inferredReturns |> List.tryItem index
+  let inferred = Option.defaultValue Unknown inferredOpt
 
   { Function = fn
     Target = Return index
     GT = gt.Type
     Inferred = inferred
+    Sources = if Option.isSome inferredOpt then [ ReturnSource index ] else []
     Category = classify gt.Type inferred }
 
 /// If at least one return slot is inferred, evaluate every GT structure slot
@@ -191,13 +206,18 @@ let private structureReturnResults fn index (gt: GTElement) inferredReturns =
       []
     else
       matchedSlots
-      |> List.map (fun (slot, inferred) ->
-        let inferred = Option.defaultValue Unknown inferred
+      |> List.map (fun (slot, inferredOpt) ->
+        let inferred = Option.defaultValue Unknown inferredOpt
 
         { Function = fn
           Target = ReturnSlot (index, slot.Index, slot.Path)
           GT = slot.Type
           Inferred = inferred
+          Sources =
+            if Option.isSome inferredOpt then
+              [ ReturnSource (index + slot.Index) ]
+            else
+              []
           Category = classify slot.Type inferred })
 
   let coverage =

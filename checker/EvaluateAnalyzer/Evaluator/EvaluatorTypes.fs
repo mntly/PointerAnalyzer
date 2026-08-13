@@ -9,6 +9,13 @@ type EvalType =
   | Unknown
   | Conflict
 
+  member this.ToString =
+    match this with
+    | Address -> "Address"
+    | Value -> "Value"
+    | Unknown -> "Unknown"
+    | Conflict -> "Conflict"
+
 /// <summary>
 /// Represent the type of each slot.
 /// </summary>
@@ -23,6 +30,11 @@ type EvalTarget =
   | ArgumentSlot of argumentIndex: int * slotIndex: int * path: string
   | Return of int
   | ReturnSlot of returnIndex: int * slotIndex: int * path: string
+
+/// Location in PointerAnalyzer's inferred signature used by an evaluation.
+type InferredSource =
+  | ArgumentSource of int
+  | ReturnSource of int
 
 /// <summary>
 /// Represent the result of evaluation.
@@ -174,7 +186,32 @@ type ElementResult =
     Target: EvalTarget
     GT: EvalType
     Inferred: EvalType
+    Sources: InferredSource list
     Category: EvalCategory }
+
+type ProvenanceFact = { Type: EvalType; TypeId: int }
+
+type ProvenanceOrigin =
+  { FunctionName: string
+    Location: string
+    Statement: string
+    Annotation: string }
+
+type ProvenanceDerivation =
+  { Constraint: string
+    Premises: ProvenanceFact list
+    OriginId: int option }
+
+type FunctionProvenance =
+  { Name: string
+    Arguments: Map<int, int>
+    Return: int list }
+
+type ProvenanceData =
+  { Functions: Map<string, FunctionProvenance>
+    TypeNames: Map<int, string list>
+    Origins: Map<int, ProvenanceOrigin>
+    Derivations: Map<string, ProvenanceDerivation> }
 
 /// <summary>
 /// Used for tracking the detail of evaluation.

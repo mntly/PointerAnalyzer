@@ -10,6 +10,7 @@ type FunctionSummary =
     Parameters: Map<int, TypeId>
     Returns: Map<RegisterID, TypeId>
     Constraints: ConstraintSet
+    ConstraintOrigins: Map<TypeConstraint, ConstraintOrigin> option
     NextTypeId: TypeId }
 
   member this.ParamToString =
@@ -51,4 +52,5 @@ module FunctionSummary =
       Parameters = Map.empty
       Returns = Map.empty
       Constraints = Set.empty
+      ConstraintOrigins = None
       NextTypeId = nextTypeId }

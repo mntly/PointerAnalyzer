@@ -31,6 +31,7 @@
     <Compile Include="EvaluateAnalyzer/GroundTruthExtractor/Dwarf/PyDwarfCommand.fs" />
     <Compile Include="EvaluateAnalyzer/GroundTruthExtractor/GroundTruthBuilder.fs" />
     <Compile Include="EvaluateAnalyzer/Evaluator/ElementEvaluator.fs" />
+    <Compile Include="EvaluateAnalyzer/Evaluator/FalsePositiveDebug.fs" />
     <Compile Include="EvaluateAnalyzer/Evaluator/EvalMetric.fs" />
     <Compile Include="EvaluateAnalyzer/Evaluator/EvalLog.fs" />
     <Compile Include="EvaluateAnalyzer/Evaluator/Evaluator.fs" />

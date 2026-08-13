@@ -34,6 +34,7 @@ type MainOptions =
     FunctionSelector: FunctionSelector option
     FunctionApplyMode: FunctionApplyMode
     UnsupportedInstPolicy: UnsupportedInstPolicy
+    FalsePositiveDebug: bool
     TrackTime: bool }
 
 type CLIArg =
@@ -46,6 +47,7 @@ type CLIArg =
   | [<AltCommandLine("-t")>] TrackTime
   | [<AltCommandLine("-fa")>] FunctionApply of int
   | [<AltCommandLine("-fui")>] FailUnsupportedInstruction
+  | [<AltCommandLine("-fpd")>] FalsePositiveDebug
   | Function of string
 
   interface IArgParserTemplate with
@@ -70,6 +72,9 @@ type CLIArg =
         Default is 1."
       | FailUnsupportedInstruction ->
         "Terminate analysis if B2R2 emits an unsupported instruction."
+      | FalsePositiveDebug ->
+        "Store inferrence history of all parameter and return value slots.
+        The result history is used to analyze FP cases"
       | TrackTime -> "Track and print out the processing time of each step."
 
 let private tryParseAddress (text: string) =
@@ -146,6 +151,7 @@ let private parseArg (args: string array) =
     FunctionSelector = targetFunc
     FunctionApplyMode = functionApplyMode
     UnsupportedInstPolicy = unsupportedInstPolicy
+    FalsePositiveDebug = r.Contains FalsePositiveDebug
     TrackTime = trackTime }
 
 /// Filter only given target function. Only single target function is valid.
@@ -491,6 +497,7 @@ let main argv =
         ModularAnalyzer.analyzeWithTimer
           options.TrackTime
           options.FunctionApplyMode
+          options.FalsePositiveDebug
           program
 
       (* Extract only targeted function *)
@@ -510,6 +517,15 @@ let main argv =
           options.FunctionApplyMode.isApply
         |> Result2Json.AnalysisConfigJson.toJsonString
         |> storeOutput options "analysisConfig.json")
+
+      (* Store inferrence history of parameter  and return slots *)
+      if options.FalsePositiveDebug then
+        timed options.TrackTime "Store type provenance" (fun () ->
+          result
+          |> PointerAnalyzer.TypeProvenanceJson.fromAnalysisResult
+            dfaProgram.Binary.Platform
+          |> PointerAnalyzer.TypeProvenanceJson.toJsonString
+          |> storeOutput options "typeProvenance.json")
 
       (* Dump type constraints collected during entire analysis process *)
       if options.DumpConstraints then

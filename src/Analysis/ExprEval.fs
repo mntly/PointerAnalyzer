@@ -54,10 +54,11 @@ type ExprEvalModule (platform: Platform, config: ExprEvalConfig) =
     | Some typeId -> stateDom.addValue typeId state
     | None -> state
 
-  /// Add Address type constraint to given type Id
-  member private _.markAddress typeId state =
+  /// Add Address type constraint to given type Id and set annotation for debug
+  /// tracking
+  member private _.markAddress annotation typeId state =
     match typeId with
-    | Some typeId -> stateDom.addAddress typeId state
+    | Some typeId -> stateDom.addAddressWithAnnotation annotation typeId state
     | None -> state
 
   member private _.allVariablesLive expr =
@@ -72,7 +73,7 @@ type ExprEvalModule (platform: Platform, config: ExprEvalConfig) =
     valueExpr
     =
     let address, addressTypeId, state = this.Eval state addressExpr
-    let state = this.markAddress addressTypeId state
+    let state = this.markAddress "Store-memory address" addressTypeId state
     let value, valueTypeId, state = this.Eval state valueExpr
 
     let storedTypeId, state =
@@ -117,9 +118,14 @@ type ExprEvalModule (platform: Platform, config: ExprEvalConfig) =
       *)
       let pendingReturn, state = stateDom.consumePendingReturn variable state
 
+      (* Update debug history according to return binding *)
       let state =
         match pendingReturn with
-        | Some returnTypeId -> stateDom.addSame [ typeId; returnTypeId ] state
+        | Some returnTypeId ->
+          stateDom.addSameWithAnnotation
+            "Return Value Binding At Call"
+            [ typeId; returnTypeId ]
+            state
         | None -> state
 
       let value = stateDom.findRegister variable state
@@ -153,7 +159,7 @@ type ExprEvalModule (platform: Platform, config: ExprEvalConfig) =
     | Load (memoryVariable, _, addressExpr) ->
       (* Memory Load generate trivial address, do not need to check liveness *)
       let address, addressTypeId, state = this.Eval state addressExpr
-      let state = this.markAddress addressTypeId state
+      let state = this.markAddress "Load-memory address" addressTypeId state
       stateDom.load memoryVariable.Identifier address state
 
     | Store (sourceMemory, _, addressExpr, valueExpr) ->

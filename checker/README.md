@@ -112,6 +112,18 @@ dotnet run --project Checker.fsproj \
   -on test
 ```
 
+If PointerAnalyzer is executed with `-fpd` option, which stores the type constraint propagation history, the evaluator can print out the type constraint history of FP cases:
+
+```sh
+dotnet run --project Checker.fsproj \
+  -m 3 \
+  -gt output/helloword/test_GT.json \
+  -i ../output/helloword-x86_32-i586-uclibc-O0/inferredTypes.json \
+  -o output/helloword \
+  -on test \
+  -fpd
+```
+
 ## [Return64Detection](./Return64Detection/)
 
 This directory contains the x86-32 detector for functions that return a

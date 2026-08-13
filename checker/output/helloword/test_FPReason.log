@@ -1,0 +1,43 @@
+====== False Positive Reasons ======
+Target: parameter 1 - _uintmaxtostr (0x080582c9)
+Inferred source: argument slot 2 -> Address(t40039)
+Propagation
+Step 1
+TargetIdentity: _uintmaxtostr:V_-12_0, _uintmaxtostr:argument[2]
+TargetType: Address(t40039)
+
+TypeConstraint: Same({t40039, t54799})
+SSA: _do_one_spec (0x08052362+3) Jmp 0x80582c9:I32 (Argument Binding At Call)
+Premises: Step 2
+
+Step 2
+TargetIdentity: _do_one_spec:V_236_5
+TargetType: Address(t54799)
+
+TypeConstraint: Same({t54687, t54799})
+SSA: _do_one_spec (0x0805235f+2) V_236_5 := EDX_20
+Premises: Step 3
+
+Step 3
+TargetIdentity: _do_one_spec:EDX_20
+TargetType: Address(t54687)
+
+TypeConstraint: Same({t54254, t54687})
+SSA: _do_one_spec (0x08052329+1) EDX_20 := V_92_0
+Premises: Step 4
+
+Step 4
+TargetIdentity: _do_one_spec:V_92_0
+TargetType: Address(t54254)
+
+TypeConstraint: Same({t54254, t55631})
+SSA: _do_one_spec (0x0805227f+1) ECX_12 := V_92_0
+Premises: Step 5
+
+Step 5
+TargetIdentity: _do_one_spec:ECX_12
+TargetType: Address(t55631)
+
+SSA: _do_one_spec (0x08052282+1) ECX_13 := MEM_4[ECX_12]:I32 (Address Sink)
+
+

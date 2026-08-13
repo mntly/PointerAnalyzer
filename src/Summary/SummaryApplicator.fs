@@ -22,13 +22,16 @@ type SummaryApplicatorModule (platform: Platform) =
 
   /// Connect the same type relationship between arguments and parameters of
   /// specific callee
-  let connectVariables getCalleeParamTid variables state =
+  let connectVariables annotation getCalleeParamTid variables state =
     let mapSameArgIdx state variable =
       match
         getCalleeParamTid variable, stateDom.tryFindTypeId variable state
       with
       | Some (calleeTypeId: TypeId), Some callerTypeId ->
-        stateDom.addSame [ calleeTypeId; callerTypeId ] state
+        stateDom.addSameWithAnnotation
+          annotation
+          [ calleeTypeId; callerTypeId ]
+          state
       | _, _ -> state
 
     List.fold mapSameArgIdx state variables
@@ -38,7 +41,10 @@ type SummaryApplicatorModule (platform: Platform) =
     let mapSameArgIdx state (argumentIndex, callerTypeId) =
       match getCalleeParamTid argumentIndex with
       | Some (calleeTypeId: TypeId) ->
-        stateDom.addSame [ calleeTypeId; callerTypeId ] state
+        stateDom.addSameWithAnnotation
+          "Argument Binding At Call"
+          [ calleeTypeId; callerTypeId ]
+          state
       | None -> state
 
     List.fold mapSameArgIdx state indexedTypeIds
@@ -97,7 +103,11 @@ type SummaryApplicatorModule (platform: Platform) =
           inferredInputs
           state
       else
-        connectVariables inVarType inputs state
+        connectVariables
+          "Argument Binding At Call"
+          inVarType
+          inputs
+          state
 
     (*
       Connect type between stack var 0 of callee and callee if stack var 0
@@ -107,7 +117,11 @@ type SummaryApplicatorModule (platform: Platform) =
       match platform.TryCallReturnAddressStackSlot context with
       | Some offset when platform.IsStack0Return ->
         match Map.tryFind offset state.CurrentStackSlots with
-        | Some typeId -> stateDom.addAddress typeId state
+        | Some typeId ->
+          stateDom.addAddressWithAnnotation
+            "Return Address Stack Slot"
+            typeId
+            state
         | None -> state
       | _ -> state
 
@@ -127,7 +141,11 @@ type SummaryApplicatorModule (platform: Platform) =
         if List.isEmpty outputs then
           setPendingReturns summary state
         else
-          connectVariables outVarType outputs state
+          connectVariables
+            "Return Value Binding At Call"
+            outVarType
+            outputs
+            state
 
     (* Due to stack prologue, set current SP to None *)
     (* After before call, SP will reset *)

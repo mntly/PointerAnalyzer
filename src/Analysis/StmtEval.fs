@@ -8,6 +8,7 @@ open B2R2.MiddleEnd.ControlFlowGraph
 open PointerAnalyzer.Platform.PlatformTypes
 open PointerAnalyzer.AbsDom.AbsVal
 open PointerAnalyzer.AbsDom.AnalysisState
+open PointerAnalyzer.AbsDom.TypeConstraint
 open PointerAnalyzer.Analysis.ExprEval
 open PointerAnalyzer.Frontend.FunctionDFA
 open PointerAnalyzer.PreAnalysis.PreAnalysisTypes
@@ -64,9 +65,10 @@ type TransferResult =
 
 /// <summary>
 /// Type definition of function to detect whether given variable will be used
-/// as pointer or not.
+/// as pointer or not. This tells the evidence that given variable is used as
+/// pointer if it is used as pointer.
 /// </summary>
-type PointerUse = Variable -> bool
+type PointerUse = Variable -> PointerUseEvidence option
 
 /// <summary>
 /// Type definition of function to extract saturated constant value from B2R2
@@ -99,17 +101,23 @@ type StmtEvalConfig =
     StackPointer: RegisterID option
     InitialStackPointer: Addr option
     ApplyCallSummary: ApplyCallSummary
+    FunctionAddress: Addr
+    FunctionName: string
+    TrackTypeProvenance: bool
     Debug: bool }
 
 module StmtEvalConfig =
   let empty =
-    { PointerUse = fun _ -> false
+    { PointerUse = fun _ -> None
       ConstValue = fun _ -> None
       ClassifyConstant = fun _ -> UnknownConstant
       IsLive = fun _ -> true
       StackPointer = None
       InitialStackPointer = None
       ApplyCallSummary = fun _ _ _ _ _ -> None
+      FunctionAddress = 0UL
+      FunctionName = ""
+      TrackTypeProvenance = false
       Debug = false }
 
   /// Get UInt64 value of given BitVector
@@ -135,7 +143,15 @@ module StmtEvalConfig =
     constValue stackPointerZero |> Option.bind tryUInt64
 
   /// Construct config used for analyzing.
-  let construct handle functionPreResult classifyConst sp applyCallee isDebug =
+  let construct
+    handle
+    functionPreResult
+    classifyConst
+    sp
+    applyCallee
+    trackTypeProvenance
+    isDebug
+    =
     let funDFAResult = functionPreResult.FunctionDFA.DFAResult
     let preAnalysis = functionPreResult.PreAnalysis
 
@@ -150,6 +166,9 @@ module StmtEvalConfig =
       StackPointer = Some sp
       InitialStackPointer = initialStackPointer
       ApplyCallSummary = applyCallee
+      FunctionAddress = functionPreResult.FunctionDFA.Address
+      FunctionName = functionPreResult.FunctionDFA.Name
+      TrackTypeProvenance = trackTypeProvenance
       Debug = isDebug }
 
 /// Main logic of evaluating Statement
@@ -167,16 +186,29 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
   new (platform: Platform) = StmtEvalModule (platform, StmtEvalConfig.empty)
 
   /// If given variable is used as pointer, add Address type constraint of
-  /// given variable
+  /// given variable. The debug annotation is updated by setting its statement
+  /// as the statement that target register is used as address.
   member private _.applyPointerHint variable typeId state =
-    if config.PointerUse variable then
-      (*
-        Since PointerUsage is trivial type, and do not affect others,
-        do need to check liveness
-      *)
-      stateDom.addAddress typeId state
-    else
-      state
+    match config.PointerUse variable with
+    | Some evidence ->
+      let origin =
+        { FunctionName = config.FunctionName
+          Location =
+            sprintf
+              "0x%08x+%d"
+              evidence.ProgramPoint.Address
+              evidence.ProgramPoint.Position
+          Statement = (PrettyPrinter.ToString [| evidence.Statement |]).Trim ()
+          Annotation = "Address Sink" }
+
+      let types =
+        state.Types
+        |> stateDom.TypeState.beginOrigin origin
+        |> stateDom.TypeState.addAddressWithAnnotation origin.Annotation typeId
+        |> stateDom.TypeState.endOrigin (* Invalidate analyzed stmt *)
+
+      { state with Types = types }
+    | None -> state
 
   /// Check given SSA variable's type is Trivial
   member private _.isTrivialVariable variable =
@@ -270,9 +302,14 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
     let pendingReturn, state = stateDom.consumePendingReturn variable state
 
     (* Connect callee and caller return register *)
+    (* Update debug history according to return binding *)
     let state =
       match pendingReturn with
-      | Some calleeTypeId -> stateDom.addSame [ typeId; calleeTypeId ] state
+      | Some calleeTypeId ->
+        stateDom.addSameWithAnnotation
+          "Return Value Binding At Function Abstraction"
+          [ typeId; calleeTypeId ]
+          state
       | None -> state
 
     state
@@ -350,6 +387,24 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
     (stmt: B2R2.BinIR.SSA.Stmt)
     state
     : TransferResult list =
+    (*
+      Set current statement to track type constraint update.
+      The update only processed when the debug mode is enabled.
+    *)
+    let state =
+      if config.TrackTypeProvenance then
+        let origin =
+          { FunctionName = config.FunctionName
+            Location =
+              sprintf "0x%08x+%d" programPoint.Address programPoint.Position
+            Statement = (PrettyPrinter.ToString [| stmt |]).Trim ()
+            Annotation = "" }
+
+        { state with
+            Types = stateDom.TypeState.beginOrigin origin state.Types }
+      else
+        state
+
     if config.Debug then
       printfn "ProgramPoint: %A" programPoint
       printfn "Stmt: %s" (PrettyPrinter.ToString [| stmt |])
@@ -402,9 +457,14 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
         let target, targetTypeId, state = exprEval.Eval state targetExpr
         let targetAddr = absVal.tryGetUInt64 target
 
+        (* Mark indirect jump target as Address with debug history *)
         let state =
           match targetTypeId with
-          | Some typeId -> stateDom.addAddress typeId state
+          | Some typeId ->
+            stateDom.addAddressWithAnnotation
+              "Indirect Jump Target"
+              typeId
+              state
           | None -> state
 
         match context with
@@ -434,12 +494,22 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
           //   | Some typeId -> stateDom.addValue typeId state
           //   | None -> state)
           |> (fun state ->
+            (* Mark true jump target as Address with debug history *)
             match trueTypeId with
-            | Some typeId -> stateDom.addAddress typeId state
+            | Some typeId ->
+              stateDom.addAddressWithAnnotation
+                "Conditional Indirect-Jump True Target"
+                typeId
+                state
             | None -> state)
           |> (fun state ->
             match falseTypeId with
-            | Some typeId -> stateDom.addAddress typeId state
+            | Some typeId ->
+              (* Mark false jump target as Address with debug history *)
+              stateDom.addAddressWithAnnotation
+                "Conditional Indirect-Jump False Target"
+                typeId
+                state
             | None -> state)
 
         [ { Target = InterTarget (trueTarget, Some InterCJmpTrueEdge)
@@ -458,7 +528,12 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
 
         let state =
           match calleeTypeId with
-          | Some typeId -> stateDom.addAddress typeId state
+          | Some typeId ->
+            (* Mark external call target as Address with debug history *)
+            stateDom.addAddressWithAnnotation
+              "External Call Target"
+              typeId
+              state
           | None -> state
 
         let state =
@@ -492,7 +567,13 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
         addedConstraints
         |> Set.iter (stateDom.TypeState.constraintToString >> printfn "    %s")
 
+    (* Unset current statement used for tracking to prevent population *)
     results
+    |> List.map (fun result ->
+      { result with
+          State =
+            { result.State with
+                Types = stateDom.TypeState.endOrigin result.State.Types } })
 
 module StmtEvalDomain =
   let createWithConfig platform config = StmtEvalModule (platform, config)

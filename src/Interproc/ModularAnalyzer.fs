@@ -67,6 +67,8 @@ type ModularAnalysisResult =
     Summaries: Map<Addr, FunctionSummary>
     TypeConstraints: ConstraintSet
     TypeConflicts: Set<TypeId>
+    ConstraintOrigins: Map<TypeConstraint, ConstraintOrigin> option
+    TypeDerivations: Map<TypeFact, TypeDerivation> option
     NextTypeId: TypeId }
 
 module ModularAnalyzer =
@@ -156,6 +158,7 @@ module ModularAnalyzer =
   let analyzeWithTimer
     trackTime
     (functionApplyMode: FunctionApplyMode)
+    trackTypeProvenance
     (program: ProgramPreResult)
     =
     let platform = program.Binary.Platform
@@ -213,6 +216,7 @@ module ModularAnalyzer =
           classifyConstant
           platform.StackPointer
           applyCallSummary
+          trackTypeProvenance
           debug (* Used for tracking new type constraint per stmt *)
 
       (* Transfer stmt to collect type constraints *)
@@ -241,16 +245,18 @@ module ModularAnalyzer =
       timed trackTime "Analyze transfer and summaries" (fun () ->
         List.fold analyzeFunction (Map.empty, Map.empty, 0) visitOrder)
 
-    let typeStateDomain = TypeStateDomain.createDefault ()
+    let typeStateDomain =
+      TypeStateDomain.createWithProvenance 0 trackTypeProvenance
 
-    (* Collect all type constrains from all analysis results *)
+    (* Merge all type constrains from all analysis results *)
     (* Since I can not know the last evaluated, so just union all constraints *)
     let rawTypeState =
       analyses
       |> Map.toSeq
       |> Seq.map (fun (_, analysis) ->
         { analysis.Result.FinalState.Types with
-            Constraints = analysis.Summary.Constraints })
+            Constraints = analysis.Summary.Constraints
+            ConstraintOrigins = analysis.Summary.ConstraintOrigins })
       |> Seq.fold typeStateDomain.join typeStateDomain.bot
 
     let solvedTypeState =
@@ -261,4 +267,6 @@ module ModularAnalyzer =
       Summaries = summaries
       TypeConstraints = solvedTypeState.Constraints
       TypeConflicts = solvedTypeState.Conflicts
+      ConstraintOrigins = solvedTypeState.ConstraintOrigins
+      TypeDerivations = solvedTypeState.Derivations
       NextTypeId = nextTypeId }

@@ -42,7 +42,11 @@ type private RunResult =
 
 type AnalyzerModule
   (platform: Platform, startTypeId: TypeId, config: StmtEvalConfig) =
-  let stateDom = AnalysisStateDomain.create platform startTypeId
+  let stateDom =
+    AnalysisStateDomain.createWithProvenance
+      platform
+      startTypeId
+      config.TrackTypeProvenance
 
   let stmtEval = StmtEvalDomain.createWithConfig platform config
 
@@ -119,8 +123,7 @@ type AnalyzerModule
         successor.VData.Internals.IsAbstract
         && successor.VData.Internals.AbstractContent.EntryPoint = address)
     | InterTarget (value, edgeKind) ->
-      stateDom.AbsVal.tryGetUInt64 value
-      |> Option.bind (tryFindTarget edgeKind)
+      stateDom.AbsVal.tryGetUInt64 value |> Option.bind (tryFindTarget edgeKind)
     | AbstractionReturn ->
       (* Return from callee: Back to caller, not just jump target *)
       (* Sometimes, jump target is out of caller. *)
@@ -228,7 +231,7 @@ type AnalyzerModule
             | CallTarget _ when successor.VData.Internals.IsAbstract ->
               successor.VData.Internals.AbstractContent.ReturningStatus = NoRet
             | _ -> false
-          
+
           (*
             If current block is leaf node, ends up evaluation.
             If not, evaluate to next successed block.
@@ -279,8 +282,7 @@ type AnalyzerModule
           Evaluate given block and get next instruction to evalute and
           AnalysisState used for evaluation
         *)
-        let transfers =
-          this.runBlock inputState block
+        let transfers = this.runBlock inputState block
 
         (* Extract updated TypeState *)
         (* TypeState is managed globally, so it must same among all results *)
@@ -349,16 +351,9 @@ module AnalyzerDomain =
     PointerAnalyzer.Platform.Platform.ofString platform |> create
 
   /// Main-Analysis
-  let analyzeRawWithStart
-    platform
-    startTypeId
-    config
-    cfg
-    retAddresses
-    =
+  let analyzeRawWithStart platform startTypeId config cfg retAddresses =
     let analyzer = createWithStart platform startTypeId config
-    let finalState, leafStates =
-      analyzer.analyze cfg retAddresses
+    let finalState, leafStates = analyzer.analyze cfg retAddresses
 
     { FinalState = finalState
       LeafStates = leafStates
@@ -366,21 +361,16 @@ module AnalyzerDomain =
       TypeConflicts = finalState.Types.Conflicts }
 
   /// Main-Analysis and Constraint Solving process
-  let analyzeWithStart
-    platform
-    startTypeId
-    config
-    cfg
-    retAddresses
-    =
+  let analyzeWithStart platform startTypeId config cfg retAddresses =
+    (* Currently, this function is not used *)
     let result =
-      analyzeRawWithStart
+      analyzeRawWithStart platform startTypeId config cfg retAddresses
+
+    let stateDomain =
+      AnalysisStateDomain.createWithProvenance
         platform
         startTypeId
-        config
-        cfg
-        retAddresses
-    let stateDomain = AnalysisStateDomain.create platform startTypeId
+        config.TrackTypeProvenance
 
     (* Solve type constraints *)
     let solvedState =
