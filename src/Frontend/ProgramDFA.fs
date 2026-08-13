@@ -49,7 +49,7 @@ type ProgramDFAResult =
   { Binary: LoadedBinary
     Functions: Map<Addr, FunctionDFAResult>
     VisitOrder: Addr list
-    B2R2Diagnostics: UnsupportedInstructionDiagnostic list }
+    B2R2Diagnostics: UnsupportedInstInfo list }
 
 module ProgramDFA =
   /// Collect normal return instructions before lifting the CFG to SSA.

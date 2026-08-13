@@ -106,9 +106,8 @@ let private emitOutput options fileName (content: string) =
     printf "%s" content
 
 /// Store B2R2 exception log and exit
-let private handleB2R2Exception options (error: B2R2AnalysisException) =
-  let log = exceptionToText error
-  emitOutput options (options.OutFileName + "_B2R2Error.log") log
+let private handleB2R2Exception options (excep: B2R2AnalysisException) =
+  emitOutput options (options.OutFileName + "_B2R2Error.log") excep.ToString
   eprintf "%s" log
   exit 1
 
@@ -348,7 +347,7 @@ let private runReturn64Detector options =
     emitOutput options "Return64Result" result
   with ex ->
     match ex with
-    | :? B2R2AnalysisException as error -> handleB2R2Exception options error
+    | :? B2R2AnalysisException as excep -> handleB2R2Exception options excep
     | _ ->
       eprintfn "%s" ex.Message
       exit 1
@@ -389,7 +388,7 @@ let private runReturn64Evaluator options =
     emitOutput options logFileName result.Log
   with ex ->
     match ex with
-    | :? B2R2AnalysisException as error -> handleB2R2Exception options error
+    | :? B2R2AnalysisException as excep -> handleB2R2Exception options excep
     | _ ->
       eprintfn "%s" ex.Message
       exit 1

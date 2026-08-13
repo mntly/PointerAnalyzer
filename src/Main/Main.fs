@@ -373,7 +373,7 @@ let main argv =
       timed options.TrackTime "Load binary" (fun () ->
         BinaryLoader.load options.BinaryPath)
     with cause ->
-      let error =
+      let excep =
         B2R2AnalysisException (
           options.BinaryPath,
           BinaryLoading,
@@ -382,9 +382,8 @@ let main argv =
           cause
         )
 
-      let log = exceptionToText error
-      storeOutput options "b2r2Error.log" log
-      eprintf "%s" log
+      storeOutput options "b2r2Error.log" excep.ToString
+      eprintf "%s" excep.ToString
       exit 1
 
   (* Print Binary Info *)
@@ -397,10 +396,9 @@ let main argv =
     try
       timed options.TrackTime "Run B2R2 DFA and lift SSA" (fun () ->
         ProgramDFA.runDFA binary)
-    with :? B2R2AnalysisException as error ->
-      let log = exceptionToText error
-      storeOutput options "b2r2Error.log" log
-      eprintf "%s" log
+    with :? B2R2AnalysisException as excep ->
+      storeOutput options "b2r2Error.log" excep.ToString
+      eprintf "%s" excep.ToString
       exit 1
 
   printfn "Recovered functions: %d" dfaProgram.Functions.Count

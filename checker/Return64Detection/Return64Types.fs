@@ -165,5 +165,5 @@ type DetectionResult =
     Range: AnalysisRange
     Heuristic: DetectionHeuristic
     B2R2Diagnostics:
-      PointerAnalyzer.Frontend.B2R2Diagnostics.UnsupportedInstructionDiagnostic list
+      PointerAnalyzer.Frontend.B2R2Diagnostics.UnsupportedInstInfo list
     Functions: Map<Addr, FunctionDetection> }
