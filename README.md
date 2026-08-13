@@ -15,6 +15,7 @@
   * [Dump recovered funtions](#dump-recovered-funtions)
   * [Dump type constraints](#dump-type-constraints)
   * [Print out the result of specific function](#print-out-the-result-of-specific-function)
+  * [Terminate on B2R2 unsupported instruction](#)
 
 ## Usage
 
@@ -130,4 +131,17 @@ dotnet run --project src/PointerAnalyzer.fsproj \
     -b datas/binaries/helloword-x86_32-i586-uclibc-O0 \
     -o output \
     --function _dl_aux_init
+```
+
+### Terminate on B2R2 unsupported instruction
+
+B2R2 does not handle some instruction, and it may cause the fail of analysis.
+To propagate this failure into exception, and explicitly terminate the
+analyzer, use `-fui` option.
+
+```bash
+dotnet run --project src/PointerAnalyzer.fsproj \
+    -b datas/binaries/libsodium_O1 \
+    -o output \
+    -fui
 ```
