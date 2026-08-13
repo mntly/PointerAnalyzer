@@ -9,6 +9,7 @@ open B2R2
 open B2R2.BinIR
 open B2R2.BinIR.SSA
 open PointerAnalyzer.AbsDom.TypeConstraint
+open PointerAnalyzer.Frontend.B2R2Diagnostics
 open PointerAnalyzer.Frontend.BinaryLoader
 open PointerAnalyzer.Frontend.ProgramDFA
 open PointerAnalyzer.Interproc.ModularAnalyzer
@@ -368,8 +369,23 @@ let main argv =
 
   (* Load Given Binary *)
   let binary =
-    timed options.TrackTime "Load binary" (fun () ->
-      BinaryLoader.load options.BinaryPath)
+    try
+      timed options.TrackTime "Load binary" (fun () ->
+        BinaryLoader.load options.BinaryPath)
+    with cause ->
+      let error =
+        B2R2AnalysisException (
+          options.BinaryPath,
+          BinaryLoading,
+          None,
+          None,
+          cause
+        )
+
+      let log = exceptionToText error
+      storeOutput options "b2r2Error.log" log
+      eprintf "%s" log
+      exit 1
 
   (* Print Binary Info *)
   printfn "Binary: %s" binary.Path
@@ -378,10 +394,28 @@ let main argv =
 
   (* Lift every function to B2R2 SSA and run DFA. *)
   let dfaProgram =
-    timed options.TrackTime "Run B2R2 DFA and lift SSA" (fun () ->
-      ProgramDFA.runDFA binary)
+    try
+      timed options.TrackTime "Run B2R2 DFA and lift SSA" (fun () ->
+        ProgramDFA.runDFA binary)
+    with :? B2R2AnalysisException as error ->
+      let log = exceptionToText error
+      storeOutput options "b2r2Error.log" log
+      eprintf "%s" log
+      exit 1
 
   printfn "Recovered functions: %d" dfaProgram.Functions.Count
+
+  (* Log that B2R2 cause Error due to unsupportted instruction *)
+  if not (List.isEmpty dfaProgram.B2R2Diagnostics) then
+    let log =
+      unsupportedToText
+        binary.Path
+        dfaProgram.B2R2Diagnostics
+
+    storeOutput options "b2r2Warnings.log" log
+    eprintfn
+      "B2R2 reported %d unsupported instruction(s); analysis continues."
+      dfaProgram.B2R2Diagnostics.Length
 
   if options.ListFunctions then
     (* ListFunctions: Only print out the functions in given binary *)

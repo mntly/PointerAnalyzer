@@ -2,6 +2,8 @@ module Checker.Program
 
 open Argu
 open System.IO
+open PointerAnalyzer.Frontend.B2R2Diagnostics
+open PointerAnalyzer.Frontend.ProgramDFA
 
 /// <summary>
 /// Checker mode for evaluating <see cref="PointerAnalyzer" /> or testing
@@ -102,6 +104,13 @@ let private emitOutput options fileName (content: string) =
     storeOutput options fileName content
   else
     printf "%s" content
+
+/// Store B2R2 exception log and exit
+let private handleB2R2Exception options (error: B2R2AnalysisException) =
+  let log = exceptionToText error
+  emitOutput options (options.OutFileName + "_B2R2Error.log") log
+  eprintf "%s" log
+  exit 1
 
 /// Parse given arguments and construct ManiOptions
 let private parseArg (args: string array) =
@@ -338,8 +347,11 @@ let private runReturn64Detector options =
 
     emitOutput options "Return64Result" result
   with ex ->
-    eprintfn "%s" ex.Message
-    exit 1
+    match ex with
+    | :? B2R2AnalysisException as error -> handleB2R2Exception options error
+    | _ ->
+      eprintfn "%s" ex.Message
+      exit 1
 
 /// Execute and evaluate x86-32 EDX:EAX 64 bit return detector.
 let private runReturn64Evaluator options =
@@ -376,8 +388,11 @@ let private runReturn64Evaluator options =
     printfn ""
     emitOutput options logFileName result.Log
   with ex ->
-    eprintfn "%s" ex.Message
-    exit 1
+    match ex with
+    | :? B2R2AnalysisException as error -> handleB2R2Exception options error
+    | _ ->
+      eprintfn "%s" ex.Message
+      exit 1
 
 [<EntryPoint>]
 let main argv =

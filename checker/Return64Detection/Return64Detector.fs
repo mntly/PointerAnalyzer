@@ -1,6 +1,7 @@
 module Checker.Return64Detection.Return64Detector
 
 open PointerAnalyzer.Frontend.BinaryLoader
+open PointerAnalyzer.Frontend.B2R2Diagnostics
 open PointerAnalyzer.Frontend.ProgramDFA
 open PointerAnalyzer.Platform.PlatformTypes
 open Checker.Return64Detection.Return64Types
@@ -16,7 +17,19 @@ type DetectOptions =
 /// Execute Return64Detector with given options
 let run options =
   (* Prepare binary to use B2R2 *)
-  let binary = BinaryLoader.load options.BinaryPath
+  let binary =
+    try
+      BinaryLoader.load options.BinaryPath
+    with cause ->
+      raise (
+        B2R2AnalysisException (
+          options.BinaryPath,
+          BinaryLoading,
+          None,
+          None,
+          cause
+        )
+      )
 
   (* Current, Return64Detector only analyzes ELF x86-32 binaries *)
   if binary.Platform.Kind <> ElfX86_32 then
@@ -40,8 +53,10 @@ let run options =
     information. Binary information will be used to convert RawGT into
     ABI-specific GT.
   *)
-  { Platform = binary.Platform.Name
+  { BinaryPath = binary.Path
+    Platform = binary.Platform.Name
     WordSize = binary.Platform.WordSize
     Range = options.Range
     Heuristic = options.Heuristic
+    B2R2Diagnostics = program.B2R2Diagnostics
     Functions = functions }

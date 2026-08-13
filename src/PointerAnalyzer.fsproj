@@ -32,6 +32,7 @@
     <Compile Include="Summary/SummaryApplicator.fs" />
 
     <Compile Include="Frontend/BinaryLoader.fs" />
+    <Compile Include="Frontend/B2R2Diagnostics.fs" />
     <Compile Include="Frontend/FunctionDFA.fs" />
     <Compile Include="Frontend/ProgramDFA.fs" />
 

@@ -1,10 +1,14 @@
 module PointerAnalyzer.Frontend.ProgramDFA
 
 open B2R2
+open B2R2.BinIR
+open B2R2.BinIR.SSA
+open B2R2.FrontEnd
 open B2R2.MiddleEnd
 open B2R2.MiddleEnd.ControlFlowAnalysis
 open B2R2.MiddleEnd.ControlFlowGraph
 open B2R2.MiddleEnd.SSA
+open PointerAnalyzer.Frontend.B2R2Diagnostics
 open PointerAnalyzer.Frontend.BinaryLoader
 open PointerAnalyzer.Frontend.FunctionDFA
 
@@ -39,11 +43,13 @@ type FunctionDFAResult =
 /// <see cref="PointerAnalyzer.Frontend.BinaryLoader.LoadedBinary">.
 /// <c>Functions</c> is per-function DFA result.
 /// <c>VisitOrder</c> sorts functions from callee to caller.
+/// <c>B2R2Diagnostics</c> propagate the unsupported instruction by B2R2.
 /// </remarks>
 type ProgramDFAResult =
   { Binary: LoadedBinary
     Functions: Map<Addr, FunctionDFAResult>
-    VisitOrder: Addr list }
+    VisitOrder: Addr list
+    B2R2Diagnostics: UnsupportedInstructionDiagnostic list }
 
 module ProgramDFA =
   /// Collect normal return instructions before lifting the CFG to SSA.
@@ -119,30 +125,101 @@ module ProgramDFA =
 
   /// For each functions in binary, process DFA and integrate them
   let runDFA binary =
-    let brew = BinaryBrew binary.Handle
+    (* Raise with B2R2AnalysisException *)
+    let raiseWithContext stage function_ cause =
+      (* Extract the source of exception *)
+      let address, name =
+        match function_ with
+        | Some (func: Function) -> Some func.EntryPoint, Some func.Name
+        | None -> None, None
+
+      raise (
+        B2R2AnalysisException (
+          binary.Path,
+          stage,
+          address,
+          name,
+          cause
+        )
+      )
+
+    let brew =
+      try
+        BinaryBrew binary.Handle
+      with cause ->
+        raiseWithContext CFGRecovery None cause
+
     let lifter = SSALifterFactory.Create binary.Handle
 
+    (* Used for represent the assembly of unsurpported instruction *)
+    let instructionLifter = binary.Handle.NewLiftingUnit ()
+    let instructionText (address: Addr) =
+      match instructionLifter.TryParseInstruction address with
+      | Ok instruction ->
+        try
+          instruction.Disasm ()
+        with _ ->
+          sprintf "<disassembly unavailable at 0x%08x>" address
+      | Error error -> sprintf "<instruction unavailable: %A>" error
+
+    (* Extract B2R2 unsupported instruction *)
+    let unsupportedInstructions (func: Function) (cfg: SSACFG) =
+      cfg.Vertices
+      |> Seq.collect (fun vertex -> vertex.VData.Internals.Statements)
+      |> Seq.choose (fun (programPoint, statement) ->
+        match statement with
+        | SideEffect UnsupportedInstruction when programPoint <> ProgramPoint.Fake ->
+          Some
+            { FunctionAddress = func.EntryPoint
+              FunctionName = func.Name
+              ProgramPoint = programPoint
+              Instruction = instructionText programPoint.Address }
+        | _ -> None)
+      |> Seq.distinctBy (fun diagnostic ->
+        diagnostic.FunctionAddress, diagnostic.ProgramPoint.Address)
+      |> Seq.toList
+
     (* Run DFA on single function, construct FunctionDFAResult *)
+    (* This also extract unsupported instruction by B2R2 *)
     let constrFunDFA (func: Function) =
-      let cfg = lifter.Lift func.CFG
-      let dfaResult = FunctionDFA.create binary.Handle cfg
+      let cfg =
+        try
+          lifter.Lift func.CFG
+        with cause ->
+          raiseWithContext SSALifting (Some func) cause
 
-      func.EntryPoint,
-      { Address = func.EntryPoint
-        Name = func.Name
-        CFG = cfg
-        RetAddresses = extractRetAddr func
-        DFAResult = dfaResult
-        Callees = callees func }
+      let dfaResult =
+        try
+          FunctionDFA.create binary.Handle cfg
+        with cause ->
+          raiseWithContext DataFlowAnalysis (Some func) cause
 
-    let functionMap =
+      (func.EntryPoint,
+       { Address = func.EntryPoint
+         Name = func.Name
+         CFG = cfg
+         RetAddresses = extractRetAddr func
+         DFAResult = dfaResult
+         Callees = callees func }),
+      unsupportedInstructions func cfg
+
+    let functionResults =
       brew.Functions.Sequence
       |> Seq.filter (fun function_ -> not function_.IsExternal)
       |> Seq.map constrFunDFA
-      |> Map.ofSeq
+      |> Seq.toList
+
+    let functionMap = functionResults |> List.map fst |> Map.ofList
+
+    let diagnostics =
+      functionResults
+      |> List.collect snd
+      |> List.sortBy (fun diagnostic ->
+        diagnostic.FunctionAddress, diagnostic.ProgramPoint.Address)
 
     let visitOrder = revDFS functionMap
 
     { Binary = binary
       Functions = functionMap
-      VisitOrder = visitOrder }
+      VisitOrder = visitOrder
+      B2R2Diagnostics = diagnostics }

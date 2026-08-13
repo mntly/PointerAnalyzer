@@ -19,13 +19,14 @@ let private statusName =
   | Unknown -> "Unknown"
   | UnknownCallEvidence -> "UnknownCallEvidence"
 
-let toText result =
+let toText (result: DetectionResult) =
   let statusLines status =
     result.Functions
     |> Map.toSeq
     |> Seq.map snd
-    |> Seq.filter (fun function_ -> function_.Status = status)
-    |> Seq.map (fun function_ ->
+    |> Seq.filter (fun (function_: FunctionDetection) ->
+      function_.Status = status)
+    |> Seq.map (fun (function_: FunctionDetection) ->
       sprintf "  0x%08x %s" function_.Address function_.Name)
     |> Seq.toList
 
@@ -38,21 +39,31 @@ let toText result =
   let unknownCount = statusLines Unknown |> List.length
   let unknownCall = statusLines UnknownCallEvidence |> List.length
 
-  [ sprintf "Range: %s" (rangeName result.Range)
-    sprintf "Heuristic: %s" (heuristicName result.Heuristic)
-    sprintf
-      "Counts: Total=%d Return64=%d NotReturn64=%d Unknown=%d UnknownCall=%d"
-      (return64Count + notReturn64Count + unknownCount + unknownCall)
-      return64Count
-      notReturn64Count
-      unknownCount
-      unknownCall
-    ""
-    yield! section "Return64 Functions" Return64
-    ""
-    yield! section "Unknown Functions" Unknown
-    ""
-    yield!
-      section "Unknown Functions with No Callee Evidence" UnknownCallEvidence ]
-  |> String.concat "\n"
-  |> fun text -> text + "\n"
+  let detectionText =
+    [ sprintf "Range: %s" (rangeName result.Range)
+      sprintf "Heuristic: %s" (heuristicName result.Heuristic)
+      sprintf
+        "Counts: Total=%d Return64=%d NotReturn64=%d Unknown=%d UnknownCall=%d"
+        (return64Count + notReturn64Count + unknownCount + unknownCall)
+        return64Count
+        notReturn64Count
+        unknownCount
+        unknownCall
+      ""
+      yield! section "Return64 Functions" Return64
+      ""
+      yield! section "Unknown Functions" Unknown
+      ""
+      yield!
+        section "Unknown Functions with No Callee Evidence" UnknownCallEvidence ]
+    |> String.concat "\n"
+    |> fun text -> text + "\n"
+
+  if List.isEmpty result.B2R2Diagnostics then
+    detectionText
+  else
+    detectionText
+    + "\n"
+    + PointerAnalyzer.Frontend.B2R2Diagnostics.unsupportedToText
+        result.BinaryPath
+        result.B2R2Diagnostics

@@ -159,8 +159,11 @@ type FunctionDetection =
 /// Represent the result of Return64Detector.
 /// </summary>
 type DetectionResult =
-  { Platform: string
+  { BinaryPath: string
+    Platform: string
     WordSize: int
     Range: AnalysisRange
     Heuristic: DetectionHeuristic
+    B2R2Diagnostics:
+      PointerAnalyzer.Frontend.B2R2Diagnostics.UnsupportedInstructionDiagnostic list
     Functions: Map<Addr, FunctionDetection> }
