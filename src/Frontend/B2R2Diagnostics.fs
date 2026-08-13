@@ -67,7 +67,15 @@ type UnsupportedInstInfo =
     ProgramPoint: ProgramPoint
     Instruction: string }
 
-let unsupportedToText binaryPath diagnostics =
+/// <summary>
+/// Determines whether analysis continues after B2R2 emits an unsupported
+/// instruction in SSA.
+/// </summary>
+type UnsupportedInstPolicy =
+  | NormalProcess
+  | RaiseException
+
+let private unsupportedToTextWithAction binaryPath action diagnostics =
   let diagnosticLines diagnostic =
     [ sprintf
         "Function: 0x%08x %s"
@@ -79,7 +87,7 @@ let unsupportedToText binaryPath diagnostics =
         diagnostic.ProgramPoint.Position
       sprintf "Instruction: %s" diagnostic.Instruction
       "B2R2 SSA: SideEffect UnsupportedInstruction"
-      "Action: Analysis continued"
+      sprintf "Action: %s" action
       "" ]
 
   [ [ "====== B2R2 Unsupported Instructions ======"
@@ -90,3 +98,29 @@ let unsupportedToText binaryPath diagnostics =
   |> List.concat
   |> String.concat "\n"
   |> fun text -> text + "\n"
+
+let unsupportedToText binaryPath diagnostics =
+  unsupportedToTextWithAction binaryPath "Analysis continued" diagnostics
+
+let unsupportedFailureToText binaryPath diagnostics =
+  unsupportedToTextWithAction binaryPath "Analysis terminated" diagnostics
+
+/// <summary>
+/// Raised when unsupported instructions are found under `RaiseException`
+/// policy.
+/// </summary>
+type UnsupportedInstException
+  (
+    binaryPath: string,
+    diagnostics: UnsupportedInstInfo list
+  ) =
+  inherit Exception (
+    sprintf
+      "B2R2 emitted %d unsupported instruction(s) while analyzing %s."
+      diagnostics.Length
+      binaryPath
+  )
+
+  member _.BinaryPath = binaryPath
+  member _.Diagnostics = diagnostics
+  member _.ToString = unsupportedFailureToText binaryPath diagnostics

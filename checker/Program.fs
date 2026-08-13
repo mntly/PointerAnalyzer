@@ -46,7 +46,8 @@ type MainOptions =
     IsStore: bool
     Return64Range: Checker.Return64Detection.Return64Types.AnalysisRange
     Return64Heuristic:
-      Checker.Return64Detection.Return64Types.DetectionHeuristic }
+      Checker.Return64Detection.Return64Types.DetectionHeuristic
+    UnsupportedInstPolicy: UnsupportedInstPolicy }
 
 type CLIArg =
   | [<AltCommandLine("-m")>] Mode of int
@@ -58,6 +59,7 @@ type CLIArg =
   | [<AltCommandLine("-on")>] OutputName of string
   | [<AltCommandLine("-rr")>] ReturnRange of int
   | [<AltCommandLine("-rh")>] ReturnHeuristic of int
+  | [<AltCommandLine("-fui")>] FailUnsupportedInstruction
 
   interface IArgParserTemplate with
     member this.Usage =
@@ -87,6 +89,8 @@ type CLIArg =
         "Return64 range: 0 = leaf and direct predecessors; 1 = entire function."
       | ReturnHeuristic _ ->
         "Return64 heuristic: 0 = basic; 1 = basic with caller checker."
+      | FailUnsupportedInstruction ->
+        "Terminate analysis if B2R2 emits an unsupported instruction."
 
 /// Store given content to file with given file name
 let private storeOutput options fileName (content: string) =
@@ -108,7 +112,13 @@ let private emitOutput options fileName (content: string) =
 /// Store B2R2 exception log and exit
 let private handleB2R2Exception options (excep: B2R2AnalysisException) =
   emitOutput options (options.OutFileName + "_B2R2Error.log") excep.ToString
-  eprintf "%s" log
+  eprintf "%s" excep.ToString
+  exit 1
+
+/// Store unsupported-instruction log and exit
+let private handleUnsupportedInst options (excep: UnsupportedInstException) =
+  emitOutput options (options.OutFileName + "_B2R2Error.log") excep.ToString
+  eprintf "%s" excep.ToString
   exit 1
 
 /// Parse given arguments and construct ManiOptions
@@ -189,6 +199,12 @@ let private parseArg (args: string array) =
   (* Extract the path of output directory. Default as `output` *)
   let outDir = if isStore then r.GetResult <@ Output @> else "output"
 
+  let unsupportedInstPolicy =
+    if r.Contains FailUnsupportedInstruction then
+      RaiseException
+    else
+      NormalProcess
+
   (* Extract the type of AnalysisRange for Return64Detector *)
   let return64Range =
     match r.GetResult (<@ ReturnRange @>, defaultValue = 0) with
@@ -216,7 +232,8 @@ let private parseArg (args: string array) =
     OutputDirPath = outDir
     IsStore = isStore
     Return64Range = return64Range
-    Return64Heuristic = return64Heuristic }
+    Return64Heuristic = return64Heuristic
+    UnsupportedInstPolicy = unsupportedInstPolicy }
 
 /// If binary path are not given, halt
 let private requireBinary options =
@@ -337,7 +354,8 @@ let private runReturn64Detector options =
   let detectOptions: Return64Detection.Return64Detector.DetectOptions =
     { BinaryPath = requireBinary options
       Range = options.Return64Range
-      Heuristic = options.Return64Heuristic }
+      Heuristic = options.Return64Heuristic
+      UnsupportedInstPolicy = options.UnsupportedInstPolicy }
 
   try
     let result =
@@ -347,6 +365,8 @@ let private runReturn64Detector options =
     emitOutput options "Return64Result" result
   with ex ->
     match ex with
+    | :? UnsupportedInstException as excep ->
+      handleUnsupportedInst options excep
     | :? B2R2AnalysisException as excep -> handleB2R2Exception options excep
     | _ ->
       eprintfn "%s" ex.Message
@@ -358,7 +378,8 @@ let private runReturn64Evaluator options =
     { BinaryPath = requireBinary options
       GroundTruthPath = requireGroundTruth options
       Range = options.Return64Range
-      Heuristic = options.Return64Heuristic }
+      Heuristic = options.Return64Heuristic
+      UnsupportedInstPolicy = options.UnsupportedInstPolicy }
 
   try
     let result = Return64Detection.Evaluator.Evaluator.run evalOptions
@@ -388,6 +409,8 @@ let private runReturn64Evaluator options =
     emitOutput options logFileName result.Log
   with ex ->
     match ex with
+    | :? UnsupportedInstException as excep ->
+      handleUnsupportedInst options excep
     | :? B2R2AnalysisException as excep -> handleB2R2Exception options excep
     | _ ->
       eprintfn "%s" ex.Message

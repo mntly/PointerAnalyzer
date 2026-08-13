@@ -2,12 +2,14 @@ module Checker.Return64Detection.Evaluator.Evaluator
 
 open Checker.Return64Detection
 open Checker.Return64Detection.Return64Types
+open PointerAnalyzer.Frontend.B2R2Diagnostics
 
 type EvalOptions =
   { BinaryPath: string
     GroundTruthPath: string
     Range: AnalysisRange
-    Heuristic: DetectionHeuristic }
+    Heuristic: DetectionHeuristic
+    UnsupportedInstPolicy: UnsupportedInstPolicy }
 
 type EvalOutput =
   { Detector: string
@@ -29,7 +31,8 @@ let run options =
   let detectOptions: Return64Detector.DetectOptions =
     { BinaryPath = options.BinaryPath
       Range = options.Range
-      Heuristic = options.Heuristic }
+      Heuristic = options.Heuristic
+      UnsupportedInstPolicy = options.UnsupportedInstPolicy }
 
   (* Execute Return64Detector *)
   let detection = Return64Detector.run detectOptions

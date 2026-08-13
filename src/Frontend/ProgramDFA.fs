@@ -124,7 +124,7 @@ module ProgramDFA =
     |> List.rev
 
   /// For each functions in binary, process DFA and integrate them
-  let runDFA binary =
+  let runDFA unsupportedPolicy binary =
     (* Raise with B2R2AnalysisException *)
     let raiseWithContext stage function_ cause =
       (* Extract the source of exception *)
@@ -216,6 +216,15 @@ module ProgramDFA =
       |> List.collect snd
       |> List.sortBy (fun diagnostic ->
         diagnostic.FunctionAddress, diagnostic.ProgramPoint.Address)
+
+    match unsupportedPolicy, diagnostics with
+    | RaiseException, _ :: _ ->
+      (*
+        If unsupported instruction exist and policy terminates when unsupported
+        instruction found, raise exception
+      *)
+      raise (UnsupportedInstException (binary.Path, diagnostics))
+    | _ -> ()
 
     let visitOrder = revDFS functionMap
 

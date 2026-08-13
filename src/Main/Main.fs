@@ -33,6 +33,7 @@ type MainOptions =
     ListFunctions: bool
     FunctionSelector: FunctionSelector option
     FunctionApplyMode: FunctionApplyMode
+    UnsupportedInstPolicy: UnsupportedInstPolicy
     TrackTime: bool }
 
 type CLIArg =
@@ -44,6 +45,7 @@ type CLIArg =
   | [<AltCommandLine("-s")>] Store of int
   | [<AltCommandLine("-t")>] TrackTime
   | [<AltCommandLine("-fa")>] FunctionApply of int
+  | [<AltCommandLine("-fui")>] FailUnsupportedInstruction
   | Function of string
 
   interface IArgParserTemplate with
@@ -66,6 +68,8 @@ type CLIArg =
       | FunctionApply _ ->
         "Apply callee function summaries: 1 = enabled, 0 = disabled.
         Default is 1."
+      | FailUnsupportedInstruction ->
+        "Terminate analysis if B2R2 emits an unsupported instruction."
       | TrackTime -> "Track and print out the processing time of each step."
 
 let private tryParseAddress (text: string) =
@@ -111,6 +115,12 @@ let private parseArg (args: string array) =
   let listFunctions = r.Contains ListFunctions
   let trackTime = r.Contains TrackTime
 
+  let unsupportedInstPolicy =
+    if r.Contains FailUnsupportedInstruction then
+      RaiseException
+    else
+      NormalProcess
+
   let functionApplyMode =
     match r.GetResult (<@ FunctionApply @>, defaultValue = 1) with
     | 0 -> IgnoreFunctionSummary
@@ -135,6 +145,7 @@ let private parseArg (args: string array) =
     ListFunctions = listFunctions
     FunctionSelector = targetFunc
     FunctionApplyMode = functionApplyMode
+    UnsupportedInstPolicy = unsupportedInstPolicy
     TrackTime = trackTime }
 
 /// Filter only given target function. Only single target function is valid.
@@ -395,8 +406,13 @@ let main argv =
   let dfaProgram =
     try
       timed options.TrackTime "Run B2R2 DFA and lift SSA" (fun () ->
-        ProgramDFA.runDFA binary)
-    with :? B2R2AnalysisException as excep ->
+        ProgramDFA.runDFA options.UnsupportedInstPolicy binary)
+    with
+    | :? UnsupportedInstException as excep ->
+      storeOutput options "b2r2Error.log" excep.ToString
+      eprintf "%s" excep.ToString
+      exit 1
+    | :? B2R2AnalysisException as excep ->
       storeOutput options "b2r2Error.log" excep.ToString
       eprintf "%s" excep.ToString
       exit 1

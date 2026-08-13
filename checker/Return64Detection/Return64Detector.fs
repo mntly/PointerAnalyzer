@@ -12,7 +12,8 @@ open Checker.Return64Detection.Return64Types
 type DetectOptions =
   { BinaryPath: string
     Range: AnalysisRange
-    Heuristic: DetectionHeuristic }
+    Heuristic: DetectionHeuristic
+    UnsupportedInstPolicy: UnsupportedInstPolicy }
 
 /// Execute Return64Detector with given options
 let run options =
@@ -38,7 +39,8 @@ let run options =
       "Return64Detector supports only ELF x86-32 binaries."
 
   (* B2R2 DFA. Use DS of PointerAnalyzer *)
-  let program = ProgramDFA.runDFA binary
+  let program =
+    ProgramDFA.runDFA options.UnsupportedInstPolicy binary
   (* Both heurisitc analyzes with basic heuristics first *)
   let basic = BasicDetector.run options.Range program
 
