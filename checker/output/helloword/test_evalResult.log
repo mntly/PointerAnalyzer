@@ -5,9 +5,7 @@
 0x08049020 _start
 
 ===== Large Return Functions =====
-0x080581c7 _load_inttype
-0x0805969f __lseek64_nocancel
-0x0805972c __GI_lseek64
+<none>
 
 ===== MissedDetect Functions =====
 <none>

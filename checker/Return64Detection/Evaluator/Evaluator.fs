@@ -41,7 +41,8 @@ let run options =
   (* This configuration is used to convert RawGT into ABI-specific GT *)
   let config: EvaluateAnalyzer.Evaluator.Types.AnalysisConfig =
     { Platform = detection.Platform
-      WordSize = detection.WordSize }
+      WordSize = detection.WordSize
+      ReturnSlotRegisters = [ "EAX"; "EDX" ] }
 
   (* Parse source-level GT and convert it to the target ABI representation. *)
   let rawGroundTruth =

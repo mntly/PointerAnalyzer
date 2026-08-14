@@ -60,14 +60,17 @@ let run options =
   (* Parse RawGroundTruth Json file *)
   let rawGT = ParseJSON.loadGroundTruth options.GroundTruthJsonPath
 
-  (* Parse Inferred Result Jsin file *)
-  let inferred = ParseJSON.loadInferred options.InferredJsonPath
-
   (* Extract ABI information to construct low-level GT function signature *)
   let config =
     options.InferredJsonPath
     |> analysisConfigPath
     |> ParseJSON.loadAnalysisConfig
+
+  (* Parse inferred registers in the ABI return-slot order. *)
+  let inferred =
+    ParseJSON.loadInferred
+      config.ReturnSlotRegisters
+      options.InferredJsonPath
 
   (* Convert RawGT into ABI-specific low-level GT *)
   let gt = GroundTruthConverter.GroundTruthConverter.convert config rawGT
@@ -88,7 +91,7 @@ let run options =
     if options.FalsePositiveDebug then
       options.InferredJsonPath
       |> provenancePath
-      |> ParseJSON.loadProvenance
+      |> ParseJSON.loadProvenance config.ReturnSlotRegisters
       |> fun provenance -> FalsePositiveDebug.toText provenance elements
       |> Some
     else

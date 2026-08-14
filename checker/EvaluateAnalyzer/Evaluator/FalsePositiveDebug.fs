@@ -31,7 +31,7 @@ let private sourceString =
 let private trySourceTypeId function_ =
   function
   | ArgumentSource index -> Map.tryFind index function_.Arguments
-  | ReturnSource index -> List.tryItem index function_.Return
+  | ReturnSource index -> Map.tryFind index function_.Return
 
 /// Build a flat, numbered dependency graph. Each fact is stored once even
 /// when several later steps refer to it.

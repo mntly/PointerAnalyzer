@@ -70,6 +70,7 @@ type Platform =
     StackPointer: RegisterID
     ArgumentRegisters: RegisterID list
     ReturnRegisters: RegisterID list
+    ReturnSlotRegisters: RegisterID list
     CallerSavedRegisters: Set<RegisterID>
     CalleeSavedRegisters: Set<RegisterID>
     RegisterName: RegisterID -> string

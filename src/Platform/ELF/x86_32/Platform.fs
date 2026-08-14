@@ -27,6 +27,9 @@ let private argumentRegisters = []
 
 let private returnRegisters = [ eax ]
 
+/// Ordered machine-word registers that may form an integer return value.
+let private returnSlotRegisters = [ eax; edx ]
+
 let private callerSavedRegisters = Set.ofList [ eax; ecx; edx ]
 
 let private calleeSavedRegisters = Set.ofList [ ebx; ebp; esi; edi ]
@@ -151,6 +154,7 @@ let create () =
     StackPointer = stackPointer
     ArgumentRegisters = argumentRegisters
     ReturnRegisters = returnRegisters
+    ReturnSlotRegisters = returnSlotRegisters
     CallerSavedRegisters = callerSavedRegisters
     CalleeSavedRegisters = calleeSavedRegisters
     RegisterName = registerName

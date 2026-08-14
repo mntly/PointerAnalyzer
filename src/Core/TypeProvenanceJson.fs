@@ -71,7 +71,7 @@ let fromAnalysisResult (platform: Platform) (result: ModularAnalysisResult) =
         analysis.Summary.RegisterOutputs
         |> Map.toSeq
         |> Seq.filter (fun (registerId, _) ->
-          List.contains registerId platform.ReturnRegisters)
+          List.contains registerId platform.ReturnSlotRegisters)
         |> Seq.map (fun (registerId, typeId) ->
           platform.RegisterName registerId, typeId)
         |> Map.ofSeq
@@ -177,7 +177,7 @@ let fromAnalysisResult (platform: Platform) (result: ModularAnalysisResult) =
           (fun names registerId typeId ->
             if Set.contains typeId relevantTypeIds then
               let outputKind =
-                if List.contains registerId platform.ReturnRegisters then
+                if List.contains registerId platform.ReturnSlotRegisters then
                   "return"
                 else
                   "output"

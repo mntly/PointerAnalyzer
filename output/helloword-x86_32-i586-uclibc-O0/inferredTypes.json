@@ -6,7 +6,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -17,7 +18,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -28,7 +30,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -39,7 +42,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -50,7 +54,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -61,7 +66,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -72,7 +78,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -83,7 +90,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -96,7 +104,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -107,7 +116,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -120,7 +130,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -131,7 +142,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -142,7 +154,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -153,7 +166,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Address"
     },
     "DetailType": {}
   },
@@ -164,7 +178,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -177,7 +192,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -191,7 +207,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -205,7 +222,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -221,7 +239,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -232,7 +251,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -245,7 +265,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -258,7 +279,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -272,7 +294,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -283,7 +306,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -294,7 +318,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -309,7 +334,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -323,7 +349,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -337,7 +364,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -348,7 +376,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -359,7 +388,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -370,7 +400,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Address"
     },
     "DetailType": {}
   },
@@ -389,7 +420,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -400,7 +432,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -411,7 +444,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -425,7 +459,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -439,7 +474,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -450,7 +486,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -461,7 +498,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -472,7 +510,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -485,7 +524,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -496,7 +536,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -507,7 +548,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -522,7 +564,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -535,7 +578,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -546,7 +590,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Address"
     },
     "DetailType": {}
   },
@@ -559,7 +604,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -570,7 +616,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Address"
     },
     "DetailType": {}
   },
@@ -584,7 +631,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -601,7 +649,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -618,7 +667,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -632,7 +682,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -647,7 +698,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Address"
     },
     "DetailType": {}
   },
@@ -663,7 +715,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Address"
     },
     "DetailType": {}
   },
@@ -676,7 +729,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -692,7 +746,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -708,7 +763,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -725,7 +781,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -738,7 +795,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -755,7 +813,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -771,7 +830,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -788,7 +848,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -803,7 +864,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Address"
     },
     "DetailType": {}
   },
@@ -818,7 +880,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -834,7 +897,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -850,7 +914,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -864,7 +929,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Address"
     },
     "DetailType": {}
   },
@@ -879,7 +945,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -893,7 +960,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -908,7 +976,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -922,7 +991,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -936,7 +1006,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -949,7 +1020,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -960,7 +1032,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -974,7 +1047,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -988,7 +1062,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1001,7 +1076,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1014,7 +1090,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Address"
     },
     "DetailType": {}
   },
@@ -1028,7 +1105,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Address"
     },
     "DetailType": {}
   },
@@ -1043,7 +1121,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1057,7 +1136,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1068,7 +1148,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1079,7 +1160,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1090,7 +1172,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1103,7 +1186,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Address"
     },
     "DetailType": {}
   },
@@ -1122,7 +1206,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1135,7 +1220,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1148,7 +1234,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1161,7 +1248,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1172,7 +1260,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1183,7 +1272,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1194,7 +1284,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1207,7 +1298,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1218,7 +1310,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1232,7 +1325,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1247,7 +1341,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1261,7 +1356,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1275,7 +1371,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1288,7 +1385,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1303,7 +1401,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1317,7 +1416,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1331,7 +1431,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1346,7 +1447,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1361,7 +1463,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1376,7 +1479,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1391,7 +1495,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1404,7 +1509,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Address"
     },
     "DetailType": {}
   },
@@ -1420,7 +1526,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1435,7 +1542,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1450,7 +1558,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1465,7 +1574,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1479,7 +1589,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1493,7 +1604,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1506,7 +1618,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1519,7 +1632,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Address"
     },
     "DetailType": {}
   },
@@ -1533,7 +1647,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1546,7 +1661,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1557,7 +1673,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1570,7 +1687,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1585,7 +1703,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1600,7 +1719,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1614,7 +1734,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1628,7 +1749,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1642,7 +1764,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1656,7 +1779,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1670,7 +1794,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1684,7 +1809,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1695,7 +1821,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1710,7 +1837,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1725,7 +1853,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1740,7 +1869,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1755,7 +1885,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Address"
     },
     "DetailType": {}
   },
@@ -1770,7 +1901,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1785,7 +1917,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1798,7 +1931,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1813,7 +1947,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Address"
     },
     "DetailType": {}
   },
@@ -1827,7 +1962,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1840,7 +1976,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1853,7 +1990,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1866,7 +2004,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1879,7 +2018,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1893,7 +2033,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1906,7 +2047,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1919,7 +2061,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1930,7 +2073,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1943,7 +2087,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1956,7 +2101,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1969,7 +2115,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Address"
     },
     "DetailType": {}
   },
@@ -1982,7 +2129,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -1995,7 +2143,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2008,7 +2157,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2019,7 +2169,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2030,7 +2181,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2043,7 +2195,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2054,7 +2207,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2065,7 +2219,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2076,7 +2231,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2087,7 +2243,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2098,7 +2255,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2109,7 +2267,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2120,7 +2279,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2131,7 +2291,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2144,7 +2305,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2158,7 +2320,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2172,7 +2335,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2185,7 +2349,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2200,7 +2365,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2211,7 +2377,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2224,7 +2391,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2235,7 +2403,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2249,7 +2418,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2264,7 +2434,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2280,7 +2451,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2295,7 +2467,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2310,7 +2483,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2325,7 +2499,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2339,7 +2514,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2354,7 +2530,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2370,7 +2547,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2384,7 +2562,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2399,7 +2578,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2414,7 +2594,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2430,7 +2611,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2447,7 +2629,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2465,7 +2648,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2480,7 +2664,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2495,7 +2680,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2509,7 +2695,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Address"
+      "EAX": "Address",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2520,7 +2707,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2536,7 +2724,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2552,7 +2741,8 @@
       }
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2563,7 +2753,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   },
@@ -2574,7 +2765,8 @@
       "Args": {}
     },
     "ReturnReg": {
-      "EAX": "Unknown"
+      "EAX": "Unknown",
+      "EDX": "Unknown"
     },
     "DetailType": {}
   }

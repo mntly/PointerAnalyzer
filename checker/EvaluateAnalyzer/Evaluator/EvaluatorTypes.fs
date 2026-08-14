@@ -87,7 +87,10 @@ type RawGTElement = { Size: int; Type: RawGTType }
 /// <summary>
 /// Information passed from PointerAnalyzer used for Evaluation.
 /// </summary>
-type AnalysisConfig = { Platform: string; WordSize: int }
+type AnalysisConfig =
+  { Platform: string
+    WordSize: int
+    ReturnSlotRegisters: string list }
 
 /// <summary>
 /// Source-level(raw) ground-truth function signature before ABI conversion.
@@ -205,7 +208,7 @@ type ProvenanceDerivation =
 type FunctionProvenance =
   { Name: string
     Arguments: Map<int, int>
-    Return: int list }
+    Return: Map<int, int> }
 
 type ProvenanceData =
   { Functions: Map<string, FunctionProvenance>

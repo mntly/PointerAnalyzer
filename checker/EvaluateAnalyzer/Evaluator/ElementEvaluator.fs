@@ -174,26 +174,57 @@ let private argResults fn gtArgs inferredArgs =
 
   List.rev results, List.rev coverages
 
-let private normalReturnResult fn index (gt: GTElement) inferredReturns =
-  let inferredOpt = inferredReturns |> List.tryItem index
-  let inferred = Option.defaultValue Unknown inferredOpt
+/// Evaluate one normal return element from the consecutive ABI return slots
+/// occupied by that element.
+let private normalReturnResult
+  slotCursor
+  fn
+  returnIndex
+  (gt: GTElement)
+  inferredReturns
+  =
+  let inferredSlots =
+    gt.Slots
+    |> List.sortBy (fun slot -> slot.Index)
+    |> List.map (fun slot ->
+      inferredReturns |> List.tryItem (slotCursor + slot.Index))
+
+  let sources =
+    gt.Slots
+    |> List.sortBy (fun slot -> slot.Index)
+    |> List.choose (fun slot ->
+      let index = slotCursor + slot.Index
+      if index < List.length inferredReturns then Some (ReturnSource index)
+      else None)
+
+  let inferred =
+    if inferredSlots |> List.exists Option.isNone then
+      Unknown
+    else
+      inferredSlots |> List.choose id |> List.fold joinType Unknown
 
   { Function = fn
-    Target = Return index
+    Target = Return returnIndex
     GT = gt.Type
     Inferred = inferred
-    Sources = if Option.isSome inferredOpt then [ ReturnSource index ] else []
+    Sources = sources
     Category = classify gt.Type inferred }
 
 /// If at least one return slot is inferred, evaluate every GT structure slot
 /// and treat each missing inferred slot as Unknown.
-let private structureReturnResults fn index (gt: GTElement) inferredReturns =
+let private structureReturnResults
+  slotCursor
+  fn
+  returnIndex
+  (gt: GTElement)
+  inferredReturns
+  =
   (* Map GT slot and inferred slot *)
   let matchedSlots =
     gt.Slots
     |> List.sortBy (fun slot -> slot.Index)
     |> List.map (fun slot ->
-      slot, (inferredReturns |> List.tryItem (index + slot.Index)))
+      slot, (inferredReturns |> List.tryItem (slotCursor + slot.Index)))
 
   (* Count the number of inferred slots *)
   let observedSlots =
@@ -210,19 +241,19 @@ let private structureReturnResults fn index (gt: GTElement) inferredReturns =
         let inferred = Option.defaultValue Unknown inferredOpt
 
         { Function = fn
-          Target = ReturnSlot (index, slot.Index, slot.Path)
+          Target = ReturnSlot (returnIndex, slot.Index, slot.Path)
           GT = slot.Type
           Inferred = inferred
           Sources =
             if Option.isSome inferredOpt then
-              [ ReturnSource (index + slot.Index) ]
+              [ ReturnSource (slotCursor + slot.Index) ]
             else
               []
           Category = classify slot.Type inferred })
 
   let coverage =
     { Function = fn
-      Target = Return index
+      Target = Return returnIndex
       ExpectedSlots = List.length gt.Slots
       ObservedSlots = observedSlots }
 
@@ -231,15 +262,32 @@ let private structureReturnResults fn index (gt: GTElement) inferredReturns =
 /// Evaluate each return value in function signature.
 /// If inferred return value was missing, assume its type as Unknown.
 let private returnResults fn gtReturns inferredReturns =
-  let evaluateReturn (results, coverages) (index, gt: GTElement) =
+  let evaluateReturn
+    (slotCursor, results, coverages)
+    (returnIndex, gt: GTElement)
+    =
     let currentResults, currentCoverages =
       match gt.Kind with
-      | NormalElement -> [ normalReturnResult fn index gt inferredReturns ], []
+      | NormalElement ->
+        [ normalReturnResult
+            slotCursor
+            fn
+            returnIndex
+            gt
+            inferredReturns ],
+        []
       | StructureElement ->
         let results, coverage =
-          structureReturnResults fn index gt inferredReturns
+          structureReturnResults
+            slotCursor
+            fn
+            returnIndex
+            gt
+            inferredReturns
 
         results, [ coverage ]
+
+    let nextSlotCursor = slotCursor + gt.OccupiedSlotCount
 
     let results =
       currentResults |> List.fold (fun acc result -> result :: acc) results
@@ -248,10 +296,10 @@ let private returnResults fn gtReturns inferredReturns =
       currentCoverages
       |> List.fold (fun acc coverage -> coverage :: acc) coverages
 
-    results, coverages
+    nextSlotCursor, results, coverages
 
-  let results, coverages =
-    gtReturns |> List.indexed |> List.fold evaluateReturn ([], [])
+  let _, results, coverages =
+    gtReturns |> List.indexed |> List.fold evaluateReturn (0, [], [])
 
   List.rev results, List.rev coverages
 
@@ -436,24 +484,12 @@ let evaluate
           else
             logState
 
-        let logState =
-          if
-            (not (List.isEmpty gt.Return))
-            && List.length gt.Return <> List.length inferred.Return
-          then
-            { logState with
-                CountMismatch = Set.add fn logState.CountMismatch }
-          else
-            logState
+        (* Log returns that exceed the ABI slots published by the analyzer. *)
+        let requiredReturnSlots =
+          gt.Return |> List.sumBy (fun ret -> ret.OccupiedSlotCount)
 
-        (* Log for there exist more than 1 return WordSized Slot *)
-        (* ToDo: Handle large size return value *)
         let hasLargeReturn =
-          gt.Return
-          |> List.exists (fun ret ->
-            ret.Slots
-            |> List.tryHead
-            |> Option.exists (fun firstSlot -> ret.Size > firstSlot.Size))
+          requiredReturnSlots > List.length inferred.Return
 
         let logState =
           if hasLargeReturn then

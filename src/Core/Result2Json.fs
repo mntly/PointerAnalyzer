@@ -43,6 +43,9 @@ type AnalysisConfigJson =
     [<JsonPropertyName("WordSize")>]
     WordSize: int
 
+    [<JsonPropertyName("ReturnSlotRegisters")>]
+    ReturnSlotRegisters: string list
+
     [<JsonPropertyName("FunctionApply")>]
     FunctionApply: bool }
 
@@ -55,6 +58,8 @@ module AnalysisConfigJson =
     : AnalysisConfigJson =
     { Platform = platform.Name
       WordSize = platform.WordSize
+      ReturnSlotRegisters =
+        platform.ReturnSlotRegisters |> List.map platform.RegisterName
       FunctionApply = functionApply }
 
   let toJsonString config =
@@ -92,7 +97,9 @@ module FunctionJson =
         Some ((regName, typeStr))
       | None -> Some ((regName, "Unknown"))
 
-    platform.ReturnRegisters |> List.choose returnRegTypeStr |> Map.ofList
+    platform.ReturnSlotRegisters
+    |> List.choose returnRegTypeStr
+    |> Map.ofList
 
   let fromAnalysisResult
     includeDetailType

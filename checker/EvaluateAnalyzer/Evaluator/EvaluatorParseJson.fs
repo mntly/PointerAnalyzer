@@ -87,20 +87,23 @@ let private readTypeMap (element: JsonElement) =
 *)
 /// Given JSON element(value of "ReturnReg"), extract type of
 /// return value list
-let private readReturnReg (element: JsonElement) =
+let private readReturnReg returnSlotRegisters (element: JsonElement) =
   if element.ValueKind <> JsonValueKind.Object then
     (* This case may not be held *)
     []
   else
-    element.EnumerateObject ()
-    |> Seq.sortBy (fun prop -> prop.Name)
-    |> Seq.choose (fun prop ->
-      if prop.Value.ValueKind = JsonValueKind.String then
-        Some (parseEvalType (prop.Value.GetString ()))
-      else
-        (* This case may not be held *)
-        None)
-    |> Seq.toList
+    let returnTypes =
+      element.EnumerateObject ()
+      |> Seq.choose (fun prop ->
+        if prop.Value.ValueKind = JsonValueKind.String then
+          Some (prop.Name, parseEvalType (prop.Value.GetString ()))
+        else
+          None)
+      |> Map.ofSeq
+
+    returnSlotRegisters
+    |> List.map (fun registerName ->
+      Map.tryFind registerName returnTypes |> Option.defaultValue Unknown)
 
 /// Parsing RawGT Json and construct RawGT Map. RawGT is the direct result of
 /// GTExtractor which is not matched with ABI specific low-level conventions.
@@ -145,16 +148,24 @@ let loadAnalysisConfig path : AnalysisConfig =
   use doc = JsonDocument.Parse (File.ReadAllText path)
   let platform = doc.RootElement.GetProperty("Platform").GetString ()
   let wordSize = doc.RootElement.GetProperty("WordSize").GetInt32 ()
+  let returnSlotRegisters =
+    doc.RootElement.GetProperty("ReturnSlotRegisters").EnumerateArray ()
+    |> Seq.map (fun element -> element.GetString ())
+    |> Seq.toList
 
   if wordSize <= 0 then
     failwithf "analysis configuration has invalid WordSize: %d" wordSize
 
+  if List.isEmpty returnSlotRegisters then
+    failwith "analysis configuration has no return-slot registers"
+
   { Platform = platform
-    WordSize = wordSize }
+    WordSize = wordSize
+    ReturnSlotRegisters = returnSlotRegisters }
 
 /// Parsing inferred result and construct InferredFunction Map.
 /// The address is used as Key of InferredFunction Map.
-let loadInferred path : Map<string, InferredFunction> =
+let loadInferred returnSlotRegisters path : Map<string, InferredFunction> =
   (* Check inferred json file exists *)
   if not (File.Exists path) then
     failwithf "inferred result JSON does not exist: %s" path
@@ -177,7 +188,7 @@ let loadInferred path : Map<string, InferredFunction> =
 
     (* Extract inferred type of return value *)
     let retRegElem = body.GetProperty "ReturnReg"
-    let returns = readReturnReg retRegElem
+    let returns = readReturnReg returnSlotRegisters retRegElem
 
     (* Construct inferred function signature *)
     let inferredFunction: InferredFunction =
@@ -199,7 +210,7 @@ let private readProvenanceOrigin (element: JsonElement) =
     Annotation = element.GetProperty("Annotation").GetString () }
 
 /// Load the compact type-provenance artifact produced by PointerAnalyzer.
-let loadProvenance path : ProvenanceData =
+let loadProvenance returnSlotRegisters path : ProvenanceData =
   if not (File.Exists path) then
     failwithf "type provenance JSON does not exist: %s" path
 
@@ -219,11 +230,18 @@ let loadProvenance path : ProvenanceData =
           | false, _ -> None)
         |> Map.ofSeq
 
-      let returns =
+      let returnTypeIds =
         body.GetProperty("ReturnReg").EnumerateObject ()
-        |> Seq.sortBy (fun entry -> entry.Name)
-        |> Seq.map (fun entry -> entry.Value.GetInt32 ())
-        |> Seq.toList
+        |> Seq.map (fun entry -> entry.Name, entry.Value.GetInt32 ())
+        |> Map.ofSeq
+
+      let returns =
+        returnSlotRegisters
+        |> List.indexed
+        |> List.choose (fun (index, registerName) ->
+          Map.tryFind registerName returnTypeIds
+          |> Option.map (fun typeId -> index, typeId))
+        |> Map.ofList
 
       normalizeAddress property.Name,
       { Name = body.GetProperty("Name").GetString ()
