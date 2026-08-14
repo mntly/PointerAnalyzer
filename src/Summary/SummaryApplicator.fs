@@ -68,18 +68,18 @@ type SummaryApplicatorModule (platform: Platform) =
 
     Seq.append registerArgs stackArgs |> Seq.toList
 
-  /// Store callee return-register types until B2R2's function abstraction
-  /// defines the corresponding caller SSA variables.
-  let setPendingReturns summary state =
-    let setPendingReturnsInner state regId calleeRetTypId =
-      stateDom.setPendingReturn regId calleeRetTypId state
+  /// Store callee register outputs until B2R2's function abstraction defines
+  /// the corresponding fresh caller SSA variables.
+  let setPendingRegisterOutputs summary state =
+    let setPendingOutput state regId calleeTypeId =
+      stateDom.setPendingRegisterOutput regId calleeTypeId state
 
-    summary.Returns |> Map.fold setPendingReturnsInner state
+    summary.RegisterOutputs |> Map.fold setPendingOutput state
 
   /// Applying the analysis result of callee to caller's analysis state
   member _.apply summary returningStatus inputs outputs state =
     (* New function call overwrite previous function call summary *)
-    let state = stateDom.clearPendingReturns state
+    let state = stateDom.clearPendingRegisterOutputs state
     let context = callSiteContext summary state
 
     (* According to calling convention, get argument index of given variable *)
@@ -90,7 +90,8 @@ type SummaryApplicatorModule (platform: Platform) =
     (* Get callee output register type using register id of given variable. *)
     let outVarType (variable: Variable) =
       match variable.Kind with
-      | VariableKind.RegVar (_, regId, _) -> Map.tryFind regId summary.Returns
+      | VariableKind.RegVar (_, regId, _) ->
+        Map.tryFind regId summary.RegisterOutputs
       | _ -> None
 
     (* Connect type between arguments and parameters *)
@@ -126,20 +127,20 @@ type SummaryApplicatorModule (platform: Platform) =
       | _ -> state
 
     (*
-      Explicitly connect return variables due to callee or store them as
-      pending return-register outputs.
+      Explicitly connect output variables due to callee or store them as
+      pending register outputs.
     *)
     let state =
       match returningStatus with
       | NoRet ->
-        (* If callee has no return value, do not set PendingReturn *)
+        (* A non-returning call has no caller-side output state. *)
         state
       | NotNoRet
       | ConditionalNoRet _
       | UnknownNoRet ->
-        (* Otherwise, set PendingReturn *)
+        (* Otherwise, wait for fresh FunctionAbstraction definitions. *)
         if List.isEmpty outputs then
-          setPendingReturns summary state
+          setPendingRegisterOutputs summary state
         else
           connectVariables
             "Return Value Binding At Call"

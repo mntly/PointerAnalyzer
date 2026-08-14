@@ -116,7 +116,7 @@ module FunctionJson =
         constraints
         conflicts
         platform
-        funAnalysis.Summary.Returns
+        funAnalysis.Summary.RegisterOutputs
 
     (* Resolved type per instruction(SSA) *)
     let detailType =

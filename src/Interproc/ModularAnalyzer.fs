@@ -98,7 +98,7 @@ module ModularAnalyzer =
     [ sprintf "Function 0x%x (%s)" address funAnalysis.Function.Name
       sprintf "  NextTypeId: t%d" funAnalysis.Summary.NextTypeId
       funAnalysis.Summary.ParamToString.TrimEnd ()
-      funAnalysis.Summary.ReturnToString.TrimEnd ()
+      funAnalysis.Summary.RegisterOutputsToString.TrimEnd ()
       "  SSA register types:"
       if registerTypeStr = "" then
         "    <empty>"

@@ -22,8 +22,9 @@ open PointerAnalyzer.AbsDom.TypeState
 /// <see cref="PointerAnalyzer.AbsDom.TypeState.TypeState" />.
 /// <c>CurrentRegisters</c> tracks the type Id of each register.
 /// <c>CurrentStackSlots</c> tracks the type Id of each stack slot.
-/// <c>PendingReturns</c> tracks callee output register types after applying
-/// callee. The stored register is eliminated when it is used or redefined.
+/// <c>PendingRegisterOutputs</c> tracks callee output register types after
+/// applying a function summary until B2R2 defines fresh caller-side SSA
+/// variables in the function abstraction.
 /// <c>StackPointer</c> tracks initial and current stack pointer values.
 /// </remarks>
 type AnalysisState =
@@ -32,7 +33,7 @@ type AnalysisState =
     Types: TypeState
     CurrentRegisters: Map<RegisterID, TypeId>
     CurrentStackSlots: Map<int, TypeId>
-    PendingReturns: Map<RegisterID, TypeId>
+    PendingRegisterOutputs: Map<RegisterID, TypeId>
     StackPointer: StackPointerState }
 
 /// <summary>
@@ -71,7 +72,7 @@ type AnalysisStateModule
       Types = types.bot
       CurrentRegisters = Map.empty
       CurrentStackSlots = Map.empty
-      PendingReturns = Map.empty
+      PendingRegisterOutputs = Map.empty
       StackPointer = StackPointerState.empty }
 
   /// Return new type Id
@@ -260,16 +261,16 @@ type AnalysisStateModule
             right
             state.Types }
 
-  /// Set the type of output register as given type Id
-  member _.setPendingReturn retRegId calleeRetTypId state =
+  /// Set the type of a callee output register as given type Id.
+  member _.setPendingRegisterOutput regId calleeTypeId state =
     { state with
-        PendingReturns = Map.add retRegId calleeRetTypId state.PendingReturns }
+        PendingRegisterOutputs =
+          Map.add regId calleeTypeId state.PendingRegisterOutputs }
 
-  /// Clear PendingReturns. This is used when function applicator clears
-  /// previous result.
-  member _.clearPendingReturns state =
+  /// Clear outputs left by a previous or completed function abstraction.
+  member _.clearPendingRegisterOutputs state =
     { state with
-        PendingReturns = Map.empty }
+        PendingRegisterOutputs = Map.empty }
 
   /// Initialize both initial SP and current SP to given value
   member _.initializeStackPointer value (state: AnalysisState) =
@@ -286,15 +287,16 @@ type AnalysisStateModule
     { state with
         StackPointer = state.StackPointer.ForgetCurrent }
 
-  /// If output register is used, remove it from pending return.
-  member _.consumePendingReturn (variable: Variable) state =
+  /// Consume the pending callee output for a freshly defined SSA register.
+  member _.consumePendingRegisterOutput (variable: Variable) state =
     match variable.Kind with
     | RegVar (_, registerId, _) ->
-      match Map.tryFind registerId state.PendingReturns with
+      match Map.tryFind registerId state.PendingRegisterOutputs with
       | Some typeId ->
         Some typeId,
         { state with
-            PendingReturns = Map.remove registerId state.PendingReturns }
+            PendingRegisterOutputs =
+              Map.remove registerId state.PendingRegisterOutputs }
       | None -> None, state
     | _ -> None, state
 
@@ -356,11 +358,11 @@ type AnalysisStateModule
         joinCurrentTypeIds left.CurrentRegisters right.CurrentRegisters
       CurrentStackSlots =
         joinCurrentTypeIds left.CurrentStackSlots right.CurrentStackSlots
-      PendingReturns =
-        right.PendingReturns
+      PendingRegisterOutputs =
+        right.PendingRegisterOutputs
         |> Map.fold
           (fun result registerId typeId -> Map.add registerId typeId result)
-          left.PendingReturns
+          left.PendingRegisterOutputs
       StackPointer = StackPointerState.join left.StackPointer right.StackPointer }
 
 module AnalysisStateDomain =

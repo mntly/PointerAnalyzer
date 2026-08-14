@@ -214,13 +214,6 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
   member private _.isTrivialVariable variable =
     platform.IsTrivialAddress variable || platform.IsTrivialValue variable
 
-  /// Check given register is return register
-  member private _.isReturnRegister (variable: Variable) =
-    match variable.Kind with
-    | RegVar (_, registerId, _) ->
-      List.contains registerId platform.ReturnRegisters
-    | _ -> false
-
   member private this.isLive variable =
     config.IsLive variable || this.isTrivialVariable variable
 
@@ -272,8 +265,6 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
       | None -> state
       | Some _ -> state
 
-    let _, state = stateDom.consumePendingReturn variable state
-
     let state = stateDom.setRegister variable value typeId state
 
     state
@@ -294,20 +285,21 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
     |> this.defReg variable value typeId
     |> this.updateStackPointerFromConst variable
 
-  /// Update register used for return value in Fake Node.
-  member private this.evalAbstractReturnDefinition variable state =
+  /// Bind a callee output to the fresh SSA register defined by B2R2's
+  /// FunctionAbstraction.
+  member private this.evalAbstractOutputDefinition variable state =
     (* Assign new type id for corresponding SSA variable *)
     let typeId, state = stateDom.getOrFreshTypeId variable state
-    (* Get return type id of callee *)
-    let pendingReturn, state = stateDom.consumePendingReturn variable state
+    (* Get the corresponding register-output type id of the callee. *)
+    let pendingOutput, state =
+      stateDom.consumePendingRegisterOutput variable state
 
-    (* Connect callee and caller return register *)
-    (* Update debug history according to return binding *)
+    (* Connect the callee output and fresh caller-side SSA register. *)
     let state =
-      match pendingReturn with
+      match pendingOutput with
       | Some calleeTypeId ->
         stateDom.addSameWithAnnotation
-          "Return Value Binding At Function Abstraction"
+          "Register Output Binding At Function Abstraction"
           [ typeId; calleeTypeId ]
           state
       | None -> state
@@ -417,9 +409,11 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
         [ { Target = Next
             State = this.evalMemoryDefinition resultMem expr state } ]
 
-      | Def (variable, Undefined (_, "ret")) when this.isReturnRegister variable ->
+      | Def (variable, Undefined (_, reason)) when
+        reason = "ret" || reason = "caller-saved"
+        ->
         [ { Target = Next
-            State = this.evalAbstractReturnDefinition variable state } ]
+            State = this.evalAbstractOutputDefinition variable state } ]
 
       | Def (variable, expr) ->
         [ { Target = Next
@@ -471,7 +465,7 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
         | AbstractBlock _ ->
           (* InterJmp from FunctionAbstraction: Return to caller *)
           [ { Target = AbstractionReturn
-              State = state } ]
+              State = stateDom.clearPendingRegisterOutputs state } ]
         | NormalBlock ->
           (* InterJmp from Normal Block: Normal jmp/call *)
           match config.ApplyCallSummary programPoint targetAddr [] [] state with

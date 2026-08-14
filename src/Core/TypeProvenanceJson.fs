@@ -68,8 +68,10 @@ let fromAnalysisResult (platform: Platform) (result: ModularAnalysisResult) =
     |> Map.toSeq
     |> Seq.map (fun (address, analysis) ->
       let returns =
-        analysis.Summary.Returns
+        analysis.Summary.RegisterOutputs
         |> Map.toSeq
+        |> Seq.filter (fun (registerId, _) ->
+          List.contains registerId platform.ReturnRegisters)
         |> Seq.map (fun (registerId, typeId) ->
           platform.RegisterName registerId, typeId)
         |> Map.ofSeq
@@ -170,15 +172,22 @@ let fromAnalysisResult (platform: Platform) (result: ModularAnalysisResult) =
                 names)
             names
 
-        analysis.Summary.Returns
+        analysis.Summary.RegisterOutputs
         |> Map.fold
           (fun names registerId typeId ->
             if Set.contains typeId relevantTypeIds then
+              let outputKind =
+                if List.contains registerId platform.ReturnRegisters then
+                  "return"
+                else
+                  "output"
+
               addTypeName
                 typeId
                 (sprintf
-                  "%s:return[%s]"
+                  "%s:%s[%s]"
                   functionName
+                  outputKind
                   (platform.RegisterName registerId))
                 names
             else

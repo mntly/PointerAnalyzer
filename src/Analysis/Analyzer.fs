@@ -193,11 +193,11 @@ type AnalyzerModule
         joinCurrentTypeIds left.CurrentRegisters right.CurrentRegisters
       CurrentStackSlots =
         joinCurrentTypeIds left.CurrentStackSlots right.CurrentStackSlots
-      PendingReturns =
-        right.PendingReturns
+      PendingRegisterOutputs =
+        right.PendingRegisterOutputs
         |> Map.fold
           (fun acc regId typeId -> Map.add regId typeId acc)
-          left.PendingReturns
+          left.PendingRegisterOutputs
       StackPointer = StackPointerState.join left.StackPointer right.StackPointer }
 
   /// Analyze given CFG (entire binary) and return AnalysisState

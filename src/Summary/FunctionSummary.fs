@@ -8,7 +8,7 @@ type FunctionSummary =
   { Address: Addr
     Name: string
     Parameters: Map<int, TypeId>
-    Returns: Map<RegisterID, TypeId>
+    RegisterOutputs: Map<RegisterID, TypeId>
     Constraints: ConstraintSet
     ConstraintOrigins: Map<TypeConstraint, ConstraintOrigin> option
     NextTypeId: TypeId }
@@ -28,14 +28,14 @@ type FunctionSummary =
 
     header + content
 
-  member this.ReturnToString =
-    let header = "  Return registers:\n"
+  member this.RegisterOutputsToString =
+    let header = "  Register outputs:\n"
 
     let content =
-      if Map.isEmpty this.Returns then
+      if Map.isEmpty this.RegisterOutputs then
         "    <none detected>\n"
       else
-        this.Returns
+        this.RegisterOutputs
         |> Map.toSeq
         |> Seq.map (fun (regId, typeId) ->
           sprintf "    reg%A -> t%d\n" regId typeId)
@@ -50,7 +50,7 @@ module FunctionSummary =
     { Address = address
       Name = name
       Parameters = Map.empty
-      Returns = Map.empty
+      RegisterOutputs = Map.empty
       Constraints = Set.empty
       ConstraintOrigins = None
       NextTypeId = nextTypeId }

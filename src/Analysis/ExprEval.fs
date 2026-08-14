@@ -107,27 +107,14 @@ type ExprEvalModule (platform: Platform, config: ExprEvalConfig) =
     | Var variable ->
       (* If new variable comes, assign new type Id *)
       (*
-        If corresponding variable is modified due to callee,
-        add Same type constraint with type of callee and asigned one
+        Reading a variable does not consume a pending callee output. B2R2's
+        tagged FunctionAbstraction definition performs that binding.
       *)
       (* Assign new type Id if new vaiable comes *)
       let typeId, state = stateDom.getOrFreshTypeId variable state
       (*
-        Check if corresponding variable is modified from Callee,
-        and add Same type constraint
+        An unseen read therefore remains unrelated to a callee output.
       *)
-      let pendingReturn, state = stateDom.consumePendingReturn variable state
-
-      (* Update debug history according to return binding *)
-      let state =
-        match pendingReturn with
-        | Some returnTypeId ->
-          stateDom.addSameWithAnnotation
-            "Return Value Binding At Call"
-            [ typeId; returnTypeId ]
-            state
-        | None -> state
-
       let value = stateDom.findRegister variable state
       value, Some typeId, state
 
