@@ -5,9 +5,9 @@ open B2R2.BinIR.SSA
 open B2R2.FrontEnd
 open B2R2.MiddleEnd.BinGraph
 open B2R2.MiddleEnd.ControlFlowGraph
-open B2R2.MiddleEnd.DataFlow
+open PointerAnalyzer.Frontend.FunctionDFA
+open PointerAnalyzer.Frontend.ProgramDFA
 open Checker.Return64Detection.Return64Types
-open Checker.Return64Detection.Analysis.StatementIndex
 
 /// FLAG registers.
 let private flagRegisters =
@@ -81,14 +81,13 @@ let private isTempVarOrFlag variable =
   | _ -> isFlag variable
 
 /// Based on heuristic rules, check given variable is valid return register
-type Classifier (cfg: SSACFG) =
-  let edges = SSAEdges cfg
-  (* Constract BlockId * StmtIdx -> Stmts mapping *)
-  let statements = StatementIndex.build cfg
+type Classifier (function_: FunctionDFAResult) =
+  let edges = function_.DFAResult.Edges
+  let statements = function_.DFAResult.StatementIndex
 
   /// Log the reason why corresponding variable is not return register by
   /// heuristic rule.
-  let failure variable entry reason =
+  let failure variable (entry: StatementEntry) reason =
     { Variable = variable
       ProgramPoint = entry.ProgramPoint
       Reason = reason }
@@ -114,7 +113,7 @@ type Classifier (cfg: SSACFG) =
         let visited = Set.add current visited
 
         (* Heuristic Rules for determining current variable is valid or not *)
-        let heuristicRule entry =
+        let heuristicRule (entry: StatementEntry) =
           match entry.Statement with
           | Def (_, expression) when hasMemoryRole current expression ->
             (* Current variable is used for address or storing value *)

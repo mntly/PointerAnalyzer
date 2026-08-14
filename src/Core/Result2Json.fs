@@ -95,6 +95,7 @@ module FunctionJson =
     platform.ReturnRegisters |> List.choose returnRegTypeStr |> Map.ofList
 
   let fromAnalysisResult
+    includeDetailType
     (platform: Platform)
     (resultAnalysisResult: ModularAnalysisResult)
     (funAnalysis: FunctionAnalysisResult)
@@ -119,13 +120,15 @@ module FunctionJson =
 
     (* Resolved type per instruction(SSA) *)
     let detailType =
-      let resolvedTypes =
-        ResolvedTypeMap.build
-          constraints
-          conflicts
-          funAnalysis.Result.FinalState.Types.TypeIndicators
+      if includeDetailType then
+        let resolvedTypes =
+          ResolvedTypeMap.build constraints conflicts funAnalysis.TypeIndicators
 
-      TypePerInst.build resolvedTypes funAnalysis.Function.DFAResult.Statements
+        funAnalysis.Function.DFAResult.Statements
+        |> Seq.map (fun entry -> entry.ProgramPoint, entry.Statement)
+        |> TypePerInst.build resolvedTypes
+      else
+        TypePerInst.empty
 
     { Name = funAnalysis.Function.Name
       Arguments = { ArgNum = Map.count args; Args = args }
@@ -142,6 +145,7 @@ module AnalysisResultJson =
   let private addressToHexString (address: Addr) = sprintf "0x%08x" address
 
   let fromAnalysisResult
+    includeDetailType
     platform
     resultAnalysisResult
     targetFunctions
@@ -152,6 +156,7 @@ module AnalysisResultJson =
 
       let funJson =
         FunctionJson.fromAnalysisResult
+          includeDetailType
           platform
           resultAnalysisResult
           funAnalysis
@@ -164,9 +169,14 @@ module AnalysisResultJson =
     JsonSerializer.Serialize (analysisResultJson, jsonOptions) + "\n"
 
   let fromAnalysisResultToJsonString
+    includeDetailType
     platform
     resultAnalysisResult
     targetFunctions
     =
-    fromAnalysisResult platform resultAnalysisResult targetFunctions
+    fromAnalysisResult
+      includeDetailType
+      platform
+      resultAnalysisResult
+      targetFunctions
     |> toJsonString

@@ -7,11 +7,9 @@ open B2R2.FrontEnd
 open B2R2.MiddleEnd.BinGraph
 open B2R2.MiddleEnd.ControlFlowGraph
 open B2R2.MiddleEnd.DataFlow
+open PointerAnalyzer.Frontend.FunctionDFA
 open PointerAnalyzer.Frontend.ProgramDFA
 open Checker.Return64Detection.Return64Types
-open Checker.Return64Detection.Analysis.StatementIndex
-
-module StmtIndex = Checker.Return64Detection.Analysis.StatementIndex
 
 let private edx = Intel.Register.toRegID Intel.Register.EDX
 
@@ -155,8 +153,9 @@ let private isEDXPreservation =
 /// The preservation read is not a semantic consumption of the return value.
 let private isPartialEDXOverwrite =
   function
-  | Def (destination, BinOp (BinOpType.OR, _, left, right))
-    when isEDX destination ->
+  | Def (destination, BinOp (BinOpType.OR, _, left, right)) when
+    isEDX destination
+    ->
     (isEDXPreservation left
      && (variablesInExpr right |> Set.exists isEDX |> not))
     || (isEDXPreservation right
@@ -197,25 +196,17 @@ let private isFunctionCall
         Map.containsKey targetAddress functions)
   | _ -> false
 
-/// Check given call site is in given block
-let private containsCallSite callSite (block: IVertex<SSABasicBlock>) =
-  block.VData.Internals.Statements
-  |> Array.exists (fun (programPoint, _) -> programPoint.Address = callSite)
-
 /// Extract FunctionAbstraction of given callee in caller CFG
 let private abstractionsForCallSite
   calleeAddr
   callSite
   (caller: FunctionDFAResult)
   =
-  caller.CFG.Vertices
-  |> Array.filter (fun block ->
-    (* Check current block is FunctionAbstraction *)
-    block.VData.Internals.IsAbstract
-    (* Check current block is about callee *)
-    && block.VData.Internals.AbstractContent.EntryPoint = calleeAddr
-    (* Check current block is called from callsite *)
-    && caller.CFG.GetPreds block |> Array.exists (containsCallSite callSite))
+  caller.CallAbstractions
+  |> Map.tryFind (callSite, calleeAddr)
+  |> Option.defaultValue []
+  |> List.distinctBy (fun info -> info.AbstractionBlockId)
+  |> List.map (fun info -> caller.CFG.FindVertex info.AbstractionBlockId)
 
 /// Starting from successor of given callee FunctionAbstraction, check whether
 /// EDX is overwritten or used. If EDX is used before overwritten, it may be
@@ -228,8 +219,8 @@ let private continuationEvidence
   (calleeAbst: IVertex<SSABasicBlock>)
   =
   let callerCFG = caller.CFG
-  let edges = SSAEdges callerCFG
-  let statementIndex = StmtIndex.build callerCFG
+  let edges = caller.DFAResult.Edges
+  let statementIndex = caller.DFAResult.StatementIndex
 
   let rec visit visited (block: IVertex<SSABasicBlock>) =
     if Set.contains block.ID visited || block.VData.Internals.IsAbstract then
@@ -241,10 +232,14 @@ let private continuationEvidence
         Analyze give statements and determine EDX is used, defined, or not 
         determined
       *)
-      let rec scanStmt remainingStatements =
-        match remainingStatements with
-        | [] -> KeepScanning
-        | (programPoint, stmt) :: rest ->
+      let statements = block.VData.Internals.Statements
+
+      let rec scanStmt index =
+        if index >= statements.Length then
+          KeepScanning
+        else
+          let programPoint, stmt = statements[index]
+
           (* Check EDX is used in current Statement *)
           (* Used before overwriting EDX, it may acts as return value *)
           let edxUses = usedVariables stmt |> Set.filter isEDX
@@ -275,7 +270,7 @@ let private continuationEvidence
                   CallSite = callSite
                   EDXVariable = variable
                   Uses = uses }
-            | _ -> scanStmt rest
+            | _ -> scanStmt (index + 1)
           elif isFunctionCall functions caller programPoint stmt then
             (* EDX is caller-saved register *)
             EDXOverwritten
@@ -284,9 +279,9 @@ let private continuationEvidence
             EDXOverwritten
           else
             (* Can not determine. Analyze next statement *)
-            scanStmt rest
+            scanStmt (index + 1)
 
-      match block.VData.Internals.Statements |> Array.toList |> scanStmt with
+      match scanStmt 0 with
       | EDXUsed evidence -> [ evidence ]
       | EDXOverwritten -> []
       | KeepScanning ->

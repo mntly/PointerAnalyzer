@@ -35,6 +35,7 @@ type MainOptions =
     FunctionApplyMode: FunctionApplyMode
     UnsupportedInstPolicy: UnsupportedInstPolicy
     FalsePositiveDebug: bool
+    IncludeDetailType: bool
     TrackTime: bool }
 
 type CLIArg =
@@ -48,6 +49,7 @@ type CLIArg =
   | [<AltCommandLine("-fa")>] FunctionApply of int
   | [<AltCommandLine("-fui")>] FailUnsupportedInstruction
   | [<AltCommandLine("-fpd")>] FalsePositiveDebug
+  | [<AltCommandLine("-dt")>] DetailType
   | Function of string
 
   interface IArgParserTemplate with
@@ -75,6 +77,7 @@ type CLIArg =
       | FalsePositiveDebug ->
         "Store inferrence history of all parameter and return value slots.
         The result history is used to analyze FP cases"
+      | DetailType -> "Include per-instruction SSA types in inferredTypes.json."
       | TrackTime -> "Track and print out the processing time of each step."
 
 let private tryParseAddress (text: string) =
@@ -152,6 +155,7 @@ let private parseArg (args: string array) =
     FunctionApplyMode = functionApplyMode
     UnsupportedInstPolicy = unsupportedInstPolicy
     FalsePositiveDebug = r.Contains FalsePositiveDebug
+    IncludeDetailType = r.Contains DetailType
     TrackTime = trackTime }
 
 /// Filter only given target function. Only single target function is valid.
@@ -306,7 +310,7 @@ let private funcSSAStr targetFunctions =
   let constPropStr func =
     let constantVariables =
       func.DFAResult.Statements
-      |> Seq.collect (snd >> varsInStmt)
+      |> Seq.collect (fun entry -> varsInStmt entry.Statement)
       |> Set.ofSeq
       |> Set.toList
       |> List.sortBy (fun variable -> variable.ToString ())
@@ -327,7 +331,10 @@ let private funcSSAStr targetFunctions =
 
   let funcSSA2Str (addr, func) =
     let header = sprintf "Function 0x%x (%s)" addr func.Name
-    let statements = func.DFAResult.Statements |> List.map stmtStr
+    let statements =
+      func.DFAResult.Statements
+      |> Array.map (fun entry -> stmtStr (entry.ProgramPoint, entry.Statement))
+      |> Array.toList
     header :: statements @ [ "" ] @ constPropStr func @ [ "" ]
 
   let ssaStr =
@@ -506,6 +513,7 @@ let main argv =
       timed options.TrackTime "Print analysis result" (fun () ->
         selectedResults
         |> Result2Json.AnalysisResultJson.fromAnalysisResultToJsonString
+          options.IncludeDetailType
           dfaProgram.Binary.Platform
           result
         |> storeOutput options "inferredTypes.json")

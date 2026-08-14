@@ -3,6 +3,7 @@ module PointerAnalyzer.Frontend.FunctionDFA
 open B2R2
 open B2R2.BinIR.SSA
 open B2R2.FrontEnd
+open B2R2.MiddleEnd.BinGraph
 open B2R2.MiddleEnd.ControlFlowGraph
 open B2R2.MiddleEnd.DataFlow
 open B2R2.MiddleEnd.DataFlow.SSASparseDataFlow
@@ -13,12 +14,26 @@ type PointerUseEvidence =
   { ProgramPoint: ProgramPoint
     Statement: Stmt }
 
+/// Represents SSA statement including ID of corresponding Block and
+/// ProgramPoint. Index preserves the order oforiginal SSACFG.
+type StatementEntry =
+  { BlockId: VertexID
+    Index: int
+    ProgramPoint: ProgramPoint
+    Statement: Stmt }
+
+/// Represents the mapping from vertex Id and the order of statement in
+/// corresponding vertext to `StatementEntry`.
+type StatementIndex = Map<VertexID * int, StatementEntry>
+
 /// <summary>
 /// Pre-analysis result of single function.
 /// </summary>
 /// <remarks>
-/// <c>Statements</c> is the list of <see cref="B2R2.BinIR.SSA.Stmt" /> values
-/// ordered by <see cref="B2R2.ProgramPoint" />.
+/// <c>Statements</c> is the indexed array of `StatementEntry` ordered by
+/// <see cref="B2R2.ProgramPoint" />.
+/// <c>StatementIndex</c> is the `Statementindex`.
+/// <c>Edges</c> is the <see cref="B2R2.MiddleEnd.DataFlow.SSAEdges" />.
 /// <c>PointerUse</c> tells given <see cref="B2R2.BinIR.SSA.Variable" />
 /// will be used as pointer or not. It also tells the statement that given
 /// <see cref="B2R2.BinIR.SSA.Variable" /> is used as pointer.
@@ -27,7 +42,9 @@ type PointerUseEvidence =
 /// variable.
 /// </remarks>
 type FunctionDFA =
-  { Statements: (ProgramPoint * Stmt) list
+  { Statements: StatementEntry array
+    StatementIndex: StatementIndex
+    Edges: SSAEdges
     PointerUse: Variable -> PointerUseEvidence option
     ConstValue: Variable -> BitVector option }
 
@@ -119,25 +136,13 @@ module FunctionDFA =
     | ExternalCall (callee, _, _) -> exprContainsVar variable callee
     | _ -> false
 
-  (* Mapping each statment with the program point as key *)
-  let private statementMap (ssaCFG: SSACFG) =
-    ssaCFG.Vertices
-    |> Seq.collect (fun vertex ->
-      vertex.VData.Internals.Statements
-      |> Seq.mapi (fun index (programPoint, stmt) ->
-        (vertex.ID, index), (programPoint, stmt)))
-    |> Map.ofSeq
-
   (* Check use chain of DFA to answer given variable is used as pointer *)
   (* If given variable is used as pointer, this returns PointerUseEvidence *)
-  let private pointerUseFrom (ssaCFG: SSACFG) =
-    let edges = SSAEdges ssaCFG
-    let statements = statementMap ssaCFG
-
+  let private pointerUseFrom (edges: SSAEdges) statements =
     (* Check given variable is used as pointer at given location *)
     let isPointerUse variable location =
       match Map.tryFind location statements with
-      | Some (_, stmt) -> pointerUseInStmt variable stmt
+      | Some entry -> pointerUseInStmt variable entry.Statement
       | None -> false
 
     (* Construct PointerUseEvidence Map with variable as Key *)
@@ -149,22 +154,47 @@ module FunctionDFA =
         |> Seq.sort
         |> Seq.tryPick (fun location ->
           Map.tryFind location statements
-          |> Option.map (fun (programPoint, statement) ->
+          |> Option.map (fun entry ->
             variable,
-            { ProgramPoint = programPoint
-              Statement = statement })))
+            { ProgramPoint = entry.ProgramPoint
+              Statement = entry.Statement })))
       |> Map.ofSeq
 
     fun variable -> Map.tryFind variable pointerEvidence
 
   /// Collect pointer usage and proved constant value of given varaible
   let create handle (ssaCFG: SSACFG) =
+    (*
+      Extract statements of given SSACFG by extracting the VertexId and
+      ProgramPoint. The statements in with same VertexId and ProgramPoint are
+      stored with different index by prerving the order of statements.
+    *)
     let statements =
       ssaCFG.Vertices
       |> Array.sortBy (fun vertex -> vertex.VData.Internals.PPoint.Address)
-      |> Array.collect (fun vertex -> vertex.VData.Internals.Statements)
-      |> Array.toList
+      |> Array.collect (fun vertex ->
+        (* Extract all statements of each Vertex *)
+        vertex.VData.Internals.Statements
+        |> Array.mapi (fun index (programPoint, statement) ->
+          (*
+            Construct StatementEntry by preserving the order of statements in
+            each Vertex
+          *)
+          { BlockId = vertex.ID
+            Index = index
+            ProgramPoint = programPoint
+            Statement = statement }))
+
+    (* Construct mapping from Vertex Id and statement order to StatementEntry *)
+    let statementIndex =
+      statements
+      |> Array.map (fun entry -> (entry.BlockId, entry.Index), entry)
+      |> Map.ofArray
+
+    let edges = SSAEdges ssaCFG
 
     { Statements = statements
-      PointerUse = pointerUseFrom ssaCFG
+      StatementIndex = statementIndex
+      Edges = edges
+      PointerUse = pointerUseFrom edges statementIndex
       ConstValue = constantValueFrom handle ssaCFG }

@@ -43,6 +43,7 @@ dotnet run --project src/PointerAnalyzer.fsproj \
 | `-s`, `--store <int>` | If `1`, store optional outputs such as SSA/function list/constraints in the output directory. If `0`, print optional outputs to stdout. The main `inferredTypes.json` result is always stored. |
 | `-t`, `--tracktime` | Print the processing time of each analysis step. |
 | `-fa`, `--functionapply <int>` | Apply callee summaries at function calls. `1` enables application and `0` disables it. The default is `1`. |
+| `-dt`, `--detailtype` | Include per-instruction SSA types in `inferredTypes.json`. By default, `DetailType` is emitted as an empty object. |
 | `--function <name\|address>` | After analyzing the binary, print the result of only the selected function. |
 | `--help` | Display help information. |
 

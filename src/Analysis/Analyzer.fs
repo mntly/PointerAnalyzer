@@ -72,17 +72,20 @@ type AnalyzerModule
       else
         NormalBlock
 
-    let rec runBlockInner state (lst: (B2R2.ProgramPoint * Stmt) list) =
-      match lst with
-      | (programPoint, stmt) :: tl ->
+    let statements = block.VData.Internals.Statements
+
+    let rec runBlockInner index state =
+      if index < statements.Length then
+        let programPoint, stmt = statements[index]
+
         match stmtEval.Eval context programPoint stmt state with
-        | [ { Target = Next; State = nextState } ] -> runBlockInner nextState tl
+        | [ { Target = Next; State = nextState } ] ->
+          runBlockInner (index + 1) nextState
         | results -> results
-      | [] -> [ { Target = Next; State = state } ]
+      else
+        [ { Target = Next; State = state } ]
 
-    let stmtsLst = Array.toList block.VData.Internals.Statements
-
-    runBlockInner state stmtsLst
+    runBlockInner 0 state
 
   /// According to next target, resolve the next instruction; jump target,
   /// right next instruction, ...

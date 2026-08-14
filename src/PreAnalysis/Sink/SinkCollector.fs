@@ -1,7 +1,5 @@
 module PointerAnalyzer.PreAnalysis.Sink.SinkCollector
 
-open B2R2.MiddleEnd.DataFlow
-open B2R2.MiddleEnd.ControlFlowGraph
 open PointerAnalyzer.Frontend.ProgramDFA
 open PointerAnalyzer.Platform.PlatformTypes
 
@@ -21,7 +19,7 @@ let collect
   let cfLive = CallSiteSinkCollector.collect platform functions function_
 
   (* Other live SSA variabes in Use Edge *)
-  let edges = SSAEdges cfg
+  let edges = function_.DFAResult.Edges
   let usedSet = edges.Uses.Keys |> Set.ofSeq
 
   Set.union leafLive cfLive |> Set.union usedSet

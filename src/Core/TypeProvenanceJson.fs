@@ -145,7 +145,7 @@ let fromAnalysisResult (platform: Platform) (result: ModularAnalysisResult) =
         let functionName = analysis.Function.Name
 
         let names =
-          analysis.Result.FinalState.Types.TypeIndicators
+          analysis.TypeIndicators
           |> Map.fold
             (fun names variable typeId ->
               if Set.contains typeId relevantTypeIds then

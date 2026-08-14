@@ -1,15 +1,13 @@
 module PointerAnalyzer.PreAnalysis.LivenessPropagator
 
 open B2R2.BinIR.SSA
-open B2R2.MiddleEnd.ControlFlowGraph
-open B2R2.MiddleEnd.DataFlow
+open PointerAnalyzer.Frontend.FunctionDFA
 open PointerAnalyzer.PreAnalysis.VariableCollector
+open B2R2.MiddleEnd.DataFlow
 
 /// Check Def-Use chain and backpropagate the liveness starting from sink live
 /// registers.
-let propagate (cfg: SSACFG) sinks =
-  let edges = SSAEdges cfg
-
+let propagate (edges: SSAEdges) sinks =
   let rec loop live =
     let next =
       live

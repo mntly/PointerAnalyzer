@@ -12,7 +12,8 @@ let private analyzeFunction platform functions (function_: FunctionDFAResult) =
   let sinks = SinkCollector.collect platform functions function_
 
   (* Backpropagate liveness from sink registers *)
-  let propagatedLive = LivenessPropagator.propagate cfg sinks
+  let propagatedLive =
+    LivenessPropagator.propagate function_.DFAResult.Edges sinks
 
   (*
     Extract SSA variables handled as default live SSA variables.

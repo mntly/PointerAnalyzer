@@ -137,9 +137,7 @@ let private scanStatement
 /// Extract undefined RegVar used.
 /// If there exist multiple undefined RegVar with same register,
 /// use RegVar with minimum Identifier.
-let private incomingRegisters (cfg: SSACFG) =
-  let edges = SSAEdges cfg
-
+let private incomingRegisters (edges: SSAEdges) =
   edges.Uses.Keys
   |> Seq.filter (fun variable -> not (edges.Defs.ContainsKey variable))
   |> Seq.choose (fun variable ->
@@ -162,7 +160,7 @@ let collect
   =
   let cfg = function_.CFG
 
-  let incomingReg = incomingRegisters cfg
+  let incomingReg = incomingRegisters function_.DFAResult.Edges
 
   let initialState =
     { CurrentRegisters = incomingReg

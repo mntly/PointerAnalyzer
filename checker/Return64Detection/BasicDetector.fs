@@ -37,7 +37,7 @@ let private classifyRegister
 /// detect given function returns 64 bit value or not.
 let detectFunction analysisRange (function_: FunctionDFAResult) =
   (* Set Classifier to check given variable is valid return value *)
-  let classifier = Classifier function_.CFG
+  let classifier = Classifier function_
 
   let leaves =
     (* Filtering target blocks to analyze *)

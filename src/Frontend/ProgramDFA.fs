@@ -5,12 +5,20 @@ open B2R2.BinIR
 open B2R2.BinIR.SSA
 open B2R2.FrontEnd
 open B2R2.MiddleEnd
+open B2R2.MiddleEnd.BinGraph
 open B2R2.MiddleEnd.ControlFlowAnalysis
 open B2R2.MiddleEnd.ControlFlowGraph
 open B2R2.MiddleEnd.SSA
 open PointerAnalyzer.Frontend.B2R2Diagnostics
 open PointerAnalyzer.Frontend.BinaryLoader
 open PointerAnalyzer.Frontend.FunctionDFA
+
+/// Represents callee information of each callsite.
+type CallAbstractionInfo =
+  { CallSite: ProgramPoint
+    CalleeAddress: Addr
+    AbstractionBlockId: VertexID
+    ReturningStatus: NonReturningStatus }
 
 /// <summary>
 /// Per-function DFA result.
@@ -26,6 +34,8 @@ open PointerAnalyzer.Frontend.FunctionDFA
 /// <c>Callees</c> is mapping from callsite to callee address. This is derived
 /// from B2R2's control-flow framework in
 /// <see cref="B2R2.MiddleEnd.ControlFlowAnalysis" />.
+/// <c>CallAbstractions</c> represents the mapping from tuple of callsite
+/// address(not programpoint) and callee address to `CallAbstractionInfo`
 /// </remarks>
 type FunctionDFAResult =
   { Address: Addr
@@ -33,7 +43,8 @@ type FunctionDFAResult =
     CFG: SSACFG
     RetAddresses: Set<Addr>
     DFAResult: FunctionDFA
-    Callees: Map<Addr, Set<Addr>> }
+    Callees: Map<Addr, Set<Addr>>
+    CallAbstractions: Map<Addr * Addr, CallAbstractionInfo list> }
 
 /// <summary>
 /// DFA result of entire binary.
@@ -52,6 +63,42 @@ type ProgramDFAResult =
     B2R2Diagnostics: UnsupportedInstInfo list }
 
 module ProgramDFA =
+  /// Cache function-abstraction successors for every callsite block.
+  let private callAbstractions (cfg: SSACFG) =
+    cfg.Vertices
+    (* Filter only the successor blocks of FunctionAbstraction Block *)
+    |> Seq.filter (fun block -> not block.VData.Internals.IsAbstract)
+    |> Seq.collect (fun block ->
+      (* Extract FunctionAbstraction predecessor blocks *)
+      let abstractions =
+        cfg.GetSuccs block
+        |> Array.filter (fun successor -> successor.VData.Internals.IsAbstract)
+
+      block.VData.Internals.Statements
+      |> Seq.collect (fun (programPoint, statement) ->
+        match statement with
+        | Jmp (InterJmp _)
+        | ExternalCall _ ->
+          (*
+            This only stores the function call relationship from InterJmp and
+            ExternalCall since MainAnalysis use pre-resolved relationship when
+            those cases. In other cases, MainAnalysis evaluate target and\
+            handle appropriatly
+          *)
+          abstractions
+          |> Seq.map (fun abstraction ->
+            let content = abstraction.VData.Internals.AbstractContent
+
+            (programPoint.Address, content.EntryPoint),
+            { CallSite = programPoint
+              CalleeAddress = content.EntryPoint
+              AbstractionBlockId = abstraction.ID
+              ReturningStatus = content.ReturningStatus })
+        | _ -> Seq.empty))
+    |> Seq.groupBy fst
+    |> Seq.map (fun (key, entries) -> key, entries |> Seq.map snd |> Seq.toList)
+    |> Map.ofSeq
+
   /// Collect normal return instructions before lifting the CFG to SSA.
   let private extractRetAddr (function_: Function) =
     function_.CFG.Exits
@@ -133,15 +180,7 @@ module ProgramDFA =
         | Some (func: Function) -> Some func.EntryPoint, Some func.Name
         | None -> None, None
 
-      raise (
-        B2R2AnalysisException (
-          binary.Path,
-          stage,
-          address,
-          name,
-          cause
-        )
-      )
+      raise (B2R2AnalysisException (binary.Path, stage, address, name, cause))
 
     let brew =
       try
@@ -153,6 +192,7 @@ module ProgramDFA =
 
     (* Used for represent the assembly of unsurpported instruction *)
     let instructionLifter = binary.Handle.NewLiftingUnit ()
+
     let instructionText (address: Addr) =
       match instructionLifter.TryParseInstruction address with
       | Ok instruction ->
@@ -168,7 +208,9 @@ module ProgramDFA =
       |> Seq.collect (fun vertex -> vertex.VData.Internals.Statements)
       |> Seq.choose (fun (programPoint, statement) ->
         match statement with
-        | SideEffect UnsupportedInstruction when programPoint <> ProgramPoint.Fake ->
+        | SideEffect UnsupportedInstruction when
+          programPoint <> ProgramPoint.Fake
+          ->
           Some
             { FunctionAddress = func.EntryPoint
               FunctionName = func.Name
@@ -194,13 +236,16 @@ module ProgramDFA =
         with cause ->
           raiseWithContext DataFlowAnalysis (Some func) cause
 
+      let abstractions = callAbstractions cfg
+
       (func.EntryPoint,
        { Address = func.EntryPoint
          Name = func.Name
          CFG = cfg
          RetAddresses = extractRetAddr func
          DFAResult = dfaResult
-         Callees = callees func }),
+         Callees = callees func
+         CallAbstractions = abstractions }),
       unsupportedInstructions func cfg
 
     let functionResults =

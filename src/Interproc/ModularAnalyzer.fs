@@ -41,14 +41,13 @@ type FunctionApplyMode =
 /// <remarks>
 /// <c>Function</c> is PointerAnalyzer's
 /// <see cref="PPointerAnalyzer.Frontend.ProgramDFA.FunctionDFAResult" />.
-/// <c>Result</c> is PointerAnalyzer's
-/// <see cref="PointerAnalyzer.Analysis.Analyzer.AnalysisResult" />.
+/// <c>TypeIndicators</c> maps SSA variables to their type IDs for output.
 /// <c>Summary</c> is PointerAnalyzer's
 /// <see cref="PointerAnalyzer.Summary.FunctionSummary" />.
 /// </remarks>
 type FunctionAnalysisResult =
   { Function: FunctionDFAResult
-    Result: AnalysisResult
+    TypeIndicators: TypeIdMap
     Summary: FunctionSummary }
 
 /// <summary>
@@ -83,7 +82,7 @@ module ModularAnalyzer =
       ResolvedTypeMap.build
         resultAnalysisResult.TypeConstraints
         resultAnalysisResult.TypeConflicts
-        funAnalysis.Result.FinalState.Types.TypeIndicators
+        funAnalysis.TypeIndicators
 
     (* Transform the SSA variable type mapping into string *)
     let registerTypeStr =
@@ -120,39 +119,16 @@ module ModularAnalyzer =
       Some (Set.minElement calleeSet)
     | _ -> None
 
-  /// Find entry point of target callee at given callsite, and extract
-  /// ReturningStatus of corresponding callee.
+  /// Find the cached abstraction for the exact call statement and callee.
   let private tryReturningStatus
-    (cfg: SSACFG)
+    (function_: FunctionDFAResult)
     (programPoint: ProgramPoint)
     calleeAddress
     =
-    (* Used for extracting callsite of caller *)
-    let containsProgramPoint (block: IVertex<SSABasicBlock>) =
-      block.VData.Internals.Statements
-      |> Array.exists (fun (pp, _) -> pp = programPoint)
-
-    (*
-      Check given successor block is target callee functio
-      (FunctionAbstraction)
-    *)
-    let calleeEntry (successor: IVertex<SSABasicBlock>) =
-      successor.VData.Internals.IsAbstract
-      && successor.VData.Internals.AbstractContent.EntryPoint = calleeAddress
-
-    (* CallSites must in caller -> Not in Fake Node: Function Abstraction *)
-    let callSites =
-      cfg.Vertices
-      |> Array.tryFind (fun block ->
-        not block.VData.Internals.IsAbstract && containsProgramPoint block)
-
-    callSites
-    (* Filter target callee *)
-    |> Option.bind (fun callerBlock ->
-      cfg.GetSuccs callerBlock |> Array.tryFind calleeEntry)
-    (* Extract ReturningStatus of target callee *)
-    |> Option.map (fun abstraction ->
-      abstraction.VData.Internals.AbstractContent.ReturningStatus)
+    function_.CallAbstractions
+    |> Map.tryFind (programPoint.Address, calleeAddress)
+    |> Option.bind (List.tryFind (fun info -> info.CallSite = programPoint))
+    |> Option.map (fun info -> info.ReturningStatus)
 
   /// Process main-analysis as modular analysis
   let analyzeWithTimer
@@ -195,7 +171,7 @@ module ModularAnalyzer =
           match Map.tryFind callee summaries with
           | Some calleeSum ->
             let returningStatus =
-              tryReturningStatus func.CFG programPoint callee
+              tryReturningStatus func programPoint callee
               |> Option.defaultValue UnknownNoRet
 
             let state =
@@ -234,7 +210,7 @@ module ModularAnalyzer =
 
       let analysis =
         { Function = func
-          Result = result
+          TypeIndicators = result.FinalState.Types.TypeIndicators
           Summary = summary }
 
       Map.add targetAddr analysis calleeAnalyResults,
@@ -251,12 +227,13 @@ module ModularAnalyzer =
     (* Merge all type constrains from all analysis results *)
     (* Since I can not know the last evaluated, so just union all constraints *)
     let rawTypeState =
-      analyses
+      summaries
       |> Map.toSeq
-      |> Seq.map (fun (_, analysis) ->
-        { analysis.Result.FinalState.Types with
-            Constraints = analysis.Summary.Constraints
-            ConstraintOrigins = analysis.Summary.ConstraintOrigins })
+      |> Seq.map (fun (_, summary) ->
+        { typeStateDomain.bot with
+            NextTypeId = summary.NextTypeId
+            Constraints = summary.Constraints
+            ConstraintOrigins = summary.ConstraintOrigins })
       |> Seq.fold typeStateDomain.join typeStateDomain.bot
 
     let solvedTypeState =
