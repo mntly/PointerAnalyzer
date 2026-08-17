@@ -1,0 +1,3842 @@
+{
+  "0x08049000": {
+    "Name": "_init",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08049020": {
+    "Name": "_start",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08049051": {
+    "Name": "__get_pc_thunk_bx",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08049055": {
+    "Name": "deregister_tm_clones",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804909b": {
+    "Name": "register_tm_clones",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x080490f8": {
+    "Name": "__do_global_dtors_aux",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804917d": {
+    "Name": "frame_dummy",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x080491c6": {
+    "Name": "free_attr_actions",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08049228": {
+    "Name": "attr_parse_attr_conf",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08049616": {
+    "Name": "attr_copy_action",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Address",
+        "1": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08049682": {
+    "Name": "__x86.get_pc_thunk.bx",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08049686": {
+    "Name": "attr_copy_check_permissions",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Address",
+        "1": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x080496bb": {
+    "Name": "__x86.get_pc_thunk.ax",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x080496bf": {
+    "Name": "attr_copy_fd",
+    "Arguments": {
+      "ArgNum": 5,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Unknown",
+        "4": "Unknown",
+        "5": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08049ca8": {
+    "Name": "attr_copy_file",
+    "Arguments": {
+      "ArgNum": 4,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Unknown",
+        "3": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804a291": {
+    "Name": "api_convert",
+    "Arguments": {
+      "ArgNum": 4,
+      "Args": {
+        "0": "Address",
+        "1": "Address",
+        "2": "Unknown",
+        "3": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804a35e": {
+    "Name": "api_unconvert",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Address",
+        "1": "Address",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804a4b7": {
+    "Name": "attr_get",
+    "Arguments": {
+      "ArgNum": 5,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Unknown",
+        "3": "Address",
+        "4": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804a5cd": {
+    "Name": "attr_getf",
+    "Arguments": {
+      "ArgNum": 5,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Unknown",
+        "3": "Address",
+        "4": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804a6c5": {
+    "Name": "attr_set",
+    "Arguments": {
+      "ArgNum": 5,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Unknown",
+        "3": "Unknown",
+        "4": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804a7c9": {
+    "Name": "attr_setf",
+    "Arguments": {
+      "ArgNum": 5,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Unknown",
+        "3": "Unknown",
+        "4": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804a895": {
+    "Name": "attr_remove",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804a951": {
+    "Name": "attr_removef",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804a9e2": {
+    "Name": "attr_list_pack",
+    "Arguments": {
+      "ArgNum": 5,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Address",
+        "3": "Address",
+        "4": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804aab9": {
+    "Name": "attr_list",
+    "Arguments": {
+      "ArgNum": 5,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Unknown",
+        "3": "Unknown",
+        "4": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804acac": {
+    "Name": "attr_listf",
+    "Arguments": {
+      "ArgNum": 5,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Unknown",
+        "3": "Unknown",
+        "4": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804ae55": {
+    "Name": "attr_single",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804af1c": {
+    "Name": "attr_singlef",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804afe3": {
+    "Name": "attr_multi",
+    "Arguments": {
+      "ArgNum": 4,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Unknown",
+        "3": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804b076": {
+    "Name": "attr_multif",
+    "Arguments": {
+      "ArgNum": 4,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Unknown",
+        "3": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804b109": {
+    "Name": "setxattr@ATTR_1.0",
+    "Arguments": {
+      "ArgNum": 5,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Address",
+        "3": "Unknown",
+        "4": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x0804b142": {
+    "Name": "lsetxattr@ATTR_1.0",
+    "Arguments": {
+      "ArgNum": 5,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Address",
+        "3": "Unknown",
+        "4": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x0804b17b": {
+    "Name": "fsetxattr@ATTR_1.0",
+    "Arguments": {
+      "ArgNum": 5,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Address",
+        "3": "Unknown",
+        "4": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x0804b1b4": {
+    "Name": "libattr_getxattr",
+    "Arguments": {
+      "ArgNum": 4,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Address",
+        "3": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x0804b1ea": {
+    "Name": "libattr_lgetxattr",
+    "Arguments": {
+      "ArgNum": 4,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Address",
+        "3": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x0804b220": {
+    "Name": "fgetxattr@ATTR_1.0",
+    "Arguments": {
+      "ArgNum": 4,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Address",
+        "3": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x0804b256": {
+    "Name": "listxattr@ATTR_1.0",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x0804b286": {
+    "Name": "llistxattr@ATTR_1.0",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x0804b2b6": {
+    "Name": "flistxattr@ATTR_1.0",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x0804b2e6": {
+    "Name": "libattr_removexattr",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x0804b316": {
+    "Name": "lremovexattr@ATTR_1.0",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x0804b346": {
+    "Name": "libattr_fremovexattr",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x0804b376": {
+    "Name": "main",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804b380": {
+    "Name": "syscall",
+    "Arguments": {
+      "ArgNum": 7,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Unknown",
+        "3": "Address",
+        "4": "Unknown",
+        "5": "Unknown",
+        "6": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x0804b3b2": {
+    "Name": "setxattr",
+    "Arguments": {
+      "ArgNum": 5,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Unknown",
+        "3": "Unknown",
+        "4": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804b41d": {
+    "Name": "lsetxattr",
+    "Arguments": {
+      "ArgNum": 5,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Unknown",
+        "3": "Unknown",
+        "4": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804b488": {
+    "Name": "fsetxattr",
+    "Arguments": {
+      "ArgNum": 5,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Unknown",
+        "3": "Unknown",
+        "4": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804b4f3": {
+    "Name": "getxattr",
+    "Arguments": {
+      "ArgNum": 4,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Unknown",
+        "3": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804b559": {
+    "Name": "lgetxattr",
+    "Arguments": {
+      "ArgNum": 4,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Unknown",
+        "3": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804b5bf": {
+    "Name": "fgetxattr",
+    "Arguments": {
+      "ArgNum": 4,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Unknown",
+        "3": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804b625": {
+    "Name": "listxattr",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804b688": {
+    "Name": "llistxattr",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804b6eb": {
+    "Name": "flistxattr",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804b74e": {
+    "Name": "removexattr",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804b7b0": {
+    "Name": "lremovexattr",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804b812": {
+    "Name": "fremovexattr",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804b874": {
+    "Name": "internal_fnmatch",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804c5ec": {
+    "Name": "end_pattern",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804c6fe": {
+    "Name": "ext_match",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804ccd9": {
+    "Name": "__GI_fnmatch",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804cd16": {
+    "Name": "__x86.get_pc_thunk.di",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804cd1a": {
+    "Name": "__errno_location",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804cd38": {
+    "Name": "__CLOSE",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804cd91": {
+    "Name": "fclose",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804d0fe": {
+    "Name": "fopen64",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Address",
+        "1": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804d122": {
+    "Name": "_stdio_fopen",
+    "Arguments": {
+      "ArgNum": 4,
+      "Args": {
+        "0": "Address",
+        "1": "Address",
+        "2": "Unknown",
+        "3": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804d58a": {
+    "Name": "__CLOSE",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804d5e3": {
+    "Name": "_stdio_term",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804d737": {
+    "Name": "_stdio_init",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804d7a5": {
+    "Name": "__x86.get_pc_thunk.dx",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x0804d7a9": {
+    "Name": "__stdio_wcommit",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804d7f5": {
+    "Name": "feof",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804d8f3": {
+    "Name": "ferror",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804d9f1": {
+    "Name": "__GI_fread",
+    "Arguments": {
+      "ArgNum": 4,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Unknown",
+        "3": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804daf7": {
+    "Name": "_stdio_openlist_dec_use",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804ddb7": {
+    "Name": "__GI_fflush_unlocked",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804e182": {
+    "Name": "fread_unlocked",
+    "Arguments": {
+      "ArgNum": 4,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Unknown",
+        "3": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804e336": {
+    "Name": "memchr",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804e376": {
+    "Name": "__GI_memcpy",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Address",
+        "1": "Address",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804e3bd": {
+    "Name": "memset",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804e40b": {
+    "Name": "__GI_strcat",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Address",
+        "1": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804e45e": {
+    "Name": "strcmp",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804e4a5": {
+    "Name": "__GI_strcpy",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804e4e2": {
+    "Name": "__GI_strlen",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804e525": {
+    "Name": "strncmp",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804e57a": {
+    "Name": "__GI_strncpy",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804e5c8": {
+    "Name": "__mempcpy",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Address",
+        "1": "Address",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x0804e5f2": {
+    "Name": "__GI_strcspn",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804e645": {
+    "Name": "strspn",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804e6ad": {
+    "Name": "__GI_strndup",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804e700": {
+    "Name": "__GI_isatty",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804e72d": {
+    "Name": "tcgetattr",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804ee4c": {
+    "Name": "__malloc_trim",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804ef25": {
+    "Name": "malloc_trim",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804efb0": {
+    "Name": "malloc_init_state",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804f085": {
+    "Name": "__malloc_consolidate",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804f2b7": {
+    "Name": "free",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804f5cd": {
+    "Name": "__malloc_alloc",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804fbd7": {
+    "Name": "__malloc_largebin_index",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0804fc2f": {
+    "Name": "__libc_malloc",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08050442": {
+    "Name": "__GI_abort",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08050885": {
+    "Name": "__GI_getenv",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08050909": {
+    "Name": "__pthread_mutex_trylock",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805091d": {
+    "Name": "__pthread_mutex_init",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08050931": {
+    "Name": "_pthread_cleanup_push_defer",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08050952": {
+    "Name": "_pthread_cleanup_pop_restore",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805097b": {
+    "Name": "__check_one_fd",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x080509c9": {
+    "Name": "__check_suid",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08050a20": {
+    "Name": "__uClibc_init",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08050a92": {
+    "Name": "__uClibc_fini",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x08050b00": {
+    "Name": "__uClibc_main",
+    "Arguments": {
+      "ArgNum": 7,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Address",
+        "3": "Address",
+        "4": "Unknown",
+        "5": "Unknown",
+        "6": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08050e64": {
+    "Name": "__x86.get_pc_thunk.cx",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08050e68": {
+    "Name": "__clear_internal_signals",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x08050f55": {
+    "Name": "__libc_signal_block_app",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x08050fa9": {
+    "Name": "__libc_signal_restore_set",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x08050fdf": {
+    "Name": "raise",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x0805107c": {
+    "Name": "init_slotinfo",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x080510b0": {
+    "Name": "init_static_tls",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08051103": {
+    "Name": "__libc_setup_tls",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08051405": {
+    "Name": "_dl_tls_setup",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805142f": {
+    "Name": "__pthread_initialize_minimal",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08051456": {
+    "Name": "_dl_aux_init",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x080514e7": {
+    "Name": "_dl_nothread_init_static_tls",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805158a": {
+    "Name": "_dl_map_cache",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805159a": {
+    "Name": "_dl_unmap_cache",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x080515aa": {
+    "Name": "_dl_run_array_forward",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08051606": {
+    "Name": "_dl_run_init_array",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805163a": {
+    "Name": "_dl_app_init_array",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08051663": {
+    "Name": "_dl_run_fini_array",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x080516cf": {
+    "Name": "_dl_app_fini_array",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x080516f8": {
+    "Name": "_dl_linux_resolver",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805181e": {
+    "Name": "_dl_parse",
+    "Arguments": {
+      "ArgNum": 5,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Unknown",
+        "3": "Unknown",
+        "4": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805195e": {
+    "Name": "_dl_do_reloc",
+    "Arguments": {
+      "ArgNum": 5,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Address",
+        "3": "Unknown",
+        "4": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08051c86": {
+    "Name": "_dl_do_lazy_reloc",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Address",
+        "2": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08051ce3": {
+    "Name": "_dl_parse_lazy_relocation_information",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08051d13": {
+    "Name": "_dl_parse_relocation_information",
+    "Arguments": {
+      "ArgNum": 4,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Unknown",
+        "3": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08051d43": {
+    "Name": "_dl_elf_hash",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08051da3": {
+    "Name": "_dl_add_elf_hash_table",
+    "Arguments": {
+      "ArgNum": 4,
+      "Args": {
+        "0": "Address",
+        "1": "Address",
+        "2": "Unknown",
+        "3": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x080521fb": {
+    "Name": "check_match",
+    "Arguments": {
+      "ArgNum": 4,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Address",
+        "3": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x080522b4": {
+    "Name": "_dl_find_hash",
+    "Arguments": {
+      "ArgNum": 5,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Address",
+        "3": "Unknown",
+        "4": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08052528": {
+    "Name": "_dl_protect_relro",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805264c": {
+    "Name": "search_for_named_library",
+    "Arguments": {
+      "ArgNum": 5,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Unknown",
+        "3": "Address",
+        "4": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x0805285f": {
+    "Name": "_dl_load_shared_library",
+    "Arguments": {
+      "ArgNum": 4,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Address",
+        "3": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08052b2e": {
+    "Name": "map_writeable",
+    "Arguments": {
+      "ArgNum": 5,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Unknown",
+        "3": "Unknown",
+        "4": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08052f49": {
+    "Name": "_dl_load_elf_shared_library",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x080554cb": {
+    "Name": "_dl_fixup",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x080557d1": {
+    "Name": "_dl_parse_dynamic_info",
+    "Arguments": {
+      "ArgNum": 4,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Unknown",
+        "3": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08055a12": {
+    "Name": "remove_slotinfo",
+    "Arguments": {
+      "ArgNum": 4,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Unknown",
+        "3": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08055b68": {
+    "Name": "_dl_build_local_scope",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Address",
+        "1": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x08055bfb": {
+    "Name": "do_dlopen",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08056e80": {
+    "Name": "dlopen",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08056efb": {
+    "Name": "do_dlsym",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08057087": {
+    "Name": "dlsym",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08057102": {
+    "Name": "do_dlclose",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805796d": {
+    "Name": "dlclose",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x080579e3": {
+    "Name": "dlerror",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08057a2b": {
+    "Name": "do_dladdr",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08057c60": {
+    "Name": "dladdr",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08057cd7": {
+    "Name": "_dl_linux_resolve",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08057d00": {
+    "Name": "__lll_lock_wait_private",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x08057d8a": {
+    "Name": "__lll_lock_wait",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x08057e18": {
+    "Name": "__lll_timedlock_wait",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Address",
+        "1": "Address",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08057f49": {
+    "Name": "__lll_timedwait_tid",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Address",
+        "1": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805807c": {
+    "Name": "__h_errno_location",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x080580a2": {
+    "Name": "__syscall_error",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x080580dd": {
+    "Name": "sigaction",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x080584cb": {
+    "Name": "_setjmp",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x080584ed": {
+    "Name": "__GI_mmap",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08058510": {
+    "Name": "__libc_i386_syscall6",
+    "Arguments": {
+      "ArgNum": 7,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Unknown",
+        "3": "Unknown",
+        "4": "Unknown",
+        "5": "Unknown",
+        "6": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08058537": {
+    "Name": "__close_nocancel",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08058594": {
+    "Name": "__close_nocancel_no_status",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x080585c3": {
+    "Name": "close",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805861f": {
+    "Name": "_exit",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08058676": {
+    "Name": "__GI_getegid",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805869e": {
+    "Name": "__GI_geteuid",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x080586c6": {
+    "Name": "__GI_getgid",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x080586ee": {
+    "Name": "__getpagesize",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08058705": {
+    "Name": "__GI_gettimeofday",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08058774": {
+    "Name": "__GI_getuid",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805879c": {
+    "Name": "__GI_ioctl",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x080588b4": {
+    "Name": "__GI_munmap",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x08058916": {
+    "Name": "__open_nocancel",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08058980": {
+    "Name": "__open2_nocancel",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x080589e2": {
+    "Name": "open",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08058b11": {
+    "Name": "sbrk",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x08058b7f": {
+    "Name": "sigprocmask",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x08058d3d": {
+    "Name": "__fcntl_nocancel",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08058dfe": {
+    "Name": "fcntl",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08058e86": {
+    "Name": "__syscall_rt_sigaction",
+    "Arguments": {
+      "ArgNum": 4,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Address",
+        "3": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x08058eec": {
+    "Name": "tolower",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08058f1f": {
+    "Name": "dprintf",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08058f51": {
+    "Name": "vdprintf",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08058ff3": {
+    "Name": "__READ",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Address",
+        "1": "Address",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08059058": {
+    "Name": "__stdio_READ",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Address",
+        "1": "Address",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x080590df": {
+    "Name": "__WRITE",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Address",
+        "1": "Address",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08059171": {
+    "Name": "__stdio_WRITE",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Address",
+        "1": "Address",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08059284": {
+    "Name": "__stdio_trans2r",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x08059319": {
+    "Name": "_fp_out_narrow",
+    "Arguments": {
+      "ArgNum": 4,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Unknown",
+        "3": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x080593ac": {
+    "Name": "_charpad",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x080593f3": {
+    "Name": "_do_one_spec",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x080599c6": {
+    "Name": "_vfprintf_internal",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08059b37": {
+    "Name": "_ppfs_init",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08059ed3": {
+    "Name": "_ppfs_prepargs",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x08059f2b": {
+    "Name": "_ppfs_setargs",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805a134": {
+    "Name": "_promoted_size",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x0805a180": {
+    "Name": "_is_equal_or_bigger_arg",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805a1d9": {
+    "Name": "_ppfs_parsespec",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805a6dc": {
+    "Name": "fputs_unlocked",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Address",
+        "1": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805a723": {
+    "Name": "fwrite_unlocked",
+    "Arguments": {
+      "ArgNum": 4,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Unknown",
+        "3": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805a7ae": {
+    "Name": "__x86.get_pc_thunk.si",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805a7b2": {
+    "Name": "strchr",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805a7ef": {
+    "Name": "__GI_strnlen",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805a825": {
+    "Name": "__GI_strrchr",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805a868": {
+    "Name": "memcmp_bytes",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805a8b6": {
+    "Name": "memcmp_common_alignment",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Address",
+        "1": "Address",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805aa68": {
+    "Name": "memcmp_not_common_alignment",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Address",
+        "1": "Address",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805acff": {
+    "Name": "memcmp",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805ae1e": {
+    "Name": "strerror_r",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805ae43": {
+    "Name": "strdup",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805ae87": {
+    "Name": "__GI___xpg_strerror_r",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805b2ec": {
+    "Name": "exit",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805b3a6": {
+    "Name": "__libc_enable_asynccancel",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805b470": {
+    "Name": "__libc_disable_asynccancel",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805b54b": {
+    "Name": "_dl_memalign",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805b56d": {
+    "Name": "_dl_allocate_static_tls",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805b679": {
+    "Name": "_dl_next_tls_modid",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805b76e": {
+    "Name": "allocate_dtv",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805b7d4": {
+    "Name": "_dl_get_tls_static_info",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805b80a": {
+    "Name": "_dl_allocate_tls_storage",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805bb7a": {
+    "Name": "_dl_allocate_tls_init",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805bd2c": {
+    "Name": "_dl_allocate_tls",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805bd61": {
+    "Name": "_dl_deallocate_tls",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805be33": {
+    "Name": "_dl_add_to_slotinfo",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805c233": {
+    "Name": "__libc_clock_gettime",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805c337": {
+    "Name": "clock_gettime",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805c35c": {
+    "Name": "brk",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x0805c3ac": {
+    "Name": "__read_nocancel",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805c40f": {
+    "Name": "read",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805c477": {
+    "Name": "__write_nocancel",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805c4da": {
+    "Name": "write",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805c542": {
+    "Name": "__GI_fprintf",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805c574": {
+    "Name": "__stdio_fwrite",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805c70a": {
+    "Name": "__stdio_trans2w",
+    "Arguments": {
+      "ArgNum": 1,
+      "Args": {
+        "0": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Address"
+    },
+    "DetailType": {}
+  },
+  "0x0805c835": {
+    "Name": "_load_inttype",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Unknown",
+        "1": "Address",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805c8e9": {
+    "Name": "_store_inttype",
+    "Arguments": {
+      "ArgNum": 4,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Unknown",
+        "3": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805c937": {
+    "Name": "_uintmaxtostr",
+    "Arguments": {
+      "ArgNum": 5,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Unknown",
+        "3": "Unknown",
+        "4": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805caa8": {
+    "Name": "_fpmaxtostr",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805d9bd": {
+    "Name": "vfprintf",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805db0d": {
+    "Name": "__GI_memrchr",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805dc2d": {
+    "Name": "__libc_calloc",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Address",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805ddad": {
+    "Name": "fseek",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805ddd7": {
+    "Name": "__SEEK",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Address",
+        "1": "Address",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805de37": {
+    "Name": "fseeko64",
+    "Arguments": {
+      "ArgNum": 4,
+      "Args": {
+        "0": "Address",
+        "1": "Unknown",
+        "2": "Unknown",
+        "3": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805dfc3": {
+    "Name": "__stdio_adjust_position",
+    "Arguments": {
+      "ArgNum": 2,
+      "Args": {
+        "0": "Address",
+        "1": "Address"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805e064": {
+    "Name": "__stdio_seek",
+    "Arguments": {
+      "ArgNum": 3,
+      "Args": {
+        "0": "Address",
+        "1": "Address",
+        "2": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805e0b9": {
+    "Name": "__lseek64_nocancel",
+    "Arguments": {
+      "ArgNum": 4,
+      "Args": {
+        "0": "Unknown",
+        "1": "Unknown",
+        "2": "Unknown",
+        "3": "Unknown"
+      }
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805e146": {
+    "Name": "lseek64",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805e1c2": {
+    "Name": "__do_global_ctors_aux",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  },
+  "0x0805e1ec": {
+    "Name": "_fini",
+    "Arguments": {
+      "ArgNum": 0,
+      "Args": {}
+    },
+    "ReturnReg": {
+      "EAX": "Unknown",
+      "EDX": "Unknown"
+    },
+    "DetailType": {}
+  }
+}

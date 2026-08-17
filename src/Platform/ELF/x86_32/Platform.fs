@@ -4,6 +4,7 @@ open B2R2
 open B2R2.FrontEnd
 open B2R2.BinIR.SSA
 open PointerAnalyzer.Platform.PlatformTypes
+open PointerAnalyzer.Platform.ELF.X86_32
 
 let private wordSize = 4
 
@@ -158,6 +159,7 @@ let create () =
     CallerSavedRegisters = callerSavedRegisters
     CalleeSavedRegisters = calleeSavedRegisters
     RegisterName = registerName
+    SyscallABI = Some (Syscall.create ())
 
     TrivialAddressRegisters = trivialAddressRegisters
     TrivialValueRegisters = trivialValueRegisters

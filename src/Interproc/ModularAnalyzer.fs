@@ -15,6 +15,7 @@ open PointerAnalyzer.PreAnalysis.PreAnalysisTypes
 open PointerAnalyzer.Summary
 open PointerAnalyzer.Summary.FunctionSummaryBuilder
 open PointerAnalyzer.Summary.SummaryApplicator
+open PointerAnalyzer.Summary.SyscallSummaryApplicator
 open PointerAnalyzer.TypeInference.ResolvedType
 open PointerAnalyzer.Utils
 
@@ -139,6 +140,7 @@ module ModularAnalyzer =
     =
     let platform = program.Binary.Platform
     let applicator = SummaryApplicator.create platform
+    let syscallApplicator = SyscallSummaryApplicator.create platform
     let classifyConstant = ConstantClassifier.forBinary program.Binary.Handle
     let visitOrder = program.VisitOrder
 
@@ -182,6 +184,12 @@ module ModularAnalyzer =
         | Some callee, false -> Some (state, callee)
         | None, _ -> None
 
+      /// Apply a syscall summary through the platform syscall ABI.
+      let applySyscallSummary (programPoint: ProgramPoint) state =
+        func.SyscallSummaries
+        |> Map.tryFind programPoint.Address
+        |> Option.map (fun summary -> syscallApplicator.apply summary state)
+
       // let debug = func.Address = 0x804B17BUL
       let debug = false
 
@@ -192,6 +200,7 @@ module ModularAnalyzer =
           classifyConstant
           platform.StackPointer
           applyCallSummary
+          applySyscallSummary
           trackTypeProvenance
           debug (* Used for tracking new type constraint per stmt *)
 

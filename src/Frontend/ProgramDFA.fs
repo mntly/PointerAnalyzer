@@ -12,6 +12,7 @@ open B2R2.MiddleEnd.SSA
 open PointerAnalyzer.Frontend.B2R2Diagnostics
 open PointerAnalyzer.Frontend.BinaryLoader
 open PointerAnalyzer.Frontend.FunctionDFA
+open PointerAnalyzer.Summary
 
 /// Represents callee information of each callsite.
 type CallAbstractionInfo =
@@ -44,6 +45,7 @@ type FunctionDFAResult =
     RetAddresses: Set<Addr>
     DFAResult: FunctionDFA
     Callees: Map<Addr, Set<Addr>>
+    SyscallSummaries: Map<Addr, SyscallSummary>
     CallAbstractions: Map<Addr * Addr, CallAbstractionInfo list> }
 
 /// <summary>
@@ -63,6 +65,48 @@ type ProgramDFAResult =
     B2R2Diagnostics: UnsupportedInstInfo list }
 
 module ProgramDFA =
+  /// Collect B2R2 syscall sites
+  let private syscallSites (function_: Function) =
+    let collect sites (KeyValue (callSite: CallSite, callee)) =
+      match callee with
+      | SyscallCallee isExit -> Map.add callSite.CallSiteAddress isExit sites
+      | _ -> sites
+
+    if isNull function_.Callees then
+      Map.empty
+    else
+      function_.Callees |> Seq.fold collect Map.empty
+
+  /// Extract registers redefined by the syscall's FunctionAbstraction.
+  let private syscallOutputRegisters (cfg: SSACFG) callSite =
+    cfg.Vertices
+    (* Filter the caller block that calls syscall *)
+    (* This block must be non-FunctionAbstraction *)
+    |> Seq.filter (fun block ->
+      not block.VData.Internals.IsAbstract
+      && (block.VData.Internals.Statements
+          |> Array.exists (fun (programPoint, statement) ->
+            programPoint.Address = callSite
+            && match statement with
+               | SideEffect SysCall
+               | SideEffect (Interrupt 0x80) -> true
+               | _ -> false)))
+    (* Enter FunctionAbstraction of syscall *)
+    |> Seq.collect cfg.GetSuccs
+    |> Seq.filter (fun block -> block.VData.Internals.IsAbstract)
+    (* Extract all registers re-defined due to syscall *)
+    |> Seq.collect (fun block -> block.VData.Internals.Statements)
+    |> Seq.choose (fun (_, statement) ->
+      match statement with
+      | Def ({ Kind = RegVar (_, registerId, _) }, _) -> Some registerId
+      | _ -> None)
+    |> Set.ofSeq
+
+  let private syscallSummaries function_ cfg =
+    syscallSites function_
+    |> Map.map (fun callSite isExit ->
+      SyscallSummary.create isExit (syscallOutputRegisters cfg callSite))
+
   /// Cache function-abstraction successors for every callsite block.
   let private callAbstractions (cfg: SSACFG) =
     cfg.Vertices
@@ -237,6 +281,7 @@ module ProgramDFA =
           raiseWithContext DataFlowAnalysis (Some func) cause
 
       let abstractions = callAbstractions cfg
+      let syscalls = syscallSummaries func cfg
 
       (func.EntryPoint,
        { Address = func.EntryPoint
@@ -245,6 +290,7 @@ module ProgramDFA =
          RetAddresses = extractRetAddr func
          DFAResult = dfaResult
          Callees = callees func
+         SyscallSummaries = syscalls
          CallAbstractions = abstractions }),
       unsupportedInstructions func cfg
 

@@ -21,6 +21,7 @@ open PointerAnalyzer.AbsDom.TypeState
 /// <c>Types</c> is PointerAnalyzer's
 /// <see cref="PointerAnalyzer.AbsDom.TypeState.TypeState" />.
 /// <c>CurrentRegisters</c> tracks the type Id of each register.
+/// <c>CurrentRegisterValues</c> tracks the abstract value of each register.
 /// <c>CurrentStackSlots</c> tracks the type Id of each stack slot.
 /// <c>PendingRegisterOutputs</c> tracks callee output register types after
 /// applying a function summary until B2R2 defines fresh caller-side SSA
@@ -32,6 +33,7 @@ type AnalysisState =
     Memory: AbsMem
     Types: TypeState
     CurrentRegisters: Map<RegisterID, TypeId>
+    CurrentRegisterValues: Map<RegisterID, AbsVal>
     CurrentStackSlots: Map<int, TypeId>
     PendingRegisterOutputs: Map<RegisterID, TypeId>
     StackPointer: StackPointerState }
@@ -71,6 +73,7 @@ type AnalysisStateModule
       Memory = memory.bot
       Types = types.bot
       CurrentRegisters = Map.empty
+      CurrentRegisterValues = Map.empty
       CurrentStackSlots = Map.empty
       PendingRegisterOutputs = Map.empty
       StackPointer = StackPointerState.empty }
@@ -109,19 +112,25 @@ type AnalysisStateModule
   /// Return the Abstract Value of given register
   member _.tryFindRegister variable state = regMap.tryFind variable state.RegMap
 
+  /// Return the latest abstract value written to a physical register.
+  member _.tryFindCurrentRegisterValue registerId state =
+    Map.tryFind registerId state.CurrentRegisterValues
+
   /// Set the abstract value of given register as given abstract value.
   /// In addition, record the lates type Id written to given register.
   member _.setRegister (variable: Variable) value typeId state =
-    let currentRegisters =
+    let currentRegisters, currentRegisterValues =
       match variable.Kind with
       | VariableKind.RegVar (_, registerId, _) ->
-        Map.add registerId typeId state.CurrentRegisters
-      | _ -> state.CurrentRegisters
+        Map.add registerId typeId state.CurrentRegisters,
+        Map.add registerId value state.CurrentRegisterValues
+      | _ -> state.CurrentRegisters, state.CurrentRegisterValues
 
     { state with
         RegMap = regMap.add variable value state.RegMap
         Types = types.set variable typeId state.Types
-        CurrentRegisters = currentRegisters }
+        CurrentRegisters = currentRegisters
+        CurrentRegisterValues = currentRegisterValues }
 
   /// Record the latest type Id written to given current stack slot.
   member _.setCurrentStackSlot offset typeId state =
@@ -356,6 +365,15 @@ type AnalysisStateModule
       Types = types.join left.Types right.Types
       CurrentRegisters =
         joinCurrentTypeIds left.CurrentRegisters right.CurrentRegisters
+      CurrentRegisterValues =
+        right.CurrentRegisterValues
+        |> Map.fold
+          (fun result registerId rightValue ->
+            match Map.tryFind registerId result with
+            | Some leftValue ->
+              Map.add registerId (absVal.join leftValue rightValue) result
+            | None -> Map.add registerId rightValue result)
+          left.CurrentRegisterValues
       CurrentStackSlots =
         joinCurrentTypeIds left.CurrentStackSlots right.CurrentStackSlots
       PendingRegisterOutputs =

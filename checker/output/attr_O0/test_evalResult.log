@@ -1,0 +1,66 @@
+===== GTUnknown Functions =====
+<none>
+
+===== Invalid GT Size Functions =====
+<none>
+
+===== Large Return Functions =====
+<none>
+
+===== MissedDetect Functions =====
+<none>
+
+===== CountMismatch Functions =====
+0x080496bf attr_copy_fd
+
+===== Correct Functions =====
+<none>
+
+===== MisInferred Functions =====
+0x0804b256 libattr_listxattr
+0x0804b286 libattr_llistxattr
+0x0804b2b6 libattr_flistxattr
+
+===== Conflict Functions =====
+<none>
+
+===== Failed Functions =====
+0x08049228 attr_parse_attr_conf
+0x08049616 attr_copy_action
+0x08049686 attr_copy_check_permissions
+0x080496bf attr_copy_fd
+0x08049ca8 attr_copy_file
+0x0804a291 api_convert
+0x0804a35e api_unconvert
+0x0804a4b7 attr_get
+0x0804a5cd attr_getf
+0x0804a6c5 attr_set
+0x0804a7c9 attr_setf
+0x0804a895 attr_remove
+0x0804a951 attr_removef
+0x0804a9e2 attr_list_pack
+0x0804aab9 attr_list
+0x0804acac attr_listf
+0x0804ae55 attr_single
+0x0804af1c attr_singlef
+0x0804afe3 attr_multi
+0x0804b076 attr_multif
+0x0804b109 libattr_setxattr
+0x0804b142 libattr_lsetxattr
+0x0804b17b libattr_fsetxattr
+0x0804b1b4 libattr_getxattr
+0x0804b1ea libattr_lgetxattr
+0x0804b220 libattr_fgetxattr
+0x0804b256 libattr_listxattr
+0x0804b286 libattr_llistxattr
+0x0804b2b6 libattr_flistxattr
+0x0804b2e6 libattr_removexattr
+0x0804b316 libattr_lremovexattr
+0x0804b346 libattr_fremovexattr
+
+===== Infer More Params =====
+<none>
+
+===== Structure Slot Coverage =====
+<none>
+

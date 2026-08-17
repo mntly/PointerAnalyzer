@@ -191,6 +191,18 @@ type AnalyzerModule
       Types = types
       CurrentRegisters =
         joinCurrentTypeIds left.CurrentRegisters right.CurrentRegisters
+      CurrentRegisterValues =
+        right.CurrentRegisterValues
+        |> Map.fold
+          (fun acc registerId rightValue ->
+            match Map.tryFind registerId acc with
+            | Some leftValue ->
+              Map.add
+                registerId
+                (stateDom.AbsVal.join leftValue rightValue)
+                acc
+            | None -> Map.add registerId rightValue acc)
+          left.CurrentRegisterValues
       CurrentStackSlots =
         joinCurrentTypeIds left.CurrentStackSlots right.CurrentStackSlots
       PendingRegisterOutputs =

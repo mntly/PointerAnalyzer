@@ -1,0 +1,25 @@
+====== B2R2 Analysis Error ======
+Binary: /mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/datas/binaries/helloword-x86_32-i586-uclibc-O0
+Stage: SSA lifting
+Function: 0x08049000 _init
+Exception: B2R2.BinIR.InvalidExprException
+Message: InvalidExprException
+
+Stack trace:
+B2R2.BinIR.InvalidExprException: InvalidExprException
+   at B2R2.BinIR.SSA.AST.translateDest(Expr _arg1) in /mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/external/B2R2/src/BinIR/SSA/AST.fs:line 41
+   at B2R2.BinIR.SSA.AST.translateStmtAux(Int32 defaultRegType, UInt64 addr, Stmt s) in /mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/external/B2R2/src/BinIR/SSA/AST.fs:line 83
+   at B2R2.BinIR.SSA.AST.translateStmts@122.Invoke(Stmt stmt) in /mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/external/B2R2/src/BinIR/SSA/AST.fs:line 123
+   at Microsoft.FSharp.Collections.ArrayModule.Choose[T,TResult](FSharpFunc`2 chooser, T[] array) in D:\a\_work\1\s\src\fsharp\src\FSharp.Core\array.fs:line 653
+   at B2R2.BinIR.SSA.AST.translateStmts(Int32 defaultRegType, UInt64 addr, IStmtPostProcessor postProc, Stmt[] stmts) in /mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/external/B2R2/src/BinIR/SSA/AST.fs:line 122
+   at B2R2.MiddleEnd.SSA.SSALifterFactoryModule.liftRundown(IStmtPostProcessor stmtProcessor, Stmt[] rundown) in /mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/external/B2R2/src/MiddleEnd/SSA/SSALifterFactory.fs:line 76
+   at B2R2.MiddleEnd.SSA.SSALifterFactoryModule.translateAbstractBlock(IStmtPostProcessor stmtProcessor, ILowUIRBasicBlock bbl) in /mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/external/B2R2/src/MiddleEnd/SSA/SSALifterFactory.fs:line 81
+   at B2R2.MiddleEnd.SSA.SSALifterFactoryModule.translateBlock(IStmtPostProcessor stmtProcessor, ILowUIRBasicBlock irBlk) in /mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/external/B2R2/src/MiddleEnd/SSA/SSALifterFactory.fs:line 92
+   at B2R2.MiddleEnd.SSA.SSALifterFactoryModule.getVertex(IStmtPostProcessor stmtProcessor, Dictionary`2 vMap, SSACFG g, IVertex`1 irV) in /mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/external/B2R2/src/MiddleEnd/SSA/SSALifterFactory.fs:line 100
+   at B2R2.MiddleEnd.SSA.SSALifterFactoryModule.convertToSSA@112.Invoke(Edge`2 e) in /mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/external/B2R2/src/MiddleEnd/SSA/SSALifterFactory.fs:line 115
+   at Microsoft.FSharp.Collections.SeqModule.Iterate[T](FSharpFunc`2 action, IEnumerable`1 source) in D:\a\_work\1\s\src\fsharp\src\FSharp.Core\seq.fs:line 630
+   at B2R2.MiddleEnd.BinGraph.ImperativeDiGraph`2.B2R2.MiddleEnd.BinGraph.IGraphAccessible<'V, 'E>.IterEdge(FSharpFunc`2 fn) in /mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/external/B2R2/src/MiddleEnd/BinGraph/ImperativeDiGraph.fs:line 207
+   at B2R2.MiddleEnd.ControlFlowGraph.LowUIRCFG.IterEdge(FSharpFunc`2 fn) in /mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/external/B2R2/src/MiddleEnd/ControlFlowGraph/LowUIRCFG.fs:line 160
+   at B2R2.MiddleEnd.SSA.SSALifterFactoryModule.convertToSSA(IStmtPostProcessor stmtProcessor, LowUIRCFG cfg, SSACFG ssaCFG) in /mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/external/B2R2/src/MiddleEnd/SSA/SSALifterFactory.fs:line 112
+   at B2R2.MiddleEnd.SSA.SSALifterFactoryModule.create@414.B2R2.MiddleEnd.SSA.ISSALiftable.Lift(LowUIRCFG cfg) in /mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/external/B2R2/src/MiddleEnd/SSA/SSALifterFactory.fs:line 417
+   at PointerAnalyzer.Frontend.ProgramDFA.ProgramDFA.constrFunDFA@227.Invoke(Function func) in /mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/src/Frontend/ProgramDFA.fs:line 229

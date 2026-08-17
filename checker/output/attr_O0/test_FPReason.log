@@ -1,0 +1,103 @@
+====== False Positive Reasons ======
+Target: parameter 2 - libattr_listxattr (0x0804b256)
+Inferred source: argument slot 2 -> Address(t82472)
+Propagation
+Step 1
+TargetIdentity: listxattr@ATTR_1.0:V_-12_0, listxattr@ATTR_1.0:argument[2]
+TargetType: Address(t82472)
+
+TypeConstraint: Same({t82472, t82473})
+SSA: listxattr@ATTR_1.0 (0x0804b267+3) V_16_2 := V_-12_0
+Premises: Step 2
+
+Step 2
+TargetIdentity: listxattr@ATTR_1.0:V_16_2
+TargetType: Address(t82473)
+
+TypeConstraint: Same({t81320, t82473})
+SSA: listxattr@ATTR_1.0 (0x0804b277+3) Jmp 0x804b380:I32 (Argument Binding At Call)
+Premises: Step 3
+
+Step 3
+TargetIdentity: syscall:V_-16_0, syscall:argument[3]
+TargetType: Address(t81320)
+
+TypeConstraint: Same({t81320, t83162})
+SSA: libattr_fremovexattr (0x0804b367+3) Jmp 0x804b380:I32 (Argument Binding At Call)
+Premises: Step 4
+
+Step 4
+TargetIdentity: libattr_fremovexattr:V_16_1
+TargetType: Address(t83162)
+
+SSA: libattr_fremovexattr (0x0804b34d+3) Jmp 0x80496bb:I32 (Return Address Stack Slot)
+
+
+Target: parameter 2 - libattr_llistxattr (0x0804b286)
+Inferred source: argument slot 2 -> Address(t82612)
+Propagation
+Step 1
+TargetIdentity: llistxattr@ATTR_1.0:V_-12_0, llistxattr@ATTR_1.0:argument[2]
+TargetType: Address(t82612)
+
+TypeConstraint: Same({t82612, t82613})
+SSA: llistxattr@ATTR_1.0 (0x0804b297+3) V_16_2 := V_-12_0
+Premises: Step 2
+
+Step 2
+TargetIdentity: llistxattr@ATTR_1.0:V_16_2
+TargetType: Address(t82613)
+
+TypeConstraint: Same({t81320, t82613})
+SSA: llistxattr@ATTR_1.0 (0x0804b2a7+3) Jmp 0x804b380:I32 (Argument Binding At Call)
+Premises: Step 3
+
+Step 3
+TargetIdentity: syscall:V_-16_0, syscall:argument[3]
+TargetType: Address(t81320)
+
+TypeConstraint: Same({t81320, t83162})
+SSA: libattr_fremovexattr (0x0804b367+3) Jmp 0x804b380:I32 (Argument Binding At Call)
+Premises: Step 4
+
+Step 4
+TargetIdentity: libattr_fremovexattr:V_16_1
+TargetType: Address(t83162)
+
+SSA: libattr_fremovexattr (0x0804b34d+3) Jmp 0x80496bb:I32 (Return Address Stack Slot)
+
+
+Target: parameter 2 - libattr_flistxattr (0x0804b2b6)
+Inferred source: argument slot 2 -> Address(t82752)
+Propagation
+Step 1
+TargetIdentity: flistxattr@ATTR_1.0:V_-12_0, flistxattr@ATTR_1.0:argument[2]
+TargetType: Address(t82752)
+
+TypeConstraint: Same({t82752, t82753})
+SSA: flistxattr@ATTR_1.0 (0x0804b2c7+3) V_16_2 := V_-12_0
+Premises: Step 2
+
+Step 2
+TargetIdentity: flistxattr@ATTR_1.0:V_16_2
+TargetType: Address(t82753)
+
+TypeConstraint: Same({t81320, t82753})
+SSA: flistxattr@ATTR_1.0 (0x0804b2d7+3) Jmp 0x804b380:I32 (Argument Binding At Call)
+Premises: Step 3
+
+Step 3
+TargetIdentity: syscall:V_-16_0, syscall:argument[3]
+TargetType: Address(t81320)
+
+TypeConstraint: Same({t81320, t83162})
+SSA: libattr_fremovexattr (0x0804b367+3) Jmp 0x804b380:I32 (Argument Binding At Call)
+Premises: Step 4
+
+Step 4
+TargetIdentity: libattr_fremovexattr:V_16_1
+TargetType: Address(t83162)
+
+SSA: libattr_fremovexattr (0x0804b34d+3) Jmp 0x80496bb:I32 (Return Address Stack Slot)
+
+

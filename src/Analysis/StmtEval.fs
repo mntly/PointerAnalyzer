@@ -89,6 +89,12 @@ type ApplyCallSummary =
     -> AnalysisState
     -> (AnalysisState * Addr) option
 
+/// Type definition for applying a syscall summary at a syscall instruction.
+type ApplySyscallSummary =
+  ProgramPoint
+    -> AnalysisState
+    -> (AnalysisState * NonReturningStatus) option
+
 /// <summary>
 /// Some information used by evaluation, passed from
 /// <see cref="PointerAnalyzer.Interproc.ModularAnalyzer.ModularAnalyzer.analyzeWithTimer" />.
@@ -101,6 +107,7 @@ type StmtEvalConfig =
     StackPointer: RegisterID option
     InitialStackPointer: Addr option
     ApplyCallSummary: ApplyCallSummary
+    ApplySyscallSummary: ApplySyscallSummary
     FunctionAddress: Addr
     FunctionName: string
     TrackTypeProvenance: bool
@@ -115,6 +122,7 @@ module StmtEvalConfig =
       StackPointer = None
       InitialStackPointer = None
       ApplyCallSummary = fun _ _ _ _ _ -> None
+      ApplySyscallSummary = fun _ _ -> None
       FunctionAddress = 0UL
       FunctionName = ""
       TrackTypeProvenance = false
@@ -149,6 +157,7 @@ module StmtEvalConfig =
     classifyConst
     sp
     applyCallee
+    applySyscall
     trackTypeProvenance
     isDebug
     =
@@ -166,6 +175,7 @@ module StmtEvalConfig =
       StackPointer = Some sp
       InitialStackPointer = initialStackPointer
       ApplyCallSummary = applyCallee
+      ApplySyscallSummary = applySyscall
       FunctionAddress = functionPreResult.FunctionDFA.Address
       FunctionName = functionPreResult.FunctionDFA.Name
       TrackTypeProvenance = trackTypeProvenance
@@ -541,6 +551,13 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
         [ { Target = Next; State = state } ]
 
       | SideEffect Terminate -> [ { Target = Terminated; State = state } ]
+
+      | SideEffect SysCall
+      | SideEffect (Interrupt 0x80) ->
+        match config.ApplySyscallSummary programPoint state with
+        | Some (state, NoRet) -> [ { Target = Terminated; State = state } ]
+        | Some (state, _) -> [ { Target = Next; State = state } ]
+        | None -> [ { Target = Next; State = state } ]
 
       (* Some exception may be handled by SW *)
       | SideEffect (Exception _)

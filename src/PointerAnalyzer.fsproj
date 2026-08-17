@@ -11,6 +11,7 @@
     <Compile Include="Core/Utils.fs" />
 
     <Compile Include="Platform/PlatformTypes.fs" />
+    <Compile Include="Platform/ELF/x86_32/Syscall.fs" />
     <Compile Include="Platform/ELF/x86_32/Platform.fs" />
     <Compile Include="Platform/Platform.fs" />
     
@@ -29,7 +30,9 @@
 
     <Compile Include="Summary/TypePerInst.fs" />
     <Compile Include="Summary/FunctionSummary.fs" />
+    <Compile Include="Summary/SyscallSummary.fs" />
     <Compile Include="Summary/SummaryApplicator.fs" />
+    <Compile Include="Summary/SyscallSummaryApplicator.fs" />
 
     <Compile Include="Frontend/BinaryLoader.fs" />
     <Compile Include="Frontend/B2R2Diagnostics.fs" />

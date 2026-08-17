@@ -55,6 +55,25 @@ type PlatformKind = | ElfX86_32
 
 type IntrinsicKind = | PCThunk
 
+/// Expected pointer-analysis type of one syscall register.
+type SyscallDataType =
+  | SyscallAddress
+  | SyscallValue
+  | SyscallUnknown
+
+/// Platform-specific signature selected by a syscall number.
+type SyscallSignature =
+  { Name: string
+    Arguments: Map<RegisterID, SyscallDataType>
+    Returns: Map<RegisterID, SyscallDataType>
+    IsNoReturn: bool }
+
+/// Platform-specific syscall calling convention and signature table.
+type SyscallABI =
+  { NumberRegister: RegisterID
+    ClobberedRegisters: Set<RegisterID>
+    TryFindSignature: uint64 -> SyscallSignature option }
+
 type CallSiteStackContext =
   { StackPointer: StackPointerState
     ParameterCount: int }
@@ -74,6 +93,7 @@ type Platform =
     CallerSavedRegisters: Set<RegisterID>
     CalleeSavedRegisters: Set<RegisterID>
     RegisterName: RegisterID -> string
+    SyscallABI: SyscallABI option
 
     TrivialAddressRegisters: Set<RegisterID>
     TrivialValueRegisters: Set<RegisterID>

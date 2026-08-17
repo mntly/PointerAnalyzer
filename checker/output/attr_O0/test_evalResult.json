@@ -1,0 +1,83 @@
+{
+  "Count": {
+    "GTAll": 151,
+    "All": 151,
+    "Correct": {
+      "Total": 35,
+      "GTAddress": 35,
+      "GTValue": 0
+    },
+    "MisInferred": {
+      "Total": 3,
+      "GTAddress": 0,
+      "GTValue": 3
+    },
+    "Conflict": {
+      "Total": 0,
+      "GTAddress": 0,
+      "GTValue": 0
+    },
+    "Fail": {
+      "Total": 113,
+      "GTAddress": 38,
+      "GTValue": 75
+    }
+  },
+  "Ratio": {
+    "Correct": {
+      "Total": 0.23178807947019867,
+      "GTAddress": 1,
+      "GTValue": 0
+    },
+    "MisInferred": {
+      "Total": 0.019867549668874173,
+      "GTAddress": 0,
+      "GTValue": 1
+    },
+    "Conflict": {
+      "Total": 0,
+      "GTAddress": 0,
+      "GTValue": 0
+    },
+    "Fail": {
+      "Total": 0.7483443708609272,
+      "GTAddress": 0.336283185840708,
+      "GTValue": 0.6637168141592921
+    }
+  },
+  "GTTypeRatio": {
+    "GTAddress": {
+      "Correct": 0.4794520547945205,
+      "MisInferred": 0,
+      "Conflict": 0,
+      "Fail": 0.5205479452054794
+    },
+    "GTValue": {
+      "Correct": 0,
+      "MisInferred": 0.038461538461538464,
+      "Conflict": 0,
+      "Fail": 0.9615384615384616
+    }
+  },
+  "FinalResult": {
+    "Confusion": {
+      "TP": 35,
+      "TN": 75,
+      "FP": 3,
+      "FN": 38
+    },
+    "Acc": 0.7284768211920529,
+    "Recall": 0.4794520547945205,
+    "Precision": 0.9210526315789473
+  },
+  "StructureSlotCoverage": {
+    "Elements": 0,
+    "FullyObserved": 0,
+    "PartiallyObserved": 0,
+    "Unobserved": 0,
+    "GTSlots": 0,
+    "ObservedSlots": 0,
+    "MissingSlots": 0,
+    "Ratio": 0
+  }
+}

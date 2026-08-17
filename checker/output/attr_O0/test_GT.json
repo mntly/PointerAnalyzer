@@ -1,0 +1,835 @@
+{
+  "0x080491c6": {
+    "Name": "free_attr_actions",
+    "Args": [],
+    "Return": []
+  },
+  "0x08049228": {
+    "Name": "attr_parse_attr_conf",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x08049616": {
+    "Name": "attr_copy_action",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x08049686": {
+    "Name": "attr_copy_check_permissions",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x080496bf": {
+    "Name": "attr_copy_fd",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x08049ca8": {
+    "Name": "attr_copy_file",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x0804a291": {
+    "Name": "api_convert",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x0804a35e": {
+    "Name": "api_unconvert",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x0804a4b7": {
+    "Name": "attr_get",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x0804a5cd": {
+    "Name": "attr_getf",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x0804a6c5": {
+    "Name": "attr_set",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x0804a7c9": {
+    "Name": "attr_setf",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x0804a895": {
+    "Name": "attr_remove",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x0804a951": {
+    "Name": "attr_removef",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x0804a9e2": {
+    "Name": "attr_list_pack",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x0804aab9": {
+    "Name": "attr_list",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x0804acac": {
+    "Name": "attr_listf",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x0804ae55": {
+    "Name": "attr_single",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x0804af1c": {
+    "Name": "attr_singlef",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x0804afe3": {
+    "Name": "attr_multi",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x0804b076": {
+    "Name": "attr_multif",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x0804b109": {
+    "Name": "libattr_setxattr",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x0804b142": {
+    "Name": "libattr_lsetxattr",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x0804b17b": {
+    "Name": "libattr_fsetxattr",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x0804b1b4": {
+    "Name": "libattr_getxattr",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x0804b1ea": {
+    "Name": "libattr_lgetxattr",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x0804b220": {
+    "Name": "libattr_fgetxattr",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x0804b256": {
+    "Name": "libattr_listxattr",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x0804b286": {
+    "Name": "libattr_llistxattr",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x0804b2b6": {
+    "Name": "libattr_flistxattr",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x0804b2e6": {
+    "Name": "libattr_removexattr",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x0804b316": {
+    "Name": "libattr_lremovexattr",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Address"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  },
+  "0x0804b346": {
+    "Name": "libattr_fremovexattr",
+    "Args": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      },
+      {
+        "Size": 4,
+        "Type": "Address"
+      }
+    ],
+    "Return": [
+      {
+        "Size": 4,
+        "Type": "Value"
+      }
+    ]
+  }
+}
