@@ -12,6 +12,7 @@ open B2R2.MiddleEnd.SSA
 open PointerAnalyzer.Frontend.B2R2Diagnostics
 open PointerAnalyzer.Frontend.BinaryLoader
 open PointerAnalyzer.Frontend.FunctionDFA
+open PointerAnalyzer.Frontend.SyscallDispatcherDetector
 open PointerAnalyzer.Summary
 
 /// Represents callee information of each callsite.
@@ -46,6 +47,7 @@ type FunctionDFAResult =
     DFAResult: FunctionDFA
     Callees: Map<Addr, Set<Addr>>
     SyscallSummaries: Map<Addr, SyscallSummary>
+    SyscallDispatcher: SyscallDispatcherSummary option
     CallAbstractions: Map<Addr * Addr, CallAbstractionInfo list> }
 
 /// <summary>
@@ -282,6 +284,12 @@ module ProgramDFA =
 
       let abstractions = callAbstractions cfg
       let syscalls = syscallSummaries func cfg
+      let syscallDispatcher =
+        SyscallDispatcherDetector.detect
+          binary.Platform
+          cfg
+          dfaResult
+          syscalls
 
       (func.EntryPoint,
        { Address = func.EntryPoint
@@ -291,6 +299,7 @@ module ProgramDFA =
          DFAResult = dfaResult
          Callees = callees func
          SyscallSummaries = syscalls
+         SyscallDispatcher = syscallDispatcher
          CallAbstractions = abstractions }),
       unsupportedInstructions func cfg
 

@@ -316,6 +316,99 @@ let private signatures =
       [ ebx, SyscallValue; ecx, SyscallAddress ]
       valueReturn
       false
+    226UL,
+    signature
+      "setxattr"
+      [ ebx, SyscallAddress
+        ecx, SyscallAddress
+        edx, SyscallAddress
+        esi, SyscallValue
+        edi, SyscallValue ]
+      valueReturn
+      false
+    227UL,
+    signature
+      "lsetxattr"
+      [ ebx, SyscallAddress
+        ecx, SyscallAddress
+        edx, SyscallAddress
+        esi, SyscallValue
+        edi, SyscallValue ]
+      valueReturn
+      false
+    228UL,
+    signature
+      "fsetxattr"
+      [ ebx, SyscallValue
+        ecx, SyscallAddress
+        edx, SyscallAddress
+        esi, SyscallValue
+        edi, SyscallValue ]
+      valueReturn
+      false
+    229UL,
+    signature
+      "getxattr"
+      [ ebx, SyscallAddress
+        ecx, SyscallAddress
+        edx, SyscallAddress
+        esi, SyscallValue ]
+      valueReturn
+      false
+    230UL,
+    signature
+      "lgetxattr"
+      [ ebx, SyscallAddress
+        ecx, SyscallAddress
+        edx, SyscallAddress
+        esi, SyscallValue ]
+      valueReturn
+      false
+    231UL,
+    signature
+      "fgetxattr"
+      [ ebx, SyscallValue
+        ecx, SyscallAddress
+        edx, SyscallAddress
+        esi, SyscallValue ]
+      valueReturn
+      false
+    232UL,
+    signature
+      "listxattr"
+      [ ebx, SyscallAddress; ecx, SyscallAddress; edx, SyscallValue ]
+      valueReturn
+      false
+    233UL,
+    signature
+      "llistxattr"
+      [ ebx, SyscallAddress; ecx, SyscallAddress; edx, SyscallValue ]
+      valueReturn
+      false
+    234UL,
+    signature
+      "flistxattr"
+      [ ebx, SyscallValue; ecx, SyscallAddress; edx, SyscallValue ]
+      valueReturn
+      false
+    235UL,
+    signature
+      "removexattr"
+      [ ebx, SyscallAddress; ecx, SyscallAddress ]
+      valueReturn
+      false
+    236UL,
+    signature
+      "lremovexattr"
+      [ ebx, SyscallAddress; ecx, SyscallAddress ]
+      valueReturn
+      false
+    237UL,
+    signature
+      "fremovexattr"
+      [ ebx, SyscallValue; ecx, SyscallAddress ]
+      valueReturn
+      false
     220UL,
     signature
       "getdents64"
@@ -390,5 +483,6 @@ let private signatures =
 
 let create () =
   { NumberRegister = eax
+    ArgumentRegisters = [ ebx; ecx; edx; esi; edi; ebp ]
     ClobberedRegisters = Set.ofList [ eax; ecx; edx ]
     TryFindSignature = fun number -> Map.tryFind number signatures }

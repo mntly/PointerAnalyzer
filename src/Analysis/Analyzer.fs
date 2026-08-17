@@ -119,7 +119,7 @@ type AnalyzerModule
 
     match transferTarget with
     | LabelTarget (label, edgeKind) -> tryFindTarget edgeKind label.Address
-    | CallTarget address ->
+    | CallTarget (address, _) ->
       (* Jump to Fake Node that represents callee *)
       successors
       |> Array.tryFind (fun successor ->
@@ -205,6 +205,15 @@ type AnalyzerModule
           left.CurrentRegisterValues
       CurrentStackSlots =
         joinCurrentTypeIds left.CurrentStackSlots right.CurrentStackSlots
+      CurrentStackSlotValues =
+        right.CurrentStackSlotValues
+        |> Map.fold
+          (fun acc offset rightValue ->
+            match Map.tryFind offset acc with
+            | Some leftValue ->
+              Map.add offset (stateDom.AbsVal.join leftValue rightValue) acc
+            | None -> Map.add offset rightValue acc)
+          left.CurrentStackSlotValues
       PendingRegisterOutputs =
         right.PendingRegisterOutputs
         |> Map.fold
@@ -243,6 +252,7 @@ type AnalyzerModule
           *)
           let isNoRetCall (successor: IVertex<SSABasicBlock>) =
             match transfer.Target with
+            | CallTarget (_, NoRet) -> true
             | CallTarget _ when successor.VData.Internals.IsAbstract ->
               successor.VData.Internals.AbstractContent.ReturningStatus = NoRet
             | _ -> false

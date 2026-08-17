@@ -23,6 +23,7 @@ open PointerAnalyzer.AbsDom.TypeState
 /// <c>CurrentRegisters</c> tracks the type Id of each register.
 /// <c>CurrentRegisterValues</c> tracks the abstract value of each register.
 /// <c>CurrentStackSlots</c> tracks the type Id of each stack slot.
+/// <c>CurrentStackSlotValues</c> tracks the abstract value of each stack slot.
 /// <c>PendingRegisterOutputs</c> tracks callee output register types after
 /// applying a function summary until B2R2 defines fresh caller-side SSA
 /// variables in the function abstraction.
@@ -35,6 +36,7 @@ type AnalysisState =
     CurrentRegisters: Map<RegisterID, TypeId>
     CurrentRegisterValues: Map<RegisterID, AbsVal>
     CurrentStackSlots: Map<int, TypeId>
+    CurrentStackSlotValues: Map<int, AbsVal>
     PendingRegisterOutputs: Map<RegisterID, TypeId>
     StackPointer: StackPointerState }
 
@@ -75,6 +77,7 @@ type AnalysisStateModule
       CurrentRegisters = Map.empty
       CurrentRegisterValues = Map.empty
       CurrentStackSlots = Map.empty
+      CurrentStackSlotValues = Map.empty
       PendingRegisterOutputs = Map.empty
       StackPointer = StackPointerState.empty }
 
@@ -133,9 +136,11 @@ type AnalysisStateModule
         CurrentRegisterValues = currentRegisterValues }
 
   /// Record the latest type Id written to given current stack slot.
-  member _.setCurrentStackSlot offset typeId state =
+  member _.setCurrentStackSlot offset value typeId state =
     { state with
-        CurrentStackSlots = Map.add offset typeId state.CurrentStackSlots }
+        CurrentStackSlots = Map.add offset typeId state.CurrentStackSlots
+        CurrentStackSlotValues =
+          Map.add offset value state.CurrentStackSlotValues }
 
   /// Add new type constraint
   member _.addConstraint constraint_ state =
@@ -376,6 +381,15 @@ type AnalysisStateModule
           left.CurrentRegisterValues
       CurrentStackSlots =
         joinCurrentTypeIds left.CurrentStackSlots right.CurrentStackSlots
+      CurrentStackSlotValues =
+        right.CurrentStackSlotValues
+        |> Map.fold
+          (fun result offset rightValue ->
+            match Map.tryFind offset result with
+            | Some leftValue ->
+              Map.add offset (absVal.join leftValue rightValue) result
+            | None -> Map.add offset rightValue result)
+          left.CurrentStackSlotValues
       PendingRegisterOutputs =
         right.PendingRegisterOutputs
         |> Map.fold

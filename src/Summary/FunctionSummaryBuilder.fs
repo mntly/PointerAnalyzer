@@ -77,7 +77,7 @@ module FunctionSummaryBuilder =
     |> Seq.fold mergeRegister (Set.empty, initialOrigins, Map.empty)
 
   /// Construct function summary for analyzing caller
-  let build address name platform (result: AnalysisResult) =
+  let build address name platform excludedParameters (result: AnalysisResult) =
     (* If given variable is parameter, then retrieve its parameter index *)
     let filterParams (reg, tid: TypeId) =
       match platform.TryParameterIndex reg with
@@ -88,7 +88,11 @@ module FunctionSummaryBuilder =
 
     (* Summarize parameter type information *)
     let paramIdxTidMap =
-      typeIndSeq |> Seq.choose filterParams |> selectByIdentifier Seq.minBy
+      typeIndSeq
+      |> Seq.choose filterParams
+      |> selectByIdentifier Seq.minBy
+      |> Map.filter (fun parameterIndex _ ->
+        not (Set.contains parameterIndex excludedParameters))
 
     (* Summarize available caller-saved outputs from all return leaves. *)
     let outputRegisters =

@@ -37,6 +37,7 @@
     <Compile Include="Frontend/BinaryLoader.fs" />
     <Compile Include="Frontend/B2R2Diagnostics.fs" />
     <Compile Include="Frontend/FunctionDFA.fs" />
+    <Compile Include="Frontend/SyscallDispatcherDetector.fs" />
     <Compile Include="Frontend/ProgramDFA.fs" />
 
     <Compile Include="PreAnalysis/PreAnalysisTypes.fs" />

@@ -34,7 +34,7 @@ type TransferTarget =
   | Next
   | LabelTarget of Label * CFGEdgeKind option
   | InterTarget of AbsVal * CFGEdgeKind option
-  | CallTarget of Addr
+  | CallTarget of Addr * NonReturningStatus
   | AbstractionReturn
   | Terminated
 
@@ -87,13 +87,11 @@ type ApplyCallSummary =
     -> Variable list
     -> Variable list
     -> AnalysisState
-    -> (AnalysisState * Addr) option
+    -> (AnalysisState * Addr * NonReturningStatus) option
 
 /// Type definition for applying a syscall summary at a syscall instruction.
 type ApplySyscallSummary =
-  ProgramPoint
-    -> AnalysisState
-    -> (AnalysisState * NonReturningStatus) option
+  ProgramPoint -> AnalysisState -> (AnalysisState * NonReturningStatus) option
 
 /// <summary>
 /// Some information used by evaluation, passed from
@@ -252,10 +250,15 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
 
   /// If the definition target is a stack variable, remember the latest type Id
   /// for that stack slot offset.
-  member private _.updateCurrentStackSlot (variable: Variable) typeId state =
+  member private _.updateCurrentStackSlot
+    (variable: Variable)
+    value
+    typeId
+    state
+    =
     match variable.Kind with
     | VariableKind.StackVar (_, offset) ->
-      stateDom.setCurrentStackSlot offset typeId state
+      stateDom.setCurrentStackSlot offset value typeId state
     | _ -> state
 
   /// Assign evaluated value to target variable and connect type constraint.
@@ -278,7 +281,7 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
     let state = stateDom.setRegister variable value typeId state
 
     state
-    |> this.updateCurrentStackSlot variable typeId
+    |> this.updateCurrentStackSlot variable value typeId
     |> this.applyPointerHint variable typeId
 
   /// Handle variable definition by evaluating the expression and assign it to
@@ -316,7 +319,7 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
 
     state
     |> stateDom.setRegister variable absVal.bot typeId
-    |> this.updateCurrentStackSlot variable typeId
+    |> this.updateCurrentStackSlot variable absVal.bot typeId
     |> this.applyPointerHint variable typeId
 
   /// Handle memory definition by evaluating the expression. Memory definition
@@ -379,7 +382,7 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
 
     state
     |> stateDom.setRegister variable valueJoined destTypeId
-    |> this.updateCurrentStackSlot variable destTypeId
+    |> this.updateCurrentStackSlot variable valueJoined destTypeId
     |> this.applyPointerHint variable destTypeId
 
   /// Statement evaluation
@@ -479,8 +482,8 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
         | NormalBlock ->
           (* InterJmp from Normal Block: Normal jmp/call *)
           match config.ApplyCallSummary programPoint targetAddr [] [] state with
-          | Some (appliedState, calleeAddress) ->
-            [ { Target = CallTarget calleeAddress
+          | Some (appliedState, calleeAddress, returningStatus) ->
+            [ { Target = CallTarget (calleeAddress, returningStatus)
                 State = appliedState } ]
           | None ->
             [ { Target = InterTarget (target, None)
@@ -544,7 +547,7 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
           match
             config.ApplyCallSummary programPoint targetAddr inputs outputs state
           with
-          | Some (appliedState, _) -> appliedState
+          | Some (appliedState, _, _) -> appliedState
           // state
           | None -> state
 

@@ -71,6 +71,7 @@ type SyscallSignature =
 /// Platform-specific syscall calling convention and signature table.
 type SyscallABI =
   { NumberRegister: RegisterID
+    ArgumentRegisters: RegisterID list
     ClobberedRegisters: Set<RegisterID>
     TryFindSignature: uint64 -> SyscallSignature option }
 

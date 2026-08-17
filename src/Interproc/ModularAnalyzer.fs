@@ -172,16 +172,43 @@ module ModularAnalyzer =
         | Some callee, true ->
           match Map.tryFind callee summaries with
           | Some calleeSum ->
-            let returningStatus =
+            let b2r2ReturningStatus =
               tryReturningStatus func programPoint callee
               |> Option.defaultValue UnknownNoRet
 
-            let state =
-              applicator.apply calleeSum returningStatus inputs outputs state
+            let dispatcher =
+              program.Functions
+              |> Map.tryFind callee
+              |> Option.bind (fun function_ ->
+                function_.FunctionDFA.SyscallDispatcher)
 
-            Some (state, callee)
+            match dispatcher with
+            | Some dispatcher ->
+              let abstractionOutputs =
+                calleeSum.RegisterOutputs
+                |> Map.toSeq
+                |> Seq.map fst
+                |> Set.ofSeq
+
+              let state, returningStatus =
+                syscallApplicator.applyDispatcher
+                  dispatcher
+                  abstractionOutputs
+                  state
+
+              Some (state, callee, returningStatus)
+            | None ->
+              let state =
+                applicator.apply
+                  calleeSum
+                  b2r2ReturningStatus
+                  inputs
+                  outputs
+                  state
+
+              Some (state, callee, b2r2ReturningStatus)
           | None -> None
-        | Some callee, false -> Some (state, callee)
+        | Some callee, false -> Some (state, callee, UnknownNoRet)
         | None, _ -> None
 
       /// Apply a syscall summary through the platform syscall ABI.
@@ -213,9 +240,19 @@ module ModularAnalyzer =
           func.CFG
           func.RetAddresses
 
+      let excludedParameters =
+        func.SyscallDispatcher
+        |> Option.map (fun dispatcher -> dispatcher.ForwardedParameters)
+        |> Option.defaultValue Set.empty
+
       (* Store analysis result *)
       let summary =
-        FunctionSummaryBuilder.build func.Address func.Name platform result
+        FunctionSummaryBuilder.build
+          func.Address
+          func.Name
+          platform
+          excludedParameters
+          result
 
       let analysis =
         { Function = func

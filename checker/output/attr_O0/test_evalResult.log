@@ -17,9 +17,7 @@
 <none>
 
 ===== MisInferred Functions =====
-0x0804b256 libattr_listxattr
-0x0804b286 libattr_llistxattr
-0x0804b2b6 libattr_flistxattr
+<none>
 
 ===== Conflict Functions =====
 <none>
