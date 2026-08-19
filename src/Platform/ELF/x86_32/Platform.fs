@@ -124,6 +124,34 @@ let private tryCallStackSlotArgumentIndex
       if index >= context.ParameterCount then None else Some index
   | _ -> None
 
+/// Convert an exact active word-sized stack address to B2R2's canonical stack
+/// offset. The x86 stack grows downward, so the active frame is bounded by the
+/// current and initial stack pointers.
+let private tryActiveStackSlotOffset
+  (stackPointer: StackPointerState)
+  (address: Addr)
+  byteSize
+  =
+  match stackPointer.Initial, stackPointer.Current with
+  | Some initial, Some current when byteSize = wordSize ->
+    (* Stack passed argument must be seperated into wordSized Slot *)
+    let size = uint64 byteSize
+
+    if
+      current <= address
+      && address <= System.UInt64.MaxValue - size
+      && address + size <= initial
+    then
+      let offset = initial - address
+
+      if offset <= uint64 System.Int32.MaxValue && offset % size = 0UL then
+        Some (int offset)
+      else
+        None
+    else
+      None
+  | _ -> None
+
 /// Return offset of Return Address is stored.
 /// In B2R2, it transforms call instruction into push and jmp,
 /// so offset of Return Address is offset of current SP
@@ -178,5 +206,6 @@ let create () =
         |> Option.orElseWith (fun () -> tryCallStackIndex context variable)
     TryCallRegisterArgumentIndex = tryCallRegisterArgumentIndex
     TryCallStackSlotArgumentIndex = tryCallStackSlotArgumentIndex
+    TryActiveStackSlotOffset = tryActiveStackSlotOffset
     TryCallReturnAddressStackSlot = tryCallReturnAddressStackSlot
     TryReturnIndex = tryReturnIndex }

@@ -142,6 +142,22 @@ type AnalysisStateModule
         CurrentStackSlotValues =
           Map.add offset value state.CurrentStackSlotValues }
 
+  /// Mirror an exact active word-sized memory store into the stack frame used
+  /// for call-argument discovery.
+  member _.setCurrentStackMemorySlot address byteSize value typeId state =
+    match absVal.tryGetUInt64 address, typeId with
+    | Some address, Some typeId ->
+      match
+        platform.TryActiveStackSlotOffset state.StackPointer address byteSize
+      with
+      | Some offset ->
+        { state with
+            CurrentStackSlots = Map.add offset typeId state.CurrentStackSlots
+            CurrentStackSlotValues =
+              Map.add offset value state.CurrentStackSlotValues }
+      | None -> state
+    | _ -> state
+
   /// Add new type constraint
   member _.addConstraint constraint_ state =
     { state with

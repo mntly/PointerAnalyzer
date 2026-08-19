@@ -69,6 +69,7 @@ type ExprEvalModule (platform: Platform, config: ExprEvalConfig) =
     state
     newMemVersion
     prevMemVersion
+    byteSize
     addressExpr
     valueExpr
     =
@@ -83,6 +84,14 @@ type ExprEvalModule (platform: Platform, config: ExprEvalConfig) =
         address
         value
         valueTypeId
+        state
+
+    let state =
+      stateDom.setCurrentStackMemorySlot
+        address
+        byteSize
+        value
+        storedTypeId
         state
 
     value, storedTypeId, state

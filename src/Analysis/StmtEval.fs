@@ -235,17 +235,25 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
     | _ -> false
 
   /// If the definition target is stack pointer, update it from B2R2 constProp.
-  member private this.updateStackPointerFromConst (variable: Variable) state =
+  member private this.updateStackPointerFromConst
+    (variable: Variable)
+    evaluatedValue
+    state
+    =
     if this.isStackPointer variable then
-      (* Only set constant value if it can be recovered from B2R2 constProp *)
-      (* If not, set None by default *)
+      (* Prefer B2R2 constProp, then use PointerAnalyzer's exact evaluation. *)
       match config.ConstValue variable with
       | Some constant ->
+        (* Found B2R2 DFA result of SP *)
         try
           stateDom.setCurrentStackPointer (constant.ToUInt64 ()) state
         with _ ->
           stateDom.forgetCurrentStackPointer state
-      | None -> stateDom.forgetCurrentStackPointer state
+      | None ->
+        (* If not, calculate based on PointerAnalyzer's Domain *)
+        match absVal.tryGetUInt64 evaluatedValue with
+        | Some value -> stateDom.setCurrentStackPointer value state
+        | None -> stateDom.forgetCurrentStackPointer state
     else
       state
 
@@ -297,7 +305,7 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
 
     state
     |> this.defReg variable value typeId
-    |> this.updateStackPointerFromConst variable
+    |> this.updateStackPointerFromConst variable value
 
   /// Bind a callee output to the fresh SSA register defined by B2R2's
   /// FunctionAbstraction.
@@ -329,12 +337,13 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
   /// does not handle about store expression.
   member private _.evalMemoryDefinition newMem expr state =
     match expr with
-    | Store (prevMem, _, addressExpr, valueExpr) ->
+    | Store (prevMem, regType, addressExpr, valueExpr) ->
       let _, _, state =
         exprEval.EvalStore
           state
           newMem.Identifier
           prevMem.Identifier
+          (RegType.toByteWidth regType)
           addressExpr
           valueExpr
 

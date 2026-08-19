@@ -108,5 +108,7 @@ type Platform =
     TryCallRegisterArgumentIndex:
       CallSiteStackContext -> RegisterID -> int option
     TryCallStackSlotArgumentIndex: CallSiteStackContext -> int -> int option
+    TryActiveStackSlotOffset:
+      StackPointerState -> Addr -> int -> int option
     TryCallReturnAddressStackSlot: CallSiteStackContext -> int option
     TryReturnIndex: Variable -> int option }

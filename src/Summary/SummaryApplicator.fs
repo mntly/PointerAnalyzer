@@ -60,11 +60,14 @@ type SummaryApplicatorModule (platform: Platform) =
         |> Option.map (fun index -> index, typeId))
 
     let stackArgs =
-      state.CurrentStackSlots
-      |> Map.toSeq
-      |> Seq.choose (fun (offset, typeId) ->
-        platform.TryCallStackSlotArgumentIndex context offset
-        |> Option.map (fun index -> index, typeId))
+      match context.StackPointer.TryDelta with
+      | None -> Seq.empty
+      | Some _ ->
+        state.CurrentStackSlots
+        |> Map.toSeq
+        |> Seq.choose (fun (offset, typeId) ->
+          platform.TryCallStackSlotArgumentIndex context offset
+          |> Option.map (fun index -> index, typeId))
 
     Seq.append registerArgs stackArgs |> Seq.toList
 

@@ -116,16 +116,19 @@ type SyscallSummaryApplicatorModule (platform: Platform) =
 
     (* Get value of StackVar and its parameter index based on current SP *)
     let stackArguments =
-      state.CurrentStackSlots
-      |> Map.toSeq
-      |> Seq.choose (fun (offset, typeId) ->
-        platform.TryCallStackSlotArgumentIndex context offset
-        |> Option.map (fun index ->
-          index,
-          { TypeId = typeId
-            Value =
-              Map.tryFind offset state.CurrentStackSlotValues
-              |> Option.defaultValue stateDom.AbsVal.bot }))
+      match context.StackPointer.TryDelta with
+      | None -> Seq.empty
+      | Some _ ->
+        state.CurrentStackSlots
+        |> Map.toSeq
+        |> Seq.choose (fun (offset, typeId) ->
+          platform.TryCallStackSlotArgumentIndex context offset
+          |> Option.map (fun index ->
+            index,
+            { TypeId = typeId
+              Value =
+                Map.tryFind offset state.CurrentStackSlotValues
+                |> Option.defaultValue stateDom.AbsVal.bot }))
 
     Seq.append registerArguments stackArguments |> Map.ofSeq
 
