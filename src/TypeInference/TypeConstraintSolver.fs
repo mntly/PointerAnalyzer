@@ -39,7 +39,7 @@ type TypeConstraintSolverModule () =
   *)
   // let enabledAddRules: int list = [ 0; 1; 2; 3; 4 ]
   let enabledAddRules: int list = []
-  // let enabledSubRules: int list = [ 0; 1; 2; 3; 4]
+  // let enabledSubRules: int list = [ 0; 1; 2; 3; 4 ]
   let enabledSubRules: int list = []
 
   let addMany ids set =

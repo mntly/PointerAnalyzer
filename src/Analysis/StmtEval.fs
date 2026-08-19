@@ -197,26 +197,27 @@ type StmtEvalModule (platform: Platform, config: StmtEvalConfig) =
   /// given variable. The debug annotation is updated by setting its statement
   /// as the statement that target register is used as address.
   member private _.applyPointerHint variable typeId state =
-    match config.PointerUse variable with
-    | Some evidence ->
-      let origin =
-        { FunctionName = config.FunctionName
-          Location =
-            sprintf
-              "0x%08x+%d"
-              evidence.ProgramPoint.Address
-              evidence.ProgramPoint.Position
-          Statement = (PrettyPrinter.ToString [| evidence.Statement |]).Trim ()
-          Annotation = "Address Sink" }
+    // match config.PointerUse variable with
+    // | Some evidence ->
+    //   let origin =
+    //     { FunctionName = config.FunctionName
+    //       Location =
+    //         sprintf
+    //           "0x%08x+%d"
+    //           evidence.ProgramPoint.Address
+    //           evidence.ProgramPoint.Position
+    //       Statement = (PrettyPrinter.ToString [| evidence.Statement |]).Trim ()
+    //       Annotation = "Address Sink" }
 
-      let types =
-        state.Types
-        |> stateDom.TypeState.beginOrigin origin
-        |> stateDom.TypeState.addAddressWithAnnotation origin.Annotation typeId
-        |> stateDom.TypeState.endOrigin (* Invalidate analyzed stmt *)
+    //   let types =
+    //     state.Types
+    //     |> stateDom.TypeState.beginOrigin origin
+    //     |> stateDom.TypeState.addAddressWithAnnotation origin.Annotation typeId
+    //     |> stateDom.TypeState.endOrigin (* Invalidate analyzed stmt *)
 
-      { state with Types = types }
-    | None -> state
+    //   { state with Types = types }
+    // | None -> state
+    state
 
   /// Check given SSA variable's type is Trivial
   member private _.isTrivialVariable variable =

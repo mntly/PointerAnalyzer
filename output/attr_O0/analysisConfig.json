@@ -1,9 +1,0 @@
-{
-  "Platform": "ELF x86-32",
-  "WordSize": 4,
-  "ReturnSlotRegisters": [
-    "EAX",
-    "EDX"
-  ],
-  "FunctionApply": true
-}
