@@ -80,35 +80,84 @@ type CallSiteStackContext =
     ParameterCount: int }
 
 type Platform =
-  { Kind: PlatformKind
+  {
+    /// Basic information of corresponding ABI
+    Kind: PlatformKind
     Name: string
 
+    /// Word size of correponding ABI
     WordSize: int
 
+    /// Whether corresponding ABI stores return register before callee frame
     IsStack0Return: bool
 
+    /// Register used as StackPointer
     StackPointer: RegisterID
+
+    /// Registers used as parameter by regparams N
+    RegParams: RegisterID list
+
+    /// Registers used as function argument ordered by argument order
     ArgumentRegisters: RegisterID list
+
+    /// Registers used as function return value
     ReturnRegisters: RegisterID list
+
+    /// The all registers that may used as return value. For example, EDX for
+    /// representing higher bit of 64 bit return value at x86-32
     ReturnSlotRegisters: RegisterID list
+
+    /// CallerSaved Registers
     CallerSavedRegisters: Set<RegisterID>
+
+    /// CalleeSaved Registers
     CalleeSavedRegisters: Set<RegisterID>
+
+    /// The function transform the register name of given register Id
     RegisterName: RegisterID -> string
+
+    /// Represent the syscall information
     SyscallABI: SyscallABI option
 
+    /// The registers always Address type such as InstructionPointer
     TrivialAddressRegisters: Set<RegisterID>
+
+    /// The registers always Value type such as Flag reigster
     TrivialValueRegisters: Set<RegisterID>
+
+    /// Check given SSA variable is trivial address register
     IsTrivialAddress: Variable -> bool
+
+    /// Check given SSA variable is trivial value register
     IsTrivialValue: Variable -> bool
 
+    /// Get the return address of call
     TryCallReturnAddress: BinHandle -> Addr -> Addr option
 
+    /// Get the parameter index of given SSA variable. If it is not used as
+    /// parameter, return None.
     TryParameterIndex: Variable -> int option
+
+    /// Get the argument index of given SSA variable. If it is not used as
+    /// argument, return None.
     TryCallArgumentIndex: CallSiteStackContext -> Variable -> int option
+
+    /// Get the argument index of given register. This only handle about
+    /// argument passed by register.
     TryCallRegisterArgumentIndex:
       CallSiteStackContext -> RegisterID -> int option
+
+    /// Get the argument index of stack offset. This only handle about
+    /// argument passed by stack.
     TryCallStackSlotArgumentIndex: CallSiteStackContext -> int -> int option
-    TryActiveStackSlotOffset:
-      StackPointerState -> Addr -> int -> int option
+
+    /// If given address is valid stack address, return offset from SP.
+    /// This is used to handle storing to Stack B2R2 missinfer as MEM Store.
+    TryActiveStackSlotOffset: StackPointerState -> Addr -> int -> int option
+
+    /// Return offset of Return Address is stored
     TryCallReturnAddressStackSlot: CallSiteStackContext -> int option
-    TryReturnIndex: Variable -> int option }
+
+    /// Transform the idxof return registers of given SSA variable
+    TryReturnIndex: Variable -> int option
+  }

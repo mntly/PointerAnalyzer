@@ -19,10 +19,14 @@ open PointerAnalyzer.Frontend.ProgramDFA
 /// 1. Live registers in Leaf Node of CFG
 /// 2. SSA varaibles used for arguments of each function
 /// 3. SSA varaibles used for jump targets
-type PreAnalysisResult = { LiveVariables: Set<Variable> }
+type PreAnalysisResult =
+  { LiveVariables: Set<Variable>
+    DetectedRegParams: (RegisterID * Variable) list }
 
 module PreAnalysisResult =
-  let empty = { LiveVariables = Set.empty }
+  let empty =
+    { LiveVariables = Set.empty
+      DetectedRegParams = [] }
 
   /// Check given SSA variable is Live or Dead
   let isLive variable result =

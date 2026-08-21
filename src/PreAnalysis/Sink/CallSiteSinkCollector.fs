@@ -53,7 +53,11 @@ let private callsiteRegisterSinks platform (state: ScanState) =
   let filterReg regId =
     Map.tryFind regId state.CurrentRegisters
 
-  let regArg = platform.ArgumentRegisters |> List.choose filterReg |> Set.ofList
+  let regArg =
+    Seq.append platform.ArgumentRegisters platform.RegParams
+    |> Seq.distinct
+    |> Seq.choose filterReg
+    |> Set.ofSeq
 
   addSinks state regArg
 

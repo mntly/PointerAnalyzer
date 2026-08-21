@@ -24,6 +24,8 @@ let private tryRegisterId (variable: Variable) =
   | RegVar (_, registerId, _) -> Some registerId
   | _ -> None
 
+let private regParams = [ eax; edx; ecx ]
+
 let private argumentRegisters = []
 
 let private returnRegisters = [ eax ]
@@ -181,6 +183,7 @@ let create () =
     IsStack0Return = true
 
     StackPointer = stackPointer
+    RegParams = regParams
     ArgumentRegisters = argumentRegisters
     ReturnRegisters = returnRegisters
     ReturnSlotRegisters = returnSlotRegisters
@@ -194,6 +197,11 @@ let create () =
     IsTrivialAddress = isTrivialAddress
     IsTrivialValue = isTrivialValue
 
+    (*
+      ToDo
+        Since function abstraction already keeps the flow, this function may
+        not be needed.
+    *)
     TryCallReturnAddress = tryCallReturnAddress
 
     TryParameterIndex =

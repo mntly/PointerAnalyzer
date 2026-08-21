@@ -1,0 +1,14 @@
+====== B2R2 Analysis Error ======
+Binary: /mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/datas/binaries/brotli_O0
+Stage: SSA lifting
+Function: 0x08050470 BrotliDecoderDecompressStream
+Exception: B2R2.MiddleEnd.BinGraph.MultipleRootVerticesException
+Message: MultipleRootVerticesException
+
+Stack trace:
+B2R2.MiddleEnd.BinGraph.MultipleRootVerticesException: MultipleRootVerticesException
+   at B2R2.MiddleEnd.BinGraph.ImperativeDiGraph`2.B2R2.MiddleEnd.BinGraph.IGraphAccessible<'V, 'E>.get_SingleRoot() in /mnt/c/myproject/softsec/b2r2/pointeranalyzer/external/B2R2/src/MiddleEnd/BinGraph/ImperativeDiGraph.fs:line 135
+   at B2R2.MiddleEnd.ControlFlowGraph.LowUIRCFG.get_SingleRoot() in /mnt/c/myproject/softsec/b2r2/pointeranalyzer/external/B2R2/src/MiddleEnd/ControlFlowGraph/LowUIRCFG.fs:line 76
+   at B2R2.MiddleEnd.SSA.SSALifterFactoryModule.convertToSSA(IStmtPostProcessor stmtProcessor, LowUIRCFG cfg, SSACFG ssaCFG) in /mnt/c/myproject/softsec/b2r2/pointeranalyzer/external/B2R2/src/MiddleEnd/SSA/SSALifterFactory.fs:line 108
+   at B2R2.MiddleEnd.SSA.SSALifterFactoryModule.create@414.B2R2.MiddleEnd.SSA.ISSALiftable.Lift(LowUIRCFG cfg) in /mnt/c/myproject/softsec/b2r2/pointeranalyzer/external/B2R2/src/MiddleEnd/SSA/SSALifterFactory.fs:line 417
+   at PointerAnalyzer.Frontend.ProgramDFA.ProgramDFA.constrFunDFA@273.Invoke(Function func) in /mnt/c/MyProject/SoftSec/B2R2/PointerAnalyzer/src/Frontend/ProgramDFA.fs:line 275
