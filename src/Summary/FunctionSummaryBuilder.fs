@@ -77,19 +77,42 @@ module FunctionSummaryBuilder =
     |> Seq.fold mergeRegister (Set.empty, initialOrigins, Map.empty)
 
   /// Construct function summary for analyzing caller
-  let build address name platform excludedParameters (result: AnalysisResult) =
-    (* If given variable is parameter, then retrieve its parameter index *)
+  let build
+    address
+    name
+    platform
+    detectedRegParams
+    excludedParameters
+    (result: AnalysisResult)
+    =
+    (* Get param idxs of the register used as regparams *)
+    let regParamCnt = List.length detectedRegParams
+
+    let regParamsIdx =
+      detectedRegParams
+      |> List.mapi (fun index (registerId, _) -> registerId, index)
+      |> Map.ofList
+
+    (* If given variable is a normal parameter, retrieve its shifted index. *)
     let filterParams (reg, tid: TypeId) =
       match platform.TryParameterIndex reg with
-      | Some paramIdx -> Some (paramIdx, reg, tid)
+      | Some paramIdx -> Some (regParamCnt + paramIdx, reg, tid)
       | None -> None
 
     let typeIndSeq = result.FinalState.Types.TypeIndicators |> Map.toSeq
 
+    (* Get typeId of regparams *)
+    let regParamEntries =
+      detectedRegParams
+      |> Seq.mapi (fun index (_, variable) ->
+        result.FinalState.Types.TypeIndicators
+        |> Map.tryFind variable
+        |> Option.map (fun tid -> index, variable, tid))
+      |> Seq.choose id
+
     (* Summarize parameter type information *)
     let paramIdxTidMap =
-      typeIndSeq
-      |> Seq.choose filterParams
+      Seq.append regParamEntries (typeIndSeq |> Seq.choose filterParams)
       |> selectByIdentifier Seq.minBy
       |> Map.filter (fun parameterIndex _ ->
         not (Set.contains parameterIndex excludedParameters))
@@ -130,6 +153,7 @@ module FunctionSummaryBuilder =
     { Address = address
       Name = name
       Parameters = paramIdxTidMap
+      RegParamsIdx = regParamsIdx
       RegisterOutputs = registerOutputMap
       Constraints = Set.union result.TypeConstraints mergedConstraints
       ConstraintOrigins = constraintOrigins

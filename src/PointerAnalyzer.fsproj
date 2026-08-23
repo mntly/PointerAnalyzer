@@ -42,6 +42,7 @@
 
     <Compile Include="PreAnalysis/PreAnalysisTypes.fs" />
     <Compile Include="PreAnalysis/VariableCollector.fs" />
+    <Compile Include="PreAnalysis/RegParamDetector.fs" />
     <Compile Include="PreAnalysis/Sink/DefaultLiveCollector.fs" />
     <Compile Include="PreAnalysis/Sink/LeafSinkCollector.fs" />
     <Compile Include="PreAnalysis/Sink/CallSiteSinkCollector.fs" />
