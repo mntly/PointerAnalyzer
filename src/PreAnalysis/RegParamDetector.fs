@@ -1,8 +1,8 @@
 module PointerAnalyzer.PreAnalysis.RegParamDetector
 
+open System.Collections.Generic
 open B2R2
 open B2R2.BinIR.SSA
-open B2R2.MiddleEnd.DataFlow
 open PointerAnalyzer.Frontend.FunctionDFA
 open PointerAnalyzer.Frontend.ProgramDFA
 open PointerAnalyzer.Platform.PlatformTypes
@@ -10,60 +10,55 @@ open PointerAnalyzer.PreAnalysis.VariableCollector
 
 /// Check whether the variable reaches a non-PHI use. PHI nodes only propagate
 /// the value, so continue from their destination variables.
-let private hasNonPhiUse (dfa: FunctionDFA) variable =
-  let rec loop visited variable =
-    if Set.contains variable visited then
-      false
-    else
-      let visited = Set.add variable visited
+let private hasNonPhiUse
+  (dfa: FunctionDFA)
+  (cache: Dictionary<Variable, bool>)
+  variable
+  =
+  let active = HashSet<Variable> ()
 
-      match dfa.Edges.Uses.TryGetValue variable with
-      | true, uses ->
-        uses
-        |> Seq.exists (fun location ->
-          match Map.tryFind location dfa.StatementIndex with
-          | Some { Statement = Phi (destination, _) } ->
-            (*
-              If target reg is used as PHI source, check the usage of
-              destination of PHI node
-            *)
-            loop visited destination
-          | Some _ -> true
-          | None -> false)
-      | false, _ -> false
+  let rec loop variable =
+    match cache.TryGetValue variable with
+    | true, result -> result
+    | false, _ when not (active.Add variable) -> false
+    | false, _ ->
+      let result =
+        match dfa.Edges.Uses.TryGetValue variable with
+        | true, uses ->
+          uses
+          |> Seq.exists (fun location ->
+            match Map.tryFind location dfa.StatementIndex with
+            | Some { Statement = Phi (destination, _) } -> loop destination
+            | Some _ -> true
+            | None -> false)
+        | false, _ -> false
 
-  loop Set.empty variable
+      active.Remove variable |> ignore
+      cache[variable] <- result
+      result
 
-/// Collect the register given from caller by collecting the minimum identifier
-/// with used before definition.
-let private incomingRegisters (dfa: FunctionDFA) =
-  dfa.Edges.Uses.Keys
-  (*
-    Incoming registers should be
-    1. Not defined in current function
-    2. Used as non-Phi instruction
-  *)
-  |> Seq.filter (fun variable ->
-    not (dfa.Edges.Defs.ContainsKey variable) && hasNonPhiUse dfa variable)
-  |> Seq.choose (fun variable ->
-    tryRegisterId variable
-    |> Option.map (fun registerId -> registerId, variable))
-  |> Seq.groupBy fst
-  |> Seq.map (fun (registerId, variables) ->
-    let variable =
-      variables |> Seq.map snd |> Seq.minBy (fun value -> value.Identifier)
-
-    registerId, variable)
-  |> Map.ofSeq
+  loop variable
 
 /// Detect used-before-defined variables only for predefined regparam registers.
 let detect (platform: Platform) (function_: FunctionDFAResult) =
-  let incomingRegs = incomingRegisters function_.DFAResult
+  let dfa = function_.DFAResult
+  let cache = Dictionary<Variable, bool> ()
 
-  let detectedRegParams =
+  let regParamIndices =
     platform.RegParams
-    |> List.choose (fun registerId ->
-      Map.tryFind registerId incomingRegs
-      |> Option.map (fun variable -> registerId, variable))
+    |> List.mapi (fun index registerId -> registerId, index)
+    |> Map.ofList
 
-  detectedRegParams
+  dfa.Edges.Uses.Keys
+  |> Seq.choose (fun variable ->
+    if variable.Identifier <> 0 || dfa.Edges.Defs.ContainsKey variable then
+      None
+    else
+      tryRegisterId variable
+      |> Option.bind (fun registerId ->
+        Map.tryFind registerId regParamIndices
+        |> Option.map (fun index -> index, registerId, variable)))
+  |> Seq.filter (fun (_, _, variable) -> hasNonPhiUse dfa cache variable)
+  |> Seq.sortBy (fun (index, _, _) -> index)
+  |> Seq.map (fun (_, registerId, variable) -> registerId, variable)
+  |> Seq.toList

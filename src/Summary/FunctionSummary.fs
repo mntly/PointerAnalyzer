@@ -9,6 +9,7 @@ type FunctionSummary =
     Name: string
     Parameters: Map<int, TypeId>
     RegParamsIdx: Map<RegisterID, int>
+    RegParamSpan: int
     RegisterOutputs: Map<RegisterID, TypeId>
     Constraints: ConstraintSet
     ConstraintOrigins: Map<TypeConstraint, ConstraintOrigin> option
@@ -52,6 +53,7 @@ module FunctionSummary =
       Name = name
       Parameters = Map.empty
       RegParamsIdx = Map.empty
+      RegParamSpan = 0
       RegisterOutputs = Map.empty
       Constraints = Set.empty
       ConstraintOrigins = None

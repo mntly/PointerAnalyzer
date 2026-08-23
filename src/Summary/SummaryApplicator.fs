@@ -56,14 +56,14 @@ type SummaryApplicatorModule (platform: Platform) =
     (context: CallSiteStackContext)
     (state: AnalysisState)
     =
-    let regParamCnt = Map.count summary.RegParamsIdx
+    let regParamSpan = summary.RegParamSpan
 
     let platformRegisterArgs =
       state.CurrentRegisters
       |> Map.toSeq
       |> Seq.choose (fun (regId, typeId) ->
         platform.TryCallRegisterArgumentIndex context regId
-        |> Option.map (fun index -> regParamCnt + index, typeId))
+        |> Option.map (fun index -> regParamSpan + index, typeId))
 
     let regParamArgs =
       summary.RegParamsIdx
@@ -81,7 +81,7 @@ type SummaryApplicatorModule (platform: Platform) =
         |> Map.toSeq
         |> Seq.choose (fun (offset, typeId) ->
           platform.TryCallStackSlotArgumentIndex context offset
-          |> Option.map (fun index -> regParamCnt + index, typeId))
+          |> Option.map (fun index -> regParamSpan + index, typeId))
 
     Seq.concat [ regParamArgs; platformRegisterArgs; stackArgs ] |> Seq.toList
 
@@ -104,12 +104,12 @@ type SummaryApplicatorModule (platform: Platform) =
     (* New function call overwrite previous function call summary *)
     let state = stateDom.clearPendingRegisterOutputs state
     let context = callSiteContext summary state
-    let regParamCnt = Map.count summary.RegParamsIdx
+    let regParamSpan = summary.RegParamSpan
 
     (* According to calling convention, get argument index of given variable *)
     let inVarType variable =
       platform.TryCallArgumentIndex context variable
-      |> Option.map ((+) regParamCnt)
+      |> Option.map ((+) regParamSpan)
       |> Option.bind (fun index -> Map.tryFind index summary.Parameters)
 
     let regParamInVarType (variable: Variable) =

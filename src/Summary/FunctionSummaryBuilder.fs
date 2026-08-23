@@ -85,18 +85,25 @@ module FunctionSummaryBuilder =
     excludedParameters
     (result: AnalysisResult)
     =
-    (* Get param idxs of the register used as regparams *)
-    let regParamCnt = List.length detectedRegParams
+    let platformRegParamIndices =
+      platform.RegParams
+      |> List.mapi (fun index registerId -> registerId, index)
+      |> Map.ofList
 
     let regParamsIdx =
       detectedRegParams
-      |> List.mapi (fun index (registerId, _) -> registerId, index)
+      |> List.choose (fun (registerId, _) ->
+        Map.tryFind registerId platformRegParamIndices
+        |> Option.map (fun index -> registerId, index))
       |> Map.ofList
+
+    let regParamSpan =
+      regParamsIdx.Values |> Seq.fold (fun span index -> max span (index + 1)) 0
 
     (* If given variable is a normal parameter, retrieve its shifted index. *)
     let filterParams (reg, tid: TypeId) =
       match platform.TryParameterIndex reg with
-      | Some paramIdx -> Some (regParamCnt + paramIdx, reg, tid)
+      | Some paramIdx -> Some (regParamSpan + paramIdx, reg, tid)
       | None -> None
 
     let typeIndSeq = result.FinalState.Types.TypeIndicators |> Map.toSeq
@@ -104,11 +111,12 @@ module FunctionSummaryBuilder =
     (* Get typeId of regparams *)
     let regParamEntries =
       detectedRegParams
-      |> Seq.mapi (fun index (_, variable) ->
-        result.FinalState.Types.TypeIndicators
-        |> Map.tryFind variable
-        |> Option.map (fun tid -> index, variable, tid))
-      |> Seq.choose id
+      |> Seq.choose (fun (registerId, variable) ->
+        Map.tryFind registerId regParamsIdx
+        |> Option.bind (fun index ->
+          result.FinalState.Types.TypeIndicators
+          |> Map.tryFind variable
+          |> Option.map (fun tid -> index, variable, tid)))
 
     (* Summarize parameter type information *)
     let paramIdxTidMap =
@@ -154,6 +162,7 @@ module FunctionSummaryBuilder =
       Name = name
       Parameters = paramIdxTidMap
       RegParamsIdx = regParamsIdx
+      RegParamSpan = regParamSpan
       RegisterOutputs = registerOutputMap
       Constraints = Set.union result.TypeConstraints mergedConstraints
       ConstraintOrigins = constraintOrigins
