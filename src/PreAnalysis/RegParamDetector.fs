@@ -27,7 +27,7 @@ let private hasNonPhiUse
         | true, uses ->
           uses
           |> Seq.exists (fun location ->
-            match Map.tryFind location dfa.StatementIndex with
+            match tryFindStatement location dfa.StatementIndex with
             | Some { Statement = Phi (destination, _) } -> loop destination
             | Some _ -> true
             | None -> false)
@@ -39,7 +39,7 @@ let private hasNonPhiUse
 
   loop variable
 
-/// Detect used-before-defined variables only for predefined regparam registers.
+/// Detect a contiguous prefix of used-before-defined regparam registers.
 let detect (platform: Platform) (function_: FunctionDFAResult) =
   let dfa = function_.DFAResult
   let cache = Dictionary<Variable, bool> ()
@@ -49,16 +49,21 @@ let detect (platform: Platform) (function_: FunctionDFAResult) =
     |> List.mapi (fun index registerId -> registerId, index)
     |> Map.ofList
 
-  dfa.Edges.Uses.Keys
-  |> Seq.choose (fun variable ->
-    if variable.Identifier <> 0 || dfa.Edges.Defs.ContainsKey variable then
-      None
-    else
-      tryRegisterId variable
-      |> Option.bind (fun registerId ->
-        Map.tryFind registerId regParamIndices
-        |> Option.map (fun index -> index, registerId, variable)))
-  |> Seq.filter (fun (_, _, variable) -> hasNonPhiUse dfa cache variable)
-  |> Seq.sortBy (fun (index, _, _) -> index)
-  |> Seq.map (fun (_, registerId, variable) -> registerId, variable)
-  |> Seq.toList
+  let candidates =
+    dfa.Edges.Uses.Keys
+    |> Seq.choose (fun variable ->
+      if variable.Identifier <> 0 || dfa.Edges.Defs.ContainsKey variable then
+        None
+      else
+        tryRegisterId variable
+        |> Option.bind (fun registerId ->
+          Map.tryFind registerId regParamIndices
+          |> Option.map (fun _ -> registerId, variable)))
+    |> Seq.filter (fun (_, variable) -> hasNonPhiUse dfa cache variable)
+    |> Map.ofSeq
+
+  platform.RegParams
+  |> List.takeWhile (fun registerId -> Map.containsKey registerId candidates)
+  |> List.choose (fun registerId ->
+    Map.tryFind registerId candidates
+    |> Option.map (fun variable -> registerId, variable))

@@ -89,7 +89,11 @@ let private tryDequeue =
 /// Extract live EAX and EDX register at return leaf node.
 let analyze (cfg: SSACFG) (range: ReturnRange) =
   (* Convert Block Id into CFG Block *)
-  let blocks = range.BlockIds |> Seq.map cfg.FindVertex |> Seq.toList
+  let blocks =
+    range.BlockIds
+    |> Seq.map (fun blockId ->
+      cfg.FindVertexBy (fun vertex -> vertex.ID = blockId))
+    |> Seq.toList
 
   (* Analyze the first block of WorkList and move to next *)
   let rec iterate worklist inputState outputState =

@@ -26,6 +26,16 @@ type StatementEntry =
 /// corresponding vertext to `StatementEntry`.
 type StatementIndex = Map<VertexID * int, StatementEntry>
 
+/// Convert a B2R2 SSA statement location to the stable identifier used by
+/// StatementIndex. Newer B2R2 versions expose the vertex itself in use sites.
+let statementLocationKey (location: SSAVertex * int) =
+  let vertex, index = location
+  vertex.ID, index
+
+/// Find the statement corresponding to a B2R2 SSA statement location.
+let tryFindStatement location (statements: StatementIndex) =
+  Map.tryFind (statementLocationKey location) statements
+
 /// <summary>
 /// Pre-analysis result of single function.
 /// </summary>
@@ -141,7 +151,7 @@ module FunctionDFA =
   let private pointerUseFrom (edges: SSAEdges) statements =
     (* Check given variable is used as pointer at given location *)
     let isPointerUse variable location =
-      match Map.tryFind location statements with
+      match tryFindStatement location statements with
       | Some entry -> pointerUseInStmt variable entry.Statement
       | None -> false
 
@@ -151,9 +161,9 @@ module FunctionDFA =
       |> Seq.choose (fun (KeyValue (variable, uses)) ->
         uses
         |> Seq.filter (isPointerUse variable)
-        |> Seq.sort
+        |> Seq.sortBy statementLocationKey
         |> Seq.tryPick (fun location ->
-          Map.tryFind location statements
+          tryFindStatement location statements
           |> Option.map (fun entry ->
             variable,
             { ProgramPoint = entry.ProgramPoint

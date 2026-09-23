@@ -160,10 +160,15 @@ let private isJumpTargetZero constValue =
 let private collectJumpZeroSites
   (hdl: BinHandle)
   (lifter: ISSALiftable)
+  (promoter: ISSAPromotable)
   (symbol: SymbolFunction)
   (func: ICFGBuildable<DummyContext, DummyContext>)
   =
-  let ssaCfg = lifter.Lift func.Context.CFG
+  let ssaCfg =
+    func.Context.CFG
+    |> lifter.Lift
+    |> promoter.Promote
+    |> fun result -> result.Graph
   let constValue = constantValueFrom hdl ssaCfg
 
   let filterTarget0Jump (pp, stmt) =
@@ -188,13 +193,14 @@ let run binaryPath =
   let hdl = BinHandle.LoadFile binaryPath
   let brew = BinaryBrew hdl
   let lifter = SSALifterFactory.Create hdl
+  let promoter = SSAPromoterFactory.Create hdl
 
   let folder (lifted, missing, failures, sites) symbol =
     match brew.Builders.TryGetBuilder symbol.Address with
     | Error _ -> lifted, symbol :: missing, failures, sites
     | Ok builder ->
       try
-        let newSites = collectJumpZeroSites hdl lifter symbol builder
+        let newSites = collectJumpZeroSites hdl lifter promoter symbol builder
 
         lifted + 1, missing, failures, List.rev newSites @ sites
       with ex ->
