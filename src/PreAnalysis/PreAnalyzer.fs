@@ -25,6 +25,7 @@ let private analyzeFunction platform functions (function_: FunctionDFAResult) =
   (* Merge all live variables to construct live variables of given function *)
   let liveVariables = Set.union propagatedLive defaultLive
 
+  (* Extract registers used as regparm which are used but not defined *)
   let detectedRegParams = RegParamDetector.detect platform function_
 
   { LiveVariables = liveVariables

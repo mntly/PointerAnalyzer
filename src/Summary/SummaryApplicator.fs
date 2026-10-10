@@ -58,6 +58,7 @@ type SummaryApplicatorModule (platform: Platform) =
     =
     let regParamSpan = summary.RegParamSpan
 
+    (* Register Arguments *)
     let platformRegisterArgs =
       state.CurrentRegisters
       |> Map.toSeq
@@ -137,14 +138,8 @@ type SummaryApplicatorModule (platform: Platform) =
           state
       else
         state
-        |> connectVariables
-          "Argument Binding At Call"
-          inVarType
-          inputs
-        |> connectVariables
-          "Argument Binding At Call"
-          regParamInVarType
-          inputs
+        |> connectVariables "Argument Binding At Call" inVarType inputs
+        |> connectVariables "Argument Binding At Call" regParamInVarType inputs
 
     (*
       Connect type between stack var 0 of callee and callee if stack var 0

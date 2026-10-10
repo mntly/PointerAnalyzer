@@ -27,7 +27,7 @@ type StatementEntry =
 type StatementIndex = Map<VertexID * int, StatementEntry>
 
 /// Convert a B2R2 SSA statement location to the stable identifier used by
-/// StatementIndex. Newer B2R2 versions expose the vertex itself in use sites.
+/// `StatementIndex`.
 let statementLocationKey (location: SSAVertex * int) =
   let vertex, index = location
   vertex.ID, index

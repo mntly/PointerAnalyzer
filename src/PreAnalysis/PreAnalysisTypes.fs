@@ -15,10 +15,20 @@ open PointerAnalyzer.Frontend.ProgramDFA
     liveness, such as Branch Condition, Memory Reference, ...
 *)
 
-/// Store live registers. PreAnalyzer extracts live registers from
-/// 1. Live registers in Leaf Node of CFG
-/// 2. SSA varaibles used for arguments of each function
-/// 3. SSA varaibles used for jump targets
+/// <summary>
+/// The result of PreAnalyzer.
+/// </summary>
+/// <remarks>
+/// <c>LiveVariables</c> stores live registers. PreAnalyzer extracts live
+/// registers by propagating with checking UseEdges from
+/// 1. Live registers in Leaf Block of CFG.
+/// 2. SSA varaibles used for arguments of each function: stack-passed,
+/// register-passed and regparms.
+/// 3. SSA varaibles used for jump targets.
+/// <c>DetectedRegParams</c> stores detected register and corresponding SSA
+/// variable used as regparm. These variables used at Non-Phi statement but not
+/// defined.
+/// </remarks>
 type PreAnalysisResult =
   { LiveVariables: Set<Variable>
     DetectedRegParams: (RegisterID * Variable) list }

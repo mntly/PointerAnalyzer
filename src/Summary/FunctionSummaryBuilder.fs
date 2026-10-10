@@ -85,11 +85,13 @@ module FunctionSummaryBuilder =
     excludedParameters
     (result: AnalysisResult)
     =
+    (* Mapping predefined regparm registers and argument idx *)
     let platformRegParamIndices =
       platform.RegParams
       |> List.mapi (fun index registerId -> registerId, index)
       |> Map.ofList
 
+    (* Filter regparm and argument idx only about detected regparms *)
     let regParamsIdx =
       detectedRegParams
       |> List.choose (fun (registerId, _) ->
@@ -97,6 +99,8 @@ module FunctionSummaryBuilder =
         |> Option.map (fun index -> registerId, index))
       |> Map.ofList
 
+    (* Get the next number of normal argument *)
+    (* Then next normal argument is 1 + Maximum Idx of Regparm Arg Idx *)
     let regParamSpan =
       regParamsIdx.Values |> Seq.fold (fun span index -> max span (index + 1)) 0
 
