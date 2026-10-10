@@ -86,8 +86,8 @@ let private normalArgEvalResult
 /// Compare the structure type parameter. The inferred slot is extracted from
 /// slotCursor. `paramIdx` indicates the index of parameter for logging. The
 /// structure will be evaluated after decomposing its fields into WordSize
-/// slots. If at least one slot is inferred, all GT slots are evaluated and a
-/// missing inferred slot is treated as Unknown.
+/// slots. All GT slots are evaluated, and a missing inferred slot is treated
+/// as Unknown.
 let private structureArgEvalResults
   slotCursor
   fn
@@ -109,23 +109,20 @@ let private structureArgEvalResults
 
   (* Matching GT and inferred type and classify the result *)
   let results =
-    if observedSlots = 0 then
-      []
-    else
-      matchedSlots
-      |> List.map (fun (slot, inferredOpt) ->
-        let inferred = Option.defaultValue Unknown inferredOpt
+    matchedSlots
+    |> List.map (fun (slot, inferredOpt) ->
+      let inferred = Option.defaultValue Unknown inferredOpt
 
-        { Function = fn
-          Target = ArgumentSlot (paramIdx, slot.Index, slot.Path)
-          GT = slot.Type
-          Inferred = inferred
-          Sources =
-            if Option.isSome inferredOpt then
-              [ ArgumentSource (slotCursor + slot.Index) ]
-            else
-              []
-          Category = classify slot.Type inferred })
+      { Function = fn
+        Target = ArgumentSlot (paramIdx, slot.Index, slot.Path)
+        GT = slot.Type
+        Inferred = inferred
+        Sources =
+          if Option.isSome inferredOpt then
+            [ ArgumentSource (slotCursor + slot.Index) ]
+          else
+            []
+        Category = classify slot.Type inferred })
 
   let coverage =
     { Function = fn
@@ -210,8 +207,8 @@ let private normalReturnResult
     Sources = sources
     Category = classify gt.Type inferred }
 
-/// If at least one return slot is inferred, evaluate every GT structure slot
-/// and treat each missing inferred slot as Unknown.
+/// Evaluate every GT structure return slot and treat each missing inferred
+/// slot as Unknown.
 let private structureReturnResults
   slotCursor
   fn
@@ -233,23 +230,20 @@ let private structureReturnResults
 
   (* Matching GT and inferred type and classify the result *)
   let results =
-    if observedSlots = 0 then
-      []
-    else
-      matchedSlots
-      |> List.map (fun (slot, inferredOpt) ->
-        let inferred = Option.defaultValue Unknown inferredOpt
+    matchedSlots
+    |> List.map (fun (slot, inferredOpt) ->
+      let inferred = Option.defaultValue Unknown inferredOpt
 
-        { Function = fn
-          Target = ReturnSlot (returnIndex, slot.Index, slot.Path)
-          GT = slot.Type
-          Inferred = inferred
-          Sources =
-            if Option.isSome inferredOpt then
-              [ ReturnSource (slotCursor + slot.Index) ]
-            else
-              []
-          Category = classify slot.Type inferred })
+      { Function = fn
+        Target = ReturnSlot (returnIndex, slot.Index, slot.Path)
+        GT = slot.Type
+        Inferred = inferred
+        Sources =
+          if Option.isSome inferredOpt then
+            [ ReturnSource (slotCursor + slot.Index) ]
+          else
+            []
+        Category = classify slot.Type inferred })
 
   let coverage =
     { Function = fn

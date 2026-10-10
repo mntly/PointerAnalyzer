@@ -102,7 +102,8 @@ let private transitivePhiUses
       | false, _ -> []
       | true, uses ->
         uses
-        |> Seq.choose (fun location -> Map.tryFind location statementIndex)
+        |> Seq.choose (fun location ->
+          tryFindStatement location statementIndex)
         |> Seq.collect (fun entry ->
           match entry.Statement with
           | Phi (destination, _) -> visit visited destination
@@ -206,7 +207,9 @@ let private abstractionsForCallSite
   |> Map.tryFind (callSite, calleeAddr)
   |> Option.defaultValue []
   |> List.distinctBy (fun info -> info.AbstractionBlockId)
-  |> List.map (fun info -> caller.CFG.FindVertex info.AbstractionBlockId)
+  |> List.map (fun info ->
+    caller.CFG.FindVertexBy (fun vertex ->
+      vertex.ID = info.AbstractionBlockId))
 
 /// Starting from successor of given callee FunctionAbstraction, check whether
 /// EDX is overwritten or used. If EDX is used before overwritten, it may be

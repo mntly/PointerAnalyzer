@@ -77,19 +77,54 @@ module FunctionSummaryBuilder =
     |> Seq.fold mergeRegister (Set.empty, initialOrigins, Map.empty)
 
   /// Construct function summary for analyzing caller
-  let build address name platform excludedParameters (result: AnalysisResult) =
-    (* If given variable is parameter, then retrieve its parameter index *)
+  let build
+    address
+    name
+    platform
+    detectedRegParams
+    excludedParameters
+    (result: AnalysisResult)
+    =
+    (* Mapping predefined regparm registers and argument idx *)
+    let platformRegParamIndices =
+      platform.RegParams
+      |> List.mapi (fun index registerId -> registerId, index)
+      |> Map.ofList
+
+    (* Filter regparm and argument idx only about detected regparms *)
+    let regParamsIdx =
+      detectedRegParams
+      |> List.choose (fun (registerId, _) ->
+        Map.tryFind registerId platformRegParamIndices
+        |> Option.map (fun index -> registerId, index))
+      |> Map.ofList
+
+    (* Get the next number of normal argument *)
+    (* Then next normal argument is 1 + Maximum Idx of Regparm Arg Idx *)
+    let regParamSpan =
+      regParamsIdx.Values |> Seq.fold (fun span index -> max span (index + 1)) 0
+
+    (* If given variable is a normal parameter, retrieve its shifted index. *)
     let filterParams (reg, tid: TypeId) =
       match platform.TryParameterIndex reg with
-      | Some paramIdx -> Some (paramIdx, reg, tid)
+      | Some paramIdx -> Some (regParamSpan + paramIdx, reg, tid)
       | None -> None
 
     let typeIndSeq = result.FinalState.Types.TypeIndicators |> Map.toSeq
 
+    (* Get typeId of regparams *)
+    let regParamEntries =
+      detectedRegParams
+      |> Seq.choose (fun (registerId, variable) ->
+        Map.tryFind registerId regParamsIdx
+        |> Option.bind (fun index ->
+          result.FinalState.Types.TypeIndicators
+          |> Map.tryFind variable
+          |> Option.map (fun tid -> index, variable, tid)))
+
     (* Summarize parameter type information *)
     let paramIdxTidMap =
-      typeIndSeq
-      |> Seq.choose filterParams
+      Seq.append regParamEntries (typeIndSeq |> Seq.choose filterParams)
       |> selectByIdentifier Seq.minBy
       |> Map.filter (fun parameterIndex _ ->
         not (Set.contains parameterIndex excludedParameters))
@@ -130,6 +165,8 @@ module FunctionSummaryBuilder =
     { Address = address
       Name = name
       Parameters = paramIdxTidMap
+      RegParamsIdx = regParamsIdx
+      RegParamSpan = regParamSpan
       RegisterOutputs = registerOutputMap
       Constraints = Set.union result.TypeConstraints mergedConstraints
       ConstraintOrigins = constraintOrigins

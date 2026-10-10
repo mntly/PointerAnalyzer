@@ -251,6 +251,7 @@ module ModularAnalyzer =
           func.Address
           func.Name
           platform
+          functionPreResult.PreAnalysis.DetectedRegParams
           excludedParameters
           result
 

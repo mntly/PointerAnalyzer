@@ -235,6 +235,7 @@ module ProgramDFA =
         raiseWithContext CFGRecovery None cause
 
     let lifter = SSALifterFactory.Create binary.Handle
+    let promoter = SSAPromoterFactory.Create binary.Handle
 
     (* Used for represent the assembly of unsurpported instruction *)
     let instructionLifter = binary.Handle.NewLiftingUnit ()
@@ -272,7 +273,10 @@ module ProgramDFA =
     let constrFunDFA (func: Function) =
       let cfg =
         try
-          lifter.Lift func.CFG
+          func.CFG
+          |> lifter.Lift
+          |> promoter.Promote
+          |> fun result -> result.Graph
         with cause ->
           raiseWithContext SSALifting (Some func) cause
 

@@ -16,7 +16,7 @@ type SummaryApplicatorModule (platform: Platform) =
   let stateDom = AnalysisStateDomain.createDefault platform
 
   /// Represent the information got by caller right before moving to callee.
-  let callSiteContext summary state =
+  let callSiteContext (summary: FunctionSummary) (state: AnalysisState) =
     { StackPointer = state.StackPointer
       ParameterCount = Map.count summary.Parameters }
 
@@ -51,13 +51,28 @@ type SummaryApplicatorModule (platform: Platform) =
 
   /// Based on calling convention, extract the arguments of specific callee
   /// from the current caller state.
-  let inferArguments context state =
-    let registerArgs =
+  let inferArguments
+    (summary: FunctionSummary)
+    (context: CallSiteStackContext)
+    (state: AnalysisState)
+    =
+    let regParamSpan = summary.RegParamSpan
+
+    (* Register Arguments *)
+    let platformRegisterArgs =
       state.CurrentRegisters
       |> Map.toSeq
       |> Seq.choose (fun (regId, typeId) ->
         platform.TryCallRegisterArgumentIndex context regId
-        |> Option.map (fun index -> index, typeId))
+        |> Option.map (fun index -> regParamSpan + index, typeId))
+
+    let regParamArgs =
+      summary.RegParamsIdx
+      |> Map.toSeq
+      |> Seq.choose (fun (regId, index) ->
+        state.CurrentRegisters
+        |> Map.tryFind regId
+        |> Option.map (fun typeId -> index, typeId))
 
     let stackArgs =
       match context.StackPointer.TryDelta with
@@ -67,9 +82,9 @@ type SummaryApplicatorModule (platform: Platform) =
         |> Map.toSeq
         |> Seq.choose (fun (offset, typeId) ->
           platform.TryCallStackSlotArgumentIndex context offset
-          |> Option.map (fun index -> index, typeId))
+          |> Option.map (fun index -> regParamSpan + index, typeId))
 
-    Seq.append registerArgs stackArgs |> Seq.toList
+    Seq.concat [ regParamArgs; platformRegisterArgs; stackArgs ] |> Seq.toList
 
   /// Store callee register outputs until B2R2's function abstraction defines
   /// the corresponding fresh caller SSA variables.
@@ -80,15 +95,30 @@ type SummaryApplicatorModule (platform: Platform) =
     summary.RegisterOutputs |> Map.fold setPendingOutput state
 
   /// Applying the analysis result of callee to caller's analysis state
-  member _.apply summary returningStatus inputs outputs state =
+  member _.apply
+    (summary: FunctionSummary)
+    returningStatus
+    inputs
+    outputs
+    (state: AnalysisState)
+    =
     (* New function call overwrite previous function call summary *)
     let state = stateDom.clearPendingRegisterOutputs state
     let context = callSiteContext summary state
+    let regParamSpan = summary.RegParamSpan
 
     (* According to calling convention, get argument index of given variable *)
     let inVarType variable =
       platform.TryCallArgumentIndex context variable
+      |> Option.map ((+) regParamSpan)
       |> Option.bind (fun index -> Map.tryFind index summary.Parameters)
+
+    let regParamInVarType (variable: Variable) =
+      match variable.Kind with
+      | VariableKind.RegVar (_, regId, _) ->
+        Map.tryFind regId summary.RegParamsIdx
+        |> Option.bind (fun index -> Map.tryFind index summary.Parameters)
+      | _ -> None
 
     (* Get callee output register type using register id of given variable. *)
     let outVarType (variable: Variable) =
@@ -100,18 +130,16 @@ type SummaryApplicatorModule (platform: Platform) =
     (* Connect type between arguments and parameters *)
     let state =
       if List.isEmpty inputs then
-        let inferredInputs = inferArguments context state
+        let inferredInputs = inferArguments summary context state
 
         connectTypeIds
           (fun index -> Map.tryFind index summary.Parameters)
           inferredInputs
           state
       else
-        connectVariables
-          "Argument Binding At Call"
-          inVarType
-          inputs
-          state
+        state
+        |> connectVariables "Argument Binding At Call" inVarType inputs
+        |> connectVariables "Argument Binding At Call" regParamInVarType inputs
 
     (*
       Connect type between stack var 0 of callee and callee if stack var 0

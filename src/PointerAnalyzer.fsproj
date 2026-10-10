@@ -42,6 +42,7 @@
 
     <Compile Include="PreAnalysis/PreAnalysisTypes.fs" />
     <Compile Include="PreAnalysis/VariableCollector.fs" />
+    <Compile Include="PreAnalysis/RegParamDetector.fs" />
     <Compile Include="PreAnalysis/Sink/DefaultLiveCollector.fs" />
     <Compile Include="PreAnalysis/Sink/LeafSinkCollector.fs" />
     <Compile Include="PreAnalysis/Sink/CallSiteSinkCollector.fs" />
@@ -66,7 +67,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FSharp.Core" Version="10.1.300" />
+    <PackageReference Include="FSharp.Core" Version="10.1.302" />
     <ProjectReference Include="../external/B2R2/src/Assembly/API/B2R2.Assembly.API.fsproj" />
     <ProjectReference Include="../external/B2R2/src/FrontEnd/API/B2R2.FrontEnd.API.fsproj" />
     <ProjectReference Include="../external/B2R2/src/MiddleEnd/API/B2R2.MiddleEnd.API.fsproj" />

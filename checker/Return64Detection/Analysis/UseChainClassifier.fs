@@ -144,7 +144,7 @@ type Classifier (function_: FunctionDFAResult) =
         | true, uses ->
           uses
           (* Extract stmt that current varialbe is used *)
-          |> Seq.choose (fun location -> Map.tryFind location statements)
+          |> Seq.choose (fun location -> tryFindStatement location statements)
           (* Filter stmts only in target blocks *)
           |> Seq.filter (fun entry -> Set.contains entry.BlockId blockIds)
           (* Apply heuristic rules *)

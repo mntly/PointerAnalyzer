@@ -76,9 +76,14 @@ let private isJumpTargetZero constValue =
 let private collectJumpZeroSites
   (hdl: BinHandle)
   (lifter: ISSALiftable)
+  (promoter: ISSAPromotable)
   (builder: ICFGBuildable<DummyContext, DummyContext>)
   =
-  let ssaCfg = lifter.Lift builder.Context.CFG
+  let ssaCfg =
+    builder.Context.CFG
+    |> lifter.Lift
+    |> promoter.Promote
+    |> fun result -> result.Graph
   let constValue = constantValueFrom hdl ssaCfg
 
   let filterTarget0Jump (pp, stmt) =
@@ -116,6 +121,7 @@ let run (binaryPath: string) =
   let hdl = BinHandle.LoadFile binaryPath
   let brew = BinaryBrew hdl
   let lifter = SSALifterFactory.Create hdl
+  let promoter = SSAPromoterFactory.Create hdl
   let builders = brew.Builders.Values |> Array.sortBy (fun b -> b.EntryPoint)
 
   (* Valid from B2R2 Function Recovery *)
@@ -133,7 +139,7 @@ let run (binaryPath: string) =
     let fn = builderFunction builder
 
     try
-      let newSites = collectJumpZeroSites hdl lifter builder
+      let newSites = collectJumpZeroSites hdl lifter promoter builder
 
       failures, List.rev newSites @ sites
     with ex ->
